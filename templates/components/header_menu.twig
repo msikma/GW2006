@@ -1,0 +1,33 @@
+<div id="main_menu">
+  <ul class="dropmenu" id="menu_nav">
+    {% for act, button in context.menu_buttons %}
+      <li id="button_{{ act }}">
+        <a class="{{ button.active_button ? 'active ' }}firstlevel" href="{{ button.href }}"{% if button.target is defined %} target="{{ button.target }}"{% endif %}>
+          <span class="{{ button.is_last is defined ? 'last ' }}firstlevel">{{ button.title }}</span>
+        </a>
+        {% if button.sub_buttons is not empty %}
+          <ul>
+            {% for childbutton in button.sub_buttons %}
+              <li>
+                <a href="{{ childbutton.href }}"{% if childbutton.target is defined %} target="{{ childbutton.target }}"{% endif %}>
+                  <span{% if childbutton.is_last is defined %} class="last"{% endif %}>{{ childbutton.title }}{% if childbutton.sub_buttons is not empty %}...{% endif %}</span>
+                </a>
+                {% if childbutton.sub_buttons is not empty %}
+                  <ul>
+                    {% for grandchildbutton in childbutton.sub_buttons %}
+                      <li>
+                        <a href="{{ grandchildbutton.href }}"{% if grandchildbutton.target is defined %} target="{{ grandchildbutton.target }}"{% endif %}>
+                          <span{% if grandchildbutton.is_last is defined %} class="last"{% endif %}>{{ grandchildbutton.title }}</span>
+                        </a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</div>

@@ -1,0 +1,16 @@
+<div id="search_form_wrapper">
+  <form id="search_form" action="{{ scripturl }}?action=search2" method="post" accept-charset="{{ context.character_set }}">
+    <input type="text" name="search" value="" class="input_text" />&nbsp;
+    <input type="submit" name="submit" value="{{ txt.search }}" class="button_submit" />
+    <input type="hidden" name="advanced" value="0" />
+    
+    {# Search limiter: by default we search the whole forum, but in some cases we search more specific. #}
+    {% if context.current_topic is not empty %}
+      {# Limit search to a given topic, if we're inside one. #}
+      <input type="hidden" name="topic" value="{{ context.current_topic }}" />
+    {% elseif context.current_board is not empty %}
+      {# Limit search to the current board, if we're inside one. #}
+      <input type="hidden" name="brd[{{ context.current_board }}]" value="{{ context.current_board }}" />
+    {% endif %}
+  </form>
+</div>

@@ -1,0 +1,33 @@
+{% set can_quick_moderate = not context.can_quick_mod is empty and options.display_quick_mod > 0 and not context.topics is empty %}
+
+<div class="pagesection">
+  <div class="pagelinks floatleft">
+    {{ txt.pages }}: {{ context.page_index|raw }}
+    {% if modSettings.topbottomEnable is not empty %}
+      {{ context.menu_separator }}&nbsp;&nbsp;<a href="#bot"><strong>{{ txt.go_down }}</strong></a>
+    {% endif %}
+  </div>
+  {% include 'components/button_strip.twig' with {'buttons': buttons, 'direction': 'right'} %}
+</div>
+
+{% if can_quick_moderate %}
+  <form action="{{ scripturl }}?action=quickmod;board={{ context.current_board }}.{{ context.start }}" method="post" accept-charset="{{ context.character_set }}" class="clear" name="quickModForm" id="quickModForm">
+{% endif %}
+
+{% include 'components/topic_listing_messages.twig' with {'buttons': buttons} %}
+<a id="bot"></a>
+
+{% if can_quick_moderate %}
+    <input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />
+  </form>
+{% endif %}
+
+<div class="pagesection">
+  {% include 'components/button_strip.twig' with {'buttons': buttons, 'direction': 'right'} %}
+  <div class="pagelinks">
+    {{ txt.pages }}: {{ context.page_index|raw }}
+    {% if modSettings.topbottomEnable is not empty %}
+      {{ context.menu_separator }}&nbsp;&nbsp;<a href="#top"><strong>{{ txt.go_up }}</strong></a>
+    {% endif %}
+  </div>
+</div>

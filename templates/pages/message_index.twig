@@ -1,0 +1,92 @@
+{% set has_children = context.boards is not empty and (options.show_children is not empty or context.start == 0) %}
+{% set can_mark_as_read = context.user.is_logged and show_mark_read %}
+
+{# Action buttons shown at the top of the topic list, e.g. "new topic", "new poll", etc. #}
+{% set buttons = {
+  new_topic: {
+    test: 'can_post_new',
+    text: 'new_topic',
+    image: 'new_topic.gif',
+    lang: true,
+    url: scripturl ~ '?action=post;board=' ~ context.current_board ~ '.0',
+    active: true
+  },
+  post_poll: {
+    test: 'can_post_poll',
+    text: 'new_poll',
+    image: 'new_poll.gif',
+    lang: true,
+    url: scripturl ~ '?action=post;board=' ~ context.current_board ~ '.0;poll'
+  },
+  notify: {
+    test: 'can_mark_notify',
+    text: context.is_marked_notify ? 'unnotify' : 'notify',
+    image: (context.is_marked_notify ? 'un' : '') ~ 'notify.gif',
+    lang: true,
+    custom: 'onclick="return confirm(\'' ~ (context.is_marked_notify ? txt.notification_disable_board : txt.notification_enable_board) ~ '\');"',
+    url: scripturl ~ '?action=notifyboard;sa=' ~ (context.is_marked_notify ? 'off' : 'on') ~ ';board=' ~ context.current_board ~ '.' ~ context.start ~ ';' ~ context.session_var ~ '=' ~ context.session_id
+  }
+} %}
+
+{% if can_mark_as_read %}
+  {% set buttons = buttons|merge({
+    markread: {
+      text: 'mark_read_short',
+      image: 'markread.gif',
+      lang: true,
+      url: scripturl ~ '?action=markasread;sa=board;board=' ~ context.current_board ~ '.0;' ~ context.session_var ~ '=' ~ context.session_id
+    }
+  }) %}
+{% endif %}
+
+<a id="top"></a>
+
+{% if has_children %}
+  <div class="tborder childboards" id="board_{{ context.current_board }}_childboards">
+    <div class="cat_bar">
+      <h3 class="catbg">{{ txt.parent_boards }}</h3>
+    </div>
+    <div class="table_frame">
+      <table class="table_list">
+        <tbody id="board_{{ context.current_board }}_children" class="content">
+          {% for board in context.boards %}
+            {% include 'components/forum_row.twig' with {'board': board} %}
+
+            {% if board.children is not empty %}
+            <tr id="board_{{ board.id }}_children">
+              <td colspan="3" class="children windowbg"><strong>{{ txt.parent_boards }}</strong>:
+                {% for child in board.children %}
+                  {% set has_posts_to_approve = child.can_approve_posts and (child.unapproved_posts or child.unapproved_topics) %}
+                  <span class="{{ child.new ? 'has_new' : '' }}">
+                    {% if not child.is_redirect %}
+                      <a href="{{ child.href }}" {{ child.new ? 'class="new_posts" ' : '' }} title="{{ child.new ? txt.new_posts : txt.old_posts }} ({{ txt.board_topics }}: {{ child.topics|number_format }}, {{ txt.posts }}: {{ child.posts|number_format }})">{{ child.name }}{{ child.new ? '</a> <a href="' ~ scripturl ~ '?action=unread;board=' ~ child.id ~ '" title="' ~ txt.new_posts ~ ' (' ~ txt.board_topics ~ ': ' ~ child.topics|number_format ~ ', ' ~ txt.posts ~ ': ' ~ child.posts|number_format ~ ')"><img src="' ~ lang_images_url ~ '/new.gif" class="new_posts" alt="" />' : '' }}</a>
+                    {% else %}
+                      <a href="{{ child.href }}" title="{{ child.posts|number_format }} {{ txt.redirects }}">{{ child.name }}</a>
+                    {% endif %}
+                    {% if has_posts_to_approve %}
+                      <a href="{{ scripturl }}?action=moderate;area=postmod;sa={{ child.unapproved_topics > 0 ? 'topics' : 'posts' }}&brd={{ child.id }}&{{ context.session_var }}={{ context.session_id }}" title="{{ txt.unapproved_posts|format(child.unapproved_topics, child.unapproved_posts) }}" class="moderation_link">(!)</a>
+                    {% endif %}
+                  </span>
+                {% endfor %}
+              </td>
+            </tr>
+            {% endif %}
+            
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endif %}
+
+{% if options.show_board_desc is not empty and context.description != '' %}
+  <p class="description_board">{{ context.description }}</p>
+{% endif %}
+
+{% if not context.no_topic_listing %}
+  {% include 'components/topic_listing.twig' with {'buttons': buttons} %}
+{% endif %}
+
+{% include 'components/message_legend.twig' %}
+{% include 'auxiliary/script_topic.twig' %}
+{% include 'auxiliary/script_inline_editing.twig' %}

@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="{{ context.character_set }}">
+  <title>{{ context.page_title_html_safe }}</title>
+	<meta name="description" content="{{ context.page_title_html_safe }}" />
+
+  {% if context.meta_keywords is not empty %}
+	  <meta name="keywords" content="{{ context.meta_keywords }}" />
+  {% endif %}
+
+  {% if context.robot_no_index is not empty %}
+    <meta name="robots" content="noindex" />
+  {% endif %}
+
+  {% if context.canonical_url is not empty %}
+    <link rel="canonical" href="{{ context.canonical_url }}" />
+  {% endif %}
+
+  <link rel="stylesheet" type="text/css" href="{{ theme_url }}/css/reset-1.7.3.css">
+  <link rel="stylesheet" type="text/css" href="{{ theme_url }}/css/legacy.css">
+  <link rel="stylesheet" type="text/css" href="{{ theme_url }}/css/index.css">
+  
+  {% include './auxiliary/script_header.twig' %}
+
+	<link rel="help" href="{{ scripturl }}?action=help" />
+	<link rel="search" href="{{ scripturl }}?action=search" />
+	<link rel="contents" href="{{ scripturl }}" />
+
+  {# If RSS feeds are enabled, advertise the presence of one. #}
+  {% if (modSettings.xmlnews_enable is not empty) and ((modSettings.allow_guestAccess is not empty) or (context.user.is_logged)) %}
+    <link rel="alternate" type="application/rss+xml" title="{{ context.forum_name_html_safe }} - {{ txt.rss }}" href="{{ scripturl }}?type=rss;action=.xml" />
+  {% endif %}
+
+  {# If we're in a board, or a topic for that matter, the index will be the board's index. #}
+  {% if context.current_board is not empty %}
+	  <link rel="index" href="{{ scripturl }}?board={{ context.current_board }}.0" />
+  {% endif %}
+
+  {# Remaining HTML headers, e.g. from mods. #}
+  {{ context.html_headers|raw }}
+</head>
+<body>

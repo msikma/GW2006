@@ -1,0 +1,23 @@
+<div class="tborder" id="topic_icons">
+	<div class="description">
+		{% if not no_topic_listing %}
+			<p class="floatleft smalltext">
+				{% if modSettings.enableParticipation and context.user.is_logged %}
+					<img src="{{ images_url }}/topic/my_normal_post.gif" alt="" align="middle" /> {{ txt.participation_caption }}<br />
+				{% endif %}
+				<img src="{{ images_url }}/topic/normal_post.gif" alt="" align="middle" /> {{ txt.normal_topic }}<br />
+				<img src="{{ images_url }}/topic/hot_post.gif" alt="" align="middle" /> {{ txt.hot_topics|format(modSettings.hotTopicPosts) }}<br />
+				<img src="{{ images_url }}/topic/veryhot_post.gif" alt="" align="middle" /> {{ txt.very_hot_topics|format(modSettings.hotTopicVeryPosts) }}
+			</p>
+			<p class="smalltext">
+				<img src="{{ images_url }}/icons/quick_lock.gif" alt="" align="middle" /> {{ txt.locked_topic }}<br />
+				{% if modSettings.enableStickyTopics == '1' %}
+					<img src="{{ images_url }}/icons/quick_sticky.gif" alt="" align="middle" /> {{ txt.sticky_topic }}<br />
+				{% endif %}
+				{% if modSettings.pollMode == '1' %}
+					<img src="{{ images_url }}/topic/normal_poll.gif" alt="" align="middle" /> {{ txt.poll }}
+				{% endif %}
+			</p>
+		{% endif %}
+	</div>
+</div>

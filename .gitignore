@@ -1,0 +1,26 @@
+# Personal development files
+_source
+todo.md
+
+# Vendor code installed by Composer.
+/vendor
+
+# Twig cache
+cache/*
+!cache/.gitkeep
+
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+*.lnk
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk

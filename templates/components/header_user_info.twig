@@ -1,0 +1,25 @@
+<div class="user_welcome">
+  <p class="username">{{ txt.hello_member_ndt }} <a href="#" class="current_user_welcome">{{ context.user.name }}</a>.</p>
+  <p>Current time: <span class="light">{{ context.current_time }}</span>.</p>
+</div>
+<ul>
+  <li><a href="{{ scripturl }}?action=unread">{{ txt.unread_since_visit }}</a></li>
+  <li><a href="{{ scripturl }}?action=unreadreplies">{{ txt.show_unread_replies }}</a></li>
+
+  {% if context.in_maintenance and context.user.is_admin %}
+    <li class="notice">{{ txt.maintain_mode_on }}</li>
+  {% endif %}
+
+  {% if context.unapproved_members != '0' %}
+    {% set approve_prefix = context.unapproved_members == 1 ? txt.approve_thereis : txt.approve_thereare %}
+    {% set approve_text = context.unapproved_members == 1 ? txt.approve_member : context.unapproved_members %}
+    {% set approve_url = scripturl ~ '?action=admin;area=viewmembers;sa=browse;type=approve' %}
+    <li>{{ approve_prefix }} <a href="{{ approve_url }}">{{ approve_text }} {{ txt.approve_members }}</a> {{ txt.approve_members_waiting }}</li>
+  {% endif %}
+
+  {% if context.open_mod_reports != '0' and context.show_open_reports %}
+    {% set report_text = txt.mod_reports_waiting|format(context.open_mod_reports) %}
+    {% set report_url = scripturl ~ '?action=moderate;area=reports' %}
+    <li><a href="{{ report_url }}">{{ report_text }}</a></li>
+  {% endif %}
+</ul>

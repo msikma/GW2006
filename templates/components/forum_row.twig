@@ -1,0 +1,47 @@
+{% set is_new = board.new or board.children_new %}
+{% set is_redirect = board.is_redirect %}
+{% set is_stale = not is_new and not is_redirect %}
+{% set has_posts_to_approve = board.can_approve_posts and (board.unapproved_posts or board.unapproved_topics) %}
+
+<tr id="board_{{ board.id }}" class="windowbg2">
+  <td class="icon windowbg"{% if board.children is not empty %} rowspan="2"{% endif %}>
+    <a href="{% if board.is_redirect or context.user.is_guest %}{{ board.href }}{% else %}{{ scripturl }}?action=unread;board={{ board.id }}.0;children{% endif %}">
+      {% if is_new %}
+        <img src="{{ images_url }}/{{ context.theme_variant_url }}on{% if not board.new %}2{% endif %}.png" alt="{{ txt.new_posts }}" title="{{ txt.new_posts }}" />
+      {% elseif is_redirect %}
+        <img src="{{ images_url }}/{{ context.theme_variant_url }}redirect.png" alt="*" title="*" />
+      {% elseif is_stale %}
+        <img src="{{ images_url }}/{{ context.theme_variant_url }}off.png" alt="{{ txt.old_posts }}" title="{{ txt.old_posts }}" />
+      {% endif %}
+    </a>
+  </td>
+  <td class="info">
+    <a class="subject" href="{{ board.href }}" name="b{{ board.id }}">{{ board.name }}</a>
+    {% if has_posts_to_approve %}
+      <a href="{{ scripturl }}?action=moderate;area=postmod;sa={% if board.unapproved_topics > 0 %}topics{% else %}posts{% endif %};brd={{ board.id }};{{ context.session_var }}={{ context.session_id }}" title="{{ txt.unapproved_posts|format(board.unapproved_topics, board.unapproved_posts) }}" class="moderation_link">(!)</a>
+    {% endif %}
+    <p>{{ board.description }}</p>
+    {% if board.moderators is not empty %}
+      <p class="moderators">
+        {{ (board.moderators|length == 1) ? txt.moderator : txt.moderators }}: 
+        {{ board.link_moderators|join(', ')|raw }}
+      </p>
+    {% endif %}
+  </td>
+  <td class="stats windowbg">
+    <p>
+      {{ board.posts|number_format }} {{ board.is_redirect ? txt.redirects : txt.posts }} <br />
+      {% if not board.is_redirect %}
+        {{ board.topics|number_format }} {{ txt.board_topics }}
+      {% endif %}
+    </p>
+  </td>
+  <td class="lastpost">
+    {% if board.last_post.id is not empty %}
+      <p><strong>{{ txt.last_post }}</strong> {{ txt.by }} {{ board.last_post.member.link|raw }}<br />
+      {{ txt.in }} {{ board.last_post.link|raw }}<br />
+      {{ txt.on }} {{ board.last_post.time|raw }}
+      </p>
+    {% endif %}
+  </td>
+</tr>

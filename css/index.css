@@ -1,0 +1,203 @@
+:root {
+  --gw-background: #A9B2CB;
+
+  --gw-outline: #0B198C;
+  --gw-inner-dark: #D1D1E1;
+  --gw-inner-medium: #DFE0EC;
+  --gw-inner-light: #EDF2F8;
+
+  --gw-header-color-a: #4b6ba6;
+  --gw-header-color-b: #879bc0;
+
+  --gw-text-regular: #000000;
+  --gw-text-link: #22229C;
+  --gw-text-hover: #FF4400;
+  --gw-text-quote: #4F6095;
+  --gw-text-header: #3D3F46;
+  --gw-text-special-header: #6B8EAE;
+  --gw-text-spoiler: #002448;
+
+  --gw-text-light: #535460; /* Not in old theme. */
+
+  --gw-header-cell-height: 1.875rem;
+  --gw-font-small: 0.75rem;
+
+  --gw-cell-large: 7px;
+  --gw-cell-medium: 5px;
+  --gw-cell-small: 3px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+	background: var(--gw-background);
+  /* Note: original font size was 10pt. This works out to 83.333% of the root 16px. */
+	font: 0.8333rem "Verdana", "Geneva", "Arial", "Helvetica Neue", sans-serif;
+	margin: 0 auto;
+  padding: 0;
+}
+a {
+  color: var(--gw-text-link);
+}
+a:hover {
+  color: var(--gw-text-hover);
+}
+
+#wrapper {
+	padding: 17px 25px;
+  width: 100% !important;
+}
+
+
+.blue_frame {
+  border: 1px solid var(--gw-outline);
+  padding: 1px;
+  background: var(--gw-inner-dark);
+}
+.blue_frame .light {
+  color: var(--gw-text-light);
+}
+.blue_gradient {
+  background: var(--gw-header-color-b) linear-gradient(180deg, var(--gw-header-color-a) 0%, var(--gw-header-color-b) 100%);
+  background-size: 100% 36px;
+  background-repeat: repeat-x;
+}
+
+#header {
+
+}
+#header #top_section {
+  background: var(--gw-inner-light);
+  padding: var(--gw-cell-medium) var(--gw-cell-small);
+}
+#header #upper_section {
+  border-top: 1px solid var(--gw-inner-dark);
+  background: var(--gw-inner-medium);
+  padding: var(--gw-cell-medium) var(--gw-cell-small);
+}
+#header #menu_section {
+  border-top: 1px solid var(--gw-inner-dark);
+  display: flex;
+}
+#header #menu_section #main_menu {
+  flex: 1 0;
+}
+#header #menu_section #search_form_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#search_form {
+  display: flex;
+  padding-right: var(--gw-cell-large);
+}
+#search_form input {
+  all: revert;
+  line-height: 1.5rem;
+  height: calc(1.5rem - 4px);
+  padding: 0;
+}
+#search_form input[type="submit"] {
+  all: revert;
+  height: 1.5rem;
+  padding: 0 0.5ch;
+}
+
+
+/* User information for when you're logged in. */
+#header #upper_section .current_user_info {
+  font-size: var(--gw-font-small);
+}
+#header #upper_section .user_welcome p {
+  margin: 0;
+  display: inline-block;
+}
+#header #upper_section .user_welcome p.username {
+  font-weight: bold;
+}
+#header #upper_section .current_user_info ul {
+  padding: var(--gw-cell-small) 0 0 0;
+  margin: 0;
+  list-style-type: disc;
+  list-style-position: inside;
+}
+#header #upper_section .current_user_info li {
+}
+
+/* Main menu. */
+
+.dropmenu {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+}
+.dropmenu li {
+	padding: 0;
+	margin: 0;
+	position: relative;
+}
+.dropmenu > li {
+}
+.dropmenu > li > a {
+  color: white;
+  padding: 0 var(--gw-cell-large);
+  font-size: var(--gw-font-small); /* note: used to be 11px or 0.6875rem */
+  line-height: var(--gw-header-cell-height);
+  display: inline-block;
+  font-weight: bold;
+}
+.dropmenu > li > ul {
+	display: none;
+  width: 16rem;
+  z-index: 90;
+  padding: 0;
+  position: absolute;
+  font-weight: normal;
+  border: 1px solid var(--gw-text-light);
+  background: white;
+  margin-top: 0.25rem;
+}
+.dropmenu > li:hover > ul {
+  display: block;
+}
+.dropmenu > li > ul::after {
+  content: '';
+  background: none;
+  height: calc(0.5rem - 1px);
+  position: absolute;
+  inset: 0;
+  top: -0.5rem;
+  z-index: 130;
+}
+.dropmenu > li > ul::before {
+  content: '';
+  background: url('../images/__gwnew/arrow.svg');
+  width: 18px;
+  height: 9px;
+  position: absolute;
+  top: calc(-0.50rem - 1px);
+  left: 0.5rem;
+  z-index: 120;
+}
+.dropmenu > li > ul > li {
+  padding: 1px;
+}
+.dropmenu > li > ul > li:not(:last-child) {
+  border-bottom: 1px solid var(--gw-inner-dark);
+}
+.dropmenu > li > ul li a {
+  display: block;
+  padding: calc(var(--gw-cell-medium) - 1px) calc(var(--gw-cell-large) - 1px);
+}
+.dropmenu > li > ul li a:hover {
+  background: var(--gw-inner-medium);
+  text-decoration: none;
+  color: #000;
+}
+
+#content_section {
+  margin-top: 40px;
+}

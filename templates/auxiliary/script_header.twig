@@ -1,0 +1,25 @@
+<script src="{{ default_theme_url }}/scripts/sha1.js"></script>
+<script src="{{ default_theme_url }}/scripts/script.js?fin20"></script>
+<script src="{{ theme_url }}/scripts/theme.js?fin20"></script>
+<script>
+var smf_theme_url = "{{ theme_url }}";
+var smf_default_theme_url = "{{ default_theme_url }}";
+var smf_images_url = "{{ images_url }}";
+var smf_scripturl = "{{ scripturl }}";
+var smf_iso_case_folding = "{{ (context.server.iso_case_folding) ? 'true' : 'false' }}";
+var smf_charset = "{{ context.character_set }}";
+
+{% if context.show_pm_popup %}
+  var fPmPopup = function() {
+    if (confirm("{{ txt.show_personal_messages }}"))
+      window.open(smf_prepareScriptUrl(smf_scripturl) + "action=pm");
+  }
+{% endif %}
+
+{% if context.show_pm_popup %}
+  addLoadEvent(fPmPopup);
+{% endif %}
+
+var ajax_notification_text = "{{ txt.ajax_in_progress }}";
+var ajax_notification_cancel_text = "{{ txt.modify_cancel }}";
+</script>
