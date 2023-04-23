@@ -4,7 +4,7 @@
 
 A theme for [SMF 2.0.19](https://www.simplemachines.org/) (Simple Machine Forums) written mostly in [Twig](https://twig.symfony.com/) templates.
 
-Gaming World is a website and forum that has existed since the year 2000. Over the years it migrated from one forum software to forum software, but for the longest period it was on SMF 1.0 and then 2.0, starting from 2006.
+Gaming World is a website and forum that has existed since the year 2000. Over the years it migrated from one forum software to another, but for the longest period it was on SMF 1.0 and then 2.0, starting from 2006.
 
 This is a modern recreation of the 2006 version of its layout, with the goal being to keep it close to the original design's spirit while still adding polish and updates all around.
 
