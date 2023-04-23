@@ -1,0 +1,13 @@
+<div class="member_strip">
+  <span class="username">
+    <a href="{{ member.href }}" class="{{ get_username_pip_class(member.group, member.id) }}">{{ member.name|raw }}</a>
+  </span>
+
+  {% if not member.is_guest %}
+    {% if context.use_gw_pip_count %}
+      {{ get_user_pip_images_from_posts(member.posts, member.group, member.id)|raw }}
+    {% else %}
+      {{ get_user_pip_images_from_stars(member.group_stars|raw, member.group, member.id)|raw }}
+    {% endif %}
+  {% endif %}
+</div>

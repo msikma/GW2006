@@ -6,21 +6,9 @@
     </div>
   </div>
 
-  <div id="footer_section">
-    <div class="frame">
-      <ul class="reset">
-        <li class="copyright">
-          {% include 'components/copyright.twig' %}
-        </li>
-        <li><a id="button_xhtml" href="{{ xhtml_link }}" target="_blank" class="new_win" title="{{ txt.valid_xhtml }}"><span>{{ txt.xhtml }}</span></a></li>
-        {% if modSettings.xmlnews_enable and (modSettings.allow_guestAccess or context.user.is_logged) %}
-          <li><a id="button_rss" href="{{ rss_link }}" class="new_win"><span>{{ txt.rss }}</span></a></li>
-        {% endif %}
-        <li class="last"><a id="button_wap2" href="{{ wap2_link }}" class="new_win"><span>{{ txt.wap2 }}</span></a></li>
-      </ul>
-      {% if context.show_load_time %}
-        <p>{{ txt.page_created }}{{ context.load_time }}{{ txt.seconds_with }}{{ context.load_queries }}{{ txt.queries }}</p>
-      {% endif %}
-    </div>
+  <div id="footer_section" class="footer">
+    {% include 'components/component_colophon.twig' %}
+    {% include 'components/component_git.twig' %}
+    {% include 'components/component_alternate.twig' %}
   </div>
 </div>

@@ -1,0 +1,77 @@
+<div class="profile_field_item">
+  <dt>
+    <label for="pm_prefs" class="profile_field_label">{{ txt['pm_display_mode'] }}:</label>
+  </dt>
+  <dd class="profile_field_content">
+    <select name="pm_prefs" id="pm_prefs" onchange="if (this.value == 2 &amp;&amp; !document.getElementById('copy_to_outbox').checked) alert('{{ txt['pm_recommend_enable_outbox'] }}');">
+      <option value="0" {{ context.display_mode == 0 ? 'selected="selected"' }}>{{ txt['pm_display_mode_all'] }}</option>
+      <option value="1" {{ context.display_mode == 1 ? 'selected="selected"' }}>{{ txt['pm_display_mode_one'] }}</option>
+      <option value="2" {{ context.display_mode == 2 ? 'selected="selected"' }}>{{ txt['pm_display_mode_linked'] }}</option>
+    </select>
+  </dd>
+</div>
+<div class="profile_field_item">
+  <dt>
+    <label for="view_newest_pm_first" class="profile_field_label">{{ txt['recent_pms_at_top'] }}</label>
+  </dt>
+  <dd class="profile_field_content">
+    <input type="hidden" name="default_options[view_newest_pm_first]" value="0" />
+    <input type="checkbox" name="default_options[view_newest_pm_first]" id="view_newest_pm_first" value="1"{{ context.member.options.view_newest_pm_first is not empty ? ' checked="checked"' }}>
+  </dd>
+</div>
+<div class="profile_field_item">
+  <dt>
+    <label for="pm_receive_from" class="profile_field_label">{{ txt['pm_receive_from'] }}</label>
+  </dt>
+  <dd class="profile_field_content">
+    <select name="pm_receive_from" id="pm_receive_from">
+      <option value="0"{{ context.receive_from is empty or (not modSettings.enable_buddylist and context.receive_from < 3) ? ' selected="selected"' }}> {{ txt['pm_receive_from_everyone'] }}</option>
+      {% if modSettings.enable_buddylist %}
+        <option value="1"{{ context.receive_from is not empty and context.receive_from == 1 ? ' selected="selected"' }}> {{ txt['pm_receive_from_ignore'] }}</option>
+        <option value="2"{{ context.receive_from is not empty and context.receive_from == 2 ? ' selected="selected"' }}> {{ txt['pm_receive_from_buddies'] }}</option>
+      {% endif %}
+      <option value="3"{{ context.receive_from is not empty and context.receive_from > 2 ? ' selected="selected"' }}> {{ txt['pm_receive_from_admins'] }}</option>
+    </select>
+  </dd>
+</div>
+<div class="profile_field_item">
+  <dt>
+    <label for="pm_email_notify" class="profile_field_label">{{ txt['email_notify'] }}</label>
+  </dt>
+  <dd class="profile_field_content">
+    <select name="pm_email_notify" id="pm_email_notify">
+      <option value="0"{{ context.send_email is empty ? ' selected="selected"' }}> {{ txt['email_notify_never'] }}</option>
+      <option value="1"{{ context.send_email is not empty and (context.send_email == 1 or (not modSettings.enable_buddylist and context.send_email > 1)) ? ' selected="selected"' }}> {{ txt['email_notify_always'] }}</option>
+      {% if modSettings.enable_buddylist %}
+        <option value="2"{{ context.send_email is not empty and context.send_email > 1 ? ' selected="selected"' }}> {{ txt['email_notify_buddies'] }}</option>
+      {% endif %}
+    </select>
+  </dd>
+</div>
+<div class="profile_field_item">
+  <dt>
+    <label for="popup_messages" class="profile_field_label">{{ txt['popup_messages'] }}</label>
+  </dt>
+  <dd class="profile_field_content">
+    <input type="hidden" name="default_options[popup_messages]" value="0" />
+    <input type="checkbox" name="default_options[popup_messages]" id="popup_messages" value="1" {{ context['member']['options']['popup_messages'] ? 'checked="checked"' }} class="input_check" />
+  </dd>
+</div>
+<div class="profile_field_item">
+  <dt>
+    <label for="copy_to_outbox" class="profile_field_label">{{ txt['copy_to_outbox'] }}</label>
+  </dt>
+  <dd class="profile_field_content">
+    <input type="hidden" name="default_options[copy_to_outbox]" value="0" />
+    <input type="checkbox" name="default_options[copy_to_outbox]" id="copy_to_outbox" value="1" {{ context['member']['options']['copy_to_outbox'] ? 'checked="checked"' }} class="input_check" />
+  </dd>
+</div>
+<div class="profile_field_item">
+  <dt>
+    <label for="pm_remove_inbox_label" class="profile_field_label">{{ txt['pm_remove_inbox_label'] }}</label>
+  </dt>
+  <dd class="profile_field_content">
+    <input type="hidden" name="default_options[pm_remove_inbox_label]" value="0" />
+    <input type="checkbox" name="default_options[pm_remove_inbox_label]" id="pm_remove_inbox_label" value="1" {{ context['member']['options']['pm_remove_inbox_label'] ? 'checked="checked"' }} class="input_check" />
+  </dd>
+</div>

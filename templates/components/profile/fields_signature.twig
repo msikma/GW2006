@@ -1,0 +1,61 @@
+{% if context.show_spellchecking %}
+  <input type="button" value="{{ txt['spell_check'] }}" onclick="spellCheck('creator', 'signature');" />
+{% endif %}
+
+<dt>
+  <strong>{{ txt['signature'] }}:</strong><br />
+  <span class="smalltext">{{ txt['sig_info'] }}</span><br /><br />
+</dt>
+
+<dd>
+  <textarea class="editor" onkeyup="calcCharLeft();" name="signature" rows="5" cols="50">{{ context.member.signature|raw }}</textarea><br />
+
+  {% if context.signature_limits.max_length is not empty %}
+    <span class="smalltext">{{ txt['max_sig_characters']|format(context.signature_limits.max_length) }} <span id="signatureLeft">{{ context.signature_limits.max_length }}</span></span><br />
+  {% endif %}
+
+  {% if context.signature_warning %}
+    <span class="smalltext">{{ context.signature_warning }}</span>
+  {% endif %}
+
+  {% if context.show_spellchecking %}
+    <script type="text/javascript" src="{{ settings.default_theme_url }}/scripts/spellcheck.js"></script>
+  {% endif %}
+</dd>
+
+<script type="text/javascript">
+  function tick() {
+    if (typeof(document.forms.creator) != "undefined") {
+      calcCharLeft();
+      setTimeout("tick()", 1000);
+    } else {
+      setTimeout("tick()", 800);
+    }
+  }
+
+  function calcCharLeft() {
+    var maxLength = {{ context.signature_limits.max_length }};
+    var oldSignature = "";
+    var currentSignature = document.forms.creator.signature.value;
+
+    if (!document.getElementById("signatureLeft")) {
+      return;
+    }
+
+    if (oldSignature != currentSignature) {
+      oldSignature = currentSignature;
+
+      if (currentSignature.replace(/\r/, "").length > maxLength) {
+        document.forms.creator.signature.value = currentSignature.replace(/\r/, "").substring(0, maxLength);
+      }
+
+      currentSignature = document.forms.creator.signature.value.replace(/\r/, "");
+    }
+
+    document.getElementById("signatureLeft").innerHTML = maxLength - currentSignature.length;
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    tick();
+  });
+</script>

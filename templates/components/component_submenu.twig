@@ -1,0 +1,9 @@
+<div id="admin_menu" class="submenu attached">
+  <ul class="dropmenu">
+    {% for section in menu_sections %}
+      <li>
+        <a class="firstlevel" href="{{ section.url }}"><span class="firstlevel">{{ section.text|raw }}</span></a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>

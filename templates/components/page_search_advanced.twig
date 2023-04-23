@@ -1,0 +1,160 @@
+{# Whether to show the 'Orwell "Animal Farm" -movie' example text. #}
+{% set show_search_example = false %}
+
+<div class="object_form search_form type_simple object_list">
+  <div class="blue_component">
+    <div class="blue_component_header">
+      <h3 class="blue_component_title">{{ context.page_title }}</h3>
+    </div>
+    <div class="blue_component_medium object_list_frame">
+      <input type="hidden" name="advanced" value="1" />
+      <table class="object_table">
+        <tbody>
+
+          <tr class="object_row">
+            <th class="minimal">{{ txt.search_for }}:</th>
+            <td>
+              <div class="form_input_row">
+                <div class="input_item_main">
+                  <input type="text" name="search" size="40" {{ context.search_params.search ? 'value="' ~ context.search_params.search ~ '"' : '' }} maxlength={{ context.search_string_limit }} />
+                  {% if modSettings.search_simple_fulltext is empty and show_search_example %}
+                    <p class="input_description">{{ txt.search_example|raw }}</p>
+                  {% endif %}
+                </div>
+                <div class="input_item">
+                  <select name="searchtype">
+                    <option value="1" {{ context.search_params.searchtype ? 'selected="selected"' : '' }}>{{ txt.all_words }}</option>
+                    <option value="2" {{ not context.search_params.searchtype ? 'selected="selected"' : '' }}>{{ txt.any_words }}</option>
+                  </select>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="object_row">
+            <th class="minimal">{{ txt.by_user }}:</th>
+            <td>
+              <div class="form_input_row">
+                <div class="input_item_main">
+                  <input id="userspec" type="text" name="userspec" value="{{ context.search_params.userspec ? context['search_params']['userspec'] : '*' }}" size="40" />
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="object_row">
+            <th class="minimal">{{ txt.search_order }}:</th>
+            <td>
+              <select id="sort" name="sort">
+                <option value="relevance|desc">{{ txt['search_orderby_relevant_first'] }}</option>
+                <option value="num_replies|desc">{{ txt['search_orderby_large_first'] }}</option>
+                <option value="num_replies|asc">{{ txt['search_orderby_small_first'] }}</option>
+                <option value="id_msg|desc">{{ txt['search_orderby_recent_first'] }}</option>
+                <option value="id_msg|asc">{{ txt['search_orderby_old_first'] }}</option>
+              </select>
+            </td>
+          </tr>
+
+          <tr class="object_row">
+            <th class="minimal">{{ txt.search_options }}:</th>
+            <td>
+              <ul class="object_row_list">
+                <li>
+                  <label>
+                    <input type="checkbox" name="show_complete" id="show_complete" value="1" {{ context.search_params.show_complete ? 'checked="checked"' : '' }} />
+                    {{ txt.search_show_complete_messages }}
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <input type="checkbox" name="subject_only" id="subject_only" value="1" {{ context.search_params.subject_only ? 'checked="checked"' : '' }} />
+                    {{ txt.search_subject_only }}
+                  </label>
+                </li>
+              </ul>
+            </td>
+          </tr>
+
+          <tr class="object_row">
+            <th class="minimal">{{ txt.search_post_age }}:</th>
+            <td>
+              <label>
+                {{ txt.search_between }}
+                <input type="text" name="minage" value="{{ context.search_params.minage ? context.search_params.minage : '0' }}" size="5" maxlength="4" />
+              </label>
+              <label>
+                {{ txt.search_and }}
+                <input type="text" name="maxage" value="{{ context.search_params.maxage ? context.search_params.maxage : '9999' }}" size="5" maxlength="4" />
+                {{ txt.days_word }}
+              </label>
+            </td>
+          </tr>
+          
+          {% if context.search_params.topic %}
+            <tr class="object_row">
+              <th class="minimal"></th>
+              <td>
+                {{ txt.search_specific_topic }}:
+                {{ context.search_topic.link }}
+                <input type="hidden" name="topic" value="{{ context.search_topic.id }}" />
+              </td>
+            </tr>
+          {% endif %}
+
+          {# When not searching inside a specific topic, display the list of forums to search in. #}
+          {% if not context.search_params.topic %}
+            <tr class="object_row">
+              <th class="minimal">Search in:</th>
+              <td>
+                <ul class="object_row_list search_form_boards_selection">
+                  <li>
+                    <label>
+                      <input type="radio" name="search_specificity" id="check_all" value="all" {{ context.boards_check_all ? 'checked="checked"' : '' }} />
+                      Search the entire forum
+                    </label>
+                  </li>
+                  <li>
+                    <label>
+                      <input type="radio" name="search_specificity" id="check_specific" value="forums" />
+                      Search a specific set of subforums
+                    </label>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+            <tr class="object_row object_row_attached search_subforums" style="display: none;">
+              <th class="minimal"></th>
+              <td>
+                <ul class="forum_hierarchy">
+                  {% for category in context.categories %}
+                    <li>
+                      <label class="category pixel">{{ category.name }}</label>
+                      <ul>
+                        {% for board in category.boards %}
+                          <li class="pixel">
+                            <label class="board depth_{{ board.child_level }}">
+                              <input type="checkbox" name="brd[{{ board.id }}]" id="brd[{{ board.id }}]" value="{{ board.id }}" {{ board.selected ? 'checked="checked"' : '' }} />{{ board.name }}
+                            </label>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </li>
+                  {% endfor %}
+                </ul>
+                <script>decorateComponent('searchFormBoards')</script>
+              </td>
+            </tr>
+          {% endif %}
+
+          <tr class="object_row dark">
+            <th class="minimal"></th>
+            <td>
+              <button><strong>Search</strong></button>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

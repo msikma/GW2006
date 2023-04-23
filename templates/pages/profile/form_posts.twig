@@ -1,0 +1,51 @@
+{# Action buttons that are shown inside the title (topic subject) bar. #}
+{% set print_button = {
+  text: 'Print topic',
+  image: 'print.gif',
+  custom: 'rel="new_win nofollow"',
+} %}
+
+<a id="top"></a>
+
+<div class="forum_page_section">
+  {% include 'components/forum_page_links.twig' with {
+    current: context.current_page_number,
+    last: context.page_index_context.last_page_number,
+    per_page: modSettings.defaultMaxMessages,
+    area: 'showposts',
+    sa: context.current_subaction,
+    member_id: context.id_member,
+    is_profile_posts: true,
+  } %}
+</div>
+
+{% if context.attachments is defined %}
+  {# Displaying attachments. #}
+  {% include 'components/profile_attachments.twig' with {'attachments': context.attachments, 'member': context.member} %}
+{% else %}
+  {# Displaying posts or threads. #}
+  {% for message in context.posts %}
+    {% include 'components/thread_post.twig' with {
+      'is_profile_post': true,
+      'member': context.member,
+      'show_header': true,
+      'title_buttons': {print: print_button|merge({url: scripturl ~ '?action=printpage;topic=' ~ message.topic ~ '.0'})},
+      'message': message
+    } %}
+  {% endfor %}
+{% endif %}
+
+<a id="lastPost"></a>
+
+<div class="forum_page_section">
+  {% include 'components/forum_button_strip.twig' with {'buttons': normal_buttons, 'type': 'primary'} %}
+  {% include 'components/forum_page_links.twig' with {
+    current: context.current_page + 1,
+    last: context.page_index_context.last_page_number,
+    per_page: modSettings.defaultMaxMessages,
+    area: 'showposts',
+    member_id: context.id_member,
+    is_profile_posts: true,
+    'location': 'bottom',
+  } %}
+</div>

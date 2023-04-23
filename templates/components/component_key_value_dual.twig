@@ -1,0 +1,73 @@
+{#
+This key-value pair component takes an array called "rows" for what to display.
+
+Normally each row has a "key" and "value" which get displayed as a dark column and light column.
+
+Optionally, a "test" boolean row value can be provided. If "test" is false, no value is displayed.
+If "value_true" and "value_false" are passed instead of "value", one of them is picked depending
+on what the "test" value is.
+
+Also, a "display" boolean row value can be used to determine whether a row should be displayed at all.
+If "display" is false, the entire row (including key) is hidden, whereas "test" only determines
+whether the "value" is displayed.
+
+Finally, "display_all" can be passed as true to skip all tests temporarily for testing.
+#}
+{% set display_all = display_all ?? false %}
+
+<div class="object_list">
+  <div class="blue_component">
+    <div class="blue_component_header">
+      <h3 class="blue_component_title">{{ title }}</h3>
+    </div>
+    <div class="object_list_frame">
+      <table class="object_table key_value_table dual_cols {{ is_wide ? 'wide_keys' : '' }}">
+        <colgroup>
+          <col span="2" />
+          <col span="2" />
+        </colgroup>
+        <tbody>
+          {% set half = rows|length / 2|round(0, 'floor') %}
+          {% set row_letters = {a: rows|slice(0, half), b: rows|slice(half)} %}
+          {% for n in 0..half %}
+            {% set row_a = row_letters.a[n] %}
+            {% set row_b = row_letters.b[n] %}
+            {% set display = (((row_a.display is defined and row_a.display) or (not row_a.display is defined)) and ((row_b.display is defined and row_b.display) or (not row_b.display is defined))) or display_all %}
+            {% if display %}
+              <tr class="object_row">
+                {% for row in [row_a, row_b] %}
+                  {% set value_test = (not row.test is defined) or row.test %}
+
+                  {% set value = row.value %}
+                  {% if row.value_true is defined and value_test == true %}
+                    {% set value = row.value_true %}
+                  {% endif %}
+                  {% if row.value_false is defined and value_test == false %}
+                    {% set value = row.value_false %}
+                  {% endif %}
+                  {% if not row.value_false is defined and value_test == false %}
+                    {% set value = '' %}
+                  {% endif %}
+
+                  {% set display_key_col = row.key is defined %}
+                  {% set display_value_col = row.value is defined or row.value_true is defined or row.value_false is defined %}
+
+                  {% if display_key_col %}
+                    <td class="kv_key medium {{ row.vertical_align ? 'vertical_align_' ~ row.vertical_align }}" {{ not display_value_col ? 'colspan="2"' : '' }}>
+                      <div class="{{ is_clamped ? 'clamped' }}">{{ row.key|raw }}</div>
+                    </td>
+                  {% endif %}
+                  {% if display_value_col %}
+                    <td class="kv_value light {{ row.vertical_align ? 'vertical_align_' ~ row.vertical_align }}" {{ not display_key_col ? 'colspan="2"' : '' }}>
+                      {{ value|raw }}
+                    </td>
+                  {% endif %}
+                {% endfor %}
+              </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

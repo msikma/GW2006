@@ -1,0 +1,53 @@
+{% set selected_tab = selected_tab|default(context.menu_context.selected_tab) %}
+{% set tab_context = tab_context|default(context.menu_context.tab_context) %}
+
+{% if tab_context %}
+  <div class="cat_bar">
+    <h3 class="catbg">
+
+      {% if selected_tab.icon or tab_context.icon or selected_tab.help or tab_context.help %}
+        <span class="ie6_header floatleft">
+          {% if selected_tab.icon or tab_context.icon %}
+            <img src="{{ images_url }}/icons/{{ selected_tab.icon ? selected_tab.icon : tab_context.icon }}" alt="" class="icon" />
+          {% endif %}
+          {% if selected_tab.help or tab_context.help %}
+            <a href="{{ scripturl }}?action=helpadmin;help={{ selected_tab.help ? selected_tab.help : tab_context.help }}" onclick="return reqWin(this.href);" class="help"><img src="{{ images_url }}/helptopics.gif" alt="{{ txt.help }}" class="icon" /></a>
+          {% endif %}
+          {{ tab_context.title }}
+        </span>
+      {% else %}
+        {{ tab_context.title }}
+      {% endif %}
+    </h3>
+  </div>
+{% endif %}
+
+<p class="windowbg description">
+  {{ selected_tab.description|default(tab_context.description) }}
+</p>
+
+{# The admin tabs. #}
+<div id="adm_submenus">
+  <ul class="dropmenu">
+    {# Print out all the items in this tab. #}
+    {% for sa, tab in tab_context.tabs %}
+      {% if not tab.disabled %}
+        {% if tab.is_selected %}
+          <li>
+            <a class="active firstlevel" href="{{ tab.url|default(menu_context.base_url ~ ';area=' ~ menu_context.current_area ~ ';sa=' ~ sa ~ menu_context.extra_parameters ~ tab.add_params) }}">
+              <span class="firstlevel">{{ tab.label }}</span>
+            </a>
+          </li>
+        {% else %}
+          <li>
+            <a class="firstlevel" href="{{ tab.url|default(menu_context.base_url ~ ';area=' ~ menu_context.current_area ~ ';sa=' ~ sa ~ menu_context.extra_parameters ~ tab.add_params) }}">
+              <span class="firstlevel">{{ tab.label }}</span>
+            </a>
+          </li>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+    {# the end of tabs #}
+  </ul>
+</div>
+<br class="clear" />

@@ -1,0 +1,54 @@
+@charset "utf-8";
+
+// The button strip contains buttons such as "new topic", "new poll", etc.
+.button_strip {
+}
+.button_strip ul {
+  margin: 0;
+  padding: 0;
+}
+.button_strip ul li {
+  display: inline-block;
+}
+.button_strip ul li a.button {
+  display: block;
+  width: 83px;
+  height: 45px;
+}
+.button_strip.type_primary {
+  margin-bottom: 6px;
+  flex: 1 1;
+}
+.button_strip.type_primary ul li a.button {
+  text-indent: -9999px;
+}
+.button_strip ul li a.button.button_new_topic {
+  background-image: url('../images/__gwnew/buttons/new_topic.gif');
+}
+.button_strip ul li a.button.button_new_topic:hover {
+  background-image: url('../images/__gwnew/buttons/new_topic_h.gif');
+}
+.button_strip ul li a.button.button_post_poll {
+  background-image: url('../images/__gwnew/buttons/new_poll.gif');
+}
+.button_strip ul li a.button.button_post_poll:hover {
+  background-image: url('../images/__gwnew/buttons/new_poll_h.gif');
+}
+.button_strip ul li a.button.button_add_poll {
+  background-image: url('../images/__gwnew/buttons/add_poll.gif');
+}
+.button_strip ul li a.button.button_add_poll:hover {
+  background-image: url('../images/__gwnew/buttons/add_poll_h.gif');
+}
+.button_strip ul li a.button.button_reply {
+  background-image: url('../images/__gwnew/buttons/reply.gif');
+}
+.button_strip ul li a.button.button_reply:hover {
+  background-image: url('../images/__gwnew/buttons/reply_h.gif');
+}
+.button_strip ul li a.button.button_notify,
+.button_strip ul li a.button.button_markread {
+  text-indent: 0;
+}
+.button_strip ul li a.button span {
+}

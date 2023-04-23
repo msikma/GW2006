@@ -1,0 +1,16 @@
+@charset "utf-8";
+
+// Footer component containing copyright and other links.
+.footer {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+.footer_items {
+  text-align: center;
+  font-size: cssvar(--gw-font-small);
+  line-height: cssvar(--gw-line-height-large);
+
+  &:not(:first-child) {
+    margin-top: 6px;
+  }
+}

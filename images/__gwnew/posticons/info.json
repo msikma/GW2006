@@ -1,0 +1,666 @@
+{
+  "name": "gw2006",
+  "website": "https:\/\/www.gamingw.net\/",
+  "none_item": {
+    "name": "None",
+    "size": [54, 15]
+  },
+  "sets": [
+    {
+      "name": "base",
+      "initial": true,
+      "items": [
+        {
+          "fn": "action.gif",
+          "name": "Action",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "anime.gif",
+          "name": "Anime",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "answer.gif",
+          "name": "Answer",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "attention.gif",
+          "name": "Attention",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "birthday.gif",
+          "name": "Birthday",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "books.gif",
+          "name": "Books",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "classic.gif",
+          "name": "Classic",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "code.gif",
+          "name": "Code",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "comics.gif",
+          "name": "Comics",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "contest.gif",
+          "name": "Contest",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "crap.gif",
+          "name": "Crap",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "crazy.gif",
+          "name": "Crazy",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "design.gif",
+          "name": "Design",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "download.gif",
+          "name": "Download",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "emo.gif",
+          "name": "Emo",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "error.gif",
+          "name": "Error",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "fight.gif",
+          "name": "Fight",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "food.gif",
+          "name": "Food",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "fps.gif",
+          "name": "FPS",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "fruity.gif",
+          "name": "Fruity",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "funny.gif",
+          "name": "Funny",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "games.gif",
+          "name": "Games",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "gross.gif",
+          "name": "Gross",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "gw.gif",
+          "name": "GW",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "gwmeet.gif",
+          "name": "GW meet",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "habbo.gif",
+          "name": "Habbo",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "health.gif",
+          "name": "Health",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "help.gif",
+          "name": "Help",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "hmmm.gif",
+          "name": "Hmmm",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "hotdog3.gif",
+          "name": "Hotdog",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "hotdog_animated.gif",
+          "name": "Hotdog",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "humor.gif",
+          "name": "Humor",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "idea.gif",
+          "name": "Idea",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "irc.gif",
+          "name": "IRC",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "jone.gif",
+          "name": "Jone",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "leafo.gif",
+          "name": "Leafo",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "link.gif",
+          "name": "Link",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "microsoft.gif",
+          "name": "Microsoft",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "movies.gif",
+          "name": "Movies",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "music.gif",
+          "name": "Music",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "nature.gif",
+          "name": "Nature",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "news.gif",
+          "name": "News",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "nintendo.gif",
+          "name": "Nintendo",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "nsfw.gif",
+          "name": "NSFW",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "paranormal.gif",
+          "name": "Paranormal",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "pc.gif",
+          "name": "PC",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "photos.gif",
+          "name": "Photos",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "photoshop.gif",
+          "name": "Photoshop",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "politics.gif",
+          "name": "Politics",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "prefix.gif",
+          "name": "Prefix",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "project.gif",
+          "name": "Project",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "puzzle.gif",
+          "name": "Puzzle",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "qa_question.gif",
+          "name": "QA - Question",
+          "size": [54, 15],
+          "legacy": true
+        },
+        {
+          "fn": "qa_answer.gif",
+          "name": "QA - Answer",
+          "size": [54, 15],
+          "legacy": true
+        },
+        {
+          "fn": "question.gif",
+          "name": "Question",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "rant.gif",
+          "name": "Rant",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "readme.gif",
+          "name": "Readme",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "religion.gif",
+          "name": "Religion",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "request.gif",
+          "name": "Request",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "rpg.gif",
+          "name": "RPG",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "ruby.gif",
+          "name": "Ruby",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "scary.gif",
+          "name": "Scary",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "school.gif",
+          "name": "School",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "science.gif",
+          "name": "Science",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "script.gif",
+          "name": "Script",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "sex.gif",
+          "name": "Sex",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "soldat.gif",
+          "name": "Soldat",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "sony.gif",
+          "name": "Sony",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "sports.gif",
+          "name": "Sports",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "story.gif",
+          "name": "Story",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "strat.gif",
+          "name": "Strategy",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "stupid.gif",
+          "name": "Stupid",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "tech.gif",
+          "name": "Tech",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "tutorial.gif",
+          "name": "Tutorial",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "tv.gif",
+          "name": "Tv",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "weird.gif",
+          "name": "Weird",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "wf_bye.gif",
+          "name": "Bye",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "wf_hello.gif",
+          "name": "Hello",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "xx.gif",
+          "name": "GW",
+          "size": [54, 15],
+          "legacy": false,
+          "default": true
+        }
+      ]
+    },
+    {
+      "name": "art",
+      "initial": false,
+      "items": [
+        {
+          "fn": "art_art.gif",
+          "name": "Art",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "art_bw.gif",
+          "name": "Art - B/W",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "art_ccneeded.gif",
+          "name": "Art - CC needed",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "art_ccnotneeded.gif",
+          "name": "Art - CC not needed",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "art_cg.gif",
+          "name": "Art - CG",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "art_digitalart.gif",
+          "name": "Art - Digital art",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "art_finished.gif",
+          "name": "Art - Finished",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "art_realmedia.gif",
+          "name": "Art - Real media",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "art_wip.gif",
+          "name": "Art - WIP",
+          "size": [54, 15],
+          "legacy": false
+        }
+      ]
+    },
+    {
+      "name": "dev",
+      "initial": false,
+      "items": [
+        {
+          "fn": "dev_fury2.gif",
+          "name": "Dev - Fury2",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "dev_gamemaker.gif",
+          "name": "Dev - Gamemaker",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "dev_ika.gif",
+          "name": "Dev - Ika",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "dev_othermaker.gif",
+          "name": "Dev - Other maker",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "dev_rm2k3.gif",
+          "name": "Dev - RM2k3",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "dev_rmxp.gif",
+          "name": "Dev - RMXP",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "dev_sphere.gif",
+          "name": "Dev - Sphere",
+          "size": [54, 15],
+          "legacy": false
+        }
+      ]
+    },
+    {
+      "name": "hz",
+      "initial": false,
+      "items": [
+        {
+          "fn": "hz_game.gif",
+          "name": "Happy Zoo - Game",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "hz_interest.gif",
+          "name": "Happy Zoo - Interest",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "hz_mp3.gif",
+          "name": "Happy Zoo - MP3",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "hz_porn.gif",
+          "name": "Happy Zoo - Porn",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "hz_video.gif",
+          "name": "Happy Zoo - Video",
+          "size": [54, 15],
+          "legacy": false
+        }
+      ]
+    },
+    {
+      "name": "system",
+      "system": true,
+      "initial": false,
+      "items": [
+        {
+          "fn": "system_locked.gif",
+          "name": "Topic locked",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "system_poll.gif",
+          "name": "Poll",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "system_moved.gif",
+          "name": "Moved",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "system_unknown.gif",
+          "name": "Missing post icon",
+          "size": [54, 15],
+          "legacy": false
+        }
+      ]
+    }
+  ]
+}

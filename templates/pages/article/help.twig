@@ -1,0 +1,23 @@
+{% set lang_segment = txt.lang_dictionary != 'en' and txt.lang_dictionary != 'english' ? '/' ~ txt.lang_dictionary : '' %}
+
+{% set title %}
+  {{ txt.manual_smf_user_help }}
+{% endset %}
+
+{% set content %}
+  <p>{{ txt.manual_welcome|format(context.forum_name)|raw }}</p>
+  <p>{{ txt.manual_introduction|raw }}</p>
+  <ul>
+    {% for section_id, wiki_id in context.manual_sections %}
+      {% set url = context.wiki_url ~ '/' ~ wiki_id ~ lang_segment %}
+      <li>
+        <a href="{{ url }}" target="_blank">{{ txt['manual_section_' ~ section_id ~ '_title'] }}</a>
+        -
+        {{ txt['manual_section_' ~ section_id ~ '_desc'] }}
+      </li>
+    {% endfor %}
+  </ul>
+  <p>{{ txt.manual_docs_and_credits|format(context.wiki_url, '?action=credits')|raw }}</p>
+{% endset %}
+
+{% include 'components/component_article.twig' with {'title': title, 'content': content} %}

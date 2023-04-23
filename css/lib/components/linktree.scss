@@ -1,0 +1,28 @@
+@charset "utf-8";
+
+// The linktree is the hierarchy displaying the user's current location at the top of the screen.
+.linktree {
+  ul {
+    margin: 0;
+    padding: cssvar(--gw-cell-medium) cssvar(--gw-cell-small);
+  }
+  li {
+    display: inline-block;
+
+    img {
+      vertical-align: middle;
+      margin-top: -3px;
+    }
+  }
+  li:last-child:not(:first-child) {
+    display: block;
+    margin-top: 1px;
+  }
+  li:last-child:not(:first-child) span {
+    font-weight: bold;
+  }
+  li:nth-last-child(n+3)::after {
+    content: '>';
+    color: cssvar(--gw-text-link);
+  }
+}

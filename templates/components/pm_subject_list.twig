@@ -1,0 +1,107 @@
+{% set title = title|default('Inbox') %}
+
+{# Whether to show "from" names with group color and pips. #}
+{% set show_member_strip = false %}
+
+{% set label_arg = context.current_label_id != -1 ? ';l=' ~ context.current_label_id : '' %}
+{% set sort_arg = ';f=' ~ context.folder ~ ';start=' ~ context.start %}
+
+{#
+
+<th>
+  <a href="{{ scripturl }}?action=pm;view{{ sort_arg }};sort={{ context.sort_by }}{{ context.sort_direction != 'up' ? ';desc' }}{{ label_arg }}">
+    {{ txt.pm_change_view }}
+  </a>
+</th>
+#}
+
+<div class="subject_list object_list">
+  <div class="blue_component">
+    <div class="topic_list_inner">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">{{ title }}</h3>
+      </div>
+      <div class="object_list_frame">
+        <table class="message_table_list object_table">
+          <thead>
+            <tr class="object_row">
+              <th class="text_center quick_mod minimal no_padding">
+                <input type="checkbox" onclick="invertAll(this, this.form);" class="input_check" />
+              </th>
+              <th class="text_left date {{ context.sort_by == 'subject' ? 'active_sort_' ~ context.sort_direction }}">
+                <a href="{{ scripturl }}?action=pm{{ sort_arg }};sort=subject{{ context.sort_by == 'subject' and context.sort_direction == 'up' ? ';desc' }}{{ label_arg }}">
+                  Subject
+                </a>
+              </th>
+              <th class="text_center name {{ context.sort_by == 'name' ? 'active_sort_' ~ context.sort_direction }}">
+                <a href="{{ scripturl }}?action=pm{{ sort_arg }};sort=name{{ context.sort_by == 'name' and context.sort_direction == 'up' ? ';desc' }}{{ label_arg }}">
+                  From
+                </a>
+              </th>
+              <th class="text_left date {{ context.sort_by == 'date' ? 'active_sort_' ~ context.sort_direction }}">
+                <a href="{{ scripturl }}?action=pm{{ sort_arg }};sort=date{{ context.sort_by == 'date' and context.sort_direction == 'up' ? ';desc' }}{{ label_arg }}">
+                  Date
+                </a>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if not messages|length %}
+              <tr class="object_row">
+                <td colspan="999" class="text_center status_message light">
+                  <strong>{{ txt.msg_alert_none }}</strong>
+                </td>
+              </tr>
+            {% endif %}
+            {% for message in messages %}
+              {% if context.from_or_to == 'from' %}
+                {% set recipients = message.member.link %}
+              {% else %}
+                {% set recipients = message.recipients.to|join(', ') %}
+              {% endif %}
+              {# Store message labels as JSON. #}
+              {% set labels = {} %}
+              {% for id, name in message.labels %}
+                {% set labels = labels|pmerge({(id): name.name}) %}
+              {% endfor %}
+              <script>
+              currentLabels[{{ message.id }}] = {{ labels|json_encode(constant('JSON_FORCE_OBJECT'))|raw }};
+              </script>
+              <tr class="object_row light {{ message.is_unread ? 'is_unread' }} {{ message.is_replied_to ? 'is_replied_to' }} {{ context.current_pm == message.id ? 'is_current' }}">
+                <td>
+                  <input type="checkbox" name="pms[]" id="deletelisting{{ message.id }}" value="{{ message.id }}" {{ message.is_selected ? 'checked="checked"' }} onclick="if (document.getElementById('deletedisplay{{ message.id }}')) document.getElementById('deletedisplay{{ message.id }}').checked = this.checked;" class="input_check" />
+                </td>
+                <td>
+                  <a href="{{ scripturl }}?action=pm;pmid={{ message.id }};kstart;f={{ context.folder }};start={{ context.start }};sort={{ context.sort_by }}{{ context.sort_direction != 'up' ? ';desc' }}{{ context.current_label_id != -1 ? ';l=' ~ context.current_label_id }}#msg{{ message.id }}">
+                    {{ message.subject }}
+                  </a>
+                </td>
+                <td class="text_center">
+                  {% if show_member_strip %}
+                    {% include 'atoms/member_strip.twig' with {member: message.member} %}
+                  {% else %}
+                    {{ recipients|raw }}
+                  {% endif %}
+                </td>
+                <td>
+                  {{ message.time|raw }}
+                </td>
+              </tr>
+            {% endfor %}
+            <tr class="object_row blue">
+              <td colspan="4">
+                <ul class="action_buttons">
+                  <li>
+                    <a href="#">
+                      <img src="{{ images_url }}/__gwnew/post_buttons/pm_new_message.gif" class="pixel" />
+                    </a>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

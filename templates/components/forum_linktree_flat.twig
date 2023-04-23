@@ -1,0 +1,18 @@
+{% if context.linktree is not empty and (not context.dont_default_linktree) %}
+  <div class="navigate_section linktree-flat">
+    <ul>
+      {% for link_num, tree in context.linktree %}
+        <li{{ link_num == context.linktree|length - 1 ? ' class="last"' : '' }}>
+          {% if tree.extra_before is defined %}{{ tree.extra_before|raw }}{% endif %}
+          {% if tree.url is defined %}
+            <a href="{{tree.url}}"><span>{{tree.name}}</span></a>
+          {% else %}
+            <span>{{tree.name}}</span>
+          {% endif %}
+          {% if tree.extra_after is defined %}{{ tree.extra_after|raw }}{% endif %}
+          {% if link_num != context.linktree|length - 1 %} &#187;{% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}

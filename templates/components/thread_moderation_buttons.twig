@@ -1,0 +1,23 @@
+{% set has_mod_tools = false %}
+{% for button in buttons %}
+  {% if context[button.test] %}
+    {% set has_mod_tools = true %}
+  {% endif %}
+{% endfor %}
+
+{# TODO: more robust way to check if someone is a mod. #}
+{% if has_mod_tools %}
+  <div class="blue_component object_list moderation">
+    <div class="blue_component_section blue_component_primary blue_component_light">
+      <div class="section small button_row">
+        {% for button in buttons %}
+          {% if context[button.test] %}
+            <a href="{{ button.url }}" rel="nofollow" title="{{ txt[button.text] }}">
+              {% include 'atoms/post_button.twig' with {'type': button.image, 'label': txt[button.text]} %}
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endif %}

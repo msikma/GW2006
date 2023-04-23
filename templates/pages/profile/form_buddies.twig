@@ -1,0 +1,90 @@
+{% set table_cols = [
+  {
+    label: '',
+    minimal: true,
+    field: 'online',
+    type: 'online_status'
+  },
+  {
+    label: txt.name,
+    type: 'member_strip',
+    field: null
+  },
+  {
+    label: 'ID',
+    field: 'id'
+  },
+  {
+    label: txt.position,
+    type: 'member_group',
+    field: 'group'
+  },
+  {
+    label: 'Local Time',
+    type: 'datetime',
+    field: 'local_time'
+  },
+  {
+    label: txt.date_registered,
+    field: 'registered',
+    type: 'date'
+  },
+  {
+    minimal: true,
+    image: true,
+    field: null,
+    template: '<a href="' ~ scripturl ~ '?action=profile;area=lists;sa=buddies;u=' ~ context.id_member ~ ';remove=%id%;' ~ context.session_var ~ '=' ~ context.session_id ~ '"><img src="' ~ images_url ~ '/__gwnew/ui_icons/action_delete.gif" class="pixel" alt="Remove" /></a>',
+    replacements: {'%id%': 'id'},
+    type: 'replace'
+  }
+] %}
+
+
+{#<a href="', $scripturl, '?action=profile;area=lists;sa=buddies;u=', $context['id_member'], ';remove=', $buddy['id'], ';', $context['session_var'], '=', $context['session_id'], '"><img src="', $settings['images_url'], '/icons/delete.gif" alt="', $txt['buddy_remove'], '" title="', $txt['buddy_remove'], '" /></a></td>
+#}
+
+{% include 'components/component_table_list.twig' with {
+  table_cols: table_cols,
+  data_list: context.buddies,
+  txt_no_data: txt.no_buddies,
+  txt_title: txt.editBuddies
+} %}
+
+<form action="{{ scripturl }}?action=profile;u={{ context.id_member }};area=lists;sa=buddies" method="post" accept-charset="{{ context.character_set }}">
+  <div class="object_list object_form">
+    <div class="blue_component">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">{{ txt.buddy_add }}</h3>
+      </div>
+      <div class="object_list_frame">
+        <table class="object_table key_value_table">
+          <tbody>
+            <tr class="object_row">
+              <th class="kv_key"><label for="new_buddy">{{ txt.who_member }}</label></th>
+              <td class="kv_value">
+                <input type="text" name="new_buddy" id="new_buddy" size="25" class="input_with_auto_suggestions" />
+                <button type="submit">
+                  {{ txt.buddy_add_button }}
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</form>
+
+<script src="{{ default_theme_url }}/scripts/suggest.js?fin20"></script>
+<script type="text/javascript">
+var oAddBuddySuggest = new smc_AutoSuggest({
+  sSelf: 'oAddBuddySuggest',
+  sSessionId: '{{ context.session_id }}',
+  sSessionVar: '{{ context.session_var }}',
+  sSuggestId: 'new_buddy',
+  sControlId: 'new_buddy',
+  sSearchType: 'member',
+  sTextDeleteItem: '{{ txt.autosuggest_delete_item }}',
+  bItemList: false
+});
+</script>

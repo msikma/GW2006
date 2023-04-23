@@ -1,0 +1,12 @@
+@charset "utf-8";
+
+// Styles for the "new post" form.
+.new_post_form {
+  .post_subject .posticon_prefix {
+    align-self: center;
+    
+    img {
+      display: block;
+    }
+  }
+}

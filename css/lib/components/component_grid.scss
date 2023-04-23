@@ -1,0 +1,16 @@
+@charset "utf-8";
+
+// A simple grid for components, e.g. on the profile page.
+.component_grid {
+  display: flex;
+  margin: 5px 0;
+}
+.component_grid .grid_item {
+  flex: 1 1;
+}
+.component_grid .grid_item:not(:last-child) {
+  padding-right: cssvar(--gw-content-margin);
+}
+.component_grid .grid_item > .object_list:first-child {
+  margin-top: 0;
+}

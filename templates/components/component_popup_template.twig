@@ -1,0 +1,29 @@
+{% set title = context.page_title|default(context.popup_title)|default(popup_title)|default('Help') %}
+<!doctype html>
+<html {% if context.right_to_left %} dir="rtl"{% endif %}>
+  <head>
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" type="text/css" href="{{ theme_url }}/css/index.css">
+    <script src="{{ theme_url }}/scripts/decorate.js"></script>
+  </head>
+  <body>
+    <div id="wrapper" class="pop_up_window">
+      <div class="blue_component">
+        <div class="blue_component_header">
+          <h3 class="blue_component_title">{{ title }}</h3>
+        </div>
+        <div class="blue_component_section blue_component_light">
+          {{ content }}
+        </div>
+        <div class="blue_component_medium blue_component_section">
+          <button id="popup_window_close">
+            {{ txt.close_window ?? 'Close' }}
+          </button>
+          <script>decorateComponent('popupWindow')</script>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

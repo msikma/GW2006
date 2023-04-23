@@ -1,0 +1,27 @@
+{% include 'html_above.twig' with {page_title: context.file_data.file} %}
+<div id="wrapper">
+  <div class="object_list">
+    <div class="blue_component">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">{{ context.file_data.file }}</h3>
+      </div>
+      <div class="blue_component_light blue_component_section blue_component_primary">
+        <table class="source_table" width="100%">
+          {% for index, line in context.file_data.contents %}
+            {% set line_num = index + context.file_data.min %}
+            {% set is_target = line_num == context.file_data.target %}
+            <tr>
+              <td class="source_line_number {{ is_target ? 'target' }}">
+                {{ line_num|raw }}
+              </td>
+              <td class="source_line {{ is_target ? 'target' }}">
+                {{ line|raw }}
+              </td>
+            </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% include 'html_below.twig' %}

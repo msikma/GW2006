@@ -1,0 +1,35 @@
+{% set content %}
+  <p>{{ context.coppa.body }}</p>
+  <p>
+    <span>
+      <a href="{{ scripturl }}?action=coppa;form;member={{ context.coppa.id }}" target="_blank" class="new_win">{{ txt.coppa_form_link_popup }}</a>
+      |
+      <a href="{{ scripturl }}?action=coppa;form;dl;member={{ context.coppa.id }}">{{ txt.coppa_form_link_download }}</a>
+    </span>
+  </p>
+  <p>{{ context.coppa.many_options ? txt.coppa_send_to_two_options : txt.coppa_send_to_one_option }}</p>
+
+  {% set n = 1 %}
+
+  {% if context.coppa.post %}
+    <h5>{{ n }}) {{ txt.coppa_send_by_post }}</h5>
+    <div class="coppa_contact">
+      {{ context.coppa.post }}
+    </div>
+    {% set n = n + 1 %}
+  {% endif %}
+
+  {% if context.coppa.fax %}
+    <h5>{{ n }}) {{ txt.coppa_send_by_fax }}</h5>
+    <div class="coppa_contact">
+      {{ context.coppa.fax }}
+    </div>
+    {% set n = n + 1 %}
+  {% endif %}
+
+  {% if context.coppa.phone %}
+    <p>{{ context.coppa.phone }}</p>
+  {% endif %}
+{% endset %}
+
+{% include 'components/component_article.twig' with {'title': context.page_title, 'content': content} %}

@@ -1,0 +1,68 @@
+// This is a SMF widget that displays suggested results, e.g. when adding a buddy.
+
+.input_with_auto_suggestions {
+  width: 280px;
+}
+.auto_suggest_div {
+  position: absolute;
+  width: 280px;
+  border: 1px solid cssvar(--gw-text-light);
+  font-size: cssvar(--gw-font-small);
+  z-index: 90;
+  padding: 0;
+  font-weight: normal;
+  background: white;
+  margin-top: 0.25rem;
+
+  &::before {
+    content: '';
+    background: url('../images/__gwnew/arrow_dropmenu.svg');
+    width: 18px;
+    height: 9px;
+    position: absolute;
+    top: calc(-0.50rem - 1px);
+    left: 0.5rem;
+    z-index: 120;
+  }
+
+  &:empty {
+    border: none;
+
+    &::before {
+      display: none;
+    }
+  }
+}
+.auto_suggest_item,
+.auto_suggest_item_hover {
+  display: block;
+  border: 1px solid white;
+  border-bottom-width: 2px;
+  position: relative;
+  color: cssvar(--gw-text-link);
+  padding: calc(cssvar(--gw-cell-medium) - 1px) calc(cssvar(--gw-cell-large) - 1px);
+  cursor: pointer;
+
+  &::before {
+    position: absolute;
+    content: '';
+    left: -1px;
+    right: -1px;
+    bottom: -2px;
+    height: 1px;
+    background: cssvar(--gw-inner-dark);
+  }
+
+  &:last-child {
+    border-bottom-width: 1px;
+
+    &::before {
+      display: none;
+    }
+  }
+}
+.auto_suggest_item_hover {
+  background: cssvar(--gw-inner-medium);
+  text-decoration: none;
+  color: black;
+}

@@ -1,0 +1,57 @@
+<div class="object_list">
+  <div class="blue_component">
+    <div class="blue_component_header">
+      <h3 class="blue_component_title">{{ txt_title }}</h3>
+    </div>
+    <div class="object_list_frame">
+      <table class="object_table key_value_table">
+        <thead>
+          <tr class="object_row">
+            {% for col in table_cols %}
+              <th class="{{ col.minimal ? 'minimal' }}">
+                {{ col.label }}
+              </th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% if not data_list|length %}
+            <tr class="object_row">
+              <td class="text_center status_message light" colspan="999">
+                {{ txt_no_data }}
+              </tr>
+            </tr>
+          {% endif %}
+          {% for item in data_list %}
+            <tr class="object_row light">
+              {% for col in table_cols %}
+                {% set item_data = col.field is null ? item : item[col.field] %}
+                <td class="{{ col.minimal ? 'minimal' }} {{ col.image ? 'image' }}">
+                  {% if not col.type %}
+                    {{ item_data|raw }}
+                  {% elseif col.type == 'date' %}
+                    {{ item_data|format_date }}
+                  {% elseif col.type == 'datetime' %}
+                    {{ item_data|format_datetime }}
+                  {% elseif col.type == 'replace' %}
+                    {% set replacements = col.replacements %}
+                    {% for key, value in replacements %}
+                      {% set replacements = replacements|merge({(key): item_data[value]}) %}
+                    {% endfor %}
+                    {{ col.template|replace(replacements)|raw }}
+                  {% elseif col.type == 'member_group' %}
+                    {{ item_data|default('Member') }}
+                  {% elseif col.type == 'member_strip' %}
+                    {% include 'atoms/member_strip.twig' with {member: item_data} %}
+                  {% elseif col.type == 'online_status' %}
+                    {% include 'atoms/member_online_status.twig' with {online: item_data, is_guest: item.is_guest} %}
+                  {% endif %}
+                </td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

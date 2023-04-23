@@ -1,0 +1,23 @@
+{# NOTE: this template has not been updated from the default yet. #}
+{# Any custom fields to show as icons? #}
+{% if message.member.custom_fields is not empty %}
+  <li class="im_icons">
+    <ul>
+      {% for custom in message.member.custom_fields %}
+        {# todo: supposedly this is if the value is empty, we don't show. do we need it? #}
+        {% if custom.placement != 1 or custom.value is empty %}
+          
+        {% endif %}
+        <li>{{ custom.value }}</li>
+      {% endfor %}
+    </ul>
+  </li>
+{% endif %}
+
+{% if not message.member.custom_fields is empty %}
+  {% for custom in message.member.custom_fields %}
+    {% if custom.placement is not defined or custom.value is not defined %}
+      <li class="custom">{{ custom.title }}: {{ custom.value }}</li>
+    {% endif %}
+  {% endfor %}
+{% endif %}

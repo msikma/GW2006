@@ -1,0 +1,7 @@
+<dt>
+  <strong{% if modify_error.bad_offset is defined %} class="error"{% endif %}>{{ txt.time_offset }}:</strong><br />
+  <span class="smalltext">{{ txt.personal_time_offset }}</span>
+</dt>
+<dd>
+  <input type="text" name="time_offset" id="time_offset" size="5" maxlength="5" value="{{ context.member.time_offset }}" /> <a href="javascript:void(0);" onclick="currentDate = new Date({{ context.current_forum_time_js|raw }}); document.getElementById('time_offset').value = autoDetectTimeOffset(currentDate); return false;">{{ txt.timeoffset_autodetect }}</a><br />{{ txt.current_time }}: <em>{{ context.current_forum_time }}</em>
+</dd>

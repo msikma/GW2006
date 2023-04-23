@@ -1,0 +1,27 @@
+// Note: the .list_form pages are basically temporary.
+// These are wrapped around the generic templates from the Curve theme.
+.list_form {
+  dl {
+    margin: 0;
+    overflow: hidden;
+  }
+  dt {
+    float: left;
+    width: 45%;
+    overflow: hidden;
+    clear: both;
+
+    > span { 
+      display: block;
+      font-size:cssvar(--gw-font-small);
+    }
+
+    &:not(:last-of-type) {
+      margin-bottom: 10px;
+    }
+  }
+  dd {
+
+    float: left;
+  }
+}

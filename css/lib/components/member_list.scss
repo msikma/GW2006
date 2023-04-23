@@ -1,0 +1,16 @@
+@charset "utf-8";
+
+// Styling for plain lists of members.
+.member_list {
+}
+.member_list .member {
+  white-space: nowrap;
+  display: inline-block;
+}
+.member_list .member a {
+  display: inline-block;
+}
+.member_list .member:not(:last-child)::after {
+  content: ', ';
+  white-space: pre;
+}

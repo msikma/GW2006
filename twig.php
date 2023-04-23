@@ -2,22 +2,133 @@
 // Gaming World 2006 <https://gamingw.net/>
 // © MIT License
 
+use Twig\TwigFunction;
+use Twig\TwigFilter;
+
 set_include_path(get_include_path() . PATH_SEPARATOR . $settings['theme_dir']);
 
 require_once('vendor/autoload.php');
+require_once('lib/context.php');
+require_once('lib/mime.php');
+require_once('lib/icon.php');
+require_once('lib/pips.php');
+require_once('lib/posticons.php');
+require_once('lib/emoticons.php');
+require_once('lib/events.php');
+require_once('lib/git.php');
+require_once('lib/custom_fields.php');
+require_once('lib/stats.php');
 
 global $twig;
-$loader = new \Twig\Loader\FilesystemLoader("{$settings['theme_dir']}/templates");
-$twig = new \Twig\Environment($loader, [
+
+// Sets up the Twig renderer.
+$loader = new Twig\Loader\FilesystemLoader("{$settings['theme_dir']}/templates");
+$twig = new Twig\Environment($loader, [
   //'cache' => "{$settings['theme_dir']}/cache",
 	'cache' => false,
 ]);
+// Add extension for rendering international dates.
+$twig->addExtension(new Twig\Extra\Intl\IntlExtension());
 
-function render_template($file) {
+/** Returns posticon image data by icon name. */
+$twig->addFunction(new TwigFunction('find_posticon', function($icon_name) {
+	return find_posticon($icon_name);
+}));
+/** Returns an icon that can be used to represent a specific filetype. */
+$twig->addFunction(new TwigFunction('get_filetype_icon', function($filename) {
+	return get_filetype_icon($filename);
+}));
+/** Formats an integer number value to use commas for easier reading. */
+$twig->addFunction(new TwigFunction('comma_format', function($number, $override_decimal_count = false) {
+	return comma_format($number, $override_decimal_count);
+}));
+/** Returns a CSS class to color a username with their group color. */
+$twig->addFunction(new TwigFunction('get_username_pip_class', function($member_group, $member_id, $is_inline = false) {
+	return get_username_pip_class($member_group, $member_id, $is_inline);
+}));
+/** Returns a set of pip image tags using the original SMF generated star icons. */
+$twig->addFunction(new TwigFunction('get_user_pip_images_from_stars', function($stars_html, $member_group, $member_id) {
+	return get_user_pip_images_from_stars($stars_html, $member_group, $member_id);
+}));
+/** Returns a set of pip image tags calculated from the user's post count. */
+$twig->addFunction(new TwigFunction('get_user_pip_images_from_posts', function($posts, $member_group, $member_id) {
+	return get_user_pip_images_from_posts($posts, $member_group, $member_id);
+}));
+/** Returns a letter from a number; used for the member list. */
+$twig->addFunction(new TwigFunction('get_letter', function($n) {
+	return chr(64 + $n);
+}));
+/** Returns an SVG pie chart for use on the user stats page. */
+$twig->addFunction(new TwigFunction('get_pie_chart', function($percent) {
+	return get_percentage_pie_chart($percent);
+}));
+/** Returns a line chart indicating the user's relative activity by time of day. */
+$twig->addFunction(new TwigFunction('get_user_activity_chart', function($user_posts_by_time) {
+	return get_user_activity_chart($user_posts_by_time);
+}));
+/** Merges arrays while preserving numeric indices. */
+$twig->addFilter(new TwigFilter('pmerge', function($base, $extension) {
+	foreach ($extension as $key => $value) {
+		$base[$key] = $value;
+	}
+	return $base;
+}));
+
+/**
+ * Renders a given Twig template using all our standard passed in variables.
+ * 
+ * This will load a bunch of custom data, such as our emoticons and posticons,
+ * as well as the SMF settings and context, and pass it on to the template.
+ * 
+ * The template is printed directly to output and no data is returned.
+ * 
+ * An additional $template_context array can be passed on to include in the context.
+ */
+function render_template($file, $template_context = []) {
 	global $twig, $context, $settings, $options, $scripturl, $txt, $modSettings, $forum_copyright, $forum_version;
+	
+	// Assemble our custom data.
+	$context['emoticon_base_set'] = get_emoticon_base_set();
+	$context['emoticons_basepath'] = get_emoticon_basepath();
+	$context['emoticons_flat'] = get_flat_emoticons();
+	$context['emoticons_sets'] = get_emoticon_sets_info();
+	$context['emoticons'] = get_emoticons();
+	$context['posticon_basepath'] = get_posticon_basepath();
+	$context['posticon_context'] = find_posticon($context['icon']);
+	$context['posticons'] = get_posticons();
+	$context['git_info'] = get_git_info();
+	$context['pip_styles'] = get_all_pip_css_styles();
+	$context['gw_custom_fields'] = get_gw_metadata();
+	$context['search_cache'] = get_search_cache();
+	$context['menu_buttons'] = get_menu_buttons();
+
+	// Use our custom pip count algorithm.
+	$context['use_gw_pip_count'] = true;
+	
+	// Show that user IPs are being logged.
+	$context['show_ip_logged'] = true;
+
+	// Public theme data is needed to add our own emoticon functionality.
+	$context['public_theme_data'] = [
+		'emoticons' => $context['emoticons_flat'],
+		'emoticon_sets' => $context['emoticons_sets'],
+		'emoticon_path' => $context['emoticons_basepath'],
+	];
+	// The public context is exported to JS.
+	$context['public_context'] = [
+		'forum_name' => $context['forum_name_html_safe'],
+		'theme_url' => $settings['theme_url'],
+		'images_url' => $settings['images_url'],
+		'topics_per_page' => $context['topics_per_page'],
+		'messages_per_page' => $context['messages_per_page'],
+	];
+
+	// Pass on all data to Twig and render the requested template.
+	// Note that all $settings values are exported directly, not in an array.
 	print($twig->render($file, array_merge($settings, [
-		'context' => $context,
+		'context' => array_merge($context, $template_context),
 		'forum_copyright' => sprintf($forum_copyright, $forum_version),
+		'forum_version' => $forum_version,
 		'modSettings' => $modSettings,
 		'options' => $options,
 		'scripturl' => $scripturl,

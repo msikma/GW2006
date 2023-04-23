@@ -1,0 +1,97 @@
+@charset "utf-8";
+
+// This is for the user profile page.
+.user_profile .profile_info {
+  flex: 1 0;
+}
+.user_profile .profile_preview {
+  flex: 195px 0;
+}
+.user_profile.left_side .profile_preview {
+  order: -1;
+}
+
+// The permissions component displays what permissions a user has on their profile.
+.permissions {
+}
+.permissions .not_denied {
+}
+.permissions .permission_description {
+  width: 50%;
+}
+.permissions .permission_id {
+  width: 25%;
+}
+.permissions .permission_status {
+  width: 25%;
+}
+.permissions .denied td {
+  background: cssvar(--gw-notification-danger-background) !important;
+}
+.permissions .denied .permission_name {
+  color: cssvar(--gw-notification-danger-color);
+  text-decoration: line-through;
+}
+.permissions .denied .permission_name {
+}
+
+// A bar chart used to show when a user is active on their statistics page.
+// TODO: remove.
+.bar_chart {
+  padding: 0;
+  margin: 0;
+}
+.bar_chart .bar {
+  float: left;
+  width: 4.16666666667%;
+  position: relative;
+  height: 100px;
+  margin-bottom: 20px;
+}
+.bar_chart .bar .inner {
+  width: 12px;
+  position: absolute;
+  min-height: 1px;
+  max-height: 100%;
+  left: 50%;
+  margin-left: -6px;
+  bottom: 0;
+  background: cssvar(--gw-outline);
+}
+.bar_chart .bar .value {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -20px;
+  text-align: center;
+  display: block;
+  font-size: cssvar(--gw-font-small);
+}
+@media screen and (max-width: 825px) {
+  .bar_chart .bar:nth-child(even) .value {
+    visibility: hidden;
+  }
+}
+@media screen and (max-width: 480px) {
+  // Note: bars look wrong at smaller than 364px.
+  .bar_chart .bar {
+    margin-bottom: 0;
+  }
+  .bar_chart .bar .value {
+    display: none;
+  }
+}
+
+.stats_table {
+  td.pie_chart {
+    padding: 2px 0 2pxcssvar(--gw-cell-medium);
+    
+    .pie_chart {
+      width: 20px;
+    }
+  }
+  td.percentage_total {
+    min-width: 72px;
+    text-align: right;
+  }
+}

@@ -1,0 +1,11 @@
+{% if context.post_errors %}
+  {% set reasons %}
+    <ul class="reasons" id="post_error_list">
+      {{ context.post_errors|map(m => "<li>#{m}</li>")|join('\n')|raw }}
+    </ul>
+  {% endset %}
+  {% include 'atoms/notification.twig' with {'type': 'danger', 'content': txt.profile_errors_occurred, 'content_sub': reasons} %}
+{% endif %}
+{% if context.profile_updated %}
+  {% include 'atoms/notification.twig' with {'type': 'success', 'content': context.profile_updated} %}
+{% endif %}

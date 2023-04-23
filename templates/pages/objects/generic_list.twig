@@ -1,0 +1,129 @@
+{% set cur_list = cur_list|default(context.list_context.list_context) %}
+{% set list_menu = list_menu|default(context.list_context.list_menu) %}
+
+{% if settings.use_tabs and list_menu and list_menu.show_on and (list_menu.show_on == 'both' or list_menu.show_on == 'top') %}
+  {% include 'components/generic_list_menu.twig' with {list_menu: list_menu, position: 'top'} %}
+{% endif %}
+
+{% set list_content %}
+  {% if cur_list.items_per_page %}
+    <div class="forum_page_section">
+      {% include 'components/forum_page_links.twig' with {
+        current: context.current_page + 1,
+        last: context.page_index_context.last_page_number,
+        per_page: cur_list.items_per_page
+      } %}
+    </div>
+    {% if cur_list.items_per_page %}
+      {# DEBUG #}
+      <div class="pagesection">debug: {{ txt.pages }}: {{ cur_list.page_index|raw }}</div>
+    {% endif %}
+  {% endif %}
+  <div class="object_list">
+    <div class="blue_component">
+      {% if cur_list.title %}
+        <div class="blue_component_header">
+          <h3 class="blue_component_title">{{ cur_list.title }}</h3>
+        </div>
+      {% endif %}
+
+      {# todo: integrate these with the title or something #}
+      {% if settings.use_tabs and list_menu and list_menu.show_on and (list_menu.show_on == 'both' or list_menu.show_on == 'top') %}
+        {% include 'components/generic_list_menu.twig' with {list_menu: list_menu, position: 'top'} %}
+      {% endif %}
+
+      
+
+      <div class="object_list_frame">
+        <table class="object_table key_value_table" width="{{ cur_list.width ?: '100%' }}">
+          {% if cur_list.additional_rows.after_title %}
+            <thead class="header_text">
+              {% include 'components/generic_list_additional_rows.twig' with {cur_list: cur_list, position: 'after_title'} %}
+            </thead>
+          {% endif %}
+          {% if cur_list.additional_rows.top_of_list %}
+            <thead class="header_text">
+              {% include 'components/generic_list_additional_rows.twig' with {cur_list: cur_list, position: 'top_of_list'} %}
+            </thead>
+          {% endif %}
+          {% if cur_list.additional_rows.above_column_headers %}
+            <thead class="header_text">
+              {% include 'components/generic_list_additional_rows.twig' with {cur_list: cur_list, position: 'above_column_headers'} %}
+            </thead>
+          {% endif %}
+          {% if cur_list.headers|length >= 2 or cur_list.headers[0].label %}
+            <thead>
+              <tr class="object_row">
+                {% for col_header in cur_list.headers %}
+                  <th scope="col" class="{{ col_header.class }} {{ col_header.sort_image ? 'active_sort_' ~ (col_header.sort_image|lower) }}" style="{{ col_header.style }}" {{ col_header.colspan ? 'colspan="' ~ col_header.colspan ~ '"' }}>
+                    {% if col_header.href %}
+                      <a href="{{ col_header.href }}" rel="nofollow">
+                        {{ col_header.label|default('&nbsp;')|raw }}
+                      </a>
+                    {% else %}
+                      {{ col_header.label|default('&nbsp;')|raw }}
+                    {% endif %}
+                  </th>
+                {% endfor %}
+              </tr>
+            </thead>
+          {% endif %}
+
+          <tbody>
+            {% if cur_list.rows|length == 0 and cur_list.no_items_label %}
+              <tr class="object_row">
+                <td colspan="{{ cur_list.num_columns }}" align="{{ cur_list.no_items_align|default('center') }}" class="text_center status_message light">
+                  {{ cur_list['no_items_label']|raw }}
+                </td>
+              </tr>
+            {% elseif cur_list.rows|length > 1 %}
+              {% for id, row in cur_list.rows %}
+                <tr id="list_{{ context.list_id }}_{{ id }}" class="object_row">
+                  {% for row_data in row %}
+                    <td class="object_row light {{ row_data.class }}" style="{{ row_data.style }}">
+                      {{ row_data['value']|raw }}
+                    </td>
+                  {% endfor %}
+                </tr>
+              {% endfor %}
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+      
+      {% if cur_list.additional_rows.below_table_data is defined or cur_list.additional_rows.bottom_of_list is defined %}
+        <div class="flow_auto">
+          {% if cur_list.additional_rows.below_table_data is defined %}
+            <div class="floatright">
+              {% include 'components/generic_list_additional_rows.twig' with {cur_list: cur_list, position: 'below_table_data'} %}
+            </div>
+          {% endif %}
+          {% if cur_list.additional_rows.bottom_of_list is defined %}
+            <div class="floatright">
+              {% include 'components/generic_list_additional_rows.twig' with {cur_list: cur_list, position: 'bottom_of_list'} %}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endset %}
+
+{% if cur_list.form %}
+  <form action="{{ cur_list.form.href }}" method="post" {{ cur_list.form.name ? 'name="' ~ cur_list.form.name ~ '"' }} id="{{ cur_list.form.name }}" accept-charset="{{ context.character_set }}">
+    {{ list_content }}
+    {% for name, value in cur_list.form.hidden_fields %}
+      <input type="hidden" name="{{ name }}" value="{{ value }}" />
+    {% endfor %}
+  </form>
+{% else %}
+  {{ list_content }}
+{% endif %}
+ 
+{% if settings.use_tabs and list_menu and list_menu.show_on and (list_menu.show_on == 'both' or list_menu.show_on == 'bottom') %}
+  {% include 'components/generic_list_menu.twig' with {list_menu: list_menu, position: 'bottom'} %}
+{% endif %}
+
+{% if cur_list.javascript %}
+  <script>{{ cur_list.javascript }}</script>
+{% endif %}

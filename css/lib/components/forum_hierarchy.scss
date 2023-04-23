@@ -1,0 +1,67 @@
+@charset "utf-8";
+
+// A list of forums. Seen on the search page among other places.
+.forum_hierarchy {
+}
+.forum_hierarchy,
+.forum_hierarchy ul {
+  padding: 0;
+  margin: 0;
+}
+.forum_hierarchy .category,
+.forum_hierarchy .board {
+  position: relative;
+  background: url('../images/__gwnew/ui_icons/forum_list_category.gif');
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-position: center left;
+  padding-left: 20px;
+  line-height: 20px;
+  height: 20px;
+  display: block;
+}
+.forum_hierarchy .category {
+  margin-top: 10px;
+}
+.forum_hierarchy li:first-child .category {
+  margin-top: 0;
+}
+.forum_hierarchy .board {
+  background-image: url('../images/__gwnew/ui_icons/forum_list_board.gif');
+}
+.forum_hierarchy .board.depth_0 {
+  margin-left: 20px;
+}
+.forum_hierarchy .board.depth_1 {
+  margin-left: 40px;
+}
+.forum_hierarchy .board.depth_2 {
+  margin-left: 60px;
+}
+.forum_hierarchy .board.depth_3 {
+  margin-left: 80px;
+}
+.forum_hierarchy .board.depth_4 {
+  margin-left: 100px;
+}
+.forum_hierarchy .board.depth_5 {
+  margin-left: 120px;
+}
+.forum_hierarchy .board.depth_6 {
+  margin-left: 140px;
+}
+.forum_hierarchy .board.depth_7 {
+  margin-left: 160px;
+}
+.forum_hierarchy .board.depth_8 {
+  margin-left: 180px;
+}
+.forum_hierarchy .board.depth_9 {
+  margin-left: 200px;
+}
+.forum_hierarchy .board.depth_10 {
+  margin-left: 220px;
+}
+.forum_hierarchy .board.depth_11 {
+  margin-left: 240px;
+}

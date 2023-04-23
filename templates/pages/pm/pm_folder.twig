@@ -1,0 +1,19 @@
+{# todo: only single_mode is sure #}
+{% set overview_mode = context.display_mode == 0 %}
+{% set single_mode = context.display_mode == 1 %}
+{% set conversation_mode = context.display_mode == 2 %}
+
+{% include 'auxiliary/script_pm.twig' %}
+<form class="flow_hidden" action="{{ scripturl }}?action=pm;sa=pmactions;{{ context['display_mode'] == 2 ? 'conversation;' }}f={{ context['folder'] }};start={{ context['start'] }}{{ context['current_label_id'] != -1 ? ';l=' ~ context['current_label_id'] }}" method="post" accept-charset="{{ context['character_set'] }}" name="pmFolder">
+  <div>display mode: {{ context.display_mode }}</div>
+  {% if not single_mode %}
+    {% include 'components/pm_subject_list.twig' with {messages: context.messages} %}
+  {% endif %}
+  {% if messages|length %}
+    {% if not single_mode %}
+      todo title bar
+    {% endif %}
+  {% endif %}
+  {# todo: properly display messages #}
+  {% include 'pages/objects/posts_index.twig' with {messages: context.messages} %}
+</form>

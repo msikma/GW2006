@@ -1,0 +1,265 @@
+<div class="object_list">
+  <div class="blue_component">
+    <div class="blue_component_header">
+      <h3 class="blue_component_title">{{ context.page_title }}</h3>
+    </div>
+    <div class="blue_component_light blue_component_section blue_component_primary">
+      Here you can find various statistics.
+    </div>
+  </div>
+</div>
+
+{% set general_stats_rows_a = [
+  {
+    key: txt.total_members,
+    value: context.show_member_list ? '<a href="' ~ scripturl ~ '?action=mlist">' ~ context.num_members ~ '</a>' : context.num_members
+  },
+  {
+    key: txt.total_posts,
+    value: context.num_posts
+  },
+  {
+    key: txt.total_topics,
+    value: context.num_topics
+  },
+  {
+    key: txt.total_cats,
+    value: context.num_categories
+  },
+  {
+    key: txt.users_online,
+    value: context.users_online
+  },
+  {
+    key: txt.most_online,
+    value: context.most_members_online.number ~ ' (' ~ context.most_members_online.date ~ ')'
+  },
+  {
+    key: txt.users_online_today,
+    value: context.online_today
+  },
+  {
+    key: txt.num_hits,
+    value: context.num_hits,
+    display: modSettings.hitStats
+  },
+] %}
+
+{% set general_stats_rows_b = [
+  {
+    key: txt.average_members,
+    value: context.average_members
+  },
+  {
+    key: txt.average_posts,
+    value: context.average_posts
+  },
+  {
+    key: txt.average_topics,
+    value: context.average_topics
+  },
+  {
+    key: txt.total_boards,
+    value: context.num_boards
+  },
+  {
+    key: txt.latest_member,
+    value: context.common_stats.latest_member.link
+  },
+  {
+    key: txt.average_online,
+    value: context.average_online
+  },
+  {
+    key: txt.gender_ratio,
+    value: context.gender.ratio
+  },
+  {
+    key: txt.average_hits,
+    value: context.average_hits,
+    display: modSettings.hitStats
+  },
+] %}
+
+{% set top_10_posters = [] %}
+{% for poster in context.top_posters %}
+  {% set top_10_posters = top_10_posters|merge([{
+    key: poster.link,
+    value: poster.num_posts
+  }]) %}
+{% endfor %}
+
+{% set top_10_boards = [] %}
+{% for board in context.top_boards %}
+  {% set top_10_boards = top_10_boards|merge([{
+    key: board.link,
+    value: board.num_posts
+  }]) %}
+{% endfor %}
+
+{% set top_10_topics_by_replies = [] %}
+{% for topic in context.top_topics_replies %}
+  {% set top_10_topics_by_replies = top_10_topics_by_replies|merge([{
+    key: topic.link,
+    value: topic.num_replies
+  }]) %}
+{% endfor %}
+
+{% set top_10_topics_by_views = [] %}
+{% for topic in context.top_topics_views %}
+  {% set top_10_topics_by_views = top_10_topics_by_views|merge([{
+    key: topic.link,
+    value: topic.num_views
+  }]) %}
+{% endfor %}
+
+{% set top_10_topics_starters = [] %}
+{% for poster in context.top_starters %}
+  {% set top_10_topics_starters = top_10_topics_starters|merge([{
+    key: poster.link,
+    value: poster.num_topics
+  }]) %}
+{% endfor %}
+
+{% set top_10_online_members = [] %}
+{% for poster in context.top_time_online %}
+  {% set top_10_online_members = top_10_online_members|merge([{
+    key: poster.link,
+    value: poster.time_online
+  }]) %}
+{% endfor %}
+
+{% set general_stats_rows = general_stats_rows_a|merge(general_stats_rows_b) %}
+{% include 'components/component_key_value_dual.twig' with {title: txt.general_stats, rows: general_stats_rows, is_wide: true, is_clamped: true, double_cols: true} %}
+
+{% set top_10_posters_component %}
+  {% include 'components/component_key_value.twig' with {title: txt.top_posters, rows: top_10_posters, is_wide: true, is_clamped: true} %}
+{% endset %}
+{% set top_10_boards_component %}
+  {% include 'components/component_key_value.twig' with {title: txt.top_boards, rows: top_10_boards, is_wide: true, is_clamped: true} %}
+{% endset %}
+{% set top_10_topics_by_replies_component %}
+  {% include 'components/component_key_value.twig' with {title: txt.top_topics_replies, rows: top_10_topics_by_replies, is_wide: true, is_clamped: true} %}
+{% endset %}
+{% set top_10_topics_by_views_component %}
+  {% include 'components/component_key_value.twig' with {title: txt.top_topics_views, rows: top_10_topics_by_views, is_wide: true, is_clamped: true} %}
+{% endset %}
+{% set top_10_topics_starters_component %}
+  {% include 'components/component_key_value.twig' with {title: txt.top_starters, rows: top_10_topics_starters, is_wide: true, is_clamped: true} %}
+{% endset %}
+{% set top_10_online_members_component %}
+  {% include 'components/component_key_value.twig' with {title: txt.most_time_online, rows: top_10_online_members, is_wide: true, is_clamped: true} %}
+{% endset %}
+
+{% include 'components/component_columns.twig' with {items: [top_10_posters_component, top_10_boards_component]} %}
+{% include 'components/component_columns.twig' with {items: [top_10_topics_by_replies_component, top_10_topics_by_views_component]} %}
+{% include 'components/component_columns.twig' with {items: [top_10_topics_starters_component, top_10_online_members_component]} %}
+
+{% if context.yearly %}
+  <div class="object_list">
+    <div class="blue_component">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">{{ txt.forum_history }}</h3>
+      </div>
+      <div class="object_list_frame">
+        <table class="object_table key_value_table {{ is_wide ? 'wide_keys' : '' }}" id="stats">
+          <thead>
+            <tr class="object_row">
+              <th class="text_center">{{ txt.yearly_summary }}</th>
+              <th class="text_center">{{ txt.stats_new_topics }}</th>
+              <th class="text_center">{{ txt.stats_new_posts }}</th>
+              <th class="text_center">{{ txt.stats_new_members }}</th>
+              <th class="text_center">{{ txt.smf_stats_14 }}</th>
+              {% if modSettings.hitStats %}
+                <th class="text_center">{{ txt.page_views }}</th>
+              {% endif %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for id, year in context.yearly %}
+              <tr class="object_row light" id="year_{{ id }}">
+                <td class="text_left" width="25%">
+                  <img id="year_img_{{ id }}" src="{{ images_url }}/collapse.gif" alt="*" />
+                  <a href="#year_{{ id }}" id="year_link_{{ id }}">{{ year.year }}</a>
+                </td>
+                <td width="15%">{{ year.new_topics }}</td>
+                <td width="15%">{{ year.new_posts }}</td>
+                <td width="15%">{{ year.new_members }}</td>
+                <td width="15%">{{ year.most_members_online }}</td>
+                {% if modSettings.hitStats %}
+                  <td class="text_center">{{ txt.hits }}</td>
+                {% endif %}
+              </tr>
+
+              {% for month in year.months %}
+                <tr class="object_row light indent_1" id="tr_month_{{ month.id }}">
+                  <td class="text_left indent_target" width="25%">
+                    <img id="img_{{ month.id }}" src="{{ images_url }}/{{ month.expanded ? 'collapse.gif' : 'expand.gif' }}" alt="" />
+                    <a id="m{{ month.id }}" href="{{ month.href }}" onclick="return doingExpandCollapse;">{{ month.month }} {{ month.year }}</a>
+                  </td>
+                  <td width="15%">{{ month.new_topics }}</td>
+                  <td width="15%">{{ month.new_posts }}</td>
+                  <td width="15%">{{ month.new_members }}</td>
+                  <td width="15%">{{ month.most_members_online }}</td>
+                  {% if modSettings.hitStats %}
+                    <td class="text_center">{{ month.hits }}</td>
+                  {% endif %}
+                </tr>
+                {% if month.expanded %}
+                  {% for day in month.days %}
+                    <tr class="object_row light indent_2" id="tr_day_{{ day.year }}-{{ day.month }}-{{ day.day }}">
+                      <td class="text_left stats_day indent_target" width="25%">
+                        {{ day.year }}-{{ day.month }}-{{ day.day }}
+                      </td>
+                      <td width="15%">{{ day.new_topics }}</td>
+                      <td width="15%">{{ day.new_posts }}</td>
+                      <td width="15%">{{ day.new_members }}</td>
+                      <td width="15%">{{ day.most_members_online }}</td>
+                      {% if modSettings.hitStats %}
+                        <td class="text_center">{{ day.hits }}</td>
+                      {% endif %}
+                    </tr>
+                  {% endfor %}
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+<script src="{{ default_theme_url }}/scripts/stats.js"></script>
+<script>
+var oStatsCenter = new smf_StatsCenter({
+  sTableId: 'stats',
+
+  reYearPattern: /year_(\d+)/,
+  sYearImageCollapsed: 'expand.gif',
+  sYearImageExpanded: 'collapse.gif',
+  sYearImageIdPrefix: 'year_img_',
+  sYearLinkIdPrefix: 'year_link_',
+
+  reMonthPattern: /tr_month_(\d+)/,
+  sMonthImageCollapsed: 'expand.gif',
+  sMonthImageExpanded: 'collapse.gif',
+  sMonthImageIdPrefix: 'img_',
+  sMonthLinkIdPrefix: 'm',
+
+  reDayPattern: /tr_day_(\d+-\d+-\d+)/,
+  sDayRowClassname: 'object_row',
+  sDayRowIdPrefix: 'tr_day_',
+
+  aCollapsedYears: {{ context.collapsed_years|json_encode }},
+
+  aDataCells: [
+    'date',
+    'new_topics',
+    'new_posts',
+    'new_members',
+    'most_members_online',
+    {{ modSettings['hitStats'] ? '\'hits\'' }}
+  ]
+});
+</script>

@@ -1,0 +1,20 @@
+<ul class="action_buttons">
+  {% if modSettings.onlineEnable and not member.is_guest %}
+    <li>
+      {% include 'atoms/member_online_status.twig' with {online: member.online, is_guest: member.is_guest, background: 'blue'} %}
+    </li>
+  {% endif %}
+
+  <li>
+    {% if (context.can_moderate_forum or context.user.is_admin) and member.ip is not empty %}
+      {# If we're a moderator, show the IP and link to the tracking page. #}
+      <a class="ip post_action_text" href="{{ scripturl }}?action={{ member.is_guest ? 'trackip' : 'profile;area=tracking;sa=ip;u=' ~ member.id }};searchip={{ member.ip }}">{{ member.ip }}</a>
+    {% elseif message.can_see_ip %}
+      {# If this is our own post, show our own IP. #}
+      <a class="ip post_action_text" href="{{ scripturl }}?action=helpadmin;help=see_member_ip" onclick="return reqWin(this.href);" class="help">{{ member.ip }}</a>
+    {% elseif context.show_ip_logged %}
+      {# Else, just show that the IP was logged. #}
+      <a class="ip post_action_text" href="{{ scripturl }}?action=helpadmin;help=see_member_ip" onclick="return reqWin(this.href);" class="help">{{ txt.logged }}</a>
+    {% endif %}
+  </li>
+</ul>

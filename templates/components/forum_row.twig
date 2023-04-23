@@ -1,34 +1,69 @@
 {% set is_new = board.new or board.children_new %}
 {% set is_redirect = board.is_redirect %}
 {% set is_stale = not is_new and not is_redirect %}
+{% set show_board_children_new_icon = false %}
 {% set has_posts_to_approve = board.can_approve_posts and (board.unapproved_posts or board.unapproved_topics) %}
 
-<tr id="board_{{ board.id }}" class="windowbg2">
-  <td class="icon windowbg"{% if board.children is not empty %} rowspan="2"{% endif %}>
+<tr id="board_{{ board.id }}" class="board_row object_row">
+  <td class="icon center">
     <a href="{% if board.is_redirect or context.user.is_guest %}{{ board.href }}{% else %}{{ scripturl }}?action=unread;board={{ board.id }}.0;children{% endif %}">
       {% if is_new %}
-        <img src="{{ images_url }}/{{ context.theme_variant_url }}on{% if not board.new %}2{% endif %}.png" alt="{{ txt.new_posts }}" title="{{ txt.new_posts }}" />
+        <img class="pixel" src="{{ images_url }}/__gwnew/forum_list_board_unread{% if not board.new %}_sub{% endif %}.png" alt="{{ txt.new_posts }}" title="{{ txt.new_posts }}" />
       {% elseif is_redirect %}
-        <img src="{{ images_url }}/{{ context.theme_variant_url }}redirect.png" alt="*" title="*" />
+        <img class="pixel" src="{{ images_url }}/__gwnew/forum_list_board_redirect.png" alt="*" title="*" />
       {% elseif is_stale %}
-        <img src="{{ images_url }}/{{ context.theme_variant_url }}off.png" alt="{{ txt.old_posts }}" title="{{ txt.old_posts }}" />
+        <img class="pixel" src="{{ images_url }}/__gwnew/forum_list_board_read.png" alt="{{ txt.old_posts }}" title="{{ txt.old_posts }}" />
       {% endif %}
     </a>
   </td>
-  <td class="info">
-    <a class="subject" href="{{ board.href }}" name="b{{ board.id }}">{{ board.name }}</a>
-    {% if has_posts_to_approve %}
-      <a href="{{ scripturl }}?action=moderate;area=postmod;sa={% if board.unapproved_topics > 0 %}topics{% else %}posts{% endif %};brd={{ board.id }};{{ context.session_var }}={{ context.session_id }}" title="{{ txt.unapproved_posts|format(board.unapproved_topics, board.unapproved_posts) }}" class="moderation_link">(!)</a>
-    {% endif %}
-    <p>{{ board.description }}</p>
-    {% if board.moderators is not empty %}
-      <p class="moderators">
-        {{ (board.moderators|length == 1) ? txt.moderator : txt.moderators }}: 
-        {{ board.link_moderators|join(', ')|raw }}
-      </p>
-    {% endif %}
+  <td class="info light sections">
+    <div class="section board_name">
+      <a class="subject" href="{{ board.href }}" name="b{{ board.id }}">{{ board.name }}</a>
+    </div>
+    <div class="section board_information">
+      {% if has_posts_to_approve %}
+        <div class="subsection">
+          <a href="{{ scripturl }}?action=moderate;area=postmod;sa={% if board.unapproved_topics > 0 %}topics{% else %}posts{% endif %};brd={{ board.id }};{{ context.session_var }}={{ context.session_id }}" title="{{ txt.unapproved_posts|format(board.unapproved_topics, board.unapproved_posts) }}" class="moderation_link">(!)</a>
+        </div>
+      {% endif %}
+      <div class="subsection item_description">
+        <p>{{ board.description }}</p>
+      </div>
+      {% if board.moderators is not empty %}
+        <div class="subsection moderators">
+          <span class="sub_title">{{ (board.moderators|length == 1) ? txt.moderator : txt.moderators }}</span>: 
+          {{ board.link_moderators|join(', ')|raw }}
+        </div>
+      {% endif %}
+      {% if board.children is not empty %}
+        <div class="subsection board_children" id="board_{{ board.id }}_children">
+          <span class="sub_title">{{ txt.parent_boards }}</span>:
+          {% for child in board.children %}
+            {% set has_posts_to_approve = child.can_approve_posts and (child.unapproved_posts or child.unapproved_topics) %}
+            <span class="{{ child.new ? 'has_new' : '' }}">
+              {% if not child.is_redirect %}
+                {% set title = (child.new ? txt.new_posts : txt.old_posts) ~ ' (' ~ txt.board_topics ~ ': ' ~ child.topics|number_format ~ ', ' ~ txt.posts ~ ': ' ~ child.posts|number_format ~ ')' %}
+                <a class="{{ child.new ? 'new_posts' : '' }}" href="{{ child.href }}" title="{{ title }}">
+                  {{ child.name }}
+                </a>
+                {% if child.new and show_board_children_new_icon %}
+                  <a href="{{ scripturl }}?action=unread;board={{ child.id }}" title="{{ title }}">
+                    <img class="pixel" src="{{ lang_images_url }}/new.gif" class="new_posts" alt="" />
+                  </a>
+                {% endif %}
+              {% else %}
+                <a href="{{ child.href }}" title="{{ child.posts|number_format }} {{ txt.redirects }}">{{ child.name }}</a>
+              {% endif %}
+              {% if has_posts_to_approve %}
+                <a href="{{ scripturl }}?action=moderate;area=postmod;sa={{ child.unapproved_topics > 0 ? 'topics' : 'posts' }}&brd={{ child.id }}&{{ context.session_var }}={{ context.session_id }}" title="{{ txt.unapproved_posts|format(child.unapproved_topics, child.unapproved_posts) }}" class="moderation_link">(!)</a>
+              {% endif %}
+            </span>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
   </td>
-  <td class="stats windowbg">
+  <td class="stats small center">
     <p>
       {{ board.posts|number_format }} {{ board.is_redirect ? txt.redirects : txt.posts }} <br />
       {% if not board.is_redirect %}
@@ -36,11 +71,11 @@
       {% endif %}
     </p>
   </td>
-  <td class="lastpost">
+  <td class="last_post light small">
     {% if board.last_post.id is not empty %}
-      <p><strong>{{ txt.last_post }}</strong> {{ txt.by }} {{ board.last_post.member.link|raw }}<br />
-      {{ txt.in }} {{ board.last_post.link|raw }}<br />
-      {{ txt.on }} {{ board.last_post.time|raw }}
+      <p>
+      {{ board.last_post.time|raw }}<br/>
+      {{ txt.in }} {{ board.last_post.link|raw }} {{ txt.by }} {{ board.last_post.member.link|raw }}
       </p>
     {% endif %}
   </td>

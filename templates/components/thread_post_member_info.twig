@@ -1,0 +1,90 @@
+{# We originally did not show post groups. #}
+{% set show_post_group = false %}
+
+{# Karma and custom fields have not implemented yet. #}
+{% set show_karma = false %}
+{% set show_custom_fields = false %}
+
+<ul class="member_info" id="msg_{{ message.id|default(0) }}_extra_info">
+  {# Display the user's avatar if they set one. #}
+  {% if member.is_banned %}
+    {# Use the "banned" avatar if the user is banned. #}
+    {% set avatar_url = images_url ~ '/__gwnew/other/banned_avatar_' ~ (member.id is even ? '1' : '2') ~ '.gif' %}
+    {% set avatar_source = 'static_banned' %}
+  {% elseif member.avatar.url %}
+    {# This is if the member has a remotely hosted avatar. #}
+    {% set avatar_url = member.avatar.url %}
+    {% set avatar_source = 'remote' %}
+  {% elseif member.avatar.href %}
+    {# This is if the member's avatar is hosted on this server. #}
+    {% set avatar_url = member.avatar.href %}
+    {% set avatar_source = 'local' %}
+  {% else %}
+    {# No avatar. #}
+    {% set avatar_url = null %}
+    {% set avatar_source = 'none' %}
+  {% endif %}
+  {% if show_user_images is not empty and options.show_no_avatars is empty and avatar_url is not empty %}
+    {# If the user wants their avatar displayed as retina image, and it's a remote image, we need to wait for it to load to set its width. #}
+    {% set needs_decoration = member.options.cust_useret is not empty and avatar_source == 'remote' %}
+    <li class="avatar source_{{ avatar_source }}">
+      <a href="{{ scripturl }}?action=profile;u={{ member.id }}">
+        <img src="{{ avatar_url }}" alt="Avatar of {{ member.username }}" class="{{ member.options.cust_useret ? 'retina' }}" />
+        {% if needs_decoration %}
+          <script>decorateComponent('avatar');</script>
+        {% endif %}
+      </a>
+    </li>
+  {% endif %}
+
+  {# Show the member's custom title. #}
+  {% if member.title is not empty %}
+    <li class="title">{{ member.title|raw }}</li>
+  {% endif %}
+  
+  {# PIPS!!!!!!! #}
+  <li class="pips">
+    {% if context.use_gw_pip_count %}
+      {{ get_user_pip_images_from_posts(member.posts, member.group, member.id)|raw }}
+    {% else %}
+      {{ get_user_pip_images_from_stars(member.group_stars|raw, member.group, member.id)|raw }}
+    {% endif %}
+  </li>
+
+  {# Show the member's primary group (like "Administrator"). #}
+  <li class="member_group">Group: {{ member.group|default('Member') }}</li>
+
+  {# Show when the member registered. #}
+  {% if member.registered_timestamp %}
+    <li class="registered">Joined: {{ member.registered_timestamp|format_date() }}</li>
+  {% endif %}
+
+  {# Show how many posts they have made. #}
+  {% if not context.disabled_fields.posts is defined %}
+    <li class="postcount">{{ txt.member_postcount }}: {{ member.posts }}</li>
+  {% endif %}
+
+  {# Show the post group if and only if they have no other group or the option is on, and they are in a post group. #}
+  {% if (hide_post_group is empty or member.group == '') and member.post_group != '' and show_post_group %}
+    <li class="post_group">Member group: {{ member.post_group }}</li>
+  {% endif %}
+
+  {# Don't show these things for guests. #}
+  {% if not member.is_guest %}
+    {% if show_karma %}
+      {% include 'components/thread_post_member_karma.twig' %}
+    {% endif %}
+    
+    {% if show_gender and member.message.gender.image != '' and not context.disabled_fields.gender %}
+      <li class="gender">{{ txt.gender }}: {{ member.gender.image }}</li>
+    {% endif %}
+
+    {% if settings.show_blurb and member.blurb != '' %}
+      <li class="blurb">{{ member.blurb }}</li>
+    {% endif %}
+
+    {% if show_custom_fields %}
+      {% include 'components/thread_post_member_custom.twig' %}
+    {% endif %}
+  {% endif %}
+</ul>

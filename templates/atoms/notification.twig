@@ -1,0 +1,7 @@
+{# Displays a notification, e.g. "this topic is locked" when trying to make a reply. #}
+<div class="notification_component type_{{ type|default(context.type)|default('info') }}">
+  <div class="inner">
+    <div class="main">{{ content|default(context.content)|raw }}</div>
+    <div class="sub">{{ content_sub|default(context.content_sub)|raw }}</div>
+  </div>
+</div>

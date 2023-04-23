@@ -1,0 +1,74 @@
+<script type="text/javascript">
+var allLabels = {};
+var currentLabels = {};
+function loadLabelChoices()
+{
+  var listing = document.forms.pmFolder.elements;
+  var theSelect = document.forms.pmFolder.pm_action;
+  var add, remove, toAdd = {length: 0}, toRemove = {length: 0};
+
+  if (theSelect.childNodes.length == 0)
+    return;
+  if (!('-1' in allLabels))
+  {
+    for (var o = 0; o < theSelect.options.length; o++)
+      if (theSelect.options[o].value.substr(0, 4) == "rem_")
+        allLabels[theSelect.options[o].value.substr(4)] = theSelect.options[o].text;
+  }
+
+  for (var i = 0; i < listing.length; i++)
+  {
+    if (listing[i].name != "pms[]" || !listing[i].checked)
+      continue;
+
+    var alreadyThere = [], x;
+    for (x in currentLabels[listing[i].value])
+    {
+      if (!(x in toRemove))
+      {
+        toRemove[x] = allLabels[x];
+        toRemove.length++;
+      }
+      alreadyThere[x] = allLabels[x];
+    }
+
+    for (x in allLabels)
+    {
+      if (!(x in alreadyThere))
+      {
+        toAdd[x] = allLabels[x];
+        toAdd.length++;
+      }
+    }
+  }
+
+  while (theSelect.options.length > 2)
+    theSelect.options[2] = null;
+
+  if (toAdd.length != 0)
+  {
+    theSelect.options[theSelect.options.length] = new Option("Add Label", "");
+    setInnerHTML(theSelect.options[theSelect.options.length - 1], "Add Label");
+    theSelect.options[theSelect.options.length - 1].disabled = true;
+
+    for (i in toAdd)
+    {
+      if (i != "length")
+        theSelect.options[theSelect.options.length] = new Option(toAdd[i], "add_" + i);
+    }
+  }
+
+  if (toRemove.length != 0)
+  {
+    theSelect.options[theSelect.options.length] = new Option("Remove Label", "");
+    setInnerHTML(theSelect.options[theSelect.options.length - 1], "Remove Label");
+    theSelect.options[theSelect.options.length - 1].disabled = true;
+
+    for (i in toRemove)
+    {
+      if (i != "length")
+        theSelect.options[theSelect.options.length] = new Option(toRemove[i], "rem_" + i);
+    }
+  }
+}
+</script>

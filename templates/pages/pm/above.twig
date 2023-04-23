@@ -1,0 +1,3 @@
+{% if context.pm_sent %}
+  {% include 'atoms/notification.twig' with {'type': 'success', 'content': txt.pm_sent} %}
+{% endif %}

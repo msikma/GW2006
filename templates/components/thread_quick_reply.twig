@@ -1,0 +1,74 @@
+<a id="quickreply"></a>
+
+<div class="object_form new_post_form quick_reply object_list spaced_top">
+  <div class="blue_component">
+    <div class="blue_component_header">
+      <h3 class="blue_component_title">{{ txt.quick_reply }}</h3>
+    </div>
+    <div class="blue_component_medium object_list_frame">
+      <table class="object_table">
+        <tbody>
+          <tr class="object_row">
+            <th class="minimal">{{ txt.message }}:</th>
+            <td>
+              <textarea class="editor" name="message" id="message" rows="12" cols="600" tabindex="2"></textarea>
+              <script>decorateComponent('messageField');</script>
+            </td>
+          </tr>
+          <tr class="object_row dark">
+            <th class="minimal"></th>
+            <td>
+              <button><strong>Post quick reply</strong></button>
+              <button>Preview</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<a id="quickreply"></a>
+<div class="tborder" id="quickreplybox">
+
+
+  <div id="quickReplyOptions"{{ options.display_quick_reply == 2 ? '' : ' style="display: none"' }}>
+    <div class="roundframe">
+      <p class="smalltext lefttext">{{ txt.quick_reply_desc }}</p>
+      {{ context.is_locked ? '<p class="alert smalltext">' ~ txt.quick_reply_warning ~ '</p>' : '' }}
+      {{ context.oldTopicError ? '<p class="alert smalltext">' ~ txt.error_old_topic|format(modSettings.oldTopicDays) ~ '</p>' : '' }}
+      {{ not context.can_reply_approved ? '<em>' ~ txt.wait_for_approval ~ '</em>' : '' }}
+      {{ not context.can_reply_approved and context.require_verification ? '<br />' : '' }}
+      <form action="{{ scripturl }}?board={{ context.current_board }};action=post2" method="post" accept-charset="{{ context.character_set }}" name="postmodify" id="postmodify" onsubmit="submitonce(this);" style="margin: 0;">
+        <input type="hidden" name="topic" value="{{ context.current_topic }}" />
+        <input type="hidden" name="subject" value="{{ context.response_prefix }}{{ context.subject }}" />
+        <input type="hidden" name="icon" value="xx" />
+        <input type="hidden" name="from_qr" value="1" />
+        <input type="hidden" name="notify" value="{{ context['is_marked_notify'] or options['auto_notify'] ? '1' : '0' }}" />
+        <input type="hidden" name="not_approved" value="{{ not context['can_reply_approved'] }}" />
+        <input type="hidden" name="goback" value="{{ options['return_to_post'] is empty ? '0' : '1' }}" />
+        <input type="hidden" name="last_msg" value="{{ context['topic_last_message'] }}" />
+        <input type="hidden" name="{{ context['session_var'] }}" value="{{ context['session_id'] }}" />
+        <input type="hidden" name="seqnum" value="{{ context['form_sequence_number'] }}" />
+        {% if context.user.is_guest %}
+          <strong>{{ txt['name'] }}:</strong>
+          <input type="text" name="guestname" value="{{ context['name'] }}" size="25" tabindex="{{ context['tabindex'] + 1 }}" />
+          <strong>{{ txt['email'] }}:</strong>
+          <input type="text" name="email" value="{{ context['email'] }}" size="25" tabindex="{{ context['tabindex'] + 1 }}" />
+          <br />
+        {% endif %}
+        <div class="quickReplyContent">
+          <textarea cols="600" rows="7" name="message" tabindex="{{ context.tabindex|e }}"></textarea>
+        </div>
+        <div class="righttext padding">
+          <input type="submit" name="post" value="{{ txt.post|e }}" onclick="return submitThisOnce(this);" accesskey="s" tabindex="{{ context.tabindex|e }}" />
+          <input type="submit" name="preview" value="{{ txt.preview|e }}" onclick="return submitThisOnce(this);" accesskey="p" tabindex="{{ context.tabindex|e }}" />
+          {% if context.show_spellchecking %}
+            <input type="button" value="{{ txt.spell_check|e }}" onclick="spellCheck('postmodify', 'messageField');" tabindex="{{ context.tabindex|e }}" />
+          {% endif %}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+@charset "utf-8";
+
+// The member strip is a single-line member component.
+.member_strip {
+  display: inline;
+}
+.member_strip > span,
+.member_strip > a {
+  display: inline-block;
+  vertical-align: text-bottom;
+}
+.member_strip img {
+  display: block;
+  float: left;
+}
+.member_strip .username a {
+  display: inline-block;
+}
+.member_strip .pips {
+  position: relative;
+}
+.member_strip .pips.pip_type_lego {
+  top: -1px;
+}
+.member_strip .pips.pip_type_pip {
+  top: -3px;
+}

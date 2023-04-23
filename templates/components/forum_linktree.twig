@@ -1,16 +1,21 @@
 {% if context.linktree is not empty and (not context.dont_default_linktree) %}
-  <div class="navigate_section">
+  <div class="linktree">
     <ul>
       {% for link_num, tree in context.linktree %}
-        <li{{ link_num == context.linktree|length - 1 ? ' class="last"' : '' }}>
-          {% if tree.extra_before is defined %}{{ tree.extra_before|raw }}{% endif %}
-          {% if tree.url is defined %}
-            <a href="{{tree.url}}"><span>{{tree.name}}</span></a>
-          {% else %}
-            <span>{{tree.name}}</span>
+        <li>
+          {% set is_last = link_num == context.linktree|length - 1 and context.linktree|length > 1 %}
+          {% if link_num == 0 %}
+            <img src="{{ images_url }}/__gwnew/linktree_hierarchy.png" alt="" class="pixel" role="presentation" />
           {% endif %}
-          {% if tree.extra_after is defined %}{{ tree.extra_after|raw }}{% endif %}
-          {% if link_num != context.linktree|length - 1 %} &#187;{% endif %}
+
+          {% if is_last %}
+            <img src="{{ images_url }}/__gwnew/linktree_page.png" alt="" class="pixel" role="presentation" />
+          {% endif %}
+          {% if tree.url is defined and not is_last %}
+            <a href="{{tree.url}}"><span>{{ tree.name|raw }}</span></a>
+          {% else %}
+            <span>{{ tree.name|raw }}</span>
+          {% endif %}
         </li>
       {% endfor %}
     </ul>

@@ -1,0 +1,5 @@
+{% for row in cur_list.additional_rows[position] %}
+  <tr class="object_row {{ row.class }} position_{{ position }}" style="{{ row.style }}">
+    <td class="" colspan="999">{{ row.value|raw }}</td>
+  </tr>
+{% endfor %}

@@ -1,0 +1,40 @@
+@charset "utf-8";
+
+// A list of subforums, either on the main index page or inside a forum.
+.forum_list {
+}
+.forum_list.is_child_forums {
+  margin-bottom: cssvar(--gw-content-margin);
+}
+.forum_list .forum_list_inner {
+}
+.forum_list .forum_table_list {
+  width: 100%;
+}
+.forum_list .board_row {
+}
+.forum_list .board_row .icon {
+  width: 64px;
+}
+.forum_list .board_row .stats {
+  width: 110px;
+}
+.forum_list .board_row .last_post {
+  width: 260px;
+}
+.forum_list .board_name {
+  font-weight: bold;
+}
+.forum_list .board_information {
+  font-size: cssvar(--gw-font-small);
+}
+.forum_list .moderators {
+  font-style: italic;
+}
+.forum_list .board_children {
+  font-style: italic;
+}
+.forum_list .object_table .object_row th,
+.forum_list .object_table .object_row td {
+  padding: cssvar(--gw-cell-large);
+}

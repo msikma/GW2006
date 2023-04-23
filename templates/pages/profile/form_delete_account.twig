@@ -1,0 +1,104 @@
+<form action="{{ scripturl }}?action=profile;area=deleteaccount;save" method="post" accept-charset="{{ context.character_set }}" name="creator" id="creator">
+  <div class="object_list">
+    <div class="blue_component">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">{{ txt['deleteAccount'] }}</h3>
+      </div>
+      <div class="object_list_frame">
+        <table class="object_table key_value_table">
+          {# If an admin is deleting another user, show a warning message: #}
+          {% if not context.user.is_owner %}
+            <thead class="header_text">
+              <tr class="object_row position_after_title">
+                <td class="text_left light" colspan="2">
+                  {{ txt.deleteAccount_desc }}
+                </td>
+              </tr>
+            </thead>
+          {% endif %}
+
+          {# If the admin needs to approve deletions: #}
+          {% if context.needs_approval %}
+            <thead class="header_text">
+              <tr class="object_row position_after_title">
+                <td class="text_left light" colspan="2">
+                  {{ txt.deleteAccount_approval }}
+                </td>
+              </tr>
+            </thead>
+          {% endif %}
+
+          {% if context.user.is_owner %}
+            {# For when the user wants to delete their own account. #}
+            <thead class="header_text">
+              <tr class="object_row position_after_title">
+                <td class="text_left medium" colspan="2">
+                  {{ txt.own_profile_confirm }}
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="object_row medium">
+                <th class="kv_key {{ context.modify_error.bad_password or context.modify_error.no_password ? 'error' }}">{{ txt.password }}</th>
+                <td class="kv_value">
+                  <input type="password" name="oldpasswrd" size="20" class="input_password" />
+                </td>
+              </tr>
+              <tr class="object_row dark">
+                <th></th>
+                <td>
+                  <input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />
+                  <input type="hidden" name="u" value="{{ context.id_member }}" />
+                  <input type="hidden" name="sa" value="{{ context.menu_item_selected }}" />
+                  <button type="submit"><strong>Yes, delete my account permanently</strong></button>
+                </td>
+              </tr>
+            </tbody>
+          {% else %}
+            {# For when an admin or mod wants to delete another member's account. #}
+            <thead class="header_text">
+              <tr class="object_row position_after_title">
+                <td class="text_left medium" colspan="2">
+                  {% include 'atoms/notification.twig' with {'type': 'danger', 'content': txt.deleteAccount_warning} %}
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              {% if context.can_delete_posts %}
+                <tr class="object_row medium">
+                  <th class="kv_key">Delete posts</th>
+                  <td class="kv_value">
+                    <select name="remove_type">
+                      <option value="none">{{ txt['deleteAccount_none'] }}</option>
+                      <option value="posts">{{ txt['deleteAccount_all_posts'] }}</option>
+                      <option value="topics">{{ txt['deleteAccount_topics'] }}</option>
+                    </select>
+                    <div class="description">Note: deleting topics also causes replies in that topic to be lost.</div>
+                  </td>
+                </tr>
+              {% endif %}
+              <tr class="object_row medium">
+                <th class="kv_key">Confirm</th>
+                <td class="kv_value">
+                  <label for="delete_account">
+                    <input type="checkbox" name="deleteAccount" id="delete_account" value="1" onclick="if (this.checked) return confirm('{{ txt.deleteAccount_confirm }}');" />
+                    {{ txt.deleteAccount_member }}
+                  </label>
+                </td>
+              </tr>
+              <tr class="object_row dark">
+                <th></th>
+                <td>
+                  <input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />
+                  <input type="hidden" name="u" value="{{ context.id_member }}" />
+                  <input type="hidden" name="sa" value="{{ context.menu_item_selected }}" />
+                  <button type="submit"><strong>Yes, delete this user's account permanently</strong></button>
+                </td>
+              </tr>
+            </tbody>
+          {% endif %}
+        </table>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,52 @@
+@charset "utf-8";
+
+// A list of topics inside a subforum.
+.topic_list {
+
+}
+.topic_list .topic_pages {
+  font-size: cssvar(--gw-font-small);
+  display: inline-block;
+}
+.topic_list .topic_pages > span {
+  // This is the ... ellipsis. Override the inline style.
+  font-weight: normal !important;
+}
+.topic_list .topic_row.is_sticky .subject .link::before {
+  content: 'Sticky: ';
+}
+.topic_list .last_post .last_post_time {
+  padding-bottom: 2px;
+}
+.topic_list .last_post .last_post_time strong {
+  font-weight: normal;
+}
+.topic_list .last_post .last_post_icon {
+  text-decoration: none;
+}
+.topic_list .last_post .last_post_icon img {
+  vertical-align: text-bottom;
+}
+
+// A forum's post index table (e.g. inside the General Forum).
+.message_table_list {
+  td, th {
+    &.icon {
+      width: 64px !important;
+    }
+    &.subject {
+    }
+    &.starter {
+      width: 150px;
+    }
+    &.replies {
+      width: 85px;
+    }
+    &.views {
+      width: 85px;
+    }
+    &.last_post {
+      width: 210px;
+    }
+  }
+}

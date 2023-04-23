@@ -1,0 +1,47 @@
+@charset "utf-8";
+
+/*! GW2006 <https://github.com/msikma/gw2006> */
+
+$legacy-mode: false !default;
+
+@import 'vendor/reset_1.7.3.scss';
+
+@import 'lib/variables';
+@import 'lib/base';
+@import 'lib/util';
+
+@import 'lib/components/attachments.scss';
+@import 'lib/components/auto_suggestions.scss';
+@import 'lib/components/blue_component.scss';
+@import 'lib/components/button_strip.scss';
+@import 'lib/components/charts.scss';
+@import 'lib/components/component_grid.scss';
+@import 'lib/components/list_form.scss';
+@import 'lib/components/dropmenu.scss';
+@import 'lib/components/editor.scss';
+@import 'lib/components/footer.scss';
+@import 'lib/components/forum_hierarchy.scss';
+@import 'lib/components/header.scss';
+@import 'lib/components/kv_table.scss';
+@import 'lib/components/linktree.scss';
+@import 'lib/components/member_list.scss';
+@import 'lib/components/member_strip.scss';
+@import 'lib/components/notification_component.scss';
+@import 'lib/components/page_section.scss';
+@import 'lib/components/pips.scss';
+@import 'lib/components/post_text.scss';
+@import 'lib/components/posticons.scss';
+@import 'lib/components/source_table.scss';
+@import 'lib/components/stats_component.scss';
+
+@import 'lib/objects/object_form.scss';
+@import 'lib/objects/object_list.scss';
+@import 'lib/objects/object_table.scss';
+@import 'lib/objects/forum_list.scss';
+@import 'lib/objects/post_item.scss';
+@import 'lib/objects/topic_list.scss';
+
+@import 'lib/pages/new_post.scss';
+@import 'lib/pages/search_form.scss';
+@import 'lib/pages/stats.scss';
+@import 'lib/pages/user_profile.scss';

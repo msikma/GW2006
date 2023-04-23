@@ -1,0 +1,15 @@
+{% set location = location|default('top') %}
+<div class="page_links_container location_{{ location }}">
+  <div class="page_links blue_component">
+    <div class="links_section blue_component_negative">
+      <div class="link_item">{{ name }}</div>
+    </div>
+    <div class="links_section blue_component_light">
+      {% for a in 1..26 %}
+        {% set letter = get_letter(a)|lower %}
+        {% set link = base ~ ';start=' ~ letter ~ '#letter' ~ letter %}
+        {% include 'components/forum_page_link.twig' with {'link': link, 'number': letter, 'value': letter|upper, 'is_current': letter == current} %}
+      {% endfor %}
+    </div>
+  </div>
+</div>

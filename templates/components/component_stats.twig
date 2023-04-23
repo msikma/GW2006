@@ -1,0 +1,110 @@
+{# Only show birthdays that are actually today, not just soon. #}
+{% set birthday_show_only_today = true %}
+
+<div class="blue_component object_list stats_component spaced_top">
+  <div class="blue_component_header">
+    <h3 class="blue_component_title">{{ txt.online_users }}</h3>
+  </div>
+  <div class="object_list_frame">
+    <table class="object_table">
+      <tbody>
+        <tr class="object_row">
+          <td class="medium header">
+            <img src="{{ images_url }}/__gwnew/ui_icons/stats_online.gif" width="30" height="30" class="pixel" />
+          </td>
+          <td class="light sections">
+            {% if context.show_who %}
+              <div class="section">
+                <a href="{{ scripturl }}?action=who">
+                  {{- comma_format(context.num_guests) }} {{ context.num_guests == 1 ? txt.guest : txt.guests }}, 
+                  {{ comma_format(context.num_users_online) }} {{ context.num_users_online == 1 ? txt.user : txt.users }}
+                  ({{ context.num_users_hidden }} {{ txt.hidden }})
+                </a>
+              </div>
+            {% endif %}
+            <div class="section small">
+              <div class="subsection active_last">
+                {{ txt.users_active|format(modSettings.lastActive) }}:
+              </div>
+              <div class="subsection active_list member_list">
+                {%- apply spaceless %}
+                  {% for member in context.users_online %}
+                    <span class="member active_member">
+                      <a href="{{ member.href }}" class="{{ get_username_pip_class(member.group, member.id, true) }}">{{ member.username }}</a>
+                    </span>
+                  {% endfor %}
+                {% endapply -%}
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="blue_component_header">
+    <h3 class="blue_component_title">{{ txt.calendar_today }}</h3>
+  </div>
+  <div class="object_list_frame">
+    <table class="object_table">
+      <tbody>
+        <tr class="object_row">
+          <td class="medium header">
+            <img src="{{ images_url }}/__gwnew/ui_icons/stats_calendar.gif" width="20" height="22" class="pixel" />
+          </td>
+          <td class="light sections">
+            <div class="birthdays member_list small section">
+              <div>Birthdays:</div>
+              <div class="subsection">
+                {%- apply spaceless %}
+                  {% for member in context.calendar_birthdays %}
+                    {% if birthday_show_only_today and member.is_today %}
+                      <span class="birthday_member member {{ member.is_today ? 'today' : 'not_today' }}">
+                        {# Note: we're adding _group ourselves. See lib/events.php. #}
+                        <a href="{{ scripturl }}?action=profile;u={{ member.id }}" class="{{ get_username_pip_class(member._group, member.id, true) }}">
+                          <span class="name">{{ member.name }}</span>
+                          {% if member.age %}
+                            ({{ member.age }})
+                          {% endif %}
+                        </a>
+                      </span>
+                    {% endif %}
+                  {% endfor %}
+                {% endapply -%}
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="blue_component_header">
+    <h3 class="blue_component_title">{{ txt.forum_stats }}</h3>
+  </div>
+  <div class="object_list_frame">
+    <table class="object_table">
+      <tbody>
+        <tr class="object_row">
+          <td class="medium header">
+            <img src="{{ images_url }}/__gwnew/ui_icons/stats_info.gif" width="30" height="30" class="pixel" />
+          </td>
+          <td class="light">
+            <div class="forum_stats_wrapper small">
+              <div class="item type_a">
+                <div>{{ txt.latest_post }}: <span class="quoted">{{ context.latest_post.link|raw }}</span> ({{ context.latest_post.time|raw }})</div>
+                <div><a href="{{ scripturl }}?action=stats">{{ txt.more_stats }}</a></div>
+              </div>
+              <div class="item type_b">
+                <div>{{ txt.total_topics }}: <span class="value">{{ stats.total_topics }}</span></div>
+                <div>{{ txt.total_posts }}: <span class="value">{{ stats.total_posts }}</span></div>
+              </div>
+              <div class="item type_b">
+                <div>{{ txt.total_members }}: <span class="value"><a href="{{ scripturl }}?action=mlist">{{ stats.total_members }}</a></span></div>
+                <div>{{ txt.latest_member }}: <span class="value">{{ stats.latest_member.link|raw }}</span></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

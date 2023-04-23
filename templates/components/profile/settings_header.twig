@@ -1,0 +1,18 @@
+{% if context['page_desc'] or context['profile_prehtml'] %}
+  <thead>
+    {% if context['page_desc'] %}
+    <tr class="object_row">
+      <td class="text_left light" colspan="4">
+        <p>{{ context['page_desc'] }}</p>
+      </td>
+    </tr>
+    {% endif %}
+    {% if context['profile_prehtml'] %}
+      <tr class="object_row">
+        <td class="text_left light" colspan="4">
+          <p>{{ context['page_desc'] }}</p>
+        </td>
+      </tr>
+    {% endif %}
+  </thead>
+{% endif %}

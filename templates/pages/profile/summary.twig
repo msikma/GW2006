@@ -1,0 +1,154 @@
+{% set show_admin_rows = true %}
+
+{% set summary_rows = [
+  {
+    test: context.user.is_owner or context.user.is_admin,
+    key: txt.username,
+    value: context.member.name,
+  },
+  {
+    test: modSettings.titlesEnable and context.member.title,
+    key: txt.custom_title,
+    value: context.member.title,
+  },
+  {
+    test: not context.disabled_fields.posts,
+    key: txt.profile_posts,
+    value: context.member.posts ~ ' (' ~ context.member.posts_per_day ~ ' ' ~ txt.posts_per_day ~ ')'
+  },
+  {
+    key: 'Group',
+    value: context.member.group|default('Member'),
+  },
+  {
+    key: txt.date_registered,
+    value: context.member.registered,
+  },
+  {
+    key: txt.lastLoggedIn,
+    value: context.member.last_login,
+  },
+  {
+    key: txt.local_time,
+    value: context.member.local_time,
+  },
+] %}
+
+{% if modSettings.karmaMode == '1' %}
+  {% set summary_rows = summary_rows|merge([
+    {
+      key: 'Karma',
+      value: context.member.karma.good - context.member.karma.bad,
+    }
+  ]) %}
+{% endif %}
+
+{% if modSettings.karmaMode == '2' %}
+  {% set summary_rows = summary_rows|merge([
+    {
+      key: 'Karma',
+      value: context.member.karma.good ~ '/-' ~ context.member.karma.bad,
+    },
+  ]) %}
+{% endif %}
+
+{% set contact_rows = [] %}
+
+{% for service in [
+  {'name': 'icq', 'text': 'ICQ'},
+  {'name': 'msn', 'text': 'MSN'},
+  {'name': 'aim', 'text': 'AIM'},
+  {'name': 'yim', 'text': 'YIM'}
+] %}
+  {% set service_data = context.member[service.name] %}
+  {% set contact_rows = contact_rows|merge([{
+    display: service_data.href,
+    key: service.text,
+    value: service_data.link_text,
+  }]) %}
+{% endfor %}
+
+{# Add our custom social media fields. #}
+{% for service in context.gw_custom_fields %}
+  {% if service._custom_field_type == 'social_media' %}
+    {% set service_info = context.member.options[service.field] %}
+    {% set contact_rows = contact_rows|merge([{
+      display: service_info,
+      key: service.name,
+      value: service.is_link ? '<a href="' ~ service_info ~ '" rel="nofollow">' ~ service_info ~ '</a>' : service_info,
+    }]) %}
+  {% endif %}
+{% endfor %}
+
+{% set contact_rows = contact_rows|merge([{
+  test: context.member.show_email == 'yes' or context.member.show_email == 'yes_permission_override',
+  key: txt.email,
+  value_true: '<a href="' ~ scripturl ~ '?action=emailuser;sa=email;uid=' ~ context.member.id ~ '">' ~ context.member.email ~ '</a>',
+  value_false: '<em>Hidden</em>',
+}]) %}
+
+{% set contact_rows = contact_rows|merge([{
+  display: context.member.website.url != '' and not context.disabled_fields.website,
+  key: txt.website,
+  value: '<a href="' ~ context.member.website.url ~ '" rel="nofollow">' ~ context.member.website.title ~ '</a>',
+}]) %}
+
+{% set additional_rows = [
+  {
+    test: not context.disabled_fields.gender and context.member.gender.name,
+    key: txt.gender,
+    value: context.member.gender.name,
+  },
+  {
+    test: true,
+    key: txt.age,
+    value: context.member.age ~ (context.member.today_is_birthday ? ' <img src="' ~ images_url ~ '/__gwnew/ui_icons/profile_birthday.gif" class="pixel" width="81" height="26" />' : '')
+  },
+  {
+    test: not context.disabled_fields.location and context.member.location,
+    key: txt.location,
+    value: context.member.location,
+  },
+  {
+    value: '<a href="' ~ scripturl ~ '?action=profile;area=showposts;u=' ~ context.id_member ~ '" class="text_icon_row"><img src="' ~ images_url ~'/__gwnew/ui_icons/view_user_posts.gif" width="20" height="20" class="pixel" />Show the last posts of this person.</a>',
+  },
+  {
+    value: '<a href="' ~ scripturl ~ '?action=profile;area=statistics;u=' ~ context.id_member ~ '" class="text_icon_row"><img src="' ~ images_url ~'/__gwnew/ui_icons/view_user_statistics.png" width="20" height="20" class="pixel" />Show general statistics for this member.</a>',
+  },
+] %}
+
+{% set admin_rows = [
+  {
+    key: 'IP address',
+    value: '<a href="' ~ scripturl ~ '?action=profile;area=tracking;sa=ip;searchip=' ~ context.member.ip ~ ';u=' ~ context.member.id ~ '">' ~ context.member.ip ~ '</a>',
+  },
+  {
+    key: 'Hostname',
+    value: context.member.hostname,
+  },
+  {
+    display: context.activate_message,
+    value: '<a href="' ~ scripturl ~ '?action=profile;save;area=activateaccount;u=' ~ context.id_member ~ ';' ~ context.session_var ~ '=' ~ context.session_id ~ '">' ~ context.activate_message|default('Activate account') ~ ' - ' ~ context.activate_link_text ~ '</a>',
+  },
+  {
+    display: txt.member.bans,
+    value: txt.user_banned_by_following ~ '<ul>' ~ context.member.bans|default([{explanation: 'a'}, {explanation: 'b'}])|map(m => "<li>#{m.explanation}</li>")|join('') ~ '</ul>',
+  },
+] %}
+
+<div class="user_profile component_grid">
+  <div class="grid_item profile_info">
+    {% include 'components/component_key_value.twig' with {title: txt.summary, rows: summary_rows} %}
+    {% include 'components/component_key_value.twig' with {title: 'Contact information', rows: contact_rows} %}
+    {% include 'components/component_key_value.twig' with {title: 'Additional information', rows: additional_rows} %}
+    {% if context.member.signature %}
+      {% include 'components/component_article.twig' with {title: context.member.username ~ "'s signature", content: context.member.signature} %}
+    {% endif %}
+    {% if context.can_see_ip and show_admin_rows %}
+      {% include 'components/component_key_value.twig' with {title: 'Moderator information', rows: admin_rows} %}
+    {% endif %}
+  </div>
+  <div class="grid_item profile_preview">
+    {% include 'components/component_profile_preview.twig' with {member: context.member} %}
+  </div>
+</div>

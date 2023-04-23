@@ -1,0 +1,50 @@
+{% set form_tag %}
+	<form action="{{ scripturl }}?action=admin;area=regcenter" method="post" accept-charset="{{ context.character_set }}">
+{% endset %}
+
+{% set form_content %}
+	{% if context.warning %}
+		<p class="error">{{ context.warning }}</p>
+  {% endif %}
+  <div id="registration_agreement">
+    <div class="content">
+    </div>
+  </div>
+  <div class="agreement">
+    <textarea cols="70" rows="20" name="agreement" id="agreement">{{ context.agreement }}</textarea>
+  </div>
+  <p class="information">
+    <span>{{ context.agreement_info }}</span>
+  </p>
+  <div class="righttext">
+    {% if not context.force_gdpr %}
+      <label for="minor_edit">
+        <input type="checkbox" value="" id="minor_edit" name="minor_edit" tabindex="{{ context.tabindex }}" class="input_check" />
+        {{ txt['admin_agreement_minor_edit'] }}
+      </label>
+    {% endif %}
+  </div>
+{% endset %}
+
+{% set form_footer %}
+  <input type="submit" value="{{ txt['save'] }}" tabindex="{{ context.tabindex }}" class="button_submit" onclick="return resetAgreementConfirm()" />
+  <input type="hidden" name="agree_lang" value="{{ context.current_agreement }}" />
+  <input type="hidden" name="sa" value="agreement" />
+  <input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />
+  <script>
+    function resetAgreementConfirm()
+    {
+      if (document.getElementById("minor_edit").checked)
+        return true;
+      else if (document.getElementById('agreement').value != '{{ context.agreement|e('js') }}')
+        return confirm('{{ txt['reset_agreement_desc']|e('js') }}');
+    }
+  </script>
+{% endset %}
+
+{% include 'components/component_list_form.twig' with {
+  'title': txt.registration_agreement,
+  'form_tag': form_tag,
+  'form_content': form_content,
+  'form_footer': form_footer
+} %}

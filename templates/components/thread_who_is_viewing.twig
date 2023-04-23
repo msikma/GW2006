@@ -1,0 +1,28 @@
+<div class="blue_component object_list who_is_viewing">
+  <div class="blue_component_header">
+    <h3 class="blue_component_title">
+      Currently active: {{ context.view_members|length }} {{ context.view_members|length == 1 ? txt.who_member|lower : txt.members|lower }}
+      {% if context.view_num_guests %}
+        {{ txt.who_and|lower }}
+        {{ context.view_num_guests }} {{ context.view_num_guests == 1 ? txt.guest|lower : txt.guests|lower }}
+      {% endif %}
+      {{ txt.who_viewing_topic|trim('.') }}
+    </h3>
+  </div>
+  <div class="blue_component_section blue_component_primary blue_component_light">
+    <div class="section small">
+      {% if context.view_members|length %}
+        {%- apply spaceless %}
+          {% for member in context.view_members %}
+            <span class="viewing_member member">
+              {# TODO: pass on member.group_name which isn't present here. #}
+              <a href="{{ scripturl }}?action=profile;u={{ member.id }}" class="{{ get_username_pip_class(member.group, member.id, true) }}">{{ member.username }}</a>
+            </span>
+          {% endfor %}
+        {% endapply -%}
+      {% else %}
+        0 members
+      {% endif %}
+    </div>
+  </div>
+</div>

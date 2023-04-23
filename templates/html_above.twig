@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="{{ context.character_set }}">
-  <title>{{ context.page_title_html_safe }}</title>
+  <title>{{ page_title|default(context.page_title_html_safe) }}</title>
 	<meta name="description" content="{{ context.page_title_html_safe }}" />
 
   {% if context.meta_keywords is not empty %}
@@ -17,10 +17,14 @@
     <link rel="canonical" href="{{ context.canonical_url }}" />
   {% endif %}
 
-  <link rel="stylesheet" type="text/css" href="{{ theme_url }}/css/reset-1.7.3.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ images_url }}/__gwnew/favicon/foget-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ images_url }}/__gwnew/favicon/foget-16x16.png">
   <link rel="stylesheet" type="text/css" href="{{ theme_url }}/css/legacy.css">
   <link rel="stylesheet" type="text/css" href="{{ theme_url }}/css/index.css">
-  
+  {% include './head/style_pips.twig' %}
+  <script src="{{ theme_url }}/scripts/decorate.js"></script>
+  <script src="{{ default_theme_url }}/scripts/sha1.js"></script>
+  {% include './auxiliary/script_gw_header.twig' %}
   {% include './auxiliary/script_header.twig' %}
 
 	<link rel="help" href="{{ scripturl }}?action=help" />

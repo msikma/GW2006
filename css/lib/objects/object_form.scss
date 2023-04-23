@@ -1,0 +1,66 @@
+@charset "utf-8";
+
+// Styles for form sections.
+.object_form {
+  input[type="text"] {
+  }
+  input[type="checkbox"],
+  input[type="radio"] {
+    margin: 3px 3px 3px 4px;
+  }
+
+  // An input row is used to have multiple connected form items in a <td>.
+  .form_input_row {
+    display: flex;
+
+    &.full_width {
+      input[type="text"] {
+        width: 100%;
+        min-width: unset;
+      }
+      > .input_item_main {
+        flex: 1 0;
+      }
+    }
+
+    > .input_item:not(:last-child),
+    > .input_item_main:not(:last-child) {
+      padding-right: 6px;
+    }
+    > .input_item_main {
+      flex: 0 0;
+    }
+
+    .help {
+      line-height: 22px;
+      display: inline-block;
+
+      img {
+        vertical-align: middle;
+        margin-top: -2px;
+      }
+    }
+  }
+
+  // A generic form item; might be a <p> with text, or a <div> containing a form field.
+  .form_row {
+    margin: 16px 0;
+
+    &:first-child {
+      margin-top: 0;
+    }
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .form_subrow {
+      margin: 4px 0;
+    }
+  }
+
+  // Description for a form item.
+  .input_description {
+    font-size: cssvar(--gw-font-small);
+    padding-top: cssvar(--gw-cell-medium);
+  }
+}

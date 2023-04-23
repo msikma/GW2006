@@ -1,0 +1,22 @@
+{% set form_tag_start = form_tag %}
+{% set form_tag_end = form_tag is not defined ? '' : '</form>' %}
+
+<div class="list_form">
+  <div class="object_list">
+    <div class="blue_component">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">{{ title }}</h3>
+      </div>
+      {{ form_tag_start|raw }}
+      <div class="blue_component_medium blue_component_section blue_component_primary">
+        <div class="form_content">
+          {{ form_content|raw }}
+        </div>
+      </div>
+      <div class="blue_component_dark blue_component_section">
+        {{ form_footer|raw }}
+      </div>
+      {{ form_tag_end|raw }}
+    </div>
+  </div>
+</div>

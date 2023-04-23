@@ -1,0 +1,81 @@
+<form action="{{ scripturl }}?action=profile;area=notification;save" method="post" accept-charset="{{ context['character_set'] }}" id="notify_options">
+  
+
+
+  <div class="object_form search_form type_simple object_list">
+    <div class="blue_component">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">
+          {{ txt['profile'] }}
+        </h3>
+      </div>
+      <div class="blue_component_medium blue_component_section blue_component_primary">
+        <div class="form_content">
+          <p class="form_row">{{ txt['notification_info'] }}</p>
+          <input type="hidden" name="default_options[auto_notify]" value="0" />
+
+          <div class="form_row">
+            {% if modSettings['allow_disableAnnounce'] %}
+              <div>
+                <input type="hidden" name="notify_announcements" value="0" />
+                <label for="notify_announcements">
+                  <input type="checkbox" id="notify_announcements" name="notify_announcements" {{ context['member']['notify_announcements'] ? 'checked="checked"' }} class="input_check" />
+                  {{ txt['notify_important_email'] }}
+                </label>
+              </div>
+            {% endif %}
+
+            <div>
+              <label for="auto_notify">
+                <input type="checkbox" id="auto_notify" name="default_options[auto_notify]" value="1" {{ context['member']['options']['auto_notify'] ? 'checked="checked"' }} class="input_check" />
+                {{ txt['auto_notify'] }}
+              </label>
+            </div>
+
+            {% if modSettings['disallow_sendBody'] is empty %}
+              <div>
+                <input type="hidden" name="notify_send_body" value="0" />
+                <label for="notify_send_body">
+                  <input type="checkbox" id="notify_send_body" name="notify_send_body" {{ context['member']['notify_send_body'] ? 'checked="checked"' }} class="input_check" />
+                  {{ txt['notify_send_body'] }}
+                </label>
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="form_row">
+            <div class="form_subrow">
+              <label for="notify_regularity">{{ txt['notify_regularity'] }}:</label>
+              <select name="notify_regularity" id="notify_regularity">
+                <option value="0" {{ context['member']['notify_regularity'] == 0 ? 'selected="selected"' }}>{{ txt['notify_regularity_instant'] }}</option>
+                <option value="1" {{ context['member']['notify_regularity'] == 1 ? 'selected="selected"' }}>{{ txt['notify_regularity_first_only'] }}</option>
+                <option value="2" {{ context['member']['notify_regularity'] == 2 ? 'selected="selected"' }}>{{ txt['notify_regularity_daily'] }}</option>
+                <option value="3" {{ context['member']['notify_regularity'] == 3 ? 'selected="selected"' }}>{{ txt['notify_regularity_weekly'] }}</option>
+              </select>
+            </div>
+
+            <div class="form_subrow">
+              <label for="notify_types">{{ txt['notify_send_types'] }}:</label>
+              <select name="notify_types" id="notify_types">
+                <option value="1" {{ context['member']['notify_types'] == 1 ? 'selected="selected"' }}>{{ txt['notify_send_type_everything'] }}</option>
+                <option value="2" {{ context['member']['notify_types'] == 2 ? 'selected="selected"' }}>{{ txt['notify_send_type_everything_own'] }}</option>
+                <option value="3" {{ context['member']['notify_types'] == 3 ? 'selected="selected"' }}>{{ txt['notify_send_type_only_replies'] }}</option>
+                <option value="4" {{ context['member']['notify_types'] == 4 ? 'selected="selected"' }}>{{ txt['notify_send_type_nothing'] }}</option>
+              </select>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      <div class="blue_component_dark blue_component_section">
+        <input id="notify_submit" type="submit" value="{{ txt['notify_save'] }}" class="button_submit floatright" />
+        <input type="hidden" name="{{ context['session_var'] }}" value="{{ context['session_id'] }}" />
+        <input type="hidden" name="u" value="{{ context['id_member'] }}" />
+        <input type="hidden" name="sa" value="{{ context['menu_item_selected'] }}" />
+      </div>
+    </div>
+  </div>
+</form>
+
+{% include 'pages/objects/generic_list.twig' with {cur_list: context.topic_notification_list, list_id: 'topic_notification_list'} %}
+{% include 'pages/objects/generic_list.twig' with {cur_list: context.board_notification_list, list_id: 'board_notification_list'} %}

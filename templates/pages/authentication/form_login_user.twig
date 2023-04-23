@@ -1,0 +1,109 @@
+
+<form action="{{ scripturl }}?action=login2" method="post" accept-charset="{{ context['character_set'] }}" name="frmLogin" id="frmLogin">
+  <input type="hidden" name="admin_hash_pass" value="" />
+  <input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />
+
+  {% if context._guest_warning %}
+    {% set content %}
+      {{ context.kick_message ?: txt.only_members_can_access }}
+      <br />
+      {{ txt.login_below }}
+      <a href="{{ scripturl }}?action=register">{{ txt.register_an_account }}</a>
+      {{ txt.login_with_forum|format(context.forum_name_html_safe) }}
+    {% endset %}
+    {% include 'atoms/notification.twig' with {'type': 'danger', 'content': content} %}
+  {% endif %}
+
+  {% if context._maintenance_mode %}
+    {% set content %}
+      <h1>{{ context.title }}</h1>
+      {{ context.description|raw }}
+    {% endset %}
+    {% include 'atoms/notification.twig' with {'type': 'danger', 'content': content} %}
+  {% endif %}
+
+  {% if context.login_errors %}
+    {% set reasons %}
+      <ul class="reasons" id="login_error_list">
+        {{ context.login_errors|map(m => "<li>#{m}</li>")|join('\n')|raw }}
+      </ul>
+    {% endset %}
+    {% include 'atoms/notification.twig' with {'type': 'danger', 'content': 'Could not log in:', 'content_sub': reasons} %}
+  {% endif %}
+
+  {% if context.description %}
+    {% include 'atoms/notification.twig' with {'type': 'info', 'content': context.description} %}
+  {% endif %}
+  
+  <div class="object_form login_form type_simple object_list">
+    <div class="blue_component">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">{{ txt.login }}</h3>
+      </div>
+      <div class="blue_component_medium object_list_frame">
+        <table class="object_table">
+          <tbody>
+
+            <tr class="object_row">
+              <th class="minimal">
+                {{ txt.username }}
+              </th>
+              <td>
+                <input type="text" name="user" size="20" value="{{ context.default_username }}" />
+              </td>
+            </tr>
+
+            <tr class="object_row">
+              <th class="minimal">
+                {{ txt.password }}
+              </th>
+              <td>
+                <input type="password" name="passwrd" size="20" value="{{ context.default_password }}" />
+              </td>
+            </tr>
+
+            <tr class="object_row">
+              <th class="minimal">
+                {{ txt.mins_logged_in }}
+              </th>
+              <td>
+                <input type="text" name="cookielength" size="4" maxlength="4" value="{{ modSettings.cookieTime }}" {{ context.never_expire ? 'disabled="disabled"' }} />
+              </td>
+            </tr>
+
+            <tr class="object_row">
+              <th class="minimal">
+                {{ txt.always_logged_in }}
+              </th>
+              <td>
+                <input type="checkbox" name="cookieneverexp" {{ context.never_expire ? 'checked="checked"' }} onclick="this.form.cookielength.disabled = this.checked;" />
+              </td>
+            </tr>
+
+            {% if context.login_show_undelete %}
+              <tr class="object_row">
+                <th class="minimal">
+                  {{ txt.undelete_account }}
+                </th>
+                <td>
+                  <input type="checkbox" name="undelete" />
+                  It's never too late. Check this and we'll restore your previously deleted account.
+                </td>
+              </tr>
+            {% endif %}
+
+            <tr class="object_row dark">
+              <th class="minimal"></th>
+              <td>
+                <button><strong>{{ txt.login }}</strong></button>
+                <a href="{{ scripturl }}?action=reminder">{{ txt.forgot_your_password }}</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</form>
+{# TODO: escape #}
+<script>decorateComponent('loginForm', '{{ context.username }}', '{{ context.session_id }}')</script>

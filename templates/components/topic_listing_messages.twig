@@ -1,224 +1,154 @@
+{# The status icon indicates information about the topic (e.g. if it's very popular or not). #}
+{% set display_status_icon = false %}
+{# The message icon is added by the user when creating the topic. #}
+{% set display_message_icon = true %}
+{# Whether we display a bar separating regular topics from sticky topics. #}
+{% set display_sticky_bar = display_sticky_bar ?? true %}
+{# Amount of icon columns to display (should be at least 1!) #}
+{% set icon_cols_amount = (display_status_icon ? 1 : 0) + (display_message_icon ? 1 : 0) %}
 
-<div class="tborder topic_table" id="messageindex">
-	<table class="table_grid" cellspacing="0">
-		<thead>
-			<tr class="catbg">
-				{% if context.topics is not empty %}
-					<th scope="col" class="first_th" width="8%" colspan="2">&nbsp;</th>
-					<th scope="col" class="lefttext">
-            <a href="{{ scripturl }}?board={{ context.current_board }}.{{ context.start }};sort=subject{{ context.sort_by == 'subject' and context.sort_direction == 'up' ? ';desc' : ''}}">
-              {{ txt.subject }}
-              {% if context.sort_by == 'subject' %}
-                <img src="{{ images_url }}/sort_{{ context.sort_direction }}.gif" alt="" />
+{% set index_title = index_title|default('Threads in Forum: ' ~ context.name) %}
+ 
+{% set show_quick_mod = context.can_quick_mod and options.display_quick_mod %}
+{% set show_unapproved_messages_notification = context.unapproved_posts_message is not empty %}
+
+<div class="topic_list object_list">
+  <div class="blue_component">
+    <div class="topic_list_inner">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">{{ index_title }}</h3>
+      </div>
+      <div class="object_list_frame">
+        <table class="message_table_list object_table {{ show_quick_mod ? 'show_quick_mod' : 'hide_quick_mod' }}">
+          <thead>
+            <tr class="object_row">
+              <th scope="col" class="icon empty" colspan="{{ icon_cols_amount }}"></th>
+              <th scope="col" class="text_left subject {{ context.sort_by == 'subject' ? 'active_sort_' ~ context.sort_direction }}">
+                <a href="{{ scripturl }}?board={{ context.current_board }}.{{ context.start }};sort=subject{{ context.sort_by == 'subject' and context.sort_direction == 'up' ? ';desc' : ''}}">
+                  {{ txt.subject }}
+                </a>
+              </th>
+              <th scope="col" class="text_center starter {{ context.sort_by == 'starter' ? 'active_sort_' ~ context.sort_direction }}">
+                <a href="{{ scripturl }}?board={{ context.current_board }}.{{ context.start }};sort=starter{{ context.sort_by == 'starter' and context.sort_direction == 'up' ? ';desc' : ''}}">
+                  {{ txt.started_by }}
+                </a>
+              </th>
+              <th scope="col" class="text_center replies {{ context.sort_by == 'replies' ? 'active_sort_' ~ context.sort_direction }}">
+                <a href="{{ scripturl }}?board={{ context.current_board }}.{{ context.start }};sort=replies{{ context.sort_by == 'replies' and context.sort_direction == 'up' ? ';desc' : ''}}">
+                  {{ txt.replies }}
+                </a>
+              </th>
+              <th scope="col" class="text_center views {{ context.sort_by == 'views' ? 'active_sort_' ~ context.sort_direction }}">
+                <a href="{{ scripturl }}?board={{ context.current_board }}.{{ context.start }};sort=views{{ context.sort_by == 'views' and context.sort_direction == 'up' ? ';desc' : ''}}">
+                  {{ txt.views }}
+                </a>
+              </th>
+              <th scope="col" class="text_left last_post {{ context.sort_by == 'last_post' ? 'active_sort_' ~ context.sort_direction }}">
+                <a href="{{ scripturl }}?board={{ context.current_board }}.{{ context.start }};sort=last_post{{ context.sort_by == 'last_post' and context.sort_direction == 'up' ? ';desc' : ''}}">
+                  {{ txt.last_post }}
+                </a>
+              </th>
+              <th scope="col" class="text_center quick_mod minimal no_padding">
+                <label class="checkbox_wrapper">
+                  <input type="checkbox" onclick="invertAll(this, this.form, 'topics[]');" class="input_check" />
+                </label>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if context.topics is not empty %}
+              {% if show_unapproved_messages_notification %}
+                {# TODO #}
+                <tr class="text_center status_message">
+                  <td colspan="999">
+                    <span class="alert">!</span> {{ context.unapproved_posts_message }}
+                  </td>
+                </tr>
               {% endif %}
-            </a>
-            /
-            <a href="{{ scripturl }}?board={{ context.current_board }}.{{ context.start }};sort=starter{{ context.sort_by == 'starter' and context.sort_direction == 'up' ? ';desc' : ''}}">
-              {{ txt.started_by }}
-              {% if context.sort_by == 'starter' %}
-                <img src="{{ images_url }}/sort_{{ context.sort_direction }}.gif" alt="" />
+
+              {% for topic in context.topics %}
+                {% set topic_classes = [] %}
+                {% if not context.can_approve_posts and not topic.approved %}
+                  {% set topic_classes = topic_classes|merge(['is_unapproved']) %}
+                {% endif %}
+                {% if topic.new and user.is_logged %}
+                  {% set topic_classes = topic_classes|merge(['is_new']) %}
+                {% endif %}
+                {% if topic.is_sticky %}
+                  {% set topic_classes = topic_classes|merge(['is_sticky']) %}
+                {% endif %}
+                {% if topic.is_locked %}
+                  {% set topic_classes = topic_classes|merge(['is_locked']) %}
+                {% endif %}
+
+                {# If we've just printed all the sticky topics and reached the first non-sticky, print a bar. #}
+                {% if last_topic_row_was_sticky and not topic.is_sticky and display_sticky_bar %}
+                  <tr class="object_row bar status_message empty_separator">
+                    <td colspan="999"></td>
+                  </tr>
+                {% endif %}
+                {% set last_topic_row_was_sticky = topic.is_sticky %}
+
+                <tr class="object_row topic_row light {{ topic_classes|join(' ') }}">
+                  {% if display_status_icon %}
+                    <td class="icon minimal">
+                      <img src="{{ images_url }}/topic/{{ topic.class }}.gif" class="pixel" alt="" />
+                    </td>
+                  {% endif %}
+                  {% if display_message_icon %}
+                    <td class="icon minimal">
+                      {% include 'atoms/posticon.twig' with {'icon_name': topic.first_post.icon} %}
+                    </td>
+                  {% endif %}
+                  <td class="subject">
+                    <div id="topic_{{ topic.first_post.id }}">
+                      <span class="link">{{ topic.first_post.link|raw }}</span>
+                      <span class="topic_pages" id="pages{{ topic.first_post.id }}">{{ topic.pages|raw }}</span>
+                    </div>
+                  </td>
+                  <td class="starter text_center">
+                    {# TODO: how does this factor in with name changes? #}
+                    {{ topic.first_post.member.link|raw }}
+                  </td>
+                  <td class="stats replies text_center">
+                    {{ topic.replies }}
+                  </td>
+                  <td class="stats views text_center">
+                    {{ topic.views }}
+                  </td>
+                  <td class="last_post small no_wrap">
+                    <div class="last_post_time">
+                      {{ topic.last_post.time|raw }}
+                    </div>
+                    <div>
+                      <a href="{{ topic.last_post.href|raw }}" class="last_post_icon">
+                        <img src="{{ images_url }}/__gwnew/ui_icons/last_post.gif" alt="{{ txt.last_post }}" title="{{ txt.last_post }}" class="pixel" />
+                      </a>
+                      {{ txt.by }} {{ topic.last_post.member.link|raw }}
+                    </div>
+                  </td>
+                  <td class="text_center quick_mod minimal no_padding">
+                    <label class="checkbox_wrapper">
+                      <input type="checkbox" name="topics[]" value="{{ topic.id }}" class="input_check" />
+                    </label>
+                  </td>
+                </tr>
+              {% endfor %}
+
+              {% if show_quick_mod and context.topics is not empty %}
+                {% include 'components/topic_listing_mod_row.twig' %}
               {% endif %}
-            </a>
-          </th>
-					<th scope="col" width="14%">
-            <a href="{{ scripturl }}?board={{ context.current_board }}.{{ context.start }};sort=replies{{ context.sort_by == 'replies' and context.sort_direction == 'up' ? ';desc' : ''}}">
-              {{ txt.replies }}
-              {% if context.sort_by == 'replies' %}
-                <img src="{{ images_url }}/sort_{{ context.sort_direction }}.gif" alt="" />
-              {% endif %}
-            </a>
-            /
-            <a href="{{ scripturl }}?board={{ context.current_board }}.{{ context.start }};sort=views{{ context.sort_by == 'views' and context.sort_direction == 'up' ? ';desc' : ''}}">
-              {{ txt.views }}
-              {% if context.sort_by == 'views' %}
-                <img src="{{ images_url }}/sort_{{ context.sort_direction }}.gif" alt="" />
-              {% endif %}
-            </a>
-          </th>
-          <th scope="col" class="lefttext {{ context.can_quick_mod is empty ? 'last_th' : '' }}" width="22%">
-            <a href="{{ scripturl }}?board={{ context.current_board }}.{{ context.start }};sort=last_post{{ context.sort_by == 'last_post' and context.sort_direction == 'up' ? ';desc' : ''}}">
-              {{ txt.last_post }}
-              {% if context.sort_by == 'last_post' %}
-                <img src="{{ images_url }}/sort_{{ context.sort_direction }}.gif" alt="" />
-              {% endif %}
-            </a>
-          </th>
-					{% if context.can_quick_mod and options.display_quick_mod == 1 %}
-            <th scope="col" class="last_th" width="24">
-              <input type="checkbox" onclick="invertAll(this, this.form, 'topics[]');" class="input_check" />
-            </th>
-          {% elseif context.can_quick_mod %}
-            <th class="last_th" width="4%">&nbsp;</th>
-          {% endif %}
-        {% else %}
-          <th scope="col" class="first_th" width="8%">&nbsp;</th>
-          <th colspan="3"><strong>{{ txt.msg_alert_none }}</strong></th>
-          <th scope="col" class="last_th" width="8%">&nbsp;</th>
-        {% endif %}
-      </tr>
-    </thead>
-    <tbody>
-      {% if display_who_viewing is not empty %}
-        <tr class="windowbg2 whos_viewing">
-          <td colspan="{{ context.can_quick_mod is not empty ? 6 : 5 }}" class="smalltext">
-            {% if display_who_viewing == 1 %}
-              {{ context.view_members|length }}
-              {{ context.view_members|length == 1 ? txt.who_member : txt.members }}
             {% else %}
-              {% if context.view_members_list is empty %}
-                0 {{ txt.members }}
-              {% else %}
-                {{ context.view_members_list|join(', ') }}{{ context.view_num_hidden is empty or context.can_moderate_forum ? '' : ' (+ ' ~ context.view_num_hidden ~ ' ' ~ txt.hidden ~ ')' }}
-              {% endif %}
+              {# Displayed when there's no posts. #}
+              <tr class="object_row">
+                <td colspan="999" class="text_center status_message light">
+                  <strong>{{ txt.msg_alert_none }}</strong>
+                </td>
+              </tr>
             {% endif %}
-            {{ txt.who_and }}{{ context.view_num_guests }} {{ context.view_num_guests == 1 ? txt.guest : txt.guests }} {{ txt.who_viewing_board }}
-          </td>
-        </tr>
-      {% endif %}
-
-      {% if context.unapproved_posts_message is not empty %}
-        <tr class="windowbg2">
-          <td colspan="{{ context.can_quick_mod is not empty ? 6 : 5 }}">
-            <span class="alert">!</span> {{ context.unapproved_posts_message }}
-          </td>
-        </tr>
-      {% endif %}
-
-      {% for topic in context.topics %}
-        {% if context.can_approve_posts and topic.unapproved_posts %}
-            {% set color_class = not topic.approved ? 'approvetbg' : 'approvebg' %}
-        {% elseif topic.is_sticky and topic.is_locked %}
-            {% set color_class = 'stickybg locked_sticky' %}
-        {% elseif topic.is_sticky %}
-            {% set color_class = 'stickybg' %}
-        {% elseif topic.is_locked %}
-            {% set color_class = 'lockedbg' %}
-        {% else %}
-            {% set color_class = 'windowbg' %}
-        {% endif %}
-
-        {% set alternate_class = color_class ~ '2' %}
-
-        <tr>
-          <td class="icon1 {{ color_class }}">
-            <img src="{{ images_url }}/topic/{{ topic.class }}.gif" alt="" />
-          </td>
-          <td class="icon2 {{ color_class }}">
-            <img src="{{ topic.first_post.icon_url }}" alt="" />
-          </td>
-          <td class="subject {{ alternate_class }}">
-            <div {% if topic.quick_mod.modify %}id="topic_{{ topic.first_post.id }}" onmouseout="mouse_on_div = 0;" onmouseover="mouse_on_div = 1;" ondblclick="modify_topic('{{ topic.id }}', '{{ topic.first_post.id }}');"{% endif %}>
-              {{ topic.is_sticky ? '<strong>' : '' }}<span id="msg_{{ topic.first_post.id }}">{{ topic.first_post.link|raw }}{% if not context.can_approve_posts and not topic.approved %}&nbsp;<em>({{ txt.awaiting_approval }})</em>{% endif %}</span>{{ topic.is_sticky ? '</strong>' : '' }}
-              {% if topic.new and user.is_logged %}
-                <a href="{{ topic.new_href }}" id="newicon{{ topic.first_post.id }}"><img src="{{ lang_images_url }}/new.gif" alt="{{ txt.new }}" /></a>
-              {% endif %}
-              <p>
-                {{ txt.started_by }} {{ topic.first_post.member.link|raw }}
-                <small id="pages{{ topic.first_post.id }}">{{ topic.pages|raw }}</small>
-              </p>
-						</div>
-					</td>
-					<td class="stats {{ color_class }}">
-            {{ topic.replies }} {{ txt.replies }}
-            <br />
-            {{ topic.views }} {{ txt.views }}
-          </td>
-					<td class="lastpost {{ alternate_class }}">
-						<a href="{{ topic.last_post.href|raw }}">
-              <img src="{{ images_url }}/icons/last_post.gif" alt="{{ txt.last_post }}" title="{{ txt.last_post }}" />
-            </a>
-						{{ topic.last_post.time }}
-            <br />
-						{{ txt.by }} {{ topic.last_post.member.link|raw }}
-					</td>
-
-          {% if context.can_quick_mod %}
-            <td class="moderation {{ color_class }}" align="center">
-              {% if options.display_quick_mod == 1 %}
-                <input type="checkbox" name="topics[]" value="{{ topic.id }}" class="input_check" />
-              {% else %}
-                {% if topic.quick_mod.remove %}
-                  <a href="{{ script_url }}?action=quickmod;board={{ current_board }}.{{ start }};actions[{{ topic.id }}]=remove;{{ session_var }}={{ session_id }}" onclick="return confirm('{{ txt.quickmod_confirm }}');">
-                    <img src="{{ images_url }}/icons/quick_remove.gif" width="16" alt="{{ txt.remove_topic }}" title="{{ txt.remove_topic }}" />
-                  </a>
-                {% endif %}
-
-                {% if topic.quick_mod.lock %}
-                  <a href="{{ script_url }}?action=quickmod;board={{ current_board }}.{{ start }};actions[{{ topic.id }}]=lock;{{ session_var }}={{ session_id }}" onclick="return confirm('{{ txt.quickmod_confirm }}');">
-                    <img src="{{ images_url }}/icons/quick_lock.gif" width="16" alt="{{ txt.set_lock }}" title="{{ txt.set_lock }}" />
-                  </a>
-                {% endif %}
-
-                {% if topic.quick_mod.lock or topic.quick_mod.remove %}
-                  <br />
-                {% endif %}
-
-                {% if topic.quick_mod.sticky %}
-                  <a href="{{ scripturl }}?action=quickmod;board={{ current_board }}.{{ start }};actions[{{ topic.id }}]=sticky;{{ session_var }}={{ session_id }}" onclick="return confirm('{{ txt.quickmod_confirm }}');">
-                    <img src="{{ images_url }}/icons/quick_sticky.gif" width="16" alt="{{ txt.set_sticky }}" title="{{ txt.set_sticky }}" />
-                  </a>
-                {% endif %}
-                {% if topic.quick_mod.move %}
-                  <a href="{{ scripturl }}?action=movetopic;board={{ current_board }}.{{ start }};topic={{ topic.id }}.0">
-                    <img src="{{ images_url }}/icons/quick_move.gif" width="16" alt="{{ txt.move_topic }}" title="{{ txt.move_topic }}" />
-                  </a>
-                {% endif %}
-              {% endif %}
-            </td>
-          {% endif %}
-
-        </tr>
-      {% endfor %}
-
-      {% if context.can_quick_mod and options.display_quick_mod == 1 and context.topics is not empty %}
-				<tr class="titlebg">
-					<td colspan="6" align="right">
-						<select class="qaction" name="qaction"{{ context.can_move ? ' onchange="this.form.moveItTo.disabled = (this.options[this.selectedIndex].value != \'move\');"' : '' }}>
-							<option value="">--------</option>
-              {% if context.can_remove %}
-                <option value="remove">{{ txt.quick_mod_remove }}</option>
-              {% endif %}
-              {% if context.can_lock %}
-                <option value="lock">{{ txt.quick_mod_lock }}</option>
-              {% endif %}
-              {% if context.can_sticky %}
-                <option value="sticky">{{ txt.quick_mod_sticky }}</option>
-              {% endif %}
-              {% if context.can_move %}
-                <option value="move">{{ txt.quick_mod_move }}</option>
-              {% endif %}
-              {% if context.can_merge %}
-                <option value="merge">{{ txt.quick_mod_merge }}</option>
-              {% endif %}
-              {% if context.can_restore %}
-                <option value="restore">{{ txt.quick_mod_restore }}</option>
-              {% endif %}
-              {% if context.can_approve %}
-                <option value="approve">{{ txt.quick_mod_approve }}</option>
-              {% endif %}
-              {% if context.user.is_logged %}
-                <option value="markread">{{ txt.quick_mod_markread }}</option>
-              {% endif %}
-						</select>
-
-            {% if context.can_move %}
-              <select class="qaction" id="moveItTo" name="move_to" {% if not context.can_move %}disabled="disabled"{% endif %}>
-                {% for category in context.move_to_boards %}
-                  <optgroup label="{{ category.name }}">
-                    {% for board in category.boards %}
-                      <option value="{{ board.id }}" {% if board.selected %}selected="selected"{% endif %}>
-                        {% if board.child_level > 0 %}{% for i in range(0, board.child_level - 1) %}=={% endfor %}=&gt;{% endif %} {{ board.name }}
-                      </option>
-                    {% endfor %}
-                  </optgroup>
-                {% endfor %}
-              </select>
-            {% endif %}
-
-            <input type="submit" value="{{ txt.quick_mod_go }}" onclick="return document.forms.quickModForm.qaction.value != '' && confirm('{{ txt.quickmod_confirm }}');" class="button_submit qaction" />
-					</td>
-				</tr>
-      {% endif %}
-    </tbody>
-  </table>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>

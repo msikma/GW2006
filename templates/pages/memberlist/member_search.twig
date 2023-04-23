@@ -1,0 +1,58 @@
+{% include 'components/component_submenu.twig' with {menu_sections: [
+  {
+    text: txt.view_all_members,
+    url: scripturl ~ '?action=mlist;sa=all'
+  },
+  {
+    text: txt.mlist_search,
+    url: scripturl ~ '?action=mlist;sa=search'
+  },
+]} %}
+
+<form action="{{ scripturl }}?action=mlist;sa=search" method="post" accept-charset="{{ context['character_set'] }}">
+  <div class="object_form search_form type_simple object_list">
+    <div class="blue_component">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">{{ txt['mlist_search'] }}</h3>
+      </div>
+      <div class="blue_component_medium object_list_frame">
+        <table class="object_table">
+          <tbody>
+
+            <tr class="object_row">
+              <th class="minimal">{{ txt.search_for }}</th>
+              <td>
+                <input type="text" name="search" value="{{ context['old_search'] }}" size="35" />
+              </td>
+            </tr>
+
+            <tr class="object_row">
+              <th class="minimal">Options</th>
+              <td>
+                <ul class="object_row_list">
+                  {% for id, title in context['search_fields'] %}
+                    <li>
+                      <label for="fields-{{ id }}">
+                        {% set is_checked = id in context['search_defaults'] %}
+                        <input type="checkbox" name="fields[]" id="fields-{{ id }}" value="{{ id }}" {{ is_checked ? 'checked="checked"' }} class="input_check" />
+                        {{ title }}
+                      </label>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </td>
+            </tr>
+            
+            <tr class="object_row dark">
+              <th class="minimal"></th>
+              <td>
+                <button type="submit" name="submit"><strong>{{ txt['search'] }}</strong></button>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</form>

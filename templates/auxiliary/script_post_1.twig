@@ -1,0 +1,79 @@
+<script>
+
+{% if browser.is_firefox %}
+	function reActivate()
+	{
+		document.forms.postmodify.message.readOnly = false;
+	}
+	window.addEventListener("pageshow", reActivate, false);
+{% endif %}
+
+var icon_urls = {
+	{% for icon in icons %}
+		'{{ icon.value }}': '{{ icon.url }}'{% if not icon.is_last %},{% endif %}
+	{% endfor %}
+};
+
+function showimage()
+{
+	document.images.icons.src = icon_urls[document.forms.postmodify.icon.options[document.forms.postmodify.icon.selectedIndex].value];
+}
+
+{% if context.make_poll %}
+
+  function pollOptions()
+  {
+    var expire_time = document.getElementById('poll_expire');
+
+    if (isEmptyText(expire_time) || expire_time.value == 0)
+    {
+      document.forms.postmodify.poll_hide[2].disabled = true;
+      if (document.forms.postmodify.poll_hide[2].checked)
+        document.forms.postmodify.poll_hide[1].checked = true;
+    }
+    else
+      document.forms.postmodify.poll_hide[2].disabled = false;
+  }
+
+  var pollOptionNum = 0, pollTabIndex;
+  function addPollOption()
+  {
+    if (pollOptionNum == 0)
+    {
+      for (var i = 0, n = document.forms.postmodify.elements.length; i < n; i++)
+        if (document.forms.postmodify.elements[i].id.substr(0, 8) == 'options-')
+        {
+          pollOptionNum++;
+          pollTabIndex = document.forms.postmodify.elements[i].tabIndex;
+        }
+    }
+    pollOptionNum++
+
+    setOuterHTML(document.getElementById('pollMoreOptions'), '<li><label for="options-' + pollOptionNum + '">Option ' + pollOptionNum + '<' + '/label>: <input type="text" name="options[' + pollOptionNum + ']" id="options-' + pollOptionNum + '" value="" size="80" maxlength="255" tabindex="' + pollTabIndex + '" /><' + '/li><li id="pollMoreOptions"><' + '/li>');
+  }
+{% endif %}
+
+{% if context.make_event %}
+
+  var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+  function generateDays()
+  {
+    var dayElement = document.getElementById('day'), yearElement = document.getElementById('year'), monthElement = document.getElementById('month');
+    var days, selected = dayElement.selectedIndex;
+
+    monthLength[1] = yearElement.options[yearElement.selectedIndex].value % 4 == 0 ? 29 : 28;
+    days = monthLength[monthElement.value - 1];
+
+    while (dayElement.options.length)
+      dayElement.options[0] = null;
+
+    for (i = 1; i <= days; i++)
+      dayElement.options[dayElement.length] = new Option(i, i);
+
+    if (selected < days)
+      dayElement.selectedIndex = selected;
+  }
+
+{% endif %}
+</script>

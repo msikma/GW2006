@@ -1,0 +1,234 @@
+{# Anchor to the current message, and separately an anchor if it's the first message the viewer hasn't read. #}
+{% if message.id != context.first_message %}
+  <a id="msg{{ message.id }}"></a>
+  {% if message.first_new %}
+    <a id="new"></a>
+  {% endif %}
+{% endif %}
+
+{# Set the post values if this is a regular thread post. #}
+{% if is_thread_post %}
+  {% set subject = context.subject %}
+  {% set show_view_count = true %}
+  {% set show_post_n = true %}
+  {% set href = message.href %}
+  {% set message_body = message.body %}
+  {% set member_username = message.member.username %}
+  {% set member_href = member.href %}
+  {% set is_ignored = message.is_ignored %}
+  {% set show_member_info = true %}
+{% endif %}
+
+{# Set the post values if this is a series of PMs. #}
+{% if is_pm_inbox %}
+  {% set subject = message.subject %}
+  {% set show_view_count = false %}
+  {% set show_post_n = true %}
+  {% set href = null %}
+  {% set message_body = message.body %}
+  {% set member_username = message.member.username %}
+  {% set member_href = message.member.href %}
+  {% set is_ignored = message.is_ignored %}
+  {% set show_member_info = true %}
+{% endif %}
+
+{# Set the post values if this is a profile post (e.g. the "view all posts by member" page). #}
+{% if is_profile_post %}
+  {% set _board_link = '<a href="' ~ scripturl ~ '?board=' ~ message.board.id ~ '.0">' ~ message.board.name ~ '</a>' %}
+  {% set _topic_link = '<a href="' ~ scripturl ~ '?topic=' ~ message.topic ~ '.' ~ message.start ~ '#' ~ message.start ~ '">' ~ message.subject ~ '</a>' %}
+  {% set subject = '<span class="subject_links">' ~ _board_link ~ _topic_link ~ '</span>' %}
+  {% set show_view_count = false %}
+  {% set show_post_n = false %}
+  {% set href = scripturl ~ '?topic=' ~ message.topic ~ '.' ~ message.start ~ '#' ~ message.start %}
+  {% set message_body = message.body %}
+  {% set member_username = member.username %}
+  {% set member_href = member.href %}
+  {% set is_ignored = message.is_ignored %}
+  {% set show_member_info = true %}
+{% endif %}
+
+{# Sets the post values if this is a thread history post (e.g. the post list underneath the reply form). #}
+{% if is_reply_history_post %}
+  {% set subject = context.subject %}
+  {% set show_view_count = false %}
+  {% set show_post_n = false %}
+  {% set href = message.href %}
+  {% set message_body = message.message %}
+  {% set member_username = message.poster %}
+  {% set member_href = member.href %}
+  {% set is_ignored = message.is_ignored %}
+  {% set show_member_info = false %}
+{% endif %}
+
+{# Sets the post values if this is a post from the recent posts page. #}  
+{% if is_generic_post %}
+  {% set _board_link = '<a href="' ~ scripturl ~ '?board=' ~ message.board.id ~ '.0">' ~ message.board.name ~ '</a>' %}
+  {% set _topic_link = '<a href="' ~ scripturl ~ '?topic=' ~ message.topic ~ '.' ~ message.start ~ '#' ~ message.start ~ '">' ~ message.subject ~ '</a>' %}
+  {% set subject = '<span class="subject_links">' ~ _board_link ~ _topic_link ~ '</span>' %}
+  {% set show_view_count = false %}
+  {% set show_post_n = true %}
+  {% set href = message.href %}
+  {% set message_body = message.message %}
+  {% set member_username = message.poster.name %}
+  {% set member_href = member.psoter.href %}
+  {% set is_ignored = message.is_ignored %}
+  {% set show_member_info = false %}
+{% endif %}
+
+{# Sets the post values if this is post preview (i.e. not a real post). #}
+{% if is_post_preview %}
+  {% set message_body = message %}
+  {% set member_username = context.user.username %}
+  {% set member_href = member.href %}
+  {% set show_member_info = false %}
+{% endif %}
+
+{# Set the member variable to the one in the post, unless it's explicitly set. #}
+{% if not member %}
+  {% set member = message.member %}
+{% endif %}
+
+{# Manually set signatures since we don't always have the context.signature_enabled variable. #}
+{% set signature_enabled = context.signature_enabled or modSettings.signature_settings|slice(0, 1) %}
+
+{# If this is a search result, add the "relevance" button to the title. #}
+{% if is_search_result %}
+  {% set title_buttons = []|merge([{
+    text: 'Relevance: ' ~ topic.relevance,
+    static: true
+  }])|merge(title_buttons) %}
+  {% set _board_link = '<a href="' ~ scripturl ~ '?board=' ~ topic.board.id ~ '.0">' ~ topic.board.name ~ '</a>' %}
+  {% set _topic_link = '<a href="' ~ scripturl ~ '?topic=' ~ topic.id ~ '.' ~ message.start ~ '#' ~ message.start ~ '">' ~ message.subject ~ '</a>' %}
+  {% set subject = '<span class="subject_links">' ~ _board_link ~ _topic_link ~ '</span>' %}
+  {% set show_view_count = false %}
+  {% set show_post_n = false %}
+  {% set href = scripturl ~ '?topic=' ~ topic.id ~ '.' ~ message.start ~ '#' ~ message.start %}
+{% endif %}
+
+{# Post body. #}
+<div class="post_item object_list {{ message.id ? 'post_id_' ~ message.id }} {{ is_ignored ? 'is_ignored' }} {{ not message.approved ? 'not_approved' }} member_group_{{ member.group|lower|default('member') }} {{ member.id ? 'member_id_' ~ member.id }} {{ is_reply_history_post ? 'is_reply_history_post' }} {{ is_thread_post ? 'is_thread_post' }} {{ is_profile_post ? 'is_profile_post' }}">
+  <div class="blue_component">
+    <div class="post_item_inner">
+      {% if show_header %}
+        {# If this is the first post in the thread, display the thread title and additional information. #}
+        <div class="blue_component_header">
+          <h3 class="blue_component_title title">
+            {% if first_post_header %}
+              {{ first_post_header|raw }}
+            {% else %}
+              <span class="subject">{{ txt['topic'] }}: <span class="content">{{ subject|raw }}</span></span>
+              {% if show_view_count %}
+                <span class="view_count">({{ txt['read'] }} {{ context['num_views'] }} {{ txt['times'] }})</span>
+              {% endif %}
+            {% endif %}
+          </h3>
+          <div class="blue_component_buttons">
+            {% include 'components/forum_button_strip.twig' with {'buttons': title_buttons} %}
+          </div>
+        </div>
+      {% endif %}
+
+      {# Top row: contains the poster's username, post date, and action (edit, etc.) buttons. #}
+      <div class="blue_component_section blue_component_primary blue_component_medium post_meta_top post_columns">
+        <div class="author_column">
+          <h4 class="author_name"><a href="{{ member_href }}" class="{{ get_username_pip_class(member.group, member.id) }}">{{ member_username }}</a></h4>
+        </div>
+        <div class="post_column">
+          <div class="sidebar">
+            {% include 'components/post/action_buttons_top.twig' %}
+          </div>
+          <div class="main">
+            <div class="date">
+              {% set date_content %}
+                {% if show_post_n %}<span>#{{ message.counter + 1 }}</span>{% endif %} {{ message.time|raw }}
+              {% endset %}
+              {% if href %}
+                <a href="{{ href }}" rel="nofollow">{{ date_content }}</a>
+              {% else %}
+                <span>{{ date_content }}</span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {# Middle row: contains the poster's profile info and the main post content itself. #}
+      <div class="blue_component_section blue_component_primary blue_component_light post_content post_columns post_line_height">
+        <div class="author_column">
+          {% if show_member_info %}
+            {% include 'components/thread_post_member_info.twig' with {member: member} %}
+          {% endif %}
+        </div>
+        <div class="post_column">
+          {# If this is the viewer's own message and it hasn't been approved yet, remind them. #}
+          {% if not message.approved and member.id != 0 and member.id == context.user.id %}
+            {% include 'atoms/notification.twig' with {'type': 'info', 'content': txt.post_awaiting_approval} %}
+          {% endif %}
+
+          {# Actual post content. #}
+          <div class="post">
+            <div class="inner post_text" id="msg_{{ message.id }}">{{ message_body|raw }}</div>
+          </div>
+
+          {# Render any attachments the post has. #}
+          {% if message.attachment is not empty %}
+            {% include 'components/thread_post_attachments.twig' with {attachments: message.attachment} %}
+          {% endif %}
+
+          {# If the post has been edited, note the last edit date. #}
+          <div class="modified" id="modified_{{ message.id }}">
+            {% if show_modify and message.modified.name is not empty %}
+              {{ txt.last_edit }}: {{ message.modified.time|raw }} {{ txt.by }} {{ message.modified.name }}
+            {% endif %}
+          </div>
+
+          {# Include the signature. #}
+          {% if member.signature is not empty and options.show_no_signatures is empty and signature_enabled %}
+            <div class="signature" id="msg_{{ message.id }}_signature">
+              {{ member.signature|raw }}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      {# Bottom row: contains a bit of extra metadata, profile links (website, MSN, AIM, etc.) and a "report to moderator" link. #}
+      <div class="blue_component_section blue_component_blue post_meta_bottom post_columns">
+        <div class="author_column">
+          {% include 'components/thread_post_user_status.twig' with {member: member} %}
+        </div>
+        <div class="post_column">
+          <div class="sidebar">
+            <ul class="action_buttons">
+              {% if context.can_report_moderator %}
+                <li class="report">
+                  <a class="post_action_text" href="{{ scripturl }}?action=reporttm;topic={{ context.current_topic }}.{{ message.counter }};msg={{ message.id }}">
+                    {{ txt.report_to_mod }}
+                  </a>
+                </li>
+              {% endif %}
+              <li class="back_to_top">
+                {% include 'atoms/back_to_top.twig' %}
+              </li>
+            </ul>
+          </div>
+          <div class="main">
+            {% include 'components/post/action_buttons_bottom.twig' %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {# If this message is from an ignored member, hide the actual content. #}
+    {% if is_ignored %}
+      <div class="post_item_ignored">
+        <div class="ignore_notification">
+          <div class="text">This post is hidden because the user is on your ignore list.</div>
+          <div class="unhide">
+            <a href="#unhide">[Click here to unhide]</a>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    <script>decorateComponent('postItem', '{{ message.id }}');</script>
+  </div>
+</div>

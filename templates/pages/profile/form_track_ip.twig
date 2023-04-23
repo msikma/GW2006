@@ -1,0 +1,66 @@
+
+{% set ip_lookup %}
+  <input type="text" name="searchip" value="{{ context.ip }}" />
+  <input type="submit" value="{{ txt.trackIP }}" />
+{% endset %}
+
+{% set ip_lookup_rows = [
+  {
+    key: txt.enter_ip,
+    value: ip_lookup
+  }
+] %}
+
+<form action="{{ context.base_url }}" method="post" accept-charset="{{ context.character_set }}">
+  {% include 'components/component_key_value.twig' with {title: txt.trackIP, rows: ip_lookup_rows, is_wide: true} %}
+</form>
+
+{% set whois_servers_rows = [] %}
+{% for server in context.whois_servers %}
+  {% set link %}
+    <a href="{{ server.url }}" target="_blank" class="{{ context.auto_whois_server and context.auto_whois_server.name == server.name ? 'selected' }}">
+      {{ server.name }}
+    </a>
+  {% endset %}
+  {% set whois_servers_rows = whois_servers_rows|merge([{
+    key: server.name|split(' ').0,
+    value: link
+  }]) %}
+{% endfor %}
+
+{% if context.single_ip %}
+  {% include 'components/component_key_value.twig' with {title: txt.whois_title ~ ': ' ~ context.ip, rows: whois_servers_rows, is_wide: true} %}
+{% endif %}
+
+<div class="object_list">
+  <div class="blue_component">
+    <div class="blue_component_header">
+      <h3 class="blue_component_title">{{ txt.members_from_ip }}: {{ context.ip }}</h3>
+    </div>
+    <div class="object_list_frame">
+      <table class="object_table key_value_table wide_keys">
+        <thead>
+          <tr class="object_row">
+            <th class="kv_key">{{ txt.ip_address }}</th>
+            <th class="kv_value">{{ txt.display_name }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ip, memberlist in context.ips %}
+            <tr class="object_row">
+              <td class="kv_key medium">
+                <a href="{{ context.base_url }};searchip={{ ip }}">{{ ip }}</a>
+              </td>
+              <td class="kv_value light">
+                {{ memberlist|map(m => "<span>#{m}</span>")|join('\n')|raw }}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% include 'pages/objects/generic_list.twig' with {cur_list: context.track_message_list, list_id: 'track_message_list'} %}
+{% include 'pages/objects/generic_list.twig' with {cur_list: context.track_user_list, list_id: 'track_user_list'} %}

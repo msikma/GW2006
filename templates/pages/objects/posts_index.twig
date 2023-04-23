@@ -1,0 +1,219 @@
+{# This is currently not implemented yet. #}
+{% set mod_link_to_cal = false %}
+
+{# Action buttons shown at the top of the thread. #}
+{% set normal_buttons = {
+  reply: {
+    test: 'can_reply',
+    text: 'reply',
+    image: 'reply.gif',
+    lang: true,
+    url: scripturl ~ '?action=post;topic=' ~ context.current_topic ~ '.' ~ context.start ~ ';last_msg=' ~ context.topic_last_message,
+    active: true
+  },
+  add_poll: {
+    test: 'can_add_poll',
+    text: 'add_poll',
+    image: 'add_poll.gif',
+    lang: true,
+    url: scripturl ~ '?action=editpoll;add;topic=' ~ context.current_topic ~ '.' ~ context.start
+  }
+} %}
+
+{# Action buttons that are shown inside the title (topic subject) bar. #}
+{% set title_buttons = {
+  notify: {
+    test: 'can_mark_notify',
+    text: context.is_marked_notify ? 'unnotify' : 'notify',
+    image: context.is_marked_notify ? 'un' : '' ~ 'notify.gif',
+    lang: true,
+    custom: 'onclick="return confirm(\'' ~ (context.is_marked_notify ? txt.notification_disable_topic : txt.notification_enable_topic) ~ '\');"',
+    url: scripturl ~ '?action=notify;sa=' ~ (context.is_marked_notify ? 'off' : 'on') ~ ';topic=' ~ context.current_topic ~ '.' ~ context.start ~ ';' ~ context.session_var ~ '=' ~ context.session_id
+  },
+  mark_unread: {
+    test: 'can_mark_unread',
+    text: 'mark_unread',
+    image: 'markunread.gif',
+    lang: true,
+    url: scripturl ~ '?action=markasread;sa=topic;t=' ~ context.mark_unread_time ~ ';topic=' ~ context.current_topic ~ '.' ~ context.start ~ ';' ~ context.session_var ~ '=' ~ context.session_id,
+  },
+  send: {
+    test: 'can_send_topic',
+    text: 'send_topic',
+    image: 'sendtopic.gif',
+    lang: true,
+    url: scripturl ~ '?action=emailuser;sa=sendtopic;topic=' ~ context['current_topic'] ~ '.0'
+  },
+  print: {
+    static_test: context.current_action is not defined or context.current_action != 'pm',
+    text: 'print',
+    image: 'print.gif',
+    lang: true,
+    custom: 'rel="new_win nofollow"',
+    url: scripturl ~ '?action=printpage;topic=' ~ context['current_topic'] ~ '.0'
+  }
+} %}
+
+{# Action buttons related to editing polls. #}
+{% set poll_buttons = {
+  vote: {
+    test: 'allow_return_vote',
+    text: 'poll_return_vote',
+    image: 'poll_options.gif',
+    lang: true,
+    url: scripturl ~ '?topic=' ~ context['current_topic'] ~ '.' ~ context['start']
+  },
+  results: {
+    test: 'show_view_results_button',
+    text: 'poll_results',
+    image: 'poll_results.gif',
+    lang: true,
+    url: scripturl ~ '?topic=' ~ context['current_topic'] ~ '.' ~ context['start'] ~ ';viewresults'
+  },
+  change_vote: {
+    test: 'allow_change_vote',
+    text: 'poll_change_vote',
+    image: 'poll_change_vote.gif',
+    lang: true,
+    url: scripturl ~ '?action=vote;topic=' ~ context['current_topic'] ~ '.' ~ context['start'] ~ ';poll=' ~ context['poll']['id'] ~ ';' ~ context['session_var'] ~ '=' ~ context['session_id']
+  },
+  lock: {
+    test: 'allow_lock_poll',
+    text: (not context['poll']['is_locked'] ? 'poll_lock' : 'poll_unlock'),
+    image: 'poll_lock.gif',
+    lang: true,
+    url: scripturl ~ '?action=lockvoting;topic=' ~ context['current_topic'] ~ '.' ~ context['start'] ~ ';' ~ context['session_var'] ~ '=' ~ context['session_id']
+  },
+  edit: {
+    test: 'allow_edit_poll',
+    text: 'poll_edit',
+    image: 'poll_edit.gif',
+    lang: true,
+    url: scripturl ~ '?action=editpoll;topic=' ~ context['current_topic'] ~ '.' ~ context['start']
+  },
+  remove_poll: {
+    test: 'can_remove_poll',
+    text: 'poll_remove',
+    image: 'admin_remove_poll.gif',
+    lang: true,
+    custom: 'onclick="return confirm(\'' ~ txt['poll_remove_warn'] ~ '\');"',
+    url: scripturl ~ '?action=removepoll;topic=' ~ context['current_topic'] ~ '.' ~ context['start'] ~ ';' ~ context['session_var'] ~ '=' ~ context['session_id']
+  },
+} %}
+
+{# Action buttons for moderators. #}
+{% set mod_buttons = {
+  move: {
+    test: 'can_move',
+    text: 'move_topic',
+    image: 'mod_move_topic.gif',
+    lang: true,
+    url: scripturl ~ '?action=movetopic;topic=' ~ context.current_topic ~ '.0'
+  },
+  delete: {
+    test: 'can_delete',
+    text: 'remove_topic',
+    image: 'mod_delete_topic.gif',
+    lang: true,
+    custom: 'onclick="return confirm(\'' ~ txt.are_sure_remove_topic ~ '\');"',
+    url: scripturl ~ '?action=removetopic2;topic=' ~ context.current_topic ~ '.0;' ~ context.session_var ~ '=' ~ context.session_id
+  },
+  lock: {
+    test: 'can_lock',
+    text: context.is_locked is empty ? 'set_lock' : 'set_unlock',
+    image: 'mod_lock_unlock.gif',
+    lang: true,
+    url: scripturl ~ '?action=lock;topic=' ~ context.current_topic ~ '.' ~ context.start ~ ';' ~ context.session_var ~ '=' ~ context.session_id
+  },
+  sticky: {
+    test: 'can_sticky',
+    text: context.is_sticky is empty ? 'set_sticky' : 'set_nonsticky',
+    image: 'mod_sticky_unsticky.gif',
+    lang: true,
+    url: scripturl ~ '?action=sticky;topic=' ~ context.current_topic ~ '.' ~ context.start ~ ';' ~ context.session_var ~ '=' ~ context.session_id
+  },
+  merge: {
+    test: 'can_merge',
+    text: 'merge',
+    image: 'mod_merge.gif',
+    lang: true,
+    url: scripturl ~ '?action=mergetopics;board=' ~ context.current_board ~ '.0;from=' ~ context.current_topic
+  }
+} %}
+
+{% if mod_link_to_cal %}
+  {% set mod_buttons = mod_buttons|merge({
+    calendar: {
+      test: 'calendar_post',
+      text: 'calendar_link',
+      image: 'linktocal.gif',
+      lang: true,
+      url: scripturl ~ '?action=post;calendar;msg=' ~ context.topic_first_message ~ ';topic=' ~ context.current_topic ~ '.0'
+    }
+  }) %}
+{% endif %}
+
+{% if context.can_restore_topic %}
+  {% set mod_buttons = mod_buttons|merge({
+    can_restore_topic: {
+      text: 'restore_topic',
+      image: '',
+      lang: true,
+      url: scripturl ~ '?action=restoretopic;topics=' ~ context.current_topic ~ ';' ~ context.session_var ~ '=' ~ context.session_id
+    }
+  }) %}
+{% endif %}
+
+<a id="top"></a>
+
+{# Notifications at the top of the page. #}
+{% if context.report_sent %}
+  {% include 'atoms/notification.twig' with {'type': 'success', 'content': txt.report_sent} %}
+{% endif %}
+
+<a id="msg{{ context.first_message }}"></a>
+
+{% if context.first_new_message %}
+  <a id="new"></a>
+{% endif %}
+
+{# TODO #}
+{% if context.is_poll %}
+  {% include 'components/thread_poll.twig' %}
+{% endif %}
+
+{% if context.linked_calendar_events %}
+  {% include 'components/thread_calendar_events.twig' %}
+{% endif %}
+
+<div class="forum_page_section">
+  {% include 'components/forum_button_strip.twig' with {'buttons': normal_buttons, 'type': 'primary'} %}
+  {% include 'components/forum_page_links.twig' %}
+</div>
+
+{# Show the topic information - icon, subject, etc. #}
+<form action="{{ scripturl }}?action=quickmod2;topic={{ context.current_topic }}.{{ context.start }}" method="post" accept-charset="{{ context.character_set }}" name="quickModForm" id="quickModForm">
+  {# Loop that prints every post in the thread. #}
+  {% for message in context.messages %}
+    {% include 'components/thread_post.twig' with {
+      'is_pm_inbox': true,
+      'show_header': true,
+      'title_buttons': title_buttons,
+      'message': message
+    } %}
+  {% endfor %}
+</form>
+
+<a id="lastPost"></a>
+
+<div class="forum_page_section">
+  {% include 'components/forum_button_strip.twig' with {'buttons': normal_buttons, 'type': 'primary'} %}
+  {% include 'components/forum_page_links.twig' with {'location': 'bottom'} %}
+</div>
+
+{% if context.can_reply and options.display_quick_reply %}
+  {% include 'components/thread_quick_reply.twig' %}
+{% endif %}
+
+{% include 'components/thread_who_is_viewing.twig' %}
+{% include 'components/thread_moderation_buttons.twig' with {'buttons': mod_buttons} %}

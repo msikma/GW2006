@@ -1,0 +1,262 @@
+@charset "utf-8";
+
+// An "object table" is a table that contains a list of e.g. posts, subforums, etc.
+.object_table {
+  width: 100%;
+
+  .object_row {
+    .sort_col {
+      outline: 1px solid red;
+    }
+    @for $i from 1 through 10 {
+      &.indent_#{$i} .indent_target {
+        padding-left: 3ex * $i;
+      }
+    }
+
+    th,
+    td.form_row,
+    .form_text {
+      line-height: cssvar(--gw-object-table-line-height);
+      vertical-align: top;
+    }
+
+    th[title] span {
+      // FIXME: maybe not used?
+      border-bottom: 1px dotted cssvar(--gw-text-header);
+    }
+
+    // For grouped forms, this indicates a group title.
+    &.group_name {
+      font-size:cssvar(--gw-font-small);
+
+      th {
+        padding: 0cssvar(--gw-cell-medium);
+      }
+    }
+
+    td, th {
+      &.connected_left {
+        border-left: none !important;
+      }
+      &.connected_right {
+        border-right: none !important;
+      }
+      &.extra_padding {
+        padding-left: cssvar(--gw-cell-extra-padding);
+        padding-right: cssvar(--gw-cell-extra-padding);
+      }
+      &.minimal {
+        white-space: nowrap;
+        width: 0.01%;
+      }
+      &.minimal img img {
+        max-width: none;
+      }
+      &.no_wrap {
+        white-space: nowrap;
+      }
+      &.no_padding {
+        padding: 0;
+      }
+      &.image {
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+      &.status_message {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+      }
+      &.vertical_align_top {
+        vertical-align: top;
+      }
+      &.vertical_align_bottom {
+        vertical-align: bottom;
+      }
+      &.text_left {
+        text-align: left;
+      }
+      &.text_center {
+        text-align: center;
+      }
+      &.text_right {
+        text-align: right;
+      }
+
+      ul {
+        margin: 0;
+        padding: 0;
+      }
+    }
+    .checkbox_wrapper {
+      padding: cssvar(--gw-cell-medium);
+    }
+  }
+
+  thead {
+    .object_row {
+      td, th {
+        padding: cssvar(--gw-cell-medium);
+
+        a {
+          text-decoration: none;
+          color: cssvar(--gw-text-regular);
+
+          &:hover {
+            color: cssvar(--gw-text-link);
+          }
+        }
+      }
+    }
+  }
+
+  .header_text {
+    td, th {
+      border-bottom: 1px solid cssvar(--gw-inner-dark);
+    }
+  }
+}
+
+.object_table thead .object_row th.active_sort_up a::after,
+.object_table thead .object_row th.active_sort_down a::after {
+  display: inline-block;
+  background-image: url('../images/__gwnew/ui_icons/arrow_sort_up.png');
+  background-repeat: no-repeat;
+  content: '';
+  width: 12px;
+  height: 12px;
+  margin-top: -1px;
+  vertical-align: middle;
+}
+.object_table thead .object_row th.active_sort_down a::after {
+  background-image: url('../images/__gwnew/ui_icons/arrow_sort_down.png');
+}
+.object_table tbody .object_row th {
+  text-align: left;
+}
+.object_table .object_row:not(:first-child) td,
+.object_table .object_row:not(:first-child) th,
+.object_table thead + tbody .object_row:first-child td,
+.object_table thead + tbody .object_row:first-child th,
+.object_table tbody + tbody .object_row:first-child td,
+.object_table tbody + tbody .object_row:first-child th {
+  border-top: 1px solid cssvar(--gw-inner-dark);
+}
+.object_table .object_row th,
+.object_table .object_row td {
+  padding: cssvar(--gw-cell-medium);
+}
+.object_table .object_row.large th,
+.object_table .object_row.large td {
+  padding: cssvar(--gw-cell-large);
+}
+.object_table .object_row th.light,
+.object_table .object_row.light th,
+.object_table .object_row td.light,
+.object_table .object_row.light td {
+  background: cssvar(--gw-inner-light);
+}
+.object_table .object_row.blue th,
+.object_table .object_row.blue td {
+  background: cssvar(--gw-inner-blue);
+  border-top: 0;
+}
+.object_table .object_row td.medium,
+.object_table .object_row.medium td {
+  background: cssvar(--gw-inner-medium);
+}
+.object_table .object_row td.dark,
+.object_table .object_row.dark td,
+.object_table .object_row th.dark,
+.object_table .object_row.dark th {
+  background: cssvar(--gw-inner-dark);
+}
+.object_table .object_row .subline {
+  margin: 4px 0 0 2px;
+  font-size: cssvar(--gw-font-small);
+}
+.object_table .object_row td:first-child[rowspan],
+.object_table .object_row th:first-child[rowspan] {
+  border-right: 1px solid cssvar(--gw-inner-dark);
+}
+.object_table .object_row td:not(:first-child),
+.object_table .object_row th:not(:first-child) {
+  border-left: 1px solid cssvar(--gw-inner-dark);
+}
+.object_table .object_table_description {
+  border-bottom: 1px solid cssvar(--gw-inner-dark);
+}
+.object_table .object_row .sections {
+}
+.object_table .object_row .sections .section {
+}
+.object_table .object_row .sections .section .subsection {
+  padding-top: 2px;
+}
+.object_table .object_row .center {
+  text-align: center;
+}
+.object_table .object_row.object_row_attached th,
+.object_table .object_row.object_row_attached td {
+  border-top: 0;
+  padding-top: 0;
+}
+.object_table .object_row_list {
+  margin: 0;
+  padding: 0;
+}
+.object_table .list_columns {
+  column-width: 200px;
+  width: 420px;
+  gap: 20px;
+}
+.object_table .list_columns label {
+  display: block;
+}
+.object_table .object_row.small,
+.object_table .object_row .small {
+  font-size: cssvar(--gw-font-small);
+}
+.object_table .object_row .item_description {
+}
+.object_table .object_row .item_description p {
+  margin: 0;
+}
+.object_table .object_row p {
+  margin: 0;
+}
+.object_table .object_row .icon {
+  text-align: center;
+}
+.object_table .object_row .icon img {
+  vertical-align: middle;
+}
+.object_table .object_row .icon img.gw_posticon {
+  // Note: this is totally inauthentic, but it mimics the original pretty well.
+  box-shadow: 0px 1px 1.5px rgba(0, 0, 0, 0.2);
+}
+.object_table .sort_icon {
+  margin-bottom: -1px;
+}
+.object_table .object_row.empty_separator td::before {
+  content: '\00a0';
+}
+.object_table .object_row.empty_separator.thin td::before {
+  content: '';
+}
+// Hide the quick mod tools if the user doesn't have the rights.
+.object_table.hide_quick_mod .object_row .quick_mod {
+  display: none;
+}
+.object_table .online_status img {
+  display: block;
+  position: relative;
+  top: 0.5px;
+}
+
+// Errors and such. TODO: make these nicer.
+.object_table .object_row {
+  td.error {
+    background-color: #fbcacc;
+  }
+}

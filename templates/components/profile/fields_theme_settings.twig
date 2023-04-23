@@ -1,0 +1,151 @@
+{% set options = context.member.options %}
+<div class="profile_field_item profile_field_theme_settings">
+  <dt>
+    {# FIXME #}
+    <div class="profile_field_label">Theme settings</div>
+  </dt>
+  <dd class="profile_field_content">
+    <ul id="theme_settings" class="form_text">
+
+      <li>
+        <input type="hidden" name="default_options[show_board_desc]" value="0" />
+        <label for="show_board_desc">
+          <input type="checkbox" name="default_options[show_board_desc]" id="show_board_desc" value="1" {{ options.show_board_desc ? 'checked="checked"' }}>
+          {{ txt.board_desc_inside }}
+        </label>
+      </li>
+      <li>
+        <input type="hidden" name="default_options[show_children]" value="0" />
+        <label for="show_children">
+          <input type="checkbox" name="default_options[show_children]" id="show_children" value="1" {{ options.show_children ? 'checked="checked"' }}>
+          {{ txt.show_children }}
+        </label>
+      </li>
+      <li>
+        <input type="hidden" name="default_options[use_sidebar_menu]" value="0" />
+        <label for="use_sidebar_menu">
+          <input type="checkbox" name="default_options[use_sidebar_menu]" id="use_sidebar_menu" value="1" {{ options.use_sidebar_menu ? 'checked="checked"' }}>
+          {{ txt.use_sidebar_menu }}
+        </label>
+      </li>
+      <li>
+        <input type="hidden" name="default_options[show_no_avatars]" value="0" />
+        <label for="show_no_avatars">
+          <input type="checkbox" name="default_options[show_no_avatars]" id="show_no_avatars" value="1" {{ options.show_no_avatars ? 'checked="checked"' }}>
+          {{ txt.show_no_avatars }}
+        </label>
+      </li>
+      <li>
+        <input type="hidden" name="default_options[show_no_signatures]" value="0" />
+        <label for="show_no_signatures">
+          <input type="checkbox" name="default_options[show_no_signatures]" id="show_no_signatures" value="1" {{ options.show_no_signatures ? 'checked="checked"' }}>
+          {{ txt.show_no_signatures }}
+        </label>
+      </li>
+
+      {% if allow_no_censored %}
+        <li>
+          <input type="hidden" name="default_options[show_no_censored]" value="0" />
+          <label for="show_no_censored">
+            <input type="checkbox" name="default_options[show_no_censored]" id="show_no_censored" value="1" {{ options.show_no_censored ? 'checked="checked"' }} class="input_check" />
+            {{ txt.show_no_censored }}
+          </label>
+        </li>
+      {% endif %}
+
+      <li>
+        <input type="hidden" name="default_options[return_to_post]" value="0" />
+        <label for="return_to_post">
+          <input type="checkbox" name="default_options[return_to_post]" id="return_to_post" value="1" {{ options.return_to_post ? 'checked="checked"' }} class="input_check" />
+          {{ txt.return_to_post }}
+        </label>
+      </li>
+      <li>
+        <input type="hidden" name="default_options[no_new_reply_warning]" value="0" />
+        <label for="no_new_reply_warning">
+          <input type="checkbox" name="default_options[no_new_reply_warning]" id="no_new_reply_warning" value="1" {{ options.no_new_reply_warning ? 'checked="checked"' }} class="input_check" />
+          {{ txt.no_new_reply_warning }}
+        </label>
+      </li>
+
+      {% if modSettings.enable_buddylist %}
+        <li>
+          <input type="hidden" name="default_options[posts_apply_ignore_list]" value="0" />
+          <label for="posts_apply_ignore_list">
+            <input type="checkbox" name="default_options[posts_apply_ignore_list]" id="posts_apply_ignore_list" value="1" {{ options.posts_apply_ignore_list ? 'checked="checked"' }} class="input_check" />
+            {{ txt.posts_apply_ignore_list }}
+          </label>
+        </li>
+      {% endif %}
+
+      <li>
+        <input type="hidden" name="default_options[view_newest_first]" value="0" />
+        <label for="view_newest_first">
+          <input type="checkbox" name="default_options[view_newest_first]" id="view_newest_first" value="1" {{ options.view_newest_first ? 'checked="checked"' }} class="input_check" />
+          {{ txt.recent_posts_at_top }}
+        </label>
+      </li>
+
+      {% if not modSettings.disable_wysiwyg %}
+        <li>
+          <input type="hidden" name="default_options[wysiwyg_default]" value="0" />
+          <label for="wysiwyg_default">
+            <input type="checkbox" name="default_options[wysiwyg_default]" id="wysiwyg_default" value="1" {{ options.wysiwyg_default ? 'checked="checked"' }} class="input_check" />
+            {{ txt.wysiwyg_default }}
+          </label>
+        </li>
+      {% endif %}
+
+      {% if not modSettings.disableCustomPerPage %}
+        <li>
+          <label for="topics_per_page">{{ txt.topics_per_page }}</label>
+          <select name="default_options[topics_per_page]" id="topics_per_page">
+            <option value="0"{% if not options.topics_per_page %} selected="selected"{% endif %}>{{ txt.per_page_default }} ({{ modSettings.defaultMaxTopics }})</option>
+            <option value="5"{% if options.topics_per_page and options.topics_per_page == 5 %} selected="selected"{% endif %}>5</option>
+            <option value="10"{% if options.topics_per_page and options.topics_per_page == 10 %} selected="selected"{% endif %}>10</option>
+            <option value="25"{% if options.topics_per_page and options.topics_per_page == 25 %} selected="selected"{% endif %}>25</option>
+            <option value="50"{% if options.topics_per_page and options.topics_per_page == 50 %} selected="selected"{% endif %}>50</option>
+          </select>
+        </li>
+        <li>
+          <label for="messages_per_page">{{ txt.messages_per_page }}</label>
+          <select name="default_options[messages_per_page]" id="messages_per_page">
+            <option value="0"{% if not options.messages_per_page %} selected="selected"{% endif %}>{{ txt.per_page_default }} ({{ modSettings.defaultMaxMessages }})</option>
+            <option value="5"{% if options.messages_per_page and options.messages_per_page == 5 %} selected="selected"{% endif %}>5</option>
+            <option value="10"{% if options.messages_per_page and options.messages_per_page == 10 %} selected="selected"{% endif %}>10</option>
+            <option value="25"{% if options.messages_per_page and options.messages_per_page == 25 %} selected="selected"{% endif %}>25</option>
+            <option value="50"{% if options.messages_per_page and options.messages_per_page == 50 %} selected="selected"{% endif %}>50</option>
+          </select>
+        </li>
+      {% endif %}
+
+      {% if modSettings.cal_enabled %}
+        <li>
+          <label for="calendar_start_day">{{ txt.calendar_start_day }}:</label>
+          <select name="default_options[calendar_start_day]" id="calendar_start_day">
+            <option value="0"{% if not options.calendar_start_day %} selected="selected"{% endif %}>{{ txt.days[0] }}</option>
+            <option value="1"{% if options.calendar_start_day and options.calendar_start_day == 1 %} selected="selected"{% endif %}>{{ txt.days[1] }}</option>
+            <option value="6"{% if options.calendar_start_day and options.calendar_start_day == 6 %} selected="selected"{% endif %}>{{ txt.days[6] }}</option>
+          </select>
+        </li>
+      {% endif %}
+
+      <li>
+        <label for="display_quick_reply">{{ txt.display_quick_reply }}</label>
+        <select name="default_options[display_quick_reply]" id="display_quick_reply">
+          <option value="0"{% if not options.display_quick_reply %} selected="selected"{% endif %}>{{ txt.display_quick_reply1 }}</option>
+          <option value="1"{% if options.display_quick_reply and options.display_quick_reply == 1 %} selected="selected"{% endif %}>{{ txt.display_quick_reply2 }}</option>
+          <option value="2"{% if options.display_quick_reply and options.display_quick_reply == 2 %} selected="selected"{% endif %}>{{ txt.display_quick_reply3 }}</option>
+        </select>
+      </li>
+      <li>
+        <label for="display_quick_mod">{{ txt.display_quick_mod }}</label>
+        <select name="default_options[display_quick_mod]" id="display_quick_mod">
+          <option value="0"{% if not options.display_quick_mod %} selected="selected"{% endif %}>{{ txt.display_quick_mod_none }}</option>
+          <option value="1"{% if options.display_quick_mod and options.display_quick_mod == 1 %} selected="selected"{% endif %}>{{ txt.display_quick_mod_check }}</option>
+          <option value="2"{% if options.display_quick_mod and options.display_quick_mod != 1 %} selected="selected"{% endif %}>{{ txt.display_quick_mod_image }}</option>
+        </select>
+      </li>
+    </ul>
+  </dd>
+</div>

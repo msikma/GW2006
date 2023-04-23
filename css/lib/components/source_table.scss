@@ -1,0 +1,18 @@
+.source_table {
+  .source_line_number {
+    text-align: right;
+
+    &.target {
+      border: 1px solid black;
+      border-right: none;
+    }
+  }
+  .source_line {
+    white-space: nowrap;
+
+    &.target {
+      border: 1px solid black;
+      border-left: none;
+    }
+  }
+}

@@ -1,0 +1,324 @@
+{% set form_action = scripturl ~ '?action=' ~ context.destination ~ ';' ~ (context.current_board is not empty ? 'board=' ~ context.current_board : '') %}
+{% set is_reply = context.topic_last_message is defined %}
+
+{% if context.is_new_topic %}
+  {% set submit_label = 'Create new topic' %}
+{% elseif context.is_new_post %}
+  {% set submit_label = 'Post reply' %}
+{% else %}
+  {% set submit_label = context.submit_label %}
+{% endif %}
+
+{# TODO: use_smileys is true when previewing? why? #}
+
+{% if context.preview_message %}
+  {% set message_preview = context.preview_message %}
+{% endif %}
+{% if context.preview_subject %}
+  {% set subject_preview = context.preview_subject %}
+{% endif %}
+
+<form action="{{ form_action }}" method="post" accept-charset="{{ context.character_set }}" name="postmodify" id="postmodify" onsubmit="{{ context.becomes_approved ? '' : 'alert(\'' ~ txt['js_post_will_require_approval'] ~ '\');' }}submitonce(this);smc_saveEntities('postmodify', ['subject', '{{ txt.post_box_name }}', 'guestname', 'evtitle', 'question'], 'options');" enctype="multipart/form-data">
+
+  {# Include various metadata. #}
+  {% if context.make_event and (not context.event.new or not context.current_board is empty) %}
+    <input type="hidden" name="eventid" value="{{ context.event.id }}" />
+  {% endif %}
+  {% if context.current_topic is defined %}
+    <input type="hidden" name="topic" value="{{ context.current_topic }}" />
+  {% endif %}
+  {% if is_reply %}
+    {# If this is a reply, we hide the subject field (and message icon picker). #}
+    <input type="hidden" name="subject" value="{{ context.subject }}" />
+  {% endif %}
+
+  {# Include various info or error messages if they are applicable. #}
+  {% if context.post_error.messages %}
+    {% set reasons %}
+      <ul class="reasons" id="post_error_list">
+        {{ context.post_error.messages|map(m => "<li>#{m}</li>")|join('\n')|raw }}
+      </ul>
+    {% endset %}
+    {% include 'atoms/notification.twig' with {'type': 'danger', 'content': txt.error_while_submitting, 'content_sub': reasons} %}
+  {% endif %}
+  {% if not context.becomes_approved %}
+    {% include 'atoms/notification.twig' with {'type': 'warning', 'content': txt.wait_for_approval ~ '<input type="hidden" name="not_approved" value="1" />'} %}
+  {% endif %}
+  {% if context.locked %}
+    {% include 'atoms/notification.twig' with {'type': 'danger', 'content': txt.topic_locked_no_reply} %}
+  {% endif %}
+
+  {% if message_preview %}
+    <div class="post_preview">
+      {% include 'components/thread_post.twig' with {
+        'is_post_preview': true,
+        'show_header': true,
+        'first_post_header': 'Post preview',
+        'title_buttons': title_buttons,
+        'message': message_preview
+      } %}
+    </div>
+  {% endif %}
+
+  <div class="object_form new_post_form object_list">
+    <div class="blue_component">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">{{ context.page_title }}</h3>
+      </div>
+      <div class="blue_component_medium object_list_frame">
+        <table class="object_table">
+          <tbody>
+            {% if context.name and context.email %}
+              <tr class="object_row {{ context.post_error.long_name or context.post_error.no_name or context.post_error.bad_name ? 'error' : '' }}">
+                <th>{{ txt.name }}:</th>
+                <td>
+                  <input type="text" name="guestname" size="25" value="{{ context.name }}" tabindex="{{ context.tabindex + 1 }}" />
+                </td>
+              </tr>
+              {% if modSettings.guest_post_no_email is empty %}
+                <tr class="object_row {{ context.post_error.no_email or context.post_error.bad_email ? 'error' : '' }}">
+                  <th>{{ txt.email }}:</th>
+                  <td>
+                    <input type="email" name="email" size="25" value="{{ context.email }}" tabindex="{{ context.tabindex + 1 }}" />
+                  </td>
+                </tr>
+              {% endif %}
+            {% endif %}
+
+            {% if not is_reply %}
+              <tr class="object_row {{ context.post_error.no_subject ? 'error' : '' }}">
+                <th>{{ txt.subject }}:</th>
+                <td>
+                  <div class="post_subject form_input_row full_width">
+                    <div class="input_item posticon_prefix" id="posticon_prefix" data-prefix="{{ theme_url }}{{ context.posticon_basepath }}">
+                      {% include 'atoms/posticon.twig' with {'icon': context.posticon_context} %}
+                    </div>
+                    <div class="input_item_main subject_input">
+                      <input type="text" name="subject"{% if context.subject != "" %} value="{{ context.subject }}"{% endif %} tabindex="{{ context.tabindex }}" size="80" maxlength="80" />
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr class="object_row">
+                <th class="minimal">{{ txt.message_icon }}:</th>
+                <td>
+                  {% include 'components/new_post/posticons_list.twig' %}
+                </td>
+              </tr>
+            {% endif %}
+
+            <tr class="object_row">
+              <th class="minimal">{{ txt.message }}:</th>
+              <td>
+                {% include 'components/new_post/emoticons_list.twig' %}
+                <textarea class="editor" name="message" id="message" rows="12" cols="600" tabindex="2">{{ context.message|raw }}</textarea>
+                <script>decorateComponent('messageField');</script>
+              </td>
+            </tr>
+
+            {% if context.last_modified %}
+              {# Display last edit time if we're editing. #}
+              <tr class="object_row object_row_attached small">
+                <th class="minimal"></th>
+                <td>
+                  {{ txt.last_edit }}: {{ context.last_modified|raw }}
+                </td>
+              </tr>
+            {% endif %}
+
+            <tr class="object_row">
+              <th class="minimal">Options:</th>
+              <td>
+                <ul class="object_row_list list_columns post_options">
+                  {% if context.can_notify %}
+                    <li>
+                      <label>
+                        <input type="checkbox" name="notify" id="check_notify" {{ context.notify or options.auto_notify ? 'checked="checked"' : '' }} value="1" />
+                        {{ txt.notify_replies }}
+                      </label>
+                      <input type="hidden" name="notify" value="0" />
+                    </li>
+                  {% endif %}
+                  {% if context.can_lock %}
+                    <li>
+                      <label>
+                        <input type="checkbox" name="lock" id="check_lock" {{ context.locked ? 'checked="checked"' : '' }} value="1" />
+                        {{ txt.lock_topic }}
+                      </label>
+                      <input type="hidden" name="lock" value="0" />
+                    </li>
+                  {% endif %}
+                  {% if true %}
+                    <li>
+                      <label>
+                        <input type="checkbox" name="goback" id="check_back" {{ context.back_to_topic or options.return_to_post ? 'checked="checked"' : '' }} value="1" />
+                        {{ txt.back_to_topic }}
+                      </label>
+                    </li>
+                  {% endif %}
+                  {% if context.can_sticky %}
+                    <li>
+                      <label>
+                        <input type="checkbox" name="sticky" id="check_sticky" {{ context.sticky ? 'checked="checked"' : '' }} value="1" />
+                        {{ txt.sticky_after }}
+                      </label>
+                      <input type="hidden" name="sticky" value="0" />
+                    </li>
+                  {% endif %}
+                  {% if true %}
+                    <li>
+                      <label>
+                        <input type="checkbox" name="ns" id="check_smileys" {{ context.use_smileys ? 'checked="checked"' : '' }} value="NS" />
+                        {{ txt.dont_use_smileys }}
+                      </label>
+                    </li>
+                  {% endif %}
+                  {% if context.can_move %}
+                    <li>
+                      <label>
+                        <input type="checkbox" name="move" id="check_move" {{ context.move ? 'checked="checked"' : '' }} value="1" />
+                        {{ txt.move_after2 }}
+                      </label>
+                      <input type="hidden" name="move" value="0" />
+                    </li>
+                  {% endif %}
+                  {% if context.can_announce and context.is_first_post %}
+                    <li>
+                      <label>
+                        <input type="checkbox" name="announce_topic" id="check_move" {{ context.announce ? 'checked="checked"' : '' }} value="1" />
+                        {{ txt.announce_topic }}
+                      </label>
+                    </li>
+                  {% endif %}
+                  {% if context.show_approval %}
+                    <li>
+                      <label>
+                        <input type="checkbox" name="approve" id="approve" {{ context.show_approval ? 'checked="checked"' : '' }} value="2" />
+                        {{ txt.approve_this_post }}
+                      </label>
+                    </li>
+                  {% endif %}
+                </ul>
+              </td>
+            </tr>
+
+            {% if context.current_attachments or context.can_post_attachment %}
+              {# Row for both displaying current attachments and posting new ones. #}
+              <tr class="object_row">
+                <th class="minimal">{{ txt.attach }}:</th>
+                <td>
+                  {# New attachments: #}
+                  {% if context.can_post_attachment %}
+                    <button disabled="disabled">Remove</button>
+                    <input type="file" size="60" name="attachment[]" class="input_file" />
+                    <div class="subline">
+                      {% if modSettings.attachmentCheckExtensions %}
+                        {{ txt.allowed_types }}: {{ context.allowed_extensions }}<br />
+                      {% endif %}
+
+                      {% if context.attachment_restrictions %}
+                        {{ txt.attach_restrictions }} {{ context.attachment_restrictions|join(', ') }}<br />
+                      {% endif %}
+
+                      {% if not context.can_post_attachment_unapproved %}
+                        <span class="alert">{{ txt.attachment_requires_approval }}</span><br />
+                      {% endif %}
+                    </div>
+                  {% endif %}
+
+                  {# Current attachments: #}
+                  {# TODO: EDIT ATATCHMENTS: http://vesuvius.local/gw/index.php?action=post;msg=460159;topic=15472.0 #}
+                  {% if context.current_attachments is not empty %}
+                    <p>{{ txt.attached }}: (temp)</p>
+                    <input type="hidden" name="attach_del[]" value="0" />
+                    {{ txt.uncheck_unwatchd_attach }}:
+                    <ul class="object_row_list current_attachments">
+                      {% for attachment in context.current_attachments %}
+                        <li class="{{ attachment.approved is empty ? 'not_approved' : '' }}">
+                          <label>
+                            <input type="checkbox" name="attach_del[]" value="{{ attachment.id }}" {{ attachment.unchecked ? 'checked="checked"' : '' }} />
+                            {{ attachment.name }}
+                            {% if attachment.approved is empty %} ({{ txt.awaiting_approval }}){% endif %}
+                          </label>
+                        </dd>
+                      {% endfor %}
+                    </ul>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endif %}
+          
+            <tr class="object_row dark">
+              <th class="minimal"></th>
+              <td>
+                <button type="submit"><strong>{{ submit_label }}</strong></button>
+                <button type="submit" name="preview">Preview</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {#
+      {% include 'components/new_post/preview_section.twig' %}
+      #}
+
+      {# Include the poll options if we're making one. #}
+      {# TODO #}
+      {% if context.make_poll %}
+        {% include 'components/new_post/form_poll.twig' %}
+      {% endif %}
+
+
+
+
+
+<div id="post_confirm_buttons" class="righttext">
+    {# {{ control_richedit_buttons(context.post_box_name) }} #}
+    {% if context.make_event and not context.event.new %}
+        <input type="submit" name="deleteevent" value="{{ txt.event_delete }}" onclick="return confirm('{{ txt.event_delete_confirm }}');" />
+    {% endif %}
+
+    </div>
+  </div>
+</div>
+<br class="clear" />
+{% if context.topic_last_message is defined %}
+    <input type="hidden" name="last_msg" value="{{ context.topic_last_message }}" />
+{% endif %}
+
+<input type="hidden" name="additional_options" id="additional_options" value="{{ context.show_additional_options ? 1 : 0 }}" />
+<input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />
+<input type="hidden" name="seqnum" value="{{ context.form_sequence_number }}" />
+</form>
+
+<script type="text/javascript"><!-- // --><![CDATA[
+    var current_board = {{ context.current_board is empty ? 'null' : context.current_board }};
+    var make_poll = {{ context.make_poll ? 'true' : 'false' }};
+    var txt_preview_title = "{{ txt.preview_title }}";
+    var txt_preview_fetch = "{{ txt.preview_fetch }}";
+    var new_replies = new Array();
+    var reply_counter = {{ counter is empty ? 0 : counter }};
+    const post_box_name = '{{ context['post_box_name'] }}'
+    const session_var = '{{ context['session_var'] }}'
+    const posted_by = '{{ txt['posted_by'] }}'
+    const on = '{{ txt['on'] }}'
+    const user_language = '{{ context['user']['language'] }}'
+    const preview_new = '{{ txt['preview_new'] }}'
+    const ignoring_user = '{{ txt['ignoring_user'] }}'
+    const show_ignore_user_post = '{{ txt['show_ignore_user_post'] }}'
+    const show_additional_options = '{{ txt['show_additional_options'] }}'
+    const post_additionalopt = '{{ txt['post_additionalopt'] }}'
+    // call aux/script_post.twig
+</script>
+
+<div class="post_history">
+  {% for message in context.previous_posts %}
+    {% include 'components/thread_post.twig' with {
+      'is_reply_history_post': true,
+      'show_header': loop.index == 1,
+      'first_post_header': txt.topic_summary ~ ': ' ~ context.subject,
+      'message': message
+    } %}
+  {% endfor %}
+</div>

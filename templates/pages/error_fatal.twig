@@ -1,0 +1,8 @@
+{% set content %}
+  {{ context.error_message|raw }}
+  <div>
+    <a href="javascript:history.go(-1)">{{ txt.back }}</a>
+  </div>
+{% endset %}
+
+{% include 'components/component_article.twig' with {'title': context.error_title, 'content': content} %}

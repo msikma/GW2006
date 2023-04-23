@@ -1,0 +1,59 @@
+@charset "utf-8";
+
+#header {
+  #upper_section {
+    border-top: 1px solid cssvar(--gw-inner-dark);
+
+    // User information for when you're logged in.
+    .current_user_info {
+      font-size: cssvar(--gw-font-small);
+
+      ul {
+        padding: cssvar(--gw-cell-small) 0 0 0;
+        margin: 0;
+        list-style-type: disc;
+        list-style-position: inside;
+      }
+    }
+    .user_welcome p {
+      margin: 0;
+      display: inline-block;
+
+      &.username {
+        font-weight: bold;
+      }
+    }
+  }
+  #menu_section {
+    border-top: 1px solid cssvar(--gw-inner-dark);
+    display: flex;
+
+    #main_menu {
+      flex: 1 0;
+    }
+    #header_search_form_wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      #header_search_form {
+        display: flex;
+        padding-right: cssvar(--gw-cell-large);
+
+        input {
+          all: revert;
+          box-sizing: content-box;
+          line-height: 1.5rem;
+          height: calc(1.5rem - 4px);
+          padding: 0;
+
+          &[type="submit"] {
+            all: revert;
+            height: 1.5rem;
+            padding: 0 0.5ch;
+          }
+        }
+      }
+    }
+  }
+}

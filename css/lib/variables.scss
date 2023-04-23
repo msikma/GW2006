@@ -1,0 +1,102 @@
+@charset "utf-8";
+
+// List of all GW specific custom properties.
+$gw-properties: (
+  --gw-background: #A9B2CB,
+
+  --gw-outline: #0B198C,
+  --gw-inner-blue: #CED7E8,
+  --gw-inner-dark: #D1D1E1,
+  --gw-inner-medium: #DFE0EC,
+  --gw-inner-light: #EDF2F8,
+  --gw-test: #e7eaf3,
+  --gw-inner-negative: #728EBE,
+  --gw-inner-negative-active: #4f6b9b,
+  --gw-article-hr: #A9AEB7, // Horizontal ruler used mostly on text pages.
+  --gw-box-header: #dfe7ff,
+
+  --gw-header-color-a: #4b6ba6,
+  --gw-header-color-b: #879bc0,
+
+  --gw-text-regular: #000000,
+  --gw-text-link: #22229C,
+  --gw-text-hover: #FF4400,
+  --gw-text-quote: #4F6095,
+  --gw-text-header: #3D3F46,
+  --gw-text-special-header: #6B8EAE,
+  --gw-text-spoiler: #002448,
+  --gw-text-light-hover: #FFFF66,
+
+  --gw-line-chart-top: #22229C,
+  --gw-line-chart-bottom: #CED7E8,
+  --gw-stats-pie-empty: #CED7E8,
+  --gw-stats-pie-full: #22229C,
+
+  --gw-text-light: #696a7c,
+
+  --gw-header-cell-height: 1.875rem,
+  --gw-subheader-cell-height: 1.625rem,
+  --gw-font-regular: 0.8333rem, // 13.333px. Note: original font size was 10pt. This works out to 83.333% of the root 16px.
+  --gw-font-huge: 1.625rem, // 26px.
+  --gw-font-large: 1.25rem, // 20px.
+  --gw-font-small: 0.6875rem, // 11px. Note: original font size was 11px. Set to 0.75rem for 12px, 0.6875rem for 11px.
+  --gw-line-height-large: 1rem, // This might have been 1.0325rem before.
+  --gw-article-line-height: 1.2rem,
+  --gw-object-table-line-height: 1.375rem,
+
+  --gw-font-primary: '"Verdana", "Geneva", "Arial", "Helvetica Neue", sans-serif',
+  --gw-font-code: '"Menlo", "courier new", helvetica, "times new roman", serif',
+
+  --gw-content-margin: 15px,
+
+  --gw-notification-warning-color: #603b0f,
+  --gw-notification-warning-background: #ffd16f,
+  --gw-notification-warning-border: #fff9f1,
+  --gw-notification-danger-color-bold: #3c0a0d,
+  --gw-notification-danger-color: #510d11,
+  --gw-notification-danger-background: #f79799,
+  --gw-notification-danger-border: #ffdbdb,
+  --gw-notification-info-color: #16306a,
+  --gw-notification-info-background: #88bee8,
+  --gw-notification-info-border: #f6fcff,
+  --gw-notification-success-color: #1e4a1e,
+  --gw-notification-success-background: #9ded9d,
+  --gw-notification-success-border: #f4fff4,
+
+  --gw-cell-form-content: 16px,
+  --gw-cell-extra-padding: 12px,
+  --gw-cell-large: 7px,
+  --gw-cell-medium: 5px,
+  --gw-cell-small: 3px,
+
+  --gw-post-column-a: 180px, // Width of the leftmost column inside posts.
+);
+
+// Whether to use custom properties; if false, the CSS uses static properties.
+$use-custom-properties: not $legacy-mode;
+
+// cssvar function; drop-in replacement for the CSS var() custom property function.
+@function cssvar($key, $fallback: null) {
+  @if $use-custom-properties == true {
+    @if $fallback {
+      @return var(#{$key}, #{$fallback});
+    }
+    @return var(#{$key});
+  }
+  @else {
+    @return map-get($gw-properties, $key);
+  }
+};
+
+// Prints out all the gw-property values as --key: value pairs.
+@mixin enum-gw-properties() {
+  @each $key, $value in $gw-properties {
+    #{$key}: #{$value};
+  }
+};
+
+@if $use-custom-properties == true {
+  :root {
+    @include enum-gw-properties();
+  }
+}

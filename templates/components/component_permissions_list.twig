@@ -1,0 +1,38 @@
+<thead>
+  <tr class="object_row">
+    {% if item.is_board_list %}
+      <th class="text_left">{{ item.description }}</th>
+    {% else %}
+      <th class="text_left">{{ txt.showPermissions_permission|raw }}</th>
+      <th class="text_left">Code</th>
+      <th class="text_left">{{ txt.showPermissions_status|raw }}</th>
+    {% endif %}
+  </tr>
+</thead>
+<tbody>
+  {% if item.is_board_list %}
+    {% for board in item.boards %}
+      <tr class="object_row light">
+        <td><a href="{{ scripturl }}?board={{ board.id }}.0">{{ board.name }}</a></td>
+      </tr>
+    {% endfor %}
+  {% else %}
+    {% for permission in item.permissions %}
+      <tr class="object_row light {{ permission.is_denied ? 'denied' : 'not_denied' }}">
+        <td class="permission_description permission_name">
+          {{ permission.name }}
+        </td>
+        <td class="permission_name permission_id">
+          {{ permission.id }}
+        </td>
+        <td class="permission_status">
+          {% if permission.is_denied %}
+            <span class="by">{{ txt.showPermissions_denied }}: {{ permission.groups.denied|join(', ')|raw }}</span>
+          {% else %}
+            <span class="by">{{ txt.showPermissions_given }}: {{ permission.groups.allowed|join(', ')|raw }}</span>
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  {% endif %}
+</tbody>

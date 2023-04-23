@@ -1,0 +1,7 @@
+<a id="top"></a>
+
+{% for category in context.categories %}
+  {% include 'components/forum_list.twig' with {'parent': category} %}
+{% endfor %}
+
+{% include 'components/component_stats.twig' with {'stats': context.common_stats} %}

@@ -1,0 +1,19 @@
+{# Gaming World post icons should have a shadow. #}
+{% set gw_posticon = true %}
+
+{% if icon_name %}
+  {# If only an icon name was passed, find the icon object in the context array. #}
+  {% set icon = find_posticon(icon_name) %}
+{% endif %}
+
+{% set image %}
+  <img src="{{ icon.url }}" name="post_icon" class="pixel {{ gw_posticon ? 'gw_posticon' }} {{ icon.is_system ? 'type_system' }} {{ icon.is_unknown ? 'type_unknown' }} value_{{ icon.value }}" alt="{{ icon.name }}" title="{{ icon.name }}" width="{{ icon.size.0 }}" height="{{ icon.size.1 }}" />
+{% endset %}
+
+{% if no_link %}
+  {{ image }}
+{% else %}
+<a href="{{ scripturl }}?board={{ context.current_board }};icon={{ icon.value }};start=0" class="post_icon_link">
+  {{ image }}
+</a>
+{% endif %}

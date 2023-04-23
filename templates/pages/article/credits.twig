@@ -1,0 +1,46 @@
+{# The main help page. #}
+{# <http://vesuvius.local/gw/index.php?action=help> #}
+
+{% set title_credits %}
+  {{ txt.credits }}
+{% endset %}
+
+{% set content_credits %}
+  {% for section in context.credits %}
+    {% if section.pretext %}
+      <p>{{ section.pretext }}</p>
+    {% endif %}
+    {% if section.title %}
+      <h4>{{ section.title }}</h4>
+    {% endif %}
+    <dl>
+      {% for group in section.groups %}
+        {% if group.title %}
+          <dt>{{ group.title }}</dt>
+        {% endif %}
+        {% if group.members|length <= 2 %}
+          <dd>{{ group.members|join(txt.credits_and)|raw }}</dd>
+        {% else %}
+          <dd>{{ group.members|slice(0, -1)|join(', ')|raw }} {{ txt.credits_and }} {{ group.members|slice(-1).0|raw }}</dd>
+        {% endif %}
+      {% endfor %}
+    </dl>
+    {% if section.posttext %}
+      <p>{{ section.posttext }}</p>
+    {% endif %}
+  {% endfor %}
+{% endset %}
+
+{% set title_copyright %}
+  {{ txt.credits_copyright }}
+{% endset %}
+
+{% set content_copyright %}
+  <dl>
+	  <dt>Software</dt>
+    <dd>{{ context.copyrights.smf|raw }}</dd>
+  </dl>
+{% endset %}
+
+{% include 'components/component_article.twig' with {'title': title_credits, 'content': content_credits} %}
+{% include 'components/component_article.twig' with {'title': title_copyright, 'content': content_copyright} %}

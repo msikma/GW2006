@@ -1,0 +1,89 @@
+{% set action_content %}
+  <label for="show_top">Show:</label>
+  <select name="show" id="show_top">
+    {% for value, label in context.show_methods %}
+      <option value="{{ value }}" {{ value == context.show_by ? 'selected="selected"' : '' }}>{{ label }}</option>
+    {% endfor %}
+  </select>
+{% endset %}
+
+{% set actions = {
+  show: {
+    text: action_content,
+    static: true,
+    form: true,
+  }
+} %}
+
+{% set sort_direction = 'sort_direction_' ~ context.sort_direction %}
+{% set sort_base = scripturl ~ '?action=who;start=' ~ context.start ~ ';show=' ~ context.show_by %}
+
+<div class="forum_page_section">
+  todo: add pagination
+  {% include 'components/forum_page_links.twig' %}
+</div>
+
+<form action="{{ scripturl }}?action=who" method="post" id="who_is_online_filter" accept-charset="{{ context.character_set }}">
+  <div class="object_list">
+    <div class="blue_component">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">{{ txt.who_title }}</h3>
+        <div class="blue_component_buttons">
+          {% include 'components/forum_button_strip.twig' with {'buttons': actions} %}
+          <script>decorateComponent('whoFilter');</script>
+        </div>
+      </div>
+      <div class="object_list_frame">
+        <table class="object_table member_table">
+          <thead>
+            <tr class="object_row">
+              <th class="minimal"></th>
+              <th colspan="2" class="text_left {{ context.sort_by == 'user' ? 'sort_col ' ~ sort_direction : '' }}">
+                <a href="{{ sort_base }};sort=user{{ context.sort_direction != 'down' and context.sort_by == 'user' ? ';asc' : '' }}" rel="nofollow">
+                  {{ txt.who_user }}
+                </a>
+              </th>
+              <th class="extra_padding {{ context.sort_by == 'user' ? 'sort_col ' ~ sort_direction : '' }}">
+                <a href="{{ sort_base }};sort=time{{ context.sort_direction != 'down' and context.sort_by == 'time' ? ';asc' : '' }}" rel="nofollow">
+                  {{ txt.who_time }}
+                </a>
+              </th>
+              <th class="text_left">
+                {{ txt.who_action }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if not context.members %}
+              <tr class="object_row light">
+                <td class="minimal online_status">
+                  <img src="{{ images_url }}/__gwnew/spacer.png" width="17" height="17" style="" />
+                </td>
+                <td colspan="999">No members found.</td>
+              </tr>
+            {% endif %}
+            {% for member in context.members %}
+              <tr class="object_row light">
+                <td class="minimal">
+                  {% include 'atoms/member_online_status.twig' with {online: member.online, is_guest: member.is_guest} %}
+                </td>
+                <td>
+                  {% include 'atoms/member_strip.twig' with {'member': member} %}
+                </td>
+                <td class="minimal connected_left">
+                  {% if member.ip %}
+                    <a href="{{ scripturl }}?action={{ member.is_guest ? 'trackip' : 'profile;area=tracking;sa=ip;u=' ~ member.id }};searchip={{ member.ip }}">
+                      {{ member.ip }}
+                    </a>
+                  {% endif %}
+                </td>
+                <td class="extra_padding minimal">{{ member.time }}</td>
+                <td>{{ member.action|raw }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</form>

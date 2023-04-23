@@ -1,0 +1,8 @@
+{# By default we show a linktree (breadcrumbs type list of the current location) instead of just a title. #}
+{% if not use_linktree %}
+  <h1 class="forumtitle">
+    <a href="{{ scripturl }}">{{ context.forum_name }}</a>
+  </h1>
+{% else %}
+  {% include 'components/forum_linktree.twig' %}
+{% endif %}

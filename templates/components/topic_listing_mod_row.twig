@@ -1,0 +1,47 @@
+<tr class="object_row topic_row medium">
+  <td colspan="999" class="text_right">
+    <select name="qaction"{{ context.can_move ? ' onchange="this.form.moveItTo.disabled = (this.options[this.selectedIndex].value != \'move\');"' : '' }}>
+      <option value="">--------</option>
+      {% if context.can_remove %}
+        <option value="remove">{{ txt.quick_mod_remove }}</option>
+      {% endif %}
+      {% if context.can_lock %}
+        <option value="lock">{{ txt.quick_mod_lock }}</option>
+      {% endif %}
+      {% if context.can_sticky %}
+        <option value="sticky">{{ txt.quick_mod_sticky }}</option>
+      {% endif %}
+      {% if context.can_move %}
+        <option value="move">{{ txt.quick_mod_move }}</option>
+      {% endif %}
+      {% if context.can_merge %}
+        <option value="merge">{{ txt.quick_mod_merge }}</option>
+      {% endif %}
+      {% if context.can_restore %}
+        <option value="restore">{{ txt.quick_mod_restore }}</option>
+      {% endif %}
+      {% if context.can_approve %}
+        <option value="approve">{{ txt.quick_mod_approve }}</option>
+      {% endif %}
+      {% if context.user.is_logged %}
+        <option value="markread">{{ txt.quick_mod_markread }}</option>
+      {% endif %}
+    </select>
+
+    {% if context.can_move %}
+      <select id="moveItTo" name="move_to" {% if not context.can_move %}disabled="disabled"{% endif %}>
+        {% for category in context.move_to_boards %}
+          <optgroup label="{{ category.name }}">
+            {% for board in category.boards %}
+              <option value="{{ board.id }}" {% if board.selected %}selected="selected"{% endif %}>
+                {% if board.child_level > 0 %}{% for i in range(0, board.child_level - 1) %}=={% endfor %}=&gt;{% endif %} {{ board.name }}
+              </option>
+            {% endfor %}
+          </optgroup>
+        {% endfor %}
+      </select>
+    {% endif %}
+
+    <input type="submit" value="{{ txt.quick_mod_go }}" onclick="return document.forms.quickModForm.qaction.value != '' && confirm('{{ txt.quickmod_confirm }}');" class="button_submit qaction" />
+  </td>
+</tr>

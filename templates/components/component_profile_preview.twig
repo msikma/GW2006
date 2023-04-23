@@ -1,0 +1,24 @@
+<div class="blue_component post_item">
+  <div class="post_item_inner">
+    <div class="blue_component_header">
+      <h3 class="blue_component_title title">Profile preview</h3>
+    </div>
+    <div class="blue_component_section blue_component_primary post_meta_top blue_component_medium">
+      <div class="author_column">
+        <h4 class="author_name">
+          <a href="{{ member.href }}" class="{{ get_username_pip_class(member.group, member.id) }}">{{ member.username }}</a>
+        </h4>
+      </div>
+    </div>
+    <div class="blue_component_section blue_component_primary blue_component_light post_content post_columns post_line_height post_content_preview">
+      <div class="author_column">
+        {% include 'components/thread_post_member_info.twig' %}
+      </div>
+    </div>
+    <div class="blue_component_section blue_component_blue post_meta_bottom post_columns">
+      <div class="author_column">
+        {% include 'components/thread_post_user_status.twig' with {member: member} %}
+      </div>
+    </div>
+  </div>
+</div>

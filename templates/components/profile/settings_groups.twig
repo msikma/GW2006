@@ -1,0 +1,111 @@
+{# Whether to display a header above "enter your password to make changes". #}
+{% set use_password_group_row = false %}
+
+{% for group_key, group in setting_groups.groups %}
+  {% set has_group_row = false %}
+  <tbody>
+    {% for key, field in group.items %}
+      {% set field_name = field._slug %}
+      {% if field._is_custom_field %}
+        {% set field_name = 'customfield[' ~ field_name ~ ']' %}
+      {% endif %}
+      {% if not has_group_row %}
+        {% set has_group_row = true %}
+        <tr class="object_row dark group_name">
+          <th colspan="2">{{ group.name ?: group_key == '_rest' ? 'Other settings' : group_key }}</th>
+        </tr>
+      {% endif %}
+      <tr class="object_row {{ field.is_error ? 'error' }} slug_{{ field._slug }}">
+        {% if field.type == 'callback' %}
+          {# Callback types: these are from custom templates, e.g. components/profile/fields_birthdate.twig. #}
+          <th class="minimal">{{ field.label }}</th>
+          <td>
+            {{ field.content|raw }}
+            {% if field.subtext %}
+              <div class="description">{{ field.subtext|raw }}</div>
+            {% endif %}
+          </td>
+        {% else %}
+          {# All other types. #}
+          <th class="minimal">
+            {% if field.type != 'check' %}
+              <span>{{ field['label'] }}</span>
+            {% endif %}
+          </th>
+          <td>
+            {% if field.preinput %}
+              {{ field.preinput|raw }}
+            {% endif %}
+            {% if field.type == 'label' %}
+              {{ field.value }}
+            {% endif %}
+
+            {# Standard text fields. #}
+            {% if field.type in ['int', 'float', 'text', 'password'] %}
+              <input type="{{ field.type == 'password' ? 'password' : 'text' }}" name="{{ field_name }}" id="{{ key }}" size="{{ field.size|default(30) }}" value="{{ field.value|raw }}" {{ field.input_attr }} class="input_{{ field.type == 'password' ? 'password' : 'text' }}" />
+            {% endif %}
+
+            {# Checkbox/boolean fields. #}
+            {% if field.type == 'check' %}
+              <input type="hidden" name="{{ field_name }}" value="0" />
+              <ul class="object_row_list">
+                <li>
+                  <label>
+                    <input type="checkbox" name="{{ field_name }}" id="{{ key }}" {{ field['value'] ? 'checked="checked"' }} value="1" class="input_check" {{ field.input_attr }} />
+                    {{ field['label'] }}
+                  </label>
+                </li>
+              </ul>
+            {% endif %}
+
+            {# Dropdown fields. #}
+            {% if field.type == 'select' %}
+              <select name="{{ field_name }}" id="{{ key }}">
+                {% if field.options %}
+                  {% for value, name in field.options %}
+                    <option value="{{ value }}" {{ value == field['value'] ? 'selected="selected"' }}>{{ name }}</option>
+                  {% endfor %}
+                {% endif %}
+              </select>
+            {% endif %}
+
+            {% if field.subtext %}
+              <div class="description">{{ field.subtext|raw }}</div>
+            {% endif %}
+
+            {% if field.postinput %}
+              {{ field.postinput|raw }}
+            {% endif %}
+          </td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+  </tbody>
+{% endfor %}
+<tbody>
+  {# Show the password field if it's needed. #}
+  {% if context.require_password %}
+    {% set pw_error = context.modify_error.bad_password or context.modify_error.no_password %}
+    {% if use_password_group_row %}
+      <tr class="object_row dark group_name">
+        <th colspan="2">Enter your password</th>
+      </tr>
+    {% endif %}
+    <tr class="object_row {{ pw_error ? 'error' }}">
+      <th class="minimal">{{ txt.current_password }}</th>
+      <td>
+        <input type="password" name="oldpasswrd" size="20" class="input_password" />
+        <div class="description">{{ txt.required_security_reasons }}</div>
+      </td>
+    </tr>
+  {% endif %}
+
+  <tr class="object_row dark">
+    <th class="minimal"></th>
+    <td colspan="2">
+      <button type="submit">
+        {{ context.submit_button_text ? context.submit_button_text : txt.change_profile }}
+      </button>
+    </td>
+  </tr>
+</tbody>

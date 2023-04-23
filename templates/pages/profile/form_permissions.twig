@@ -1,0 +1,128 @@
+{# List of permission blocks. #}
+{% set permission_items = [
+  {
+    title: txt.showPermissions_restricted_boards,
+    description: txt.showPermissions_restricted_boards_desc,
+    boards: context.no_access_boards,
+    is_visible: context.no_access_boards|length > 0,
+    is_board_list: true,
+  },
+  {
+    title: txt.showPermissions_general,
+    permissions: context.member.permissions.general,
+    is_visible: context.member.permissions.general|length > 0,
+    if_none: txt.showPermissions_none_general,
+  }
+] %}
+
+{# Explanation at the top of the page. #}
+<div class="object_list permissions">
+  <div class="blue_component">
+    <div class="blue_component_header">
+      <h3 class="blue_component_title">{{ txt['showPermissions'] }}</h3>
+    </div>
+    <div class="object_list_frame">
+      <table class="message_table_list object_table">
+        <thead>
+          <tr class="object_row">
+            <td class="text_left light" colspan="4">
+              {% if context.member.has_all_permissions %}
+                {{ txt.showPermissions_all|raw }}
+              {% else %}
+                {{ txt.showPermissions_help|raw }}
+              {% endif %}
+            </td>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+</div>
+
+{# Restricted access and general permissions list. #}
+{% if not context.member.has_all_permissions %}
+  {% for item in permission_items %}
+    {% if (item.is_visible) or (item.if_none is defined) %}
+      <div class="object_list permissions">
+        <div class="blue_component">
+          <div class="blue_component_header">
+            <h3 class="blue_component_title">{{ item.title }}</h3>
+          </div>
+          <div class="object_list_frame">
+            <table class="message_table_list object_table">
+              {% if not item.is_visible and item.if_none is defined %}
+                <tbody>
+                  <tr class="object_row light">
+                    <td>{{ item.if_none }}</td>
+                  </tr>
+                </tbody>
+              {% else %}
+                {% include 'components/component_permissions_list.twig' with {item: item} %}
+              {% endif %}
+            </table>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{#
+
+#}
+
+{# Board-specific permissions list. #}
+
+{% set action_content %}
+  <label for="show_board">Board:</label>
+  <select name="board" id="show_board">
+    <option value="0" {{ context.board == 0 ? 'selected="selected"' : '' }}>{{ txt.showPermissions_global }}</option>
+    {% for board in context.boards %}
+      a
+      <option value="{{ board.id }}" {{ board.selected ? 'selected="selected"' : '' }}>{{ board.name }} ({{ board.profile_name }})</option>
+    {% endfor %}
+  </select>
+{% endset %}
+
+{% set actions = {
+  show: {
+    text: action_content,
+    static: true,
+    form: true,
+  }
+} %}
+{#
+
+  {
+    title: txt.showPermissions_general,
+    permissions: context.member.permissions.general,
+    is_visible: context.member.permissions.general|length > 0,
+    if_none: txt.showPermissions_none_general,
+  }
+  #}
+<form action="{{ scripturl }}?action=profile;u={{ context.id_member }};area=permissions#board_permissions" method="post" id="board_permissions_filter" accept-charset="{{ context.character_set }}">
+  <div class="object_list permissions">
+    <div class="blue_component">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">Board specific permissions</h3>
+        <div class="blue_component_buttons">
+          {% include 'components/forum_button_strip.twig' with {'buttons': actions} %}
+          <script>decorateComponent('permissionsFilter');</script>
+        </div>
+      </div>
+      <div class="object_list_frame">
+        <table class="message_table_list object_table">
+          {% if not context.member.permissions.board %}
+            <tbody>
+              <tr class="object_row light">
+                <td>{{ txt.showPermissions_none_board }}</td>
+              </tr>
+            </tbody>
+          {% else %}
+            {% include 'components/component_permissions_list.twig' with {item: {permissions: context.member.permissions.board, is_visible: true}} %}
+          {% endif %}
+        </table>
+      </div>
+    </div>
+  </div>
+</form>

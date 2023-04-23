@@ -1,0 +1,39 @@
+{% set curr_menu_id = curr_menu_id|default(context.menu_context.menu_id) %}
+{% set menu_context = menu_context|default(context.menu_context.menu_context) %}
+
+<div id="admin_menu" class="submenu attached">
+  <ul class="dropmenu" id="dropdown_menu_{{ curr_menu_id }}">
+    {% for section in menu_context.sections %}
+      <li>
+        <a class="firstlevel {{ section.id == menu_context.current_section ? 'active' }} {{ section.areas|length > 0 ? 'with_submenu' }}" href="#">
+          <span class="firstlevel">{{ section.title|raw }}</span>
+        </a>
+        <ul>
+          {% for i, area in section.areas %}
+            {% if area.label %}
+              {% set context_url = menu_context['base_url'] ~ ';area=' ~ i %}
+              <li>
+                <a class="{{ i == menu_context.current_area ? 'chosen' }} {{ area['subsections'] ? 'has_subsections' }}" href="{{ area['url'] ? area['url'] : context_url }}{{ menu_context['extra_parameters'] }}"><span>{{ area['icon']|raw }}{{ area['label']|raw }}</span></a>
+
+                {% if area['subsections'] %}
+                  <ul>
+                    {% for sa, sub in area['subsections'] %}
+                      {% if not sub['disabled'] %}
+                        {% set url = sub['url'] ? sub['url'] : (area['url'] ? area['url'] : context_url) ~ ';sa=' ~ sa %}
+                          <li>
+                            <a class="{{ sub.selected ? 'active' }}" href="{{ url }}{{ menu_context.extra_parameters }}">{{ sub['label'] }}</a>
+                          </li>
+                      {% endif %}
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+
+      </li>
+    {% endfor %}
+  </ul>
+</div>

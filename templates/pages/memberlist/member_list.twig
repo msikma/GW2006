@@ -1,0 +1,304 @@
+{% include 'components/component_submenu.twig' with {menu_sections: [
+  {
+    text: txt.view_all_members,
+    url: scripturl ~ '?action=mlist;sa=all'
+  },
+  {
+    text: txt.mlist_search,
+    url: scripturl ~ '?action=mlist;sa=search'
+  },
+]} %}
+
+{# Disable some (now) unneeded profile fields that are normally sortable. #}
+{% set ignore_columns = ['icq', 'aim', 'yim', 'msn'] %}
+
+{% set ignore_label = ['is_online'] %}
+
+{# Page links component. #}
+{% set page_links %}
+  {% include 'components/forum_page_links.twig' with {
+    current: context.page_index_context.current_page_number,
+    last: context.page_index_context.last_page_number,
+    per_page: modSettings.defaultMaxMembers,
+    sa: context.current_subaction,
+    search: context.old_search_value,
+    fields: context.member_search_context.fields,
+    member_id: context.id_member,
+    sort: context.sort_by,
+    sort_direction: context.sort_direction,
+    is_member_list: true,
+  } %}
+{% endset %}
+{# http://vesuvius.local/gw/index.php?action=mlist;sa=search;search=anne;fields=name,email;start=30 #}
+<div class="forum_page_section">
+  {% if context.old_search_value %}
+    {{ page_links }}
+  {% else %}
+    {% include 'components/forum_alpha_links.twig' with {
+      name: txt.members_list,
+      base: scripturl ~ '?action=mlist;sa=all',
+      current: context.start_letter
+    } %}
+  {% endif %}
+</div>
+
+{% if context.old_search_value %}
+  {% set title = 'Members matching: "' ~ context.old_search_value ~ '"' %}
+{% else %}
+  {% set title = txt.members_list %}
+{% endif %}
+
+<div class="object_list">
+  <div class="blue_component">
+    <div class="blue_component_header">
+      <h3 class="blue_component_title">{{ title }}</h3>
+    </div>
+    <div class="object_list_frame">
+      <table class="object_table member_table">
+        <thead>
+          <tr class="object_row">
+            {% for name, column in context.columns %}
+              {% if name not in ignore_columns %}
+                <th scope="col" name="{{ name }}" class="{{ column.class }} {{ column.selected ? 'selected active_sort_' ~ context.sort_direction }}" colspan="{{ column.colspan }}">
+                  {% if name not in ignore_label %}
+                    <a href="{{ column.href }}" rel="nofollow">
+                      {{ column.label }}
+                    </a>
+                  {% endif %}
+                </th>
+              {% endif %}
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% if not context.members %}
+            {# Displayed when there's no members. #}
+            <tr class="object_row">
+              <td colspan="999" class="text_center status_message light">
+                <strong>{{ txt.search_no_results }}</strong>
+              </td>
+            </tr>
+          {% else %}
+            {% for member in context.members %}
+              {% if member.sort_letter and member.sort_letter == context.start_letter and loop.index != 1 %}
+                <tr class="object_row bar status_message empty_separator thin">
+                  <td colspan="999"></td>
+                </tr>
+              {% endif %}
+              {% set id = member.sort_letter ? 'id="letter' ~ member.sort_letter ~ '"' : '' %}
+              <tr class="object_row light {{ member.sort_letter ? 'sort_start' }} id_{{ member.id }}" {{ id|raw }}>
+                <td class="minimal">
+                  {% include 'atoms/member_online_status.twig' with {online: member.online, is_guest: member.is_guest} %}
+                </td>
+                <td>
+                  {% include 'atoms/member_strip.twig' with {'member': member} %}
+                </td>
+                <td>
+                  email
+                </td>
+                <td>
+                  website
+                </td>
+                <td>
+                  {{ member.group|default('Member') }}
+                </td>
+                <td>
+                  {{ member.registered_date }}
+                </td>
+                <td>
+                  {{ member.posts }}
+                </td>
+              </tr>
+            {% endfor %}
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="forum_page_section">
+  {{ page_links }}
+</div>
+{# 
+[33589]=>
+array(49) {
+  ["username"]=>
+  string(12) "!!!Search!!!"
+  ["name"]=>
+  string(12) "!!!Search!!!"
+  ["id"]=>
+  string(5) "33589"
+  ["is_buddy"]=>
+  bool(false)
+  ["is_reverse_buddy"]=>
+  bool(false)
+  ["buddies"]=>
+  array(0) {
+  }
+  ["title"]=>
+  string(0) ""
+  ["href"]=>
+  string(60) "http://vesuvius.local/gwsmf_2019/index.php?action=profile;u=33589"
+  ["link"]=>
+  string(128) "<a href="http://vesuvius.local/gwsmf_2019/index.php?action=profile;u=33589" title="View the profile of !!!Search!!!">!!!Search!!!</a>"
+  ["email"]=>
+  string(16) "trysex@gawab.com"
+  ["show_email"]=>
+  string(23) "yes_permission_override"
+  ["registered"]=>
+  string(30) "November 20, 2006, 05:28:18 PM"
+  ["registered_timestamp"]=>
+  int(1164043698)
+  ["blurb"]=>
+  string(0) ""
+  ["gender"]=>
+  array(2) {
+    ["name"]=>
+    string(0) ""
+    ["image"]=>
+    string(0) ""
+  }
+  ["website"]=>
+  array(2) {
+    ["title"]=>
+    string(0) ""
+    ["url"]=>
+    string(0) ""
+  }
+  ["birth_date"]=>
+  string(10) "0000-00-00"
+  ["signature"]=>
+  string(0) ""
+  ["location"]=>
+  string(0) ""
+  ["icq"]=>
+  array(5) {
+    ["name"]=>
+    string(0) ""
+    ["add"]=>
+    string(0) ""
+    ["href"]=>
+    string(0) ""
+    ["link"]=>
+    string(0) ""
+    ["link_text"]=>
+    string(0) ""
+  }
+  ["aim"]=>
+  array(4) {
+    ["name"]=>
+    string(0) ""
+    ["href"]=>
+    string(0) ""
+    ["link"]=>
+    string(0) ""
+    ["link_text"]=>
+    string(0) ""
+  }
+  ["yim"]=>
+  array(4) {
+    ["name"]=>
+    string(0) ""
+    ["href"]=>
+    string(0) ""
+    ["link"]=>
+    string(0) ""
+    ["link_text"]=>
+    string(0) ""
+  }
+  ["msn"]=>
+  array(4) {
+    ["name"]=>
+    string(0) ""
+    ["href"]=>
+    string(0) ""
+    ["link"]=>
+    string(0) ""
+    ["link_text"]=>
+    string(0) ""
+  }
+  ["real_posts"]=>
+  string(1) "0"
+  ["posts"]=>
+  string(1) "0"
+  ["avatar"]=>
+  array(4) {
+    ["name"]=>
+    string(0) ""
+    ["image"]=>
+    string(0) ""
+    ["href"]=>
+    string(0) ""
+    ["url"]=>
+    string(0) ""
+  }
+  ["last_login"]=>
+  string(5) "Never"
+  ["last_login_timestamp"]=>
+  int(0)
+  ["karma"]=>
+  array(3) {
+    ["good"]=>
+    string(1) "0"
+    ["bad"]=>
+    string(1) "0"
+    ["allow"]=>
+    bool(false)
+  }
+  ["ip"]=>
+  string(13) "86.57.190.223"
+  ["ip2"]=>
+  string(13) "86.57.190.223"
+  ["online"]=>
+  array(6) {
+    ["is_online"]=>
+    bool(false)
+    ["text"]=>
+    string(7) "Offline"
+    ["href"]=>
+    string(63) "http://vesuvius.local/gwsmf_2019/index.php?action=pm;sa=send;u=33589"
+    ["link"]=>
+    string(85) "<a href="http://vesuvius.local/gwsmf_2019/index.php?action=pm;sa=send;u=33589">Offline</a>"
+    ["image_href"]=>
+    string(60) "http://vesuvius.local/gwsmf_2019/Themes/gw2006/images/useroff.gif"
+    ["label"]=>
+    string(7) "Offline"
+  }
+  ["language"]=>
+  string(0) ""
+  ["is_activated"]=>
+  string(1) "1"
+  ["is_banned"]=>
+  bool(false)
+  ["options"]=>
+  array(0) {
+  }
+  ["is_guest"]=>
+  bool(false)
+  ["group"]=>
+  string(0) ""
+  ["group_color"]=>
+  NULL
+  ["group_id"]=>
+  string(1) "0"
+  ["post_group"]=>
+  string(6) "Newbie"
+  ["post_group_color"]=>
+  string(0) ""
+  ["group_stars"]=>
+  string(79) "<img src="http://vesuvius.local/gwsmf_2019/Themes/gw2006/images/star.gif" alt="*" />"
+  ["warning"]=>
+  string(1) "0"
+  ["warning_status"]=>
+  string(0) ""
+  ["local_time"]=>
+  string(30) "December 24, 2022, 09:05:06 PM"
+  ["has_messenger"]=>
+  bool(false)
+  ["post_percent"]=>
+  float(0)
+  ["registered_date"]=>
+  string(10) "2006-11-20"
+}
+    #}

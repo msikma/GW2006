@@ -1,0 +1,16 @@
+@charset "utf-8";
+
+.chart {
+  display: block;
+  min-width: 16px;
+
+  svg {
+    display: block;
+  }
+
+  &.activity_chart {
+    .bestfit {
+      display: none;
+    }
+  }
+}

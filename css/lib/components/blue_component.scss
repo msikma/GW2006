@@ -1,0 +1,236 @@
+@charset "utf-8";
+
+// This is the generic component style with blue outline and gradient header.
+.blue_component {
+  border: 1px solid cssvar(--gw-outline);
+  padding: 1px;
+  background: cssvar(--gw-inner-dark);
+  
+  .light-text {
+    color: cssvar(--gw-text-light);
+  }
+
+  .blue_component_section {
+    padding: cssvar(--gw-cell-medium) cssvar(--gw-cell-small);
+
+    &.blue_component_primary {
+      padding: cssvar(--gw-cell-medium);
+    }
+    &.blue_component_large {
+      padding: cssvar(--gw-cell-large);
+    }
+    &.blue_component_light + .blue_component_section.blue_component_light {
+      border-top: 1px solid cssvar(--gw-inner-medium);
+    }
+  }
+
+  .blue_component_light {
+    background: cssvar(--gw-inner-light);
+  }
+  .blue_component_medium {
+    background: cssvar(--gw-inner-medium);
+  }
+  .blue_component_blue {
+    background: cssvar(--gw-inner-blue);
+  }
+
+  .blue_component_negative {
+    color: white;
+    background: cssvar(--gw-inner-negative);
+  }
+  .blue_component_title {
+    margin: 0;
+    color: white;
+    font-size: cssvar(--gw-font-regular);
+    padding: cssvar(--gw-cell-large);
+
+    a {
+      color: white;
+      text-decoration: none;
+
+      &:hover {
+        color: cssvar(--gw-text-light-hover);
+      }
+    }
+
+    .subtitle {
+      display: block;
+      font-size: cssvar(--gw-font-small);
+      font-weight: normal;
+      margin-top: 4px;
+
+      &.dark, &.light {
+        display: block;
+        font-size:cssvar(--gw-font-small);
+        font-weight: normal;
+        margin-top: 4px;
+        margin: calc(-1 *cssvar(--gw-cell-large));
+        background:cssvar(--gw-inner-negative-active);
+        padding:cssvar(--gw-cell-large);
+        border-top: 1px solidcssvar(--gw-inner-dark);
+        margin-top:cssvar(--gw-cell-large);
+      }
+      &.light {
+        background:cssvar(--gw-inner-light);
+        color: black;
+      }
+    }
+  }
+
+  .blue_component_header_cell {
+    // When using the component header inside a table, we need to wrap the HTML slightly differently to avoid a 0.5px off bug.
+    padding: 0;
+
+    &:not(:first-child) .blue_component_title {
+      padding-left: cssvar(--gw-cell-medium);
+    }
+  }
+
+  &.spaced_bottom {
+    margin-bottom: cssvar(--gw-content-margin);
+  }
+  &.spaced_top {
+    margin-top: cssvar(--gw-content-margin);
+  }
+
+  .small {
+    font-size: cssvar(--gw-font-small);
+  }
+
+  .button_row {
+    a {
+      display: inline-block;
+      text-decoration: none;
+      margin-top: 2px;
+
+      img {
+        display: block;
+      }
+    }
+  }
+  
+  .action_buttons {
+    padding: 0;
+    margin: 0;
+  
+    li {
+      float: left;
+      display: block;
+  
+      a {
+        margin-left: 4px;
+  
+        &.post_action_text {
+          line-height: 20px;
+          padding: 0 3px 0 0;
+          font-size: cssvar(--gw-font-small);
+        }
+      }
+      a,
+      a img {
+        display: block;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+.blue_component_header {
+  background: cssvar(--gw-header-color-b) linear-gradient(180deg, cssvar(--gw-header-color-a) 0%, cssvar(--gw-header-color-b) 100%);
+  background-size: 100% 36px;
+  background-repeat: repeat-x;
+  position: relative;
+  text-align: left;
+
+  & + .blue_component_section {
+    border-top: 1px solid cssvar(--gw-inner-dark);
+  }
+
+  .blue_component_buttons {
+    // The .blue_component_buttons item contains a button strip with unique styling.
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+  }
+
+  .blue_component_buttons .button_strip {
+    ul {
+      display: flex;
+      height: 100%;
+
+      li {
+        .button_strip_form {
+          display: flex;
+          align-items: center;
+
+          label {
+            margin-right: 0.6ch;
+          }
+        }
+
+        a:hover {
+          background-color: cssvar(--gw-inner-negative-active);
+        }
+
+        span.static,
+        a {
+          background: cssvar(--gw-inner-negative);
+          font-size: cssvar(--gw-font-small);
+          font-weight: bold;
+          padding: 0 15px;
+          color: white;
+          text-decoration: none;
+          border-left: 1px solid cssvar(--gw-inner-dark);
+          display: flex;
+          align-items: center;
+          width: auto;
+          height: 100%;
+
+          span {
+            margin-top: -1px;
+          }
+        }
+
+        span.static {
+          font-weight: normal;
+        }
+      }
+    }
+  }
+}
+
+.object_list_frame + .blue_component_header {
+  border-top: 1px solid cssvar(--gw-inner-dark);
+}
+
+.object_list {
+  .spaced_top {
+    margin-top: cssvar(--gw-content-margin);
+  }
+  .spaced_bottom {
+    margin-bottom: cssvar(--gw-content-margin);
+  }
+}
+
+// A .white_box is a box used inside the light/medium sections of a .blue_component, e.g. post attachments.
+.white_box {
+  background: white;
+  padding: 1px;
+  margin-top: cssvar(--gw-content-margin);
+  border: 1px solid cssvar(--gw-outline);
+  display: inline-block;
+}
+.white_box .white_box_header {
+}
+.white_box .white_box_header h4 {
+  padding: calc(cssvar(--gw-cell-medium) - 1px) calc(cssvar(--gw-cell-large) - 1px);
+  margin: 0;
+  font-weight: normal;
+  background: cssvar(--gw-inner-negative);
+  color: white;
+}
+.white_box .white_box_content {
+  padding: calc(cssvar(--gw-cell-medium) - 1px) calc(cssvar(--gw-cell-large) - 1px);
+}

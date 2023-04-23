@@ -1,0 +1,49 @@
+<div class="profile_field_item profile_field_primary_membergroup">
+  <dt>
+    <div class="profile_field_label">{{ txt['primary_membergroup'] }}</div>
+    <div class="profile_field_subtext">
+      <span class="smalltext">(<a href="{{ scripturl }}?action=helpadmin;help=moderator_why_missing" onclick="return reqWin(this.href);">{{ txt['moderator_why_missing'] }}</a>)</span>
+    </div>
+  </dt>
+  <dd class="profile_field_content">
+    <select name="id_group"
+        {% if context['user']['is_owner'] and context['member']['group_id'] == 1 %}
+          onchange="if (this.value != 1 &amp;&amp; !confirm('{{ txt['deadmin_confirm'] }}')) this.value = 1;"
+        {% endif %}>
+      {% for member_group in context['member_groups'] %}
+        {% if member_group['can_be_primary'] %}
+          <option value="{{ member_group['id'] }}"
+            {% if member_group['is_primary'] %} selected="selected"{% endif %}>
+            {{ member_group['name'] }}
+          </option>
+        {% endif %}
+      {% endfor %}
+    </select>
+  </dd>
+</div>
+<div class="profile_field_item profile_field_additional_membergroups">
+  <dt>
+    <div class="profile_field_label">{{ txt['additional_membergroups'] }}</div>
+  </dt>
+  <dd class="profile_field_content">
+    <span id="additional_groupsList" class="form_text">
+      <input type="hidden" name="additional_groups[]" value="0" />
+      {% for member_group in context['member_groups'] %}
+        {% if member_group['can_be_additional'] %}
+          <label for="additional_groups-{{ member_group['id'] }}">
+            <input type="checkbox" name="additional_groups[]" value="{{ member_group['id'] }}"
+                id="additional_groups-{{ member_group['id'] }}"
+                {% if member_group['is_additional'] %} checked="checked"{% endif %}
+                class="input_check" />
+            {{ member_group['name'] }}
+          </label><br />
+        {% endif %}
+      {% endfor %}
+    </span>
+    <a href="javascript:void(0);" onclick="document.getElementById('additional_groupsList').style.display = 'block'; document.getElementById('additional_groupsLink').style.display = 'none'; return false;" id="additional_groupsLink" style="display: none;">{{ txt['additional_membergroups_show'] }}</a>
+    <script type="text/javascript">
+      document.getElementById("additional_groupsList").style.display = "none";
+      document.getElementById("additional_groupsLink").style.display = "";
+    </script>
+  </dd>
+</div>

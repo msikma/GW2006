@@ -1,0 +1,64 @@
+<form action="{{ scripturl }}?action=activate;sa=resend" method="post" accept-charset="{{ context.character_set }}">
+
+  <div class="object_form login_form type_simple object_list">
+    <div class="blue_component">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">{{ context.page_title }}</h3>
+      </div>
+      <div class="blue_component_medium object_list_frame">
+        <table class="object_table">
+          <tbody>
+
+            <tr class="object_row">
+              <th class="minimal">
+                {{ txt.invalid_activation_username }}
+              </th>
+              <td>
+                <input type="text" name="user" size="40" value="{{ context.default_username }}" />
+                <div class="description">{{ txt['invalid_activation_new'] }}</div>
+              </td>
+            </tr>
+
+            <tr class="object_row">
+              <th class="minimal">
+                {{ txt['invalid_activation_new_email'] }}
+              </th>
+              <td>
+                <input type="text" name="new_email" size="40" />
+              </td>
+            </tr>
+
+            <tr class="object_row">
+              <th class="minimal">
+                {{ txt['invalid_activation_password'] }}
+              </th>
+              <td>
+                <input type="password" name="passwd" size="30" class="input_password" />
+              </td>
+            </tr>
+
+            {% if context.can_activate %}
+              <tr class="object_row">
+                <th class="minimal">
+                  {{ txt['invalid_activation_retry'] }}
+                </th>
+                <td>
+                  <input type="text" name="code" size="30" />
+                <div class="description">{{ txt['invalid_activation_known'] }}</div>
+                </td>
+              </tr>
+            {% endif %}
+
+            <tr class="object_row dark">
+              <th class="minimal"></th>
+              <td>
+                <button type="submit"><strong>{{ txt['invalid_activation_resend'] }}</strong></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+</form>

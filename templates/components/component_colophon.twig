@@ -1,0 +1,12 @@
+<div class="footer_items colophon">
+  <div class="forum_copyright">
+    {{ context.forum_name_html_safe }} | Powered by <a href="https://www.simplemachines.org/about/smf/license.php">{{ forum_version }}</a>
+  </div>
+  <div class="years">
+    © 2001-2023. Modifications by Dada78641. All Rights Reserved. 
+  </div>
+  <div class="generation">
+    {# Normally we should check if context.show_load_time is set but whatever. #}
+    {{ txt.page_created }} <span class="load_time">{{ context.load_time }}</span> {{ txt.seconds_with }} <span class="load_queries">{{ context.load_queries }}</span> {{ txt.queries }}
+  </div>
+</div>

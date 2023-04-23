@@ -1,0 +1,53 @@
+@charset "utf-8";
+
+// The forum page section contains post buttons and the page list.
+.forum_page_section {
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: -6px;
+  justify-content: end;
+}
+
+// The page list is used for the topic index and post pages.
+.page_links_container {
+  display: flex;
+  margin-bottom: 6px;
+}
+.page_links_container + .page_links_container {
+  margin-left: 6px;
+}
+.page_links {
+  display: flex;
+  font-size: cssvar(--gw-font-small);
+}
+.page_links_container.location_bottom .page_links {
+  align-self: start;
+}
+.page_links_container.location_top .page_links {
+  align-self: end;
+}
+.page_links a {
+  text-decoration: none;
+}
+.page_links .links_section {
+  display: flex;
+}
+.page_links .links_section .link_item.skip::before {
+  content: '…';
+}
+.page_links .links_section .link_item_first::before {
+  content: '\00ab  ';
+}
+.page_links .links_section .link_item_last::after {
+  content: ' \00bb';
+}
+.page_links .links_section .link_item {
+  padding: cssvar(--gw-cell-small) cssvar(--gw-cell-medium);
+}
+.page_links .links_section .link_item.link_item_current {
+  font-weight: bold;
+}
+.page_links .links_section .link_item:not(:last-child) {
+  border-right: 1px solid cssvar(--gw-inner-dark);
+}

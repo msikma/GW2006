@@ -1,0 +1,58 @@
+@charset "utf-8";
+
+// The posticons selection component is displayed on the new post page.
+.post_iconsets {
+}
+.post_emoticon_sets {
+  .emoticon_header {
+    font-weight: bold;
+    margin-bottom: cssvar(--gw-cell-medium);
+  }
+  .iconset {
+    margin-left: -2px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+
+    a {
+      float: left;
+      display: block;
+      cursor: pointer;
+      padding: 0 1px 3px 2px;
+      margin-bottom: 2px;
+
+      img {
+        display: block;
+      }
+    }
+
+    .button_emoticons {
+      font-size: cssvar(--gw-font-small);
+      margin-left: 8px;
+      align-self: start;
+    }
+  }
+}
+
+.iconset {
+  display: block;
+  clear: both;
+  overflow: hidden;
+}
+.posticon {
+  display: block;
+  float: left;
+  padding: 0 10px 2px 0;
+  cursor: pointer;
+
+  input {
+    width: 15px;
+    height: 15px;
+    margin: 0 !important;
+  }
+
+  * {
+    display: inline-block;
+    vertical-align: text-bottom;
+  }
+}

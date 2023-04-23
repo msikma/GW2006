@@ -7,12 +7,19 @@
   "support": {
     "issues": "https://github.com/msikma/gw2006/issues"
   },
-  "license": "proprietary",
+  "scripts": {
+    "build-scss": "sass css/index.scss:css/index.css css/legacy.scss:css/legacy.css",
+    "dev-scss": "sass --watch css/index.scss:css/index.css css/legacy.scss:css/legacy.css"
+  },
+  "license": "mit",
   "keywords": ["forum", "community"],
   "homepage": "https://github.com/msikma/gw2006",
   "type": "project",
   "repository": "https://github.com/msikma/gw2006",
   "require": {
-    "twig/twig": "^3.0"
+    "twig/twig": "^3.0",
+    "twig/intl-extra": "^3.4",
+    "cocur/slugify": "^4.3",
+    "goat1000/svggraph": "^3.19"
   }
 }

@@ -1,0 +1,41 @@
+<form action="{{ scripturl }}?action=reminder;sa=picktype" method="post" accept-charset="{{ context.character_set }}">
+	<input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />
+	<input type="hidden" name="uid" value="{{ context.current_member.id }}" />
+  <div class="object_form login_form type_simple object_list">
+    <div class="blue_component">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">
+          {{ txt.authentication_reminder }}
+          <span class="subtitle light">{{ txt.authentication_options }}</span>
+        </h3>
+      </div>
+      <div class="blue_component_medium object_list_frame">
+        <table class="object_table">
+          <tbody>
+
+            <tr class="object_row">
+              <th class="minimal">
+                Options
+              </th>
+              <td>
+					      <input type="radio" name="reminder_type" id="reminder_type_email" value="email" checked="checked" class="input_radio" />
+					      <label for="reminder_type_email">{{ txt['authentication_' ~ context.account_type ~ '_email']|raw }}</label><br />
+
+					      <input type="radio" name="reminder_type" id="reminder_type_secret" value="secret" class="input_radio" />
+					      <label for="reminder_type_secret">{{ txt['authentication_' ~ context.account_type ~ '_secret']|raw }}</label><br />
+              </td>
+            </tr>
+
+            <tr class="object_row dark">
+              <th class="minimal"></th>
+              <td>
+                <button><strong>{{ txt.reminder_continue }}</strong></button>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</form>

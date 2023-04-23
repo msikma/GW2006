@@ -1,0 +1,52 @@
+<form action="{{ scripturl }}?action=register" method="post" accept-charset="{{ context.character_set }}" id="registration">
+  <input type="hidden" name="step" value="1" />
+  <div class="object_form login_form type_simple object_list">
+    <div class="blue_component">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">
+          Register account
+        </h3>
+      </div>
+      <div class="blue_component_light object_list_frame">
+        <table class="object_table">
+          <tbody>
+
+            {% if context.agreement %}
+              <tr class="object_row light">
+                <td>
+                  <div class="post_text post_line_height">
+                    <h5>{{ txt.registration_agreement }}</h5>
+                    {{ context.agreement|raw }}
+                  </div>
+                </td>
+              </tr>
+            {% endif %}
+
+            {% if context.policy %}
+              <tr class="object_row light">
+                <td>
+                  <div class="post_text post_line_height">
+                    <h5>{{ txt.privacy_policy }}</h5>
+                    {{ context.policy|raw }}
+                  </div>
+                </td>
+              </tr>
+            {% endif %}
+
+            <tr class="object_row dark">
+              <td>
+                {% if context.show_coppa %}
+                  <button name="accept_agreement"><strong>{{ context.coppa_agree_above }}</strong></button>
+                  <button name="accept_agreement_coppa"><strong>{{ context.coppa_agree_below }}</strong></button>
+                {% else %}
+                  <button name="accept_agreement"><strong>{{ txt['agreement' ~ (context.require_policy_agreement ? '_policy') ~ '_agree'] }}</strong></button>
+                {% endif %}
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</form>

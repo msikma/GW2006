@@ -1,0 +1,39 @@
+{# Action buttons that are shown inside the title (topic subject) bar. #}
+{% set print_button = {
+  text: 'Print topic',
+  image: 'print.gif',
+  custom: 'rel="new_win nofollow"',
+} %}
+
+{% set page_links %}
+  {% include 'components/forum_page_links.twig' with {
+    current: context.page_index_context.current_page_number,
+    last: context.page_index_context.last_page_number,
+    per_page: context.per_page,
+    action: context.current_action,
+    member_id: context.id_member
+  } %}
+{% endset %}
+
+<a id="top"></a>
+
+<div class="forum_page_section">
+  {{ page_links }}
+</div>
+
+{% for message in context.posts %}
+  {% include 'components/thread_post.twig' with {
+    'is_generic_post': true,
+    'member': context.member,
+    'show_header': true,
+    'title_buttons': {print: print_button|merge({url: scripturl ~ '?action=printpage;topic=' ~ message.topic ~ '.0'})},
+    'message': message
+  } %}
+{% endfor %}
+
+<a id="lastPost"></a>
+
+<div class="forum_page_section">
+  {% include 'components/forum_button_strip.twig' with {'buttons': normal_buttons, 'type': 'primary'} %}
+  {{ page_links }}
+</div>

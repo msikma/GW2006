@@ -1,0 +1,54 @@
+{% set has_children = context.boards is not empty and (options.show_children is not empty or context.start == 0) %}
+{% set can_mark_as_read = context.user.is_logged and show_mark_read %}
+
+{# Action buttons shown at the top of the topic list, e.g. "new topic", "new poll", etc. #}
+{% set buttons = {
+  new_topic: {
+    test: 'can_post_new',
+    text: 'new_topic',
+    image: 'new_topic.gif',
+    lang: true,
+    url: scripturl ~ '?action=post;board=' ~ context.current_board ~ '.0',
+    active: true
+  },
+  post_poll: {
+    test: 'can_post_poll',
+    text: 'new_poll',
+    image: 'new_poll.gif',
+    lang: true,
+    url: scripturl ~ '?action=post;board=' ~ context.current_board ~ '.0;poll'
+  },
+  notify: {
+    test: 'can_mark_notify',
+    text: context.is_marked_notify ? 'unnotify' : 'notify',
+    image: (context.is_marked_notify ? 'un' : '') ~ 'notify.gif',
+    lang: true,
+    custom: 'onclick="return confirm(\'' ~ (context.is_marked_notify ? txt.notification_disable_board : txt.notification_enable_board) ~ '\');"',
+    url: scripturl ~ '?action=notifyboard;sa=' ~ (context.is_marked_notify ? 'off' : 'on') ~ ';board=' ~ context.current_board ~ '.' ~ context.start ~ ';' ~ context.session_var ~ '=' ~ context.session_id
+  }
+} %}
+
+{% if can_mark_as_read %}
+  {% set buttons = buttons|merge({
+    markread: {
+      text: 'mark_read_short',
+      image: 'markread.gif',
+      lang: true,
+      url: scripturl ~ '?action=markasread;sa=board;board=' ~ context.current_board ~ '.0;' ~ context.session_var ~ '=' ~ context.session_id
+    }
+  }) %}
+{% endif %}
+
+<a id="top"></a>
+
+{% if has_children %}
+  {% include 'components/forum_list.twig' with {'child': true, 'context_board_id': context.current_board, 'context_boards': context.boards} %}
+{% endif %}
+
+{% if not context.no_topic_listing %}
+  {% include 'components/topic_listing.twig' with {'buttons': buttons} %}
+{% endif %}
+
+{# TODO #}
+{% include 'auxiliary/script_topic.twig' %}
+{% include 'auxiliary/script_inline_editing.twig' %}

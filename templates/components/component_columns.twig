@@ -1,0 +1,12 @@
+<table style="width: 100%;" cellpadding="0">
+  <tr>
+    {% for item in items %}
+      <td style="width: 49.5%; vertical-align: top;">
+        {{ item }}
+      </td>
+      {% if loop.revindex0 != 0 %}
+        <td style="width: 1%;"></td>
+      {% endif %}
+    {% endfor %}
+  </tr>
+</table>

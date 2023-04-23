@@ -1,0 +1,25 @@
+@charset "utf-8";
+
+// The stats component contains information about how many users are online, how many posts exist, etc. It's at the bottom of the forum list.
+.stats_component {
+}
+.stats_component .header {
+  width: 64px;
+  text-align: center;
+}
+.stats_component .birthdays .name {
+  font-weight: bold;
+}
+.stats_component .forum_stats_wrapper {
+  display: flex;
+  gap: 8px;
+}
+.stats_component .forum_stats_wrapper .item {
+  flex: 1 1 33%;
+}
+.stats_component .forum_stats_wrapper .item.type_a {
+  flex-basis: 62%;
+}
+.stats_component .forum_stats_wrapper .value {
+  font-weight: bold;
+}

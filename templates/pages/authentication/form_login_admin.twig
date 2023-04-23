@@ -1,0 +1,46 @@
+
+<form action="{{ scripturl }}{{ context.get_data }}" method="post" accept-charset="{{ context['character_set'] }}" name="frmLogin" id="frmLogin">
+  <input type="hidden" name="admin_hash_pass" value="" />
+  {{ context['post_data']|raw }}
+  <div class="object_form login_form type_simple object_list">
+    <div class="blue_component">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">{{ txt.admin_login }}</h3>
+      </div>
+      <div class="blue_component_medium object_list_frame">
+        <table class="object_table">
+          <tbody>
+            <tr class="object_row {{ context.incorrect_password ? 'error' : '' }}">
+              <th class="minimal">
+                {{ txt.password }}
+              </th>
+              <td>
+                <div class="form_input_row">
+                  <div class="input_item_main">
+                    <input type="password" name="admin_pass" size="24" class="input_password" />
+                  </div>
+                  <div class="input_item">
+                    <a href="{{ scripturl }}?action=helpadmin;help=securityDisable_why" onclick="return reqWin(this.href);" class="help">
+                      <img src="{{ images_url }}/helptopics.gif" alt="{{ txt.help }}" class="pixel" />
+                    </a>
+                  </div>
+                </div>
+                {% if context.incorrect_password %}
+                  <div class="error">{{ txt['admin_incorrect_password'] }}</div>
+                {% endif %}
+              </td>
+            </tr>
+            <tr class="object_row dark">
+              <th class="minimal"></th>
+              <td>
+                <button><strong>{{ txt.login }}</strong></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</form>
+{# TODO: escape #}
+<script>decorateComponent('loginForm', '{{ context.username }}', '{{ context.session_id }}')</script>

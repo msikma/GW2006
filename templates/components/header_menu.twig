@@ -2,7 +2,7 @@
   <ul class="dropmenu" id="menu_nav">
     {% for act, button in context.menu_buttons %}
       <li id="button_{{ act }}">
-        <a class="{{ button.active_button ? 'active ' }}firstlevel" href="{{ button.href }}"{% if button.target is defined %} target="{{ button.target }}"{% endif %}>
+        <a class="firstlevel {{ button.active_button ? 'active' }} {{ button.sub_buttons|length > 0 ? 'with_submenu' }}" href="{{ button.href }}"{% if button.target is defined %} target="{{ button.target }}"{% endif %}>
           <span class="{{ button.is_last is defined ? 'last ' }}firstlevel">{{ button.title }}</span>
         </a>
         {% if button.sub_buttons is not empty %}

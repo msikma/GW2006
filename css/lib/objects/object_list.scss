@@ -1,0 +1,35 @@
+@charset "utf-8";
+
+// Base class for all different types of forum components (e.g. list of forums, list of posts, new post form).
+.object_list {
+  margin: 5px 0;
+
+  .object_list_title {
+  }
+  .object_list_frame {
+    background: cssvar(--gw-inner-medium);
+  }
+  .blue_component_header + .object_list_frame {
+    margin-top: 1px;
+  }
+
+  .description {
+    font-size: cssvar(--gw-font-small);
+    margin-top: 4px;
+  }
+  .object_row_list {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+// Additional widgets associated with the .object_list.
+.text_icon_row {
+}
+.text_icon_row img {
+  // This assumes a 20x20 image.
+  display: inline-block;
+  vertical-align: text-bottom;
+  margin-bottom: -1px;
+  margin-right: 3px;
+}

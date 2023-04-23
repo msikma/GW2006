@@ -1,0 +1,13 @@
+@charset "utf-8";
+
+.object_table#stats {
+  tbody tr[class="object_row"] td {
+    background:cssvar(--gw-inner-light);
+    text-align: left !important;
+
+    &:first-child {
+      // Same indent as .indent_2
+      padding-left: 6ex !important;
+    }
+  }
+}

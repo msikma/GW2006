@@ -1,0 +1,76 @@
+{# This component prints page number links for the given page. It's a bit complicated because SMF works differently on a bunch of different pages. #}
+{# Reference to the first, current and last page. #}
+{% set first = 1 %}
+{% set current = current|default(context.page_info.current_page) %}
+{% set last = last|default(context.page_info.num_pages) %}
+{# Number of items per page. Defaults to 20 if we don't know. #}
+{% set per_page = per_page|default(context.topics_per_page)|default(20) %}
+{# Determine the extra visible page number links; this is a range of pages around the current page. #}
+{% set range_size = 2 %}
+{% set page_range = range(max(current - range_size, first), min(current + range_size, last)) %}
+{# Determine which links we show. #}
+{% set show_first = page_range[0] != first %}
+{% set show_last = page_range[page_range|length - 1] != last %}
+{% set show_prev = current != first %}
+{% set show_next = current != last %}
+{% set page_prev = current - 1 %}
+{% set page_next = current + 1 %}
+
+{# Information used to construct the URL. #}
+{% set board_id = board_id|default(context.current_board) %}
+{% set params = params|default('') %}
+{% set action = action|default(context.current_action) %}
+{% set sort = sort|default(context.sort_by) %}
+{% set sort_direction = sort_direction|default(context.sort_direction) %}
+{% set is_pm_inbox = is_pm_inbox|default(context.current_action == 'pm') %}
+
+{# Whether the item is at the top or the bottom of the page. #}
+{% set location = location|default('top') %}
+
+{# Parameters passed on to each forum_page_link component. #}
+{% set link_arguments = {
+  'board_id': board_id,
+  'params': params,
+  'action': action,
+  'area': area,
+  'sa': sa,
+  'sort': sort,
+  'sort_direction': sort_direction,
+  'segments': segments|default([]),
+  'member_id': member_id,
+  'search': search,
+  'fields': fields,
+  'per_page': per_page,
+  'is_message_index': is_message_index,
+  'is_search_result': is_search_result,
+  'is_member_list': is_member_list,
+  'is_pm_inbox': is_pm_inbox
+} %}
+
+{# Only display the widget if there's actually more than 1 page. #}
+{% if last > 1 %}
+  <div class="page_links_container location_{{ location }}">
+    <div class="page_links blue_component">
+      <div class="links_section blue_component_negative">
+        <div class="link_item">Page <span class="current_page">{{ current }}</span> of <span class="num_pages">{{ last }}</span></div>
+      </div>
+      <div class="links_section blue_component_light">
+        {% if show_first %}
+          {% include 'components/forum_page_link.twig' with {'number': first, 'value': 'First', 'class': 'first', 'is_current': first == current}|merge(link_arguments) %}
+        {% endif %}
+        {% if show_prev %}
+          {% include 'components/forum_page_link.twig' with {'number': page_prev, 'value': '<', 'is_current': page_prev == current}|merge(link_arguments) %}
+        {% endif %}
+        {% for n in page_range %}
+          {% include 'components/forum_page_link.twig' with {'number': n, 'is_current': n == current}|merge(link_arguments) %}
+        {% endfor %}
+        {% if show_next %}
+          {% include 'components/forum_page_link.twig' with {'number': page_next, 'value': '>', 'is_current': page_next == current}|merge(link_arguments) %}
+        {% endif %}
+        {% if show_last %}
+          {% include 'components/forum_page_link.twig' with {'number': last, 'value': 'Last', 'class': 'last', 'is_current': last == current}|merge(link_arguments) %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endif %}

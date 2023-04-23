@@ -1,7 +1,7 @@
-<div id="search_form_wrapper">
-  <form id="search_form" action="{{ scripturl }}?action=search2" method="post" accept-charset="{{ context.character_set }}">
-    <input type="text" name="search" value="" class="input_text" />&nbsp;
-    <input type="submit" name="submit" value="{{ txt.search }}" class="button_submit" />
+<div id="header_search_form_wrapper">
+  <form id="header_search_form" action="{{ scripturl }}?action=search2" method="post" accept-charset="{{ context.character_set }}">
+    <input type="text" name="search" value="" />&nbsp;
+    <button type="submit" name="submit">{{ txt.search }}</button>
     <input type="hidden" name="advanced" value="0" />
     
     {# Search limiter: by default we search the whole forum, but in some cases we search more specific. #}

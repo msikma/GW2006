@@ -1,0 +1,10 @@
+{% if active %}
+  {% if list %}
+    {% set reasons %}
+      <ul class="reasons" id="error_list">
+        {{ list|map(m => "<li>#{m}</li>")|join('\n')|raw }}
+      </ul>
+    {% endset %}
+  {% endif %}
+  {% include 'atoms/notification.twig' with {'type': 'danger', 'content': content, 'content_sub': reasons} %}
+{% endif %}

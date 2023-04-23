@@ -1,0 +1,52 @@
+<div class="object_list attachments">
+  <div class="blue_component">
+    <div class="blue_component_header">
+      <h3 class="blue_component_title">Attachments uploaded by {{ member.name }}</h3>
+    </div>
+    <div class="object_list_frame">
+      <table class="message_table_list object_table">
+        {% if attachments|length %}
+          <thead>
+            <tr class="object_row">
+              <th class="text_left">Filename</th>
+              <th class="text_center">Downloads</th>
+              <th class="text_left">Message</th>
+              <th class="text_left">Posted</th>
+            </tr>
+          </thead>
+        {% endif %}
+        <tbody>
+          {% for attachment in attachments %}
+            {% set download = scripturl ~ '?action=dlattach;topic=' ~ attachment.topic ~ '.0;attach=' ~ attachment.id %}
+            {% set topic_url = scripturl ~ '?topic=' ~ attachment.topic ~ '.msg' ~ attachment.msg ~ '#msg' ~ attachment.msg %}
+            {% set target = attachment.href ?: download %}
+            <tr class="object_row light attachment">
+              <td class="line filename">
+                <a href="{{ target }}">
+                  {% include 'atoms/filetype_icon.twig' with {'filename': attachment.filename} %}
+                  <span class="name">{{ attachment.filename }}</span>
+                </a>
+              </td>
+              <td class="text_center">
+                {{ attachment.downloads }}
+              </td>
+              <td>
+                <a href="{{ topic_url }}">{{ attachment.subject }}</a>
+              </td>
+              <td>
+                {{ attachment.posted }}
+              </td>
+            </tr>
+          {% endfor %}
+          {% if not attachments|length %}
+            <tr class="object_row">
+              <th colspan="999" class="text_center status_message">
+                <strong>{{ txt.show_attachments_none }}</strong>
+              </th>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

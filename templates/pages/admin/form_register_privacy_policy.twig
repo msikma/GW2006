@@ -1,0 +1,53 @@
+{% set form_content %}
+  <div class="content">
+    {% if editable_policies|length > 1 %}
+      <div class="information">
+        <form action="{{ scripturl }}?action=admin;area=regcenter" id="change_policy" method="post" accept-charset="{{ context.character_set }}">
+          <strong>{{ txt.admin_agreement_select_language }}:</strong>&nbsp;
+          <select name="policy_lang" onchange="document.getElementById('change_policy').submit();" tabindex="{{ context.tabindex }}">
+            {% for lang, name in editable_policies %}
+              <option value="{{ lang }}" {% if context.current_policy_lang == lang %}selected="selected"{% endif %}>{{ name }}</option>
+            {% endfor %}
+          </select>
+          <div class="righttext">
+            <input type="hidden" name="sa" value="policy" />
+            <input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />
+            <input type="submit" name="change" value="{{ txt.admin_agreement_select_language_change }}" tabindex="{{ context.tabindex }}" class="button_submit" />
+          </div>
+        </form>
+      </div>
+    {% endif %}
+
+    <form action="{{ scripturl }}?action=admin;area=regcenter" method="post" accept-charset="{{ context.character_set }}">
+      <p class="policy">
+        <textarea cols="70" rows="20" name="policy" id="agreement">{{ context.policy }}</textarea>
+      </p>
+      <div class="information">
+        <span>{{ context.policy_info }}</span>
+      </div>
+      <div class="righttext">
+        {% if not context.force_gdpr %}
+          <label for="minor_edit"><input type="checkbox" value="" id="minor_edit" name="minor_edit" tabindex="{{ context.tabindex }}" class="input_check" /> {{ txt.admin_agreement_minor_edit }}</label>
+        {% endif %}
+        <input type="submit" value="{{ txt.save }}" tabindex="{{ context.tabindex }}" class="button_submit" onclick="return resetPolicyConfirm()" />
+        <input type="hidden" name="policy_lang" value="{{ context.current_policy_lang }}" />
+        <input type="hidden" name="sa" value="policy" />
+        <input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />
+        <script>
+          function resetPolicyConfirm()
+          {
+            if (document.getElementById("minor_edit").checked)
+              return true;
+            else if (document.getElementById('agreement').value != '{{ context.policy|e('js') }}')
+              return confirm('{{ txt.reset_privacy_policy_desc|e('js') }}');
+          }
+        </script>
+      </div>
+    </form>
+  </div>
+{% endset %}
+
+{% include 'components/component_list_form.twig' with {
+  'title': txt.privacy_policy,
+  'form_content': form_content
+} %}

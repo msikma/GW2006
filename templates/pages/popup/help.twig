@@ -1,0 +1,28 @@
+<!doctype html>
+<html {% if context.right_to_left %} dir="rtl"{% endif %}>
+  <head>
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex">
+    <title>{{ txt.page_title }}</title>
+    <link rel="stylesheet" type="text/css" href="{{ theme_url }}/css/index.css">
+    <script src="{{ theme_url }}/scripts/decorate.js"></script>
+  </head>
+  <body>
+    <div id="wrapper" class="pop_up_window">
+      <div class="blue_component">
+        <div class="blue_component_header">
+          <h3 class="blue_component_title">{{ context._popup_title }}</h3>
+        </div>
+        <div class="blue_component_section blue_component_light">
+          {{ context.help_text|raw }}
+        </div>
+        <div class="blue_component_medium blue_component_section">
+          <button id="popup_window_close">
+            {{ txt.close_window }}
+          </button>
+          <script>decorateComponent('popupWindow')</script>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

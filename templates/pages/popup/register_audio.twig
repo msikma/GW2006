@@ -1,0 +1,16 @@
+
+{% set content %}
+  <div class="captcha_audio">
+    <div>
+      <audio controls>
+        <source src="{{ context.verification_sound_href }}" type="audio/wav">
+        <object type="audio/x-wav" data="{{ context.verification_sound_href }}">
+          <a href="{{ context.verification_sound_href }}" rel="nofollow">{{ context.verification_sound_href }}</a>
+        </object>
+      </audio>
+    </div>
+    <a href="{{ context.verification_sound_href }}" rel="nofollow">{{ txt['visual_verification_sound_direct'] }}</a>
+  </div>
+{% endset %}
+
+{% include 'components/component_popup_template.twig' with {'popup_title': context.page_title|default('Audio verification'), 'content': content} %}

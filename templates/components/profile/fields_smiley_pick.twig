@@ -1,0 +1,16 @@
+{% set smiley_url = context.member.smiley_set.id != 'none' ? modSettings.smileys_url ~ '/' ~ (context.member.smiley_set.id != '' ? context.member.smiley_set.id : (settings.smiley_sets_default is not empty ? settings.smiley_sets_default : modSettings.smiley_sets_default)) ~ '/smiley.gif' : settings.images_url ~ '/blank.gif' %}
+
+<div class="profile_field_item profile_field_theme_settings">
+  <dt>
+    {# FIXME #}
+    <div class="profile_field_label">{{ txt['smileys_current'] }}</div>
+  </dt>
+  <dd class="profile_field_content">
+    <select name="smiley_set" onchange="document.getElementById('smileypr').src = this.selectedIndex == 0 ? '{{ settings['images_url'] }}/blank.gif' : '{{ modSettings['smileys_url'] }}/' + (this.selectedIndex != 1 ? this.options[this.selectedIndex].value : '{{ settings.smiley_sets_default is not empty ? settings.smiley_sets_default : modSettings.smiley_sets_default }}') + '/smiley.gif';">
+      {% for set in context.smiley_sets %}
+        <option value="{{ set.id }}"{{ set.selected ? ' selected="selected"' : '' }}>{{ set.name }}</option>
+      {% endfor %}
+    </select>
+    <img id="smileypr" src="{{ smiley_url }}" alt=":)" align="top" style="padding-left: 20px;" />
+  </dd>
+</div>

@@ -1,0 +1,52 @@
+<form action="{{ context['profile_custom_submit_url'] ? context['profile_custom_submit_url'] : scripturl }}?action=profile;area={{ context['menu_item_selected'] }};u={{ context['id_member'] }};save" method="post" accept-charset="{{ context.character_set }}" name="creator" id="creator" enctype="multipart/form-data" onsubmit="return checkProfileSubmit();">
+  <div class="object_list object_form profile">
+    <div class="blue_component">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">{{ context['profile_header_text'] ? context['profile_header_text'] : txt['profile'] }}</h3>
+      </div>
+      <div class="blue_component_medium object_list_frame">
+        <input type="hidden" name="advanced" value="1" />
+        <table class="object_table">
+          {% include 'components/profile/settings_header.twig' %}
+          {% include 'components/profile/settings_groups.twig' with {setting_groups: context.setting_groups} %}
+        </table>
+      </div>
+    </div>
+  </div>
+  {% if context.profile_posthtml %}
+    <div class="profile_posthtml">{{ context.profile_posthtml }}</div>
+  {% endif %}
+
+  <input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />
+  <input type="hidden" name="u" value="{{ context.id_member }}" />
+  <input type="hidden" name="sa" value="{{ context.menu_item_selected }}" />
+</form>
+
+{% if context.require_password %}
+  <script type="text/javascript">
+    function checkProfileSubmit() {
+      // Did you forget to type your password?
+      if (document.forms.creator.oldpasswrd.value == "") {
+        alert("{{ txt['required_security_reasons'] }}");
+        return false;
+      }
+      {% if context.profile_onsubmit_javascript %}
+        {{ context.profile_javascript|raw }}
+      {% endif %}
+    }
+  </script>
+{% else %}
+  <script type="text/javascript">
+    function checkProfileSubmit() {
+      {% if context.profile_onsubmit_javascript %}
+        {{ context.profile_javascript|raw }}
+      {% endif %}
+    }
+  </script>
+{% endif %}
+
+{% if context.show_spellchecking %}
+  <form name="spell_form" id="spell_form" method="post" accept-charset="{{ context.character_set }}" target="spellWindow" action="{{ scripturl }}?action=spellcheck">
+    <input type="hidden" name="spellstring" value="" />
+  </form>
+{% endif %}

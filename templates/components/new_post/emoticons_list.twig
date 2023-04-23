@@ -1,0 +1,14 @@
+<div class="post_emoticon_sets" id="emoticons_selection">
+  {% for name, iconset in context.emoticons %}
+    {% if name == context.emoticon_base_set %}
+      <div class="iconset">
+        {% for icon in iconset %}
+          {% include 'atoms/emoticon.twig' with {'icon': icon} %}
+        {% endfor %}
+        <button name="more_emoticons" class="button_emoticons" id="button_emoticons">
+          Show more
+        </button>
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>

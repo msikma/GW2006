@@ -1,0 +1,223 @@
+<form action="{{ scripturl }}?action=register2" method="post" accept-charset="{{ context.character_set }}" name="registration" id="registration" onsubmit="return verifyAgree();">
+  <input type="hidden" name="step" value="2" />
+  {% include 'components/component_errors.twig' with {
+    'active': context.registration_errors,
+    'content': txt.registration_errors_occurred,
+    'list': context.registration_errors
+  } %}
+
+  <div class="object_form login_form type_simple object_list">
+    <div class="blue_component">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">{{ txt.registration_form }}</h3>
+      </div>
+      <div class="blue_component_medium object_list_frame">
+        <table class="object_table">
+          <tbody>
+            <tr class="object_row">
+              <th class="minimal">
+                <label for="smf_autov_username">{{ txt.username }}</label>
+              </th>
+              <td>
+                <input type="text" name="user" id="smf_autov_username" size="30" tabindex="{{ context['tabindex'] }}" maxlength="30" value="{{ context['username'] }}" />
+                <span id="smf_autov_username_div" style="display: none;">
+                  <a id="smf_autov_username_link" href="#">
+                    <img id="smf_autov_username_img" src="{{ images_url }}/icons/field_check.gif" alt="*" />
+                  </a>
+                </span>
+              </td>
+            </tr>
+
+            <tr class="object_row">
+              <th class="minimal">
+                <label for="smf_autov_reserve1">{{ txt.email }}</label>
+              </th>
+              <td>
+                <input type="text" name="email" id="smf_autov_reserve1" size="30" tabindex="{{ context['tabindex'] }}" maxlength="30" value="{{ context['email'] }}" />
+              </td>
+            </tr>
+
+            <tr class="object_row">
+              <th class="minimal">
+                <label for="allow_email">Communication settings</label>
+              </th>
+              <td>
+                <ul class="object_row_list">
+                  <li>
+                    <label>
+                      <input type="checkbox" name="allow_email" id="allow_email" />
+                      {{ txt.allow_user_email }}
+                    </label>
+                  </li>
+                  {% if context['announcements_ask'] %}
+                    <li>
+                      <label>
+                        <input type="checkbox" name="notify_announcements" id="notify_announcements" {{ context.notify_announcements ? 'checked="checked"' }} />
+                        {{ txt.notify_announcements }}
+                      </label>
+                    </li>
+                  {% endif %}
+                </ul>
+              </td>
+            </tr>
+
+            {% if modSettings['enableOpenID'] or true %}
+              <tr class="object_row">
+                <th class="minimal">
+                  {{ txt.authenticate_label }}
+							    <a href="{{ scripturl }}?action=helpadmin;help=register_openid" onclick="return reqWin(this.href);" class="help">(?)</a>
+                </th>
+                <td>
+                  <ul class="object_row_list">
+                    <li>
+                      <label for="auth_pass" id="option_auth_pass">
+                        <input type="radio" name="authenticate" value="passwd" id="auth_pass" tabindex="{{ context['tabindex'] }}" {{ context.openid ? 'checked="checked"' }} onclick="updateAuthMethod();" />
+                        {{ txt['authenticate_password'] }}
+                      </label>
+                    </li>
+                    <li>
+                      <label for="auth_openid" id="option_auth_openid">
+                        <input type="radio" name="authenticate" value="openid" id="auth_openid" tabindex="{{ context['tabindex'] }}" {{ context.openid ? 'checked="checked"' }} onclick="updateAuthMethod();" />
+                        {{ txt['authenticate_openid'] }}
+                      </label>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            {% endif %}
+
+            <tr class="object_row" id="password1_group">
+              <th class="minimal">
+                <label for="smf_autov_pwmain">{{ txt.choose_pass }}</label>
+              </th>
+              <td>
+                <input type="password" name="passwrd1" id="smf_autov_pwmain" size="30" tabindex="{{ context['tabindex'] }}" maxlength="30" value="{{ context['email'] }}" />
+                <span id="smf_autov_pwmain_div" style="display: none;">
+                  <img id="smf_autov_pwmain_img" src="{{ images_url }}/icons/field_invalid.gif" alt="*" />
+                </span>
+              </td>
+            </tr>
+
+            <tr class="object_row" id="password2_group">
+              <th class="minimal">
+                <label for="smf_autov_pwverify">{{ txt.verify_pass }}</label>
+              </th>
+              <td>
+                <input type="password" name="passwrd2" id="smf_autov_pwverify" size="30" tabindex="{{ context['tabindex'] }}" maxlength="30" value="{{ context['email'] }}" />
+                <span id="smf_autov_pwverify_div" style="display: none;">
+                  <img id="smf_autov_pwverify_img" src="{{ images_url }}/icons/field_valid.gif" alt="*" />
+                </span>
+              </td>
+            </tr>
+
+            {% if context.profile_fields %}
+              {% include 'components/form_register_profile_fields.twig' with {profile_fields: context.profile_fields} %}
+            {% endif %}
+
+            {% if context.custom_fields %}
+              {% for field in context.custom_fields %}
+                <tr class="object_row {{ field.is_error ? 'error' }}">
+                  <th class="minimal">
+                    {{ field.name }}
+                  </th>
+                  <td>
+                    {{ field.input_html }}
+                    <div class="subline">{{ field['desc'] }}</div>
+                  </td>
+                </tr>
+              {% endfor %}
+            {% endif %}
+
+            {% if context.visual_verification %}
+              <tr class="object_row" id="verification">
+                <th class="minimal">
+                  {{ txt.verification }}
+                </th>
+                <td>
+                  {{ context.visual_verification|raw }}
+                </td>
+              </tr>
+            {% endif %}
+
+            <tr class="object_row dark">
+              <th class="minimal"></th>
+              <td>
+                <button name="regSubmit"><strong>{{ txt.register }}</strong></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</form>
+
+<script type="text/javascript">
+var regTextStrings = {
+  "username_valid": "{{ txt.registration_username_available }}",
+  "username_invalid": "{{ txt['registration_username_unavailable'] }}",
+  "username_check": "{{ txt['registration_username_check'] }}",
+  "password_short": "{{ txt['registration_password_short'] }}",
+  "password_reserved": "{{ txt['registration_password_reserved'] }}",
+  "password_numbercase": "{{ txt['registration_password_numbercase'] }}",
+  "password_no_match": "{{ txt['registration_password_no_match'] }}",
+  "password_valid": "{{ txt['registration_password_valid'] }}"
+};
+var verificationHandle = new smfRegister("registration", {{ modSettings['password_strength'] ? modSettings['password_strength'] : 0 }}, regTextStrings);
+updateAuthMethod();
+</script>
+
+<script src="{{ default_theme_url }}/scripts/register.js"></script>
+<script>
+function verifyAgree()
+{
+  if (currentAuthMethod == 'passwd' && document.forms.registration.smf_autov_pwmain.value != document.forms.registration.smf_autov_pwverify.value)
+  {
+    alert("{{ txt['register_passwords_differ_js'] }}");
+    return false;
+  }
+
+  return true;
+}
+
+var currentAuthMethod = 'passwd';
+function updateAuthMethod()
+{
+  // What authentication method is being used?
+  if (!document.getElementById('auth_openid') || !document.getElementById('auth_openid').checked)
+    currentAuthMethod = 'passwd';
+  else
+    currentAuthMethod = 'openid';
+
+  // No openID?
+  if (!document.getElementById('auth_openid'))
+    return true;
+
+  document.forms.registration.openid_url.disabled = currentAuthMethod == 'openid' ? false : true;
+  document.forms.registration.smf_autov_pwmain.disabled = currentAuthMethod == 'passwd' ? false : true;
+  document.forms.registration.smf_autov_pwverify.disabled = currentAuthMethod == 'passwd' ? false : true;
+  document.getElementById('smf_autov_pwmain_div').style.display = currentAuthMethod == 'passwd' ? '' : 'none';
+  document.getElementById('smf_autov_pwverify_div').style.display = currentAuthMethod == 'passwd' ? '' : 'none';
+
+  if (currentAuthMethod == 'passwd')
+  {
+    verificationHandle.refreshMainPassword();
+    verificationHandle.refreshVerifyPassword();
+    document.forms.registration.openid_url.style.backgroundColor = '';
+    document.getElementById('password1_group').style.display = '';
+    document.getElementById('password2_group').style.display = '';
+    document.getElementById('openid_group').style.display = 'none';
+  }
+  else
+  {
+    document.forms.registration.smf_autov_pwmain.style.backgroundColor = '';
+    document.forms.registration.smf_autov_pwverify.style.backgroundColor = '';
+    document.forms.registration.openid_url.style.backgroundColor = '#FFF0F0';
+    document.getElementById('password1_group').style.display = 'none';
+    document.getElementById('password2_group').style.display = 'none';
+    document.getElementById('openid_group').style.display = '';
+  }
+
+  return true;
+}
+</script>

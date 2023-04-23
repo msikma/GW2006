@@ -1,0 +1,42 @@
+@charset "utf-8";
+@use "sass:string";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+	background: cssvar(--gw-background);
+	font-size: cssvar(--gw-font-regular);
+  font-family: string.unquote(cssvar(--gw-font-primary));
+	margin: 0 auto;
+  padding: 0;
+}
+a {
+  color: cssvar(--gw-text-link);
+  text-decoration: underline;
+}
+a:hover {
+  color: cssvar(--gw-text-hover);
+}
+
+img {
+  border: 0;
+}
+
+#wrapper {
+	padding: 17px 25px;
+  width: 100% !important;
+}
+#content_section {
+  margin-top: cssvar(--gw-content-margin);
+}
+
+tt, code {
+  font-family: string.unquote(cssvar(--gw-font-code));
+}
+
+button {
+  padding-left: 4px;
+  padding-right: 4px;
+}

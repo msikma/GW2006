@@ -1,0 +1,22 @@
+{# Displays the post preview section. #}
+{# FIXME: CURRENTLY UNUSED. DELETE? #}
+<div id="preview_section" class="{{ not context.preview_message ? 'hidden_preview' : '' }}">
+  <div class="cat_bar">
+    <h3 class="catbg">
+      <span id="preview_subject">
+        {% if context.preview_subject is not empty %}
+          {{ context.preview_subject }}
+        {% endif %}
+      </span>
+    </h3>
+  </div>
+  <div class="windowbg">
+    <div class="content">
+      <div class="post" id="preview_body">
+        {% if context.preview_message is not empty %}
+          {{ context.preview_message }}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+{# NOTE: this template has not been updated from the default yet. #}
+{% if modkarmaMode == 1 %}
+  <li class="karma">{{ modkarmaLabel }} {{ message.member.karma.good - message.member.karma.bad }}</li>
+{% elseif modkarmaMode == 2 %}
+  <li class="karma">{{ modkarmaLabel }} +{{ message.member.karma.good }}/-{{ message.member.karma.bad }}</li>
+{% endif %}
+
+{% if message.member.karma.allow %}
+  <li class="karma_allow">
+    <a href="{{ scripturl }}?action=modifykarma;sa=applaud;uid={{ message.member.id }};topic={{ context.current_topic }}.{{ context.start }};m={{ message.id }};{{ context.session_var }}={{ context.session_id }}">{{ modkarmaApplaudLabel }}</a>
+    <a href="{{ scripturl }}?action=modifykarma;sa=smite;uid={{ message.member.id }};topic={{ context.current_topic }}.{{ context.start }};m={{ message.id }};{{ context.session_var }}={{ context.session_id }}">{{ modkarmaSmiteLabel }}</a>
+  </li>
+{% endif %}
+
+{% if message.member.can_see_warning %}
+  <li class="warning">
+    {% if context.can_issue_warning %}
+      <a href="{{ scripturl }}?action=profile;area=issuewarning;u={{ message.member.id }}">
+    {% endif %}
+      <img src="{{ images_url }}/warning_{{ message.member.warning_status }}.gif" alt="{{ txt['user_warn_' ~ message.member.warning_status] }}" />
+    {% if context.can_issue_warning %}
+      </a>
+    {% endif %}
+    <span class="warn_{{ message.member.warning_status }}">{{ txt['warn_' ~ message.member.warning_status] }}</span>
+  </li>
+{% endif %}

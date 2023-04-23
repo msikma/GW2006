@@ -1,0 +1,13 @@
+<dt>
+  <strong>{{ txt['time_format'] }}:</strong><br />
+  <a href="{{ scripturl }}?action=helpadmin;help=time_format" onclick="return reqWin(this.href);" class="help"><img src="{{ images_url }}/helptopics.gif" alt="{{ txt['help'] }}" class="floatleft" /></a>
+  <span class="smalltext">&nbsp;{{ txt['date_format'] }}</span>
+</dt>
+<dd>
+  <select name="easyformat" onchange="document.forms.creator.time_format.value = this.options[this.selectedIndex].value;" style="margin-bottom: 4px;">
+    {% for time_format in context['easy_timeformats'] %}
+      <option value="{{ time_format['format'] }}" {% if time_format['format'] == context['member']['time_format'] %}selected="selected"{% endif %}>{{ time_format['title'] }}</option>
+    {% endfor %}
+  </select><br />
+  <input type="text" name="time_format" value="{{ context['member']['time_format'] }}" size="30" />
+</dd>

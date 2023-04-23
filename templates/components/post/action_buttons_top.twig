@@ -1,0 +1,113 @@
+{# Some values are different depending on where we are seeing the posts. #}
+{% set message_can_remove = message.can_remove|default(message.can_delete)|default(false) %}
+{% set message_topic_id = message.topic|default(context.current_topic) %}
+{% set message_start = message.start|default(message_start)|default('0') %}
+{% set message_can_quote = message.can_quote|default(context.can_quote)|default(false) %}
+{% set is_pm_inbox = context.current_action == 'pm' %}
+{% set overview_mode = context.display_mode == 0 %}
+{% set single_mode = context.display_mode == 1 %}
+{% set conversation_mode = context.display_mode == 2 %}
+
+<ul class="action_buttons">
+  {% if message.can_approve %}
+    <li class="approve_button">
+      <a class="post_action_text" href="{{ scripturl }}?action=moderate;area=postmod;sa=approve;topic={{ message_topic_id }}{{ message_start ? '.' ~ message_start }};msg={{ message.id }};{{ context.session_var }}={{ context.session_id }}">
+        {{ txt.approve }}
+      </a>
+    </li>
+  {% endif %}
+
+  {% if context.can_restore_msg %}
+    <li class="restore_button">
+      <a class="post_action_text" href="{{ scripturl }}?action=restoretopic;msgs={{ message.id }};{{ context.session_var }}={{ context.session_id }}">
+        {{ txt['restore_message'] }}
+      </a>
+    </li>
+  {% endif %}
+
+  {% if message['can_modify'] %}
+    <li class="modify_button">
+      <a href="{{ scripturl }}?action=post;msg={{ message['id'] }};topic={{ message_topic_id }}{{ message_start ? '.' ~ message_start }}">
+        {% include 'atoms/post_button.twig' with {'type': 'action_edit.gif', 'label': txt.modify} %}
+      </a>
+    </li>
+  {% endif %}
+
+  {% if message_can_remove %}
+    <li class="remove_button">
+      <a href="{{ scripturl }}?action=deletemsg;topic={{ message_topic_id }};msg={{ message['id'] }};{{ context['session_var'] }}={{ context['session_id'] }}" onclick="return confirm('{{ txt['remove_message'] }}?');">
+        {% include 'atoms/post_button.twig' with {'type': 'action_delete.gif', 'label': txt.remove} %}
+      </a>
+    </li>
+  {% endif %}
+
+  {% if message_can_quote and options['display_quick_reply'] is not empty %}
+    <li class="quote_button">
+      <a href="{{ scripturl }}?action=post;quote={{ message['id'] }};topic={{ message_topic_id }}{{ message_start ? '.' ~ message_start }};last_msg={{ context['topic_last_message'] }}" onclick="return oQuickReply.quote({{ message['id'] }});">
+        {% include 'atoms/post_button.twig' with {'type': 'action_quote.gif', 'label': txt.quote} %}
+      </a>
+    </li>
+  {% elseif message_can_quote %}
+    <li class="quote_button">
+      <a href="{{ scripturl }}?action=post;quote={{ message['id'] }};topic={{ message_topic_id }}{{ message_start ? '.' ~ message_start }};last_msg={{ context['topic_last_message'] }}">
+        {% include 'atoms/post_button.twig' with {'type': 'action_quote.gif', 'label': txt.quote} %}
+      </a>
+    </li>
+  {% endif %}
+
+  {% if message['can_reply'] %}
+    <li class="reply_button">
+      <a href="{{ scripturl }}?action=post;topic={{ message_topic_id }}{{ message_start ? '.' ~ message_start }}">
+        {% include 'atoms/post_button.twig' with {'type': 'action_reply.gif', 'label': txt.reply} %}
+      </a>
+    </li>
+  {% endif %}
+
+  {% if context['can_split'] and context['real_num_replies'] is not empty %}
+    <li class="split_button">
+      <a href="{{ scripturl }}?action=splittopics;topic={{ message_topic_id }}.0;at={{ message['id'] }}">
+        {% include 'atoms/post_button.twig' with {'type': 'action_split.gif', 'label': txt.split} %}
+      </a>
+    </li>
+  {% endif %}
+
+  {% if options['display_quick_mod'] is defined and options['display_quick_mod'] == 1 and message_can_remove %}
+    <li class="inline_mod_check" style="display: none;" id="in_topic_mod_check_{{ message['id'] }}">
+    </li>
+  {% endif %}
+
+  {% if is_pm_inbox %}
+    {% if context['can_send_pm'] %}
+      {% if not message.member.is_guest %}
+        {% if message.number_recipients > 1 and not conversation_mode %}
+          <li class="reply_all_button">
+            <a href="{{ scripturl }}?action=pm;sa=send;f={{ context.folder }}{% if context.current_label_id != -1 %};l={{ context.current_label_id }}{% endif %};pmsg={{ message.id }};quote;u=all">
+              {% include 'atoms/post_button.twig' with {'type': 'pm_reply_to_all.gif', 'label': txt.reply_to_all} %}
+            </a>
+          </li>
+        {% endif %}
+        <li class="reply_button">
+          <a href="{{ scripturl }}?action=pm;sa=send;f={{ context.folder }}{% if context.current_label_id != -1 %};l={{ context.current_label_id }}{% endif %};pmsg={{ message.id }};u={{ message.member.id }}">
+            {% include 'atoms/post_button.twig' with {'type': 'pm_reply.gif', 'label': txt.reply} %}
+          </a>
+        </li>
+        <li class="quote_button">
+          <a href="{{ scripturl }}?action=pm;sa=send;f={{ context.folder }}{% if context.current_label_id != -1 %};l={{ context.current_label_id }}{% endif %};pmsg={{ message.id }};quote{% if context.folder != 'sent' %};u={{ message.member.id }}{% endif %}">
+            {% include 'atoms/post_button.twig' with {'type': 'pm_quote.gif', 'label': txt.quote} %}
+          </a>
+        </li>
+      {% else %}
+        <li class="forward_button">
+          <a href="{{ scripturl }}?action=pm;sa=send;f={{ context.folder }}{% if context.current_label_id != -1 %};l={{ context.current_label_id }}{% endif %};pmsg={{ message.id }};quote">
+            {% include 'atoms/post_button.twig' with {'type': 'pm_forward.gif', 'label': txt.reply_quote} %}
+          </a>
+        </li>
+      {% endif %}
+    {% endif %}
+    <li class="remove_button">
+      <a href="{{ scripturl }}?action=pm;sa=pmactions;pm_actions[{{ message.id }}]=delete;f={{ context.folder }};start={{ context.start }}{% if context.current_label_id != -1 %};l={{ context.current_label_id }}{% endif %};{{ context.session_var }}={{ context.session_id }}" onclick="return confirm('{{ txt.remove_message|e('js') }}?');">
+        {% include 'atoms/post_button.twig' with {'type': 'pm_delete.gif', 'label': txt.delete} %}
+      </a>
+    </li>
+  {% endif %}
+</ul>

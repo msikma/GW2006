@@ -1,0 +1,5 @@
+<script>
+window['gwThemeData'] = {{ context.public_theme_data|json_encode()|raw }};
+window['gwContext'] = {{ context.public_context|json_encode()|raw }};
+themeInit();
+</script>

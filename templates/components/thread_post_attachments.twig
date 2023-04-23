@@ -1,0 +1,43 @@
+<div class="attachments white_box">
+  <div class="white_box_header">
+    <h4>Post attachments:</h4>
+  </div>
+  <div class="white_box_content">
+    <div id="msg_{{ message.id }}_attachments">
+      {% for attachment in attachments %}
+        {% set target = attachment.href %}
+        {% set thumb = attachment.href ~ ';image' %}
+        {% if attachment.is_image %}
+          {% set target = thumb %}
+          {% if attachment.thumbnail.has_thumb %}
+            {% set thumb = attachment.thumbnail.href %}
+          {% endif %}
+        {% endif %}
+        <div class="attachment">
+          {% if attachment.is_image %}
+            <div class="preview image">
+              <a href="{{ target }};image">
+                <img src="{{ thumb }}" alt="Preview for: {{ attachment.name }}" />
+              </a>
+            </div>
+          {% endif %}
+          <div class="line">
+            <a href="{{ target }}">
+              {% include 'atoms/filetype_icon.twig' with {'filename': attachment.name} %}
+              <span class="name">{{ attachment.name }}</span>
+            </a>
+            {% apply spaceless %}
+              <span class="metadata">
+                <span>{{ attachment.size }}, </span>
+                {% if attachment.is_image %}
+                  <span>{{ attachment.real_width }}x{{ attachment.real_height }}, </span>
+                {% endif %}
+                <span>{{ txt.attach_downloaded }} {{ attachment.downloads }} {{ txt.attach_times }}.</span>
+              </span>
+            {% endapply %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

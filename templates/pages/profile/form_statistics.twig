@@ -1,0 +1,113 @@
+{% set general_stats_rows = [
+  {
+    key: txt.statPanel_total_time_online,
+    value: context.time_logged_in,
+  },
+  {
+    key: txt.statPanel_total_posts,
+    value: context.num_posts ~ ' ' ~ txt.statPanel_posts,
+  },
+  {
+    key: txt.statPanel_total_topics,
+    value: context.num_topics ~ ' ' ~ txt.statPanel_topics,
+  },
+  {
+    key: txt.statPanel_users_polls,
+    value: context.num_polls ~ ' ' ~ txt.statPanel_polls,
+  },
+  {
+    key: txt.statPanel_users_votes,
+    value: context.num_votes ~ ' ' ~ txt.statPanel_votes,
+  },
+] %}
+
+
+{% include 'components/component_key_value.twig' with {title: txt.statPanel_generalStats ~ ' - ' ~ context.member.name, rows: general_stats_rows, is_wide: true} %}
+
+{% set chart_items = [
+  {
+    title: txt.statPanel_topBoards,
+    boards: context.popular_boards,
+  },
+  {
+    title: txt.statPanel_topBoardsActivity,
+    boards: context.board_activity,
+  },
+] %}
+{#
+
+
+[
+  {
+    "hour": 0,
+    "hour_format": "12 am",
+    "posts": "341",
+    "posts_percent": 8,
+    "is_last": false,
+    "relative_percent": 82
+  },
+  {
+    "hour": 1,
+    "hour_format": "1 am",
+    "posts": "213",
+    "posts_percent": 5,
+    "is_last": false,
+    "relative_percent": 51
+  },
+  
+#}
+
+<div class="component_grid">
+  <div class="grid_item">
+    <div class="object_list">
+      <div class="blue_component">
+        <div class="blue_component_header">
+          <h3 class="blue_component_title">Relative activity by time of day</h3>
+        </div>
+        <div class="object_list_frame">
+          <table class="object_table">
+            <tbody>
+              <tr class="object_row">
+                <td class="light">
+                  {{ get_user_activity_chart(context.posts_by_time)|raw }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grid_item">
+    {% for item in chart_items %}
+      <div class="object_list stats_table">
+        <div class="blue_component">
+          <div class="blue_component_header">
+            <h3 class="blue_component_title">{{ item.title }}</h3>
+          </div>
+          <div class="object_list_frame">
+            <table class="object_table key_value_table wide_keys">
+              <tbody>
+                {% for board in item.boards %}
+                  <tr class="object_row">
+                    {% set percent = board.posts_percent %}
+                    <td class="kv_key medium">{{ board.link|raw }}</td>
+                    <td class="light minimal connected_right pie_chart">
+                      {{ get_pie_chart(percent)|raw }}
+                    </td>
+                    <td class="light minimal connected_left percentage_total">
+                      <span>{{ percent|number_format(2) }}%</span>
+                    </td>
+                    <td class="light">
+                      {{ board.posts }} {{ board.posts == 1 ? txt.post : txt.posts }}
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
