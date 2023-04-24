@@ -2,30 +2,43 @@
 
 // A list of topics inside a subforum.
 .topic_list {
+  .topic_pages {
+    font-size: cssvar(--gw-font-small);
+    display: inline-block;
 
-}
-.topic_list .topic_pages {
-  font-size: cssvar(--gw-font-small);
-  display: inline-block;
-}
-.topic_list .topic_pages > span {
-  // This is the ... ellipsis. Override the inline style.
-  font-weight: normal !important;
-}
-.topic_list .topic_row.is_sticky .subject .link::before {
-  content: 'Sticky: ';
-}
-.topic_list .last_post .last_post_time {
-  padding-bottom: 2px;
-}
-.topic_list .last_post .last_post_time strong {
-  font-weight: normal;
-}
-.topic_list .last_post .last_post_icon {
-  text-decoration: none;
-}
-.topic_list .last_post .last_post_icon img {
-  vertical-align: text-bottom;
+    > span {
+      // This is the ... ellipsis. Override the inline style.
+      font-weight: normal !important;
+    }
+  }
+  .topic_row {
+    &.is_locked {
+      .subject .link::before {
+        content: 'Locked: ';
+      }
+    }
+    &.is_locked {
+      .is_sticky .link::before {
+        content: 'Sticky: ';
+      }
+    }
+  }
+  .last_post {
+    .last_post_icon {
+      text-decoration: none;
+
+      img {
+        vertical-align: text-bottom;
+      }
+    }
+    .last_post_time {
+      padding-bottom: 2px;
+
+      strong {
+        font-weight: normal;
+      }
+    }
+  }
 }
 
 // A forum's post index table (e.g. inside the General Forum).

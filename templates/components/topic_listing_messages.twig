@@ -105,7 +105,9 @@
                   {% endif %}
                   <td class="subject">
                     <div id="topic_{{ topic.first_post.id }}">
-                      <span class="link">{{ topic.first_post.link|raw }}</span>
+                      <span class="link">
+                        {{ topic.first_post.link|raw }}
+                      </span>
                       <span class="topic_pages" id="pages{{ topic.first_post.id }}">{{ topic.pages|raw }}</span>
                     </div>
                   </td>
