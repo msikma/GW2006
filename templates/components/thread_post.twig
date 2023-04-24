@@ -13,7 +13,7 @@
   {% set show_post_n = true %}
   {% set href = message.href %}
   {% set message_body = message.body %}
-  {% set member_username = message.member.username ?? message.member.name %}
+  {% set member_username = message.member.name ?? message.member.username %}
   {% set member_href = message.member.href %}
   {% set is_ignored = message.is_ignored %}
   {% set show_member_info = true %}
@@ -26,7 +26,7 @@
   {% set show_post_n = true %}
   {% set href = null %}
   {% set message_body = message.body %}
-  {% set member_username = message.member.username ?? message.member.name %}
+  {% set member_username = message.member.name ?? message.member.username %}
   {% set member_href = message.member.href %}
   {% set is_ignored = message.is_ignored %}
   {% set show_member_info = true %}
@@ -41,7 +41,7 @@
   {% set show_post_n = false %}
   {% set href = scripturl ~ '?topic=' ~ message.topic ~ '.' ~ message.start ~ '#' ~ message.start %}
   {% set message_body = message.body %}
-  {% set member_username = member.username ?? member.name %}
+  {% set member_username = member.name ?? member.username %}
   {% set member_href = member.href %}
   {% set is_ignored = message.is_ignored %}
   {% set show_member_info = true %}

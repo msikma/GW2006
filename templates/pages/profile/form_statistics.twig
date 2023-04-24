@@ -22,7 +22,7 @@
 ] %}
 
 
-{% include 'components/component_key_value.twig' with {title: txt.statPanel_generalStats ~ ' - ' ~ context.member.name, rows: general_stats_rows, is_wide: true} %}
+{% include 'components/component_key_value.twig' with {title: txt.statPanel_generalStats ~ ' - ' ~ (context.member.name ?? context.member.username), rows: general_stats_rows, is_wide: true} %}
 
 {% set chart_items = [
   {

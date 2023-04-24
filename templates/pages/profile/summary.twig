@@ -1,10 +1,10 @@
+{# Note: test admin-only items with: context.user.is_owner or context.user.is_admin #}
 {% set show_admin_rows = true %}
 
 {% set summary_rows = [
   {
-    test: context.user.is_owner or context.user.is_admin,
     key: txt.username,
-    value: context.member.name,
+    value: context.member.username,
   },
   {
     test: modSettings.titlesEnable and context.member.title,
@@ -142,7 +142,7 @@
     {% include 'components/component_key_value.twig' with {title: 'Contact information', rows: contact_rows} %}
     {% include 'components/component_key_value.twig' with {title: 'Additional information', rows: additional_rows} %}
     {% if context.member.signature %}
-      {% include 'components/component_article.twig' with {title: context.member.username ~ "'s signature", content: context.member.signature} %}
+      {% include 'components/component_article.twig' with {title: (context.member.name ?? context.member.username) ~ "'s signature", content: context.member.signature} %}
     {% endif %}
     {% if context.can_see_ip and show_admin_rows %}
       {% include 'components/component_key_value.twig' with {title: 'Moderator information', rows: admin_rows} %}

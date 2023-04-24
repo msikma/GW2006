@@ -29,7 +29,7 @@
     {% set needs_decoration = member.options.cust_useret is not empty and avatar_source == 'remote' %}
     <li class="avatar source_{{ avatar_source }}">
       <a href="{{ scripturl }}?action=profile;u={{ member.id }}">
-        <img src="{{ avatar_url }}" alt="Avatar of {{ member.username }}" class="{{ member.options.cust_useret ? 'retina' }}" />
+        <img src="{{ avatar_url }}" alt="Avatar of {{ member.name ?? member.username }}" class="{{ member.options.cust_useret ? 'retina' }}" />
         {% if needs_decoration %}
           <script>decorateComponent('avatar');</script>
         {% endif %}

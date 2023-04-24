@@ -16,7 +16,7 @@
           {% for member in context.view_members %}
             <span class="viewing_member member">
               {# TODO: pass on member.group_name which isn't present here. #}
-              <a href="{{ scripturl }}?action=profile;u={{ member.id }}" class="{{ get_username_pip_class(member.group, member.id, true) }}">{{ member.username }}</a>
+              <a href="{{ scripturl }}?action=profile;u={{ member.id }}" class="{{ get_username_pip_class(member.group, member.id, true) }}">{{ member.name ?? member.username }}</a>
             </span>
           {% endfor %}
         {% endapply -%}

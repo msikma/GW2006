@@ -1,6 +1,6 @@
 <div class="member_strip">
   <span class="username">
-    <a href="{{ member.href }}" class="{{ get_username_pip_class(member.group, member.id) }}">{{ member.name|raw }}</a>
+    <a href="{{ member.href }}" class="{{ get_username_pip_class(member.group, member.id) }}">{{ (member.name ?? member.username)|raw }}</a>
   </span>
 
   {% if not member.is_guest %}

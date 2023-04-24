@@ -6,7 +6,7 @@
     <div class="blue_component_section blue_component_primary post_meta_top blue_component_medium">
       <div class="author_column">
         <h4 class="author_name">
-          <a href="{{ member.href }}" class="{{ get_username_pip_class(member.group, member.id) }}">{{ member.username }}</a>
+          <a href="{{ member.href }}" class="{{ get_username_pip_class(member.group, member.id) }}">{{ (member.name ?? member.username)|raw }}</a>
         </h4>
       </div>
     </div>
