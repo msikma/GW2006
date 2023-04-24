@@ -82,6 +82,9 @@
       &.text_right {
         text-align: right;
       }
+      &.quick_mod {
+        vertical-align: middle;
+      }
 
       ul {
         margin: 0;
@@ -90,6 +93,11 @@
     }
     .checkbox_wrapper {
       padding: cssvar(--gw-cell-medium);
+    }
+    &.quick_mod_options {
+      select[name="move_to"] {
+        max-width: 16rem;
+      }
     }
   }
 
