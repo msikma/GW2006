@@ -127,6 +127,9 @@
   height: 12px;
   margin-top: -1px;
   vertical-align: middle;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 .object_table thead .object_row th.active_sort_down a::after {
   background-image: url('../images/__gwnew/ui_icons/arrow_sort_down.png');
