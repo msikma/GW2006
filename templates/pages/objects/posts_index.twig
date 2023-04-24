@@ -193,7 +193,7 @@
   {% for message in context.messages %}
     {% include 'components/thread_post.twig' with {
       'is_thread_post': true,
-      'show_header': true,
+      'show_header': loop.index == 1,
       'title_buttons': title_buttons,
       'message': message
     } %}
