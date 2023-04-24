@@ -93,7 +93,8 @@
                 <ul class="action_buttons">
                   <li>
                     <a href="#">
-                      <img src="{{ images_url }}/__gwnew/post_buttons/pm_new_message.gif" class="pixel" />
+                      {# FIXME: use txt #}
+                      {% include 'atoms/post_button.twig' with {'type': 'pm_new_message.gif', 'label': 'New message'} %}
                     </a>
                   </li>
                 </ul>
