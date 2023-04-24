@@ -17,6 +17,9 @@
     <div class="topic_list_inner">
       <div class="blue_component_header">
         <h3 class="blue_component_title">{{ index_title }}</h3>
+        <div class="blue_component_buttons">
+          {% include 'components/forum_button_strip.twig' with {'buttons': title_buttons} %}
+        </div>
       </div>
       <div class="object_list_frame">
         <table class="message_table_list object_table {{ show_quick_mod ? 'show_quick_mod' : 'hide_quick_mod' }}">
