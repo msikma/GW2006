@@ -43,13 +43,15 @@
   {% endif %}
   
   {# PIPS!!!!!!! #}
-  <li class="pips">
-    {% if context.use_gw_pip_count %}
-      {{ get_user_pip_images_from_posts(member.posts, member.group, member.id)|raw }}
-    {% else %}
-      {{ get_user_pip_images_from_stars(member.group_stars|raw, member.group, member.id)|raw }}
-    {% endif %}
-  </li>
+  {% if not member.is_guest %}
+    <li class="pips">
+      {% if context.use_gw_pip_count %}
+        {{ get_user_pip_images_from_posts(member.posts, member.group, member.id)|raw }}
+      {% else %}
+        {{ get_user_pip_images_from_stars(member.group_stars|raw, member.group, member.id)|raw }}
+      {% endif %}
+    </li>
+  {% endif %}
 
   {# Show the member's primary group (like "Administrator"). #}
   <li class="member_group">Group: {{ member.group|default('Member') }}</li>
@@ -60,8 +62,10 @@
   {% endif %}
 
   {# Show how many posts they have made. #}
-  {% if not context.disabled_fields.posts is defined %}
-    <li class="postcount">{{ txt.member_postcount }}: {{ member.posts }}</li>
+  {% if not member.is_guest %}
+    {% if not context.disabled_fields.posts is defined %}
+      <li class="postcount">{{ txt.member_postcount }}: {{ member.posts }}</li>
+    {% endif %}
   {% endif %}
 
   {# Show the post group if and only if they have no other group or the option is on, and they are in a post group. #}

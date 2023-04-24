@@ -13,8 +13,8 @@
   {% set show_post_n = true %}
   {% set href = message.href %}
   {% set message_body = message.body %}
-  {% set member_username = message.member.username %}
-  {% set member_href = member.href %}
+  {% set member_username = message.member.username ?? message.member.name %}
+  {% set member_href = message.member.href %}
   {% set is_ignored = message.is_ignored %}
   {% set show_member_info = true %}
 {% endif %}
@@ -26,7 +26,7 @@
   {% set show_post_n = true %}
   {% set href = null %}
   {% set message_body = message.body %}
-  {% set member_username = message.member.username %}
+  {% set member_username = message.member.username ?? message.member.name %}
   {% set member_href = message.member.href %}
   {% set is_ignored = message.is_ignored %}
   {% set show_member_info = true %}
@@ -41,7 +41,7 @@
   {% set show_post_n = false %}
   {% set href = scripturl ~ '?topic=' ~ message.topic ~ '.' ~ message.start ~ '#' ~ message.start %}
   {% set message_body = message.body %}
-  {% set member_username = member.username %}
+  {% set member_username = member.username ?? member.name %}
   {% set member_href = member.href %}
   {% set is_ignored = message.is_ignored %}
   {% set show_member_info = true %}
@@ -70,7 +70,7 @@
   {% set href = message.href %}
   {% set message_body = message.message %}
   {% set member_username = message.poster.name %}
-  {% set member_href = member.psoter.href %}
+  {% set member_href = member.poster.href %}
   {% set is_ignored = message.is_ignored %}
   {% set show_member_info = false %}
 {% endif %}
@@ -78,7 +78,7 @@
 {# Sets the post values if this is post preview (i.e. not a real post). #}
 {% if is_post_preview %}
   {% set message_body = message %}
-  {% set member_username = context.user.username %}
+  {% set member_username = context.user.username ?? context.user.name %}
   {% set member_href = member.href %}
   {% set show_member_info = false %}
 {% endif %}
@@ -131,7 +131,13 @@
       {# Top row: contains the poster's username, post date, and action (edit, etc.) buttons. #}
       <div class="blue_component_section blue_component_primary blue_component_medium post_meta_top post_columns">
         <div class="author_column">
-          <h4 class="author_name"><a href="{{ member_href }}" class="{{ get_username_pip_class(member.group, member.id) }}">{{ member_username }}</a></h4>
+          <h4 class="author_name">
+            {% if member_href %}
+              <a href="{{ member_href }}" class="{{ get_username_pip_class(member.group, member.id) }}">{{ member_username }}</a>
+            {% else %}
+              <span class="{{ get_username_pip_class(member.group, member.id) }}">{{ member_username }}</span>
+            {% endif %}
+          </h4>
         </div>
         <div class="post_column">
           <div class="sidebar">

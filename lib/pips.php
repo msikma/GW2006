@@ -42,6 +42,10 @@ $pip_styles = [
       'colors' => ['#000000', '#3d4443', '#7b8584'],
       'weight' => 'normal',
     ],
+    'light_gray' => [
+      'colors' => ['#3d4443', '#7b8584'],
+      'weight' => 'normal',
+    ],
     'gold' => [
       'colors' => ['#e89304', '#e07c12', '#f6b328'],
     ],
@@ -72,6 +76,12 @@ $pip_styles = [
 $pip_mappings = [
   // Maps specific member groups to a pip style.
   'member_group_map' => [
+    'Guest' => [
+      'type' => 'pip',
+      'color' => 'light_gray',
+      // For simple inline lists, we don't apply styles to this group.
+      'ignored_inline' => true,
+    ],
     'Member' => [
       'type' => 'pip',
       'color' => 'gray',
@@ -293,8 +303,8 @@ function _extract_pip_amount($stars_html, $member_group, $member_id) {
 /**
  * Returns a single CSS style for a given pip color.
  */
-function get_pip_css_style($name, $color, $weight, $pseudoselector) {
-  $selector = '.pip_color_'.$name.$pseudoselector;
+function get_pip_css_style($name, $color, $weight, $pseudoselector, $element = '') {
+  $selector = $element.'.pip_color_'.$name.$pseudoselector;
   $styles = [];
   if ($color) {
     $styles[] = 'color: '.$color.';';
@@ -316,7 +326,7 @@ function get_all_pip_css_styles() {
   foreach ($pip_styles['colors'] as $name => $data) {
     $styles[] = get_pip_css_style($name, $data['colors'][0], $data['weight'], '');
     if ($data['colors'][1]) {
-      $styles[] = get_pip_css_style($name, $data['colors'][1], $data['weight'], ':hover');
+      $styles[] = get_pip_css_style($name, $data['colors'][1], $data['weight'], ':hover', 'a');
     }
   }
   return implode("\n", $styles);

@@ -192,7 +192,7 @@
   {# Loop that prints every post in the thread. #}
   {% for message in context.messages %}
     {% include 'components/thread_post.twig' with {
-      'is_pm_inbox': true,
+      'is_thread_post': true,
       'show_header': true,
       'title_buttons': title_buttons,
       'message': message

@@ -6,7 +6,7 @@
 } %}
 
 <ul class="action_buttons">
-  {% if context.can_send_pm %}
+  {% if context.can_send_pm and message.member.id %}
     <li class="pm_button">
       <a href="{{ scripturl }}?action=pm;sa=send;u={{ message.member.id }}" title="{{ message.member.online.is_online ? txt.pm_online : txt.pm_offline }}">
         {% include 'atoms/post_button.twig' with {'type': 'contact_pm.gif', 'label': message.member.online.is_online ? txt.pm_online : txt.pm_offline} %}
