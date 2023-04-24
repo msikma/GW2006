@@ -43,6 +43,7 @@
     color: white;
     font-size: cssvar(--gw-font-regular);
     padding: cssvar(--gw-cell-large);
+    flex: 1 0 min-content;
 
     a {
       color: white;
@@ -141,6 +142,7 @@
   background-repeat: repeat-x;
   position: relative;
   text-align: left;
+  display: flex;
 
   & + .blue_component_section {
     border-top: 1px solid cssvar(--gw-inner-dark);
@@ -148,11 +150,9 @@
 
   .blue_component_buttons {
     // The .blue_component_buttons item contains a button strip with unique styling.
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
     display: flex;
+    white-space: nowrap;
+    flex: 0 1 min-content;
   }
 
   .blue_component_buttons .button_strip {
