@@ -53,7 +53,7 @@
               </th>
               <th scope="col" class="text_center quick_mod minimal no_padding">
                 <label class="checkbox_wrapper">
-                  <input type="checkbox" onclick="invertAll(this, this.form, 'topics[]');" class="input_check" />
+                  <input type="checkbox" onclick="selectCheckAll(this, this.form, 'topics[]');" class="input_check" />
                 </label>
               </th>
             </tr>
@@ -134,7 +134,7 @@
                   </td>
                   <td class="text_center quick_mod minimal no_padding">
                     <label class="checkbox_wrapper">
-                      <input type="checkbox" name="topics[]" value="{{ topic.id }}" class="input_check" />
+                      <input type="checkbox" name="topics[]" value="{{ topic.id }}" class="input_check" onclick="selectCheck(this);" />
                     </label>
                   </td>
                 </tr>

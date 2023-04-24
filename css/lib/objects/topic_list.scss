@@ -22,6 +22,11 @@
         content: 'Sticky: ';
       }
     }
+    &.is_selected {
+      td {
+        background: cssvar(--gw-inner-verylight);
+      }
+    }
   }
   .last_post {
     .last_post_icon {
