@@ -49,6 +49,9 @@ $pip_styles = [
     'gold' => [
       'colors' => ['#e89304', '#e07c12', '#f6b328'],
     ],
+    'warmgold' => [
+      'colors' => ['#e89304', '#e07c12', '#f6b328'],
+    ],
   ],
   // Special styles that override the regular behavior of pips.
   'specials' => [
@@ -63,6 +66,10 @@ $pip_styles = [
     'transgender_flag' => [
       'pip_array' => ['cyan', 'cyan', 'rose', 'rose', 'white', 'white', 'rose', 'rose', 'cyan', 'cyan'],
       'color' => 'cyan',
+    ],
+    'prizes' => [
+      'pip_array' => ['gold', 'silver', 'bronze'],
+      'color' => 'gold',
     ],
   ],
   // The different base images that can be used, e.g. lego_gray, pip_red.png, etc.
