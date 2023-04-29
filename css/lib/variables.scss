@@ -79,6 +79,9 @@ $gw-rainbow: (#e32c28, #ff7d00, #efd600, #2dd535, #00cc98, #00aeee, #2e96fb, #9a
 // Whether to use custom properties; if false, the CSS uses static properties.
 $use-custom-properties: not $legacy-mode;
 
+// Whether to display a "sticky" label in front of stickied topics.
+$use-sticky-label: false;
+
 // cssvar function; drop-in replacement for the CSS var() custom property function.
 @function cssvar($key, $fallback: null) {
   @if $use-custom-properties == true {

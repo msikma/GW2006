@@ -17,9 +17,11 @@
         content: 'Locked: ';
       }
     }
-    &.is_locked {
-      .is_sticky .link::before {
-        content: 'Sticky: ';
+    @if $use-sticky-label {
+      &.is_sticky {
+        .subject .link::before {
+          content: 'Sticky: ';
+        }
       }
     }
     &.is_selected {
