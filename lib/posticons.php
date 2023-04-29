@@ -66,8 +66,12 @@ function get_posticons() {
  * 
  * By default, all posts are set to the "xx" posticon, which is the "no icon" one.
  */
-function find_posticon($value, $test_icons = false) {
+function find_posticon($value, $is_poll = false, $test_icons = false) {
   $sets = get_posticons();
+
+  if ($is_poll) {
+    return find_system_posticon('system_poll', $value);
+  }
 
   foreach ($sets as $posticons) {
     foreach ($posticons as $icon) {

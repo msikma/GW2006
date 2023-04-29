@@ -17,6 +17,11 @@
         content: 'Locked: ';
       }
     }
+    &.is_poll {
+      .subject .link::before {
+        content: 'Poll: ';
+      }
+    }
     @if $use-sticky-label {
       &.is_sticky {
         .subject .link::before {

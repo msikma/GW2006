@@ -80,6 +80,9 @@
                 {% if topic.is_sticky %}
                   {% set topic_classes = topic_classes|merge(['is_sticky']) %}
                 {% endif %}
+                {% if topic.is_poll %}
+                  {% set topic_classes = topic_classes|merge(['is_poll']) %}
+                {% endif %}
                 {% if topic.is_locked %}
                   {% set topic_classes = topic_classes|merge(['is_locked']) %}
                 {% endif %}
@@ -100,7 +103,7 @@
                   {% endif %}
                   {% if display_message_icon %}
                     <td class="icon minimal">
-                      {% include 'atoms/posticon.twig' with {'icon_name': topic.first_post.icon} %}
+                      {% include 'atoms/posticon.twig' with {'icon_name': topic.first_post.icon, 'is_poll': topic.is_poll} %}
                     </td>
                   {% endif %}
                   <td class="subject">

@@ -31,8 +31,8 @@ $twig = new Twig\Environment($loader, [
 $twig->addExtension(new Twig\Extra\Intl\IntlExtension());
 
 /** Returns posticon image data by icon name. */
-$twig->addFunction(new TwigFunction('find_posticon', function($icon_name) {
-	return find_posticon($icon_name);
+$twig->addFunction(new TwigFunction('find_posticon', function($icon_name, $is_poll = false) {
+	return find_posticon($icon_name, $is_poll);
 }));
 /** Returns an icon that can be used to represent a specific filetype. */
 $twig->addFunction(new TwigFunction('get_filetype_icon', function($filename) {
