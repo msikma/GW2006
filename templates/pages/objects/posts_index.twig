@@ -175,11 +175,11 @@
 
 {# TODO #}
 {% if context.is_poll %}
-  {% include 'components/thread_poll.twig' %}
+  {% include 'components/post/thread_poll.twig' %}
 {% endif %}
 
 {% if context.linked_calendar_events %}
-  {% include 'components/thread_calendar_events.twig' %}
+  {% include 'components/post/thread_calendar_events.twig' %}
 {% endif %}
 
 <div class="forum_page_section">

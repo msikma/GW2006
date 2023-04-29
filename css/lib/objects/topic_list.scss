@@ -24,7 +24,7 @@
     }
     &.is_selected {
       td {
-        background: cssvar(--gw-inner-verylight);
+        background: cssvar(--gw-inner-highlighted);
       }
     }
   }

@@ -2,7 +2,7 @@
 <tr id="edit_poll" class="object_row {% if context.poll_error.no_question %}error{% endif %}">
   <th class="minimal">{{ txt.poll_question }}:</th>
   <td>
-    <input type="text" name="question" value="{{ context.question ? context.question }}" tabindex="{{ context.tabindex + 1 }}" size="80" />
+    <input type="text" name="question" value="{{ context.poll.question ?? context.question ?? '' }}" tabindex="{{ context.tabindex + 1 }}" size="80" />
   </td>
 </tr>
 <tr id="edit_poll" class="object_row">
@@ -52,3 +52,32 @@
     </ul>
   </td>
 </tr>
+{% if context.is_edit %}
+  <tr id="edit_poll_options" class="object_row">
+    <th class="minimal">{{ txt.reset_votes }}:</th>
+    <td>
+      <ul class="object_row_list">
+        <li>
+          <label for="resetVoteCount"><input type="checkbox" id="resetVoteCount" name="resetVoteCount" value="on" class="input_check" /> {{ txt.reset_votes_check }}</label>
+        </li>
+      </ul>
+    </td>
+  </tr>
+{% endif %}
+
+<script>
+	var pollOptionNum = 0;
+
+	function addPollOption()
+	{
+		if (pollOptionNum == 0)
+		{
+			for (var i = 0; i < document.forms.postmodify.elements.length; i++)
+				if (document.forms.postmodify.elements[i].id.substr(0, 8) == "options-")
+					pollOptionNum++;
+		}
+		pollOptionNum++
+
+		setOuterHTML(document.getElementById("pollMoreOptions"), '<li><label for="options-' + pollOptionNum + '" {% if context.poll_error.no_question is defined %}class="error"{% endif %}>{{ txt['option'] }} ' + pollOptionNum + '</label>: <input type="text" name="options[' + (pollOptionNum - 1) + ']" id="options-' + (pollOptionNum - 1) + '" value="" size="80" maxlength="255" class="input_text" /></li><li id="pollMoreOptions"></li>');
+	}
+</script>

@@ -2,7 +2,7 @@
 
 .object_table#stats {
   tbody tr[class="object_row"] td {
-    background:cssvar(--gw-inner-light);
+    background: cssvar(--gw-inner-light);
     text-align: left !important;
 
     &:first-child {

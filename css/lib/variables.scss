@@ -9,7 +9,7 @@ $gw-properties: (
   --gw-inner-dark: #D1D1E1,
   --gw-inner-medium: #DFE0EC,
   --gw-inner-light: #EDF2F8,
-  --gw-inner-verylight: #f6f8fb,
+  --gw-inner-highlighted: #f6f8fb,
   --gw-test: #e7eaf3,
   --gw-inner-negative: #728EBE,
   --gw-inner-negative-active: #4f6b9b,
@@ -72,6 +72,9 @@ $gw-properties: (
 
   --gw-post-column-a: 180px, // Width of the leftmost column inside posts.
 );
+
+// List of rainbow colors used for polls and other stats.
+$gw-rainbow: (#e32c28, #ff7d00, #efd600, #2dd535, #00cc98, #00aeee, #2e96fb, #9a65ff, #dc42e3, #fd3c97);
 
 // Whether to use custom properties; if false, the CSS uses static properties.
 $use-custom-properties: not $legacy-mode;

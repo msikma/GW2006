@@ -62,6 +62,10 @@ $twig->addFunction(new TwigFunction('get_letter', function($n) {
 $twig->addFunction(new TwigFunction('get_pie_chart', function($percent) {
 	return get_percentage_pie_chart($percent);
 }));
+/** Returns the highest vote percentage for an array of poll options. */
+$twig->addFunction(new TwigFunction('get_max_poll_percentage', function($options) {
+	return max(array_column($options, 'percent'));
+}));
 /** Returns a line chart indicating the user's relative activity by time of day. */
 $twig->addFunction(new TwigFunction('get_user_activity_chart', function($user_posts_by_time) {
 	return get_user_activity_chart($user_posts_by_time);

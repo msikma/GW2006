@@ -28,7 +28,7 @@
 
     // For grouped forms, this indicates a group title.
     &.group_name {
-      font-size:cssvar(--gw-font-small);
+      font-size: cssvar(--gw-font-small);
 
       th {
         padding: 0cssvar(--gw-cell-medium);
@@ -166,6 +166,12 @@
 .object_table .object_row td.light,
 .object_table .object_row.light td {
   background: cssvar(--gw-inner-light);
+}
+.object_table .object_row th.highlighted,
+.object_table .object_row.highlighted th,
+.object_table .object_row td.highlighted,
+.object_table .object_row.highlighted td {
+  background: cssvar(--gw-inner-highlighted);
 }
 .object_table .object_row.blue th,
 .object_table .object_row.blue td {

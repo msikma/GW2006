@@ -62,17 +62,21 @@
 
       &.dark, &.light {
         display: block;
-        font-size:cssvar(--gw-font-small);
+        font-size: cssvar(--gw-font-small);
         font-weight: normal;
         margin-top: 4px;
         margin: calc(-1 *cssvar(--gw-cell-large));
-        background:cssvar(--gw-inner-negative-active);
-        padding:cssvar(--gw-cell-large);
+        background: cssvar(--gw-inner-negative-active);
+        padding: cssvar(--gw-cell-large);
         border-top: 1px solidcssvar(--gw-inner-dark);
-        margin-top:cssvar(--gw-cell-large);
+        margin-top: cssvar(--gw-cell-large);
       }
       &.light {
-        background:cssvar(--gw-inner-light);
+        background: cssvar(--gw-inner-light);
+        color: black;
+      }
+      &.highlighted {
+        background: cssvar(--gw-inner-highlighted);
         color: black;
       }
     }

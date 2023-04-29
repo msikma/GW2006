@@ -1,0 +1,38 @@
+<div id="edit_poll">
+
+  {% if context.poll_error.messages %}
+    {% set reasons %}
+      <ul class="reasons" id="error_list">
+        {{ context.poll_error.messages|map(m => "<li>#{m}</li>")|join('\n')|raw }}
+      </ul>
+    {% endset %}
+    {% include 'atoms/notification.twig' with {'type': 'danger', 'content': context.is_edit ? txt.error_while_editing_poll : txt.error_while_adding_poll, 'content_sub': reasons} %}
+  {% endif %}
+
+	<form action="{{ scripturl }}?action={{ context.is_edit ? 'editpoll2' : 'add' }}&topic={{ context.current_topic }}.{{ context.start }}" method="post" accept-charset="{{ context.character_set }}" onsubmit="submitonce(this); smc_saveEntities('postmodify', ['question'], 'options-');" name="postmodify" id="postmodify">
+    <input type="hidden" name="poll" value="{{ context.poll.id }}" />
+    <div class="object_form new_post_form object_list">
+      <div class="blue_component">
+        <div class="blue_component_header">
+          {# TODO: maybe put the topic title here? #}
+          <h3 class="blue_component_title">{{ context.page_title }}</h3>
+        </div>
+        <div class="blue_component_medium object_list_frame">
+          <table class="object_table">
+            <tbody>
+              {% include 'components/new_post/form_poll.twig' %}
+              <tr class="object_row dark">
+                <th class="minimal"></th>
+                <td>
+                  <button type="submit" onclick="return submitThisOnce(this);" accesskey="s"><strong>{{ txt.save }}</strong></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />
+    <input type="hidden" name="seqnum" value="{{ context.form_sequence_number }}" />
+	</form>
+</div>
