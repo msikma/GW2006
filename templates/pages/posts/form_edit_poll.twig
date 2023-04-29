@@ -8,8 +8,7 @@
     {% endset %}
     {% include 'atoms/notification.twig' with {'type': 'danger', 'content': context.is_edit ? txt.error_while_editing_poll : txt.error_while_adding_poll, 'content_sub': reasons} %}
   {% endif %}
-
-	<form action="{{ scripturl }}?action={{ context.is_edit ? 'editpoll2' : 'add' }}&topic={{ context.current_topic }}.{{ context.start }}" method="post" accept-charset="{{ context.character_set }}" onsubmit="submitonce(this); smc_saveEntities('postmodify', ['question'], 'options-');" name="postmodify" id="postmodify">
+	<form action="{{ scripturl }}?action=editpoll2;{{ context.is_edit ? '' : 'add;' }}topic={{ context.current_topic }}.{{ context.start }}" method="post" accept-charset="{{ context.character_set }}" onsubmit="submitonce(this); smc_saveEntities('postmodify', ['question'], 'options-');" name="postmodify" id="postmodify">
     <input type="hidden" name="poll" value="{{ context.poll.id }}" />
     <div class="object_form new_post_form object_list">
       <div class="blue_component">
