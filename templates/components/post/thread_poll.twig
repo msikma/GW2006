@@ -83,7 +83,7 @@
                     </p>
                   {% elseif context.poll.expire_time %}
                     <p>
-                      <strong>{{ context.poll.is_expired ? txt.poll_expired_on : txt.poll_expires_on }}:</strong> {{ context.poll.expire_time }}
+                      <strong>{{ context.poll.is_expired ? txt.poll_expired_on : txt.poll_expires_on }}:</strong> {{ context.poll.expire_time|raw }}
                     </p>
                   {% endif %}
                 </td>
