@@ -1,5 +1,6 @@
 {% set form_action = scripturl ~ '?action=' ~ context.destination ~ ';' ~ (context.current_board ? 'board=' ~ context.current_board) %}
 {% set is_reply = context.topic_last_message is defined %}
+{% set is_first_post = context.is_first_post %}
 
 {% if context.is_new_topic %}
   {% set submit_label = 'Create new topic' %}
@@ -27,8 +28,8 @@
   {% if context.current_topic is defined %}
     <input type="hidden" name="topic" value="{{ context.current_topic }}" />
   {% endif %}
-  {% if is_reply %}
-    {# If this is a reply, we hide the subject field (and message icon picker). #}
+  {% if is_reply and not is_first_post %}
+    {# If this is a reply, and we're not editing the first post, we hide the subject field (and message icon picker). #}
     <input type="hidden" name="subject" value="{{ context.subject }}" />
   {% endif %}
 
@@ -85,7 +86,7 @@
               {% endif %}
             {% endif %}
 
-            {% if not is_reply %}
+            {% if (not is_reply) or is_first_post %}
               <tr class="object_row {{ context.post_error.no_subject ? 'error' }}">
                 <th>{{ txt.subject }}:</th>
                 <td>
