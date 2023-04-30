@@ -1,4 +1,4 @@
-{% set form_action = scripturl ~ '?action=' ~ context.destination ~ ';' ~ (context.current_board is not empty ? 'board=' ~ context.current_board : '') %}
+{% set form_action = scripturl ~ '?action=' ~ context.destination ~ ';' ~ (context.current_board ? 'board=' ~ context.current_board) %}
 {% set is_reply = context.topic_last_message is defined %}
 
 {% if context.is_new_topic %}
@@ -69,14 +69,14 @@
         <table class="object_table">
           <tbody>
             {% if context.name and context.email %}
-              <tr class="object_row {{ context.post_error.long_name or context.post_error.no_name or context.post_error.bad_name ? 'error' : '' }}">
+              <tr class="object_row {{ context.post_error.long_name or context.post_error.no_name or context.post_error.bad_name ? 'error' }}">
                 <th>{{ txt.name }}:</th>
                 <td>
                   <input type="text" name="guestname" size="25" value="{{ context.name }}" tabindex="{{ context.tabindex + 1 }}" />
                 </td>
               </tr>
-              {% if modSettings.guest_post_no_email is empty %}
-                <tr class="object_row {{ context.post_error.no_email or context.post_error.bad_email ? 'error' : '' }}">
+              {% if not modSettings.guest_post_no_email %}
+                <tr class="object_row {{ context.post_error.no_email or context.post_error.bad_email ? 'error' }}">
                   <th>{{ txt.email }}:</th>
                   <td>
                     <input type="email" name="email" size="25" value="{{ context.email }}" tabindex="{{ context.tabindex + 1 }}" />
@@ -86,7 +86,7 @@
             {% endif %}
 
             {% if not is_reply %}
-              <tr class="object_row {{ context.post_error.no_subject ? 'error' : '' }}">
+              <tr class="object_row {{ context.post_error.no_subject ? 'error' }}">
                 <th>{{ txt.subject }}:</th>
                 <td>
                   <div class="post_subject form_input_row full_width">
@@ -138,7 +138,7 @@
                   {% if context.can_notify %}
                     <li>
                       <label>
-                        <input type="checkbox" name="notify" id="check_notify" {{ context.notify or options.auto_notify ? 'checked="checked"' : '' }} value="1" />
+                        <input type="checkbox" name="notify" id="check_notify" {{ context.notify or options.auto_notify ? 'checked="checked"' }} value="1" />
                         {{ txt.notify_replies }}
                       </label>
                       <input type="hidden" name="notify" value="0" />
@@ -147,7 +147,7 @@
                   {% if context.can_lock %}
                     <li>
                       <label>
-                        <input type="checkbox" name="lock" id="check_lock" {{ context.locked ? 'checked="checked"' : '' }} value="1" />
+                        <input type="checkbox" name="lock" id="check_lock" {{ context.locked ? 'checked="checked"' }} value="1" />
                         {{ txt.lock_topic }}
                       </label>
                       <input type="hidden" name="lock" value="0" />
@@ -156,7 +156,7 @@
                   {% if true %}
                     <li>
                       <label>
-                        <input type="checkbox" name="goback" id="check_back" {{ context.back_to_topic or options.return_to_post ? 'checked="checked"' : '' }} value="1" />
+                        <input type="checkbox" name="goback" id="check_back" {{ context.back_to_topic or options.return_to_post ? 'checked="checked"' }} value="1" />
                         {{ txt.back_to_topic }}
                       </label>
                     </li>
@@ -164,7 +164,7 @@
                   {% if context.can_sticky %}
                     <li>
                       <label>
-                        <input type="checkbox" name="sticky" id="check_sticky" {{ context.sticky ? 'checked="checked"' : '' }} value="1" />
+                        <input type="checkbox" name="sticky" id="check_sticky" {{ context.sticky ? 'checked="checked"' }} value="1" />
                         {{ txt.sticky_after }}
                       </label>
                       <input type="hidden" name="sticky" value="0" />
@@ -173,7 +173,7 @@
                   {% if true %}
                     <li>
                       <label>
-                        <input type="checkbox" name="ns" id="check_smileys" {{ context.use_smileys ? 'checked="checked"' : '' }} value="NS" />
+                        <input type="checkbox" name="ns" id="check_smileys" {{ context.use_smileys ? '' : 'checked="checked"' }} value="NS" />
                         {{ txt.dont_use_smileys }}
                       </label>
                     </li>
@@ -181,7 +181,7 @@
                   {% if context.can_move %}
                     <li>
                       <label>
-                        <input type="checkbox" name="move" id="check_move" {{ context.move ? 'checked="checked"' : '' }} value="1" />
+                        <input type="checkbox" name="move" id="check_move" {{ context.move ? 'checked="checked"' }} value="1" />
                         {{ txt.move_after2 }}
                       </label>
                       <input type="hidden" name="move" value="0" />
@@ -190,7 +190,7 @@
                   {% if context.can_announce and context.is_first_post %}
                     <li>
                       <label>
-                        <input type="checkbox" name="announce_topic" id="check_move" {{ context.announce ? 'checked="checked"' : '' }} value="1" />
+                        <input type="checkbox" name="announce_topic" id="check_move" {{ context.announce ? 'checked="checked"' }} value="1" />
                         {{ txt.announce_topic }}
                       </label>
                     </li>
@@ -198,7 +198,7 @@
                   {% if context.show_approval %}
                     <li>
                       <label>
-                        <input type="checkbox" name="approve" id="approve" {{ context.show_approval ? 'checked="checked"' : '' }} value="2" />
+                        <input type="checkbox" name="approve" id="approve" {{ context.show_approval ? 'checked="checked"' }} value="2" />
                         {{ txt.approve_this_post }}
                       </label>
                     </li>
@@ -233,17 +233,17 @@
 
                   {# Current attachments: #}
                   {# TODO: EDIT ATATCHMENTS: http://vesuvius.local/gw/index.php?action=post;msg=460159;topic=15472.0 #}
-                  {% if context.current_attachments is not empty %}
+                  {% if context.current_attachments %}
                     <p>{{ txt.attached }}: (temp)</p>
                     <input type="hidden" name="attach_del[]" value="0" />
                     {{ txt.uncheck_unwatchd_attach }}:
                     <ul class="object_row_list current_attachments">
                       {% for attachment in context.current_attachments %}
-                        <li class="{{ attachment.approved is empty ? 'not_approved' : '' }}">
+                        <li class="{{ not attachment.approved ? 'not_approved' }}">
                           <label>
-                            <input type="checkbox" name="attach_del[]" value="{{ attachment.id }}" {{ attachment.unchecked ? 'checked="checked"' : '' }} />
+                            <input type="checkbox" name="attach_del[]" value="{{ attachment.id }}" {{ attachment.unchecked ? 'checked="checked"' }} />
                             {{ attachment.name }}
-                            {% if attachment.approved is empty %} ({{ txt.awaiting_approval }}){% endif %}
+                            {% if not attachment.approved %} ({{ txt.awaiting_approval }}){% endif %}
                           </label>
                         </dd>
                       {% endfor %}
@@ -275,12 +275,12 @@
 </form>
 
 <script type="text/javascript">
-  var current_board = {{ context.current_board is empty ? 'null' : context.current_board }};
+  var current_board = {{ not context.current_board ? 'null' : context.current_board }};
   var make_poll = {{ context.make_poll ? 'true' : 'false' }};
   var txt_preview_title = "{{ txt.preview_title }}";
   var txt_preview_fetch = "{{ txt.preview_fetch }}";
   var new_replies = new Array();
-  var reply_counter = {{ counter is empty ? 0 : counter }};
+  var reply_counter = {{ not counter ? 0 : counter }};
   const post_box_name = '{{ context['post_box_name'] }}'
   const session_var = '{{ context['session_var'] }}'
   const posted_by = '{{ txt['posted_by'] }}'
