@@ -10,12 +10,12 @@ require_once('twig.php');
 // Displays a sortable listing of all members registered on the forum.
 // <http://vesuvius.local/gw/index.php?action=mlist>
 function template_main() {
-	global $modSettings, $context;
+  global $modSettings, $context;
   return render_template('pages/memberlist/member_list.twig', [
-		'page_index_context' => get_page_index_context($modSettings['defaultMaxMembers']),
-		'start_letter' => get_start_letter($context['members']),
-		'member_search_context' => get_member_search_context()
-	]);
+    'page_index_context' => get_page_index_context($modSettings['defaultMaxMembers']),
+    'start_letter' => get_start_letter($context['members']),
+    'member_search_context' => get_member_search_context()
+  ]);
 }
 
 // A page allowing people to search the member list.

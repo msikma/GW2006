@@ -1,22 +1,22 @@
 <script>
 
 {% if browser.is_firefox %}
-	function reActivate()
-	{
-		document.forms.postmodify.message.readOnly = false;
-	}
-	window.addEventListener("pageshow", reActivate, false);
+  function reActivate()
+  {
+    document.forms.postmodify.message.readOnly = false;
+  }
+  window.addEventListener("pageshow", reActivate, false);
 {% endif %}
 
 var icon_urls = {
-	{% for icon in icons %}
-		'{{ icon.value }}': '{{ icon.url }}'{% if not icon.is_last %},{% endif %}
-	{% endfor %}
+  {% for icon in icons %}
+    '{{ icon.value }}': '{{ icon.url }}'{% if not icon.is_last %},{% endif %}
+  {% endfor %}
 };
 
 function showimage()
 {
-	document.images.icons.src = icon_urls[document.forms.postmodify.icon.options[document.forms.postmodify.icon.selectedIndex].value];
+  document.images.icons.src = icon_urls[document.forms.postmodify.icon.options[document.forms.postmodify.icon.selectedIndex].value];
 }
 
 {% if context.make_poll %}

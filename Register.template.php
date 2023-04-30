@@ -16,9 +16,9 @@ function template_registration_agreement() {
 // <http://vesuvius.local/gw/index.php?action=register>
 function template_registration_form() {
   return render_template('pages/authentication/form_register.twig', [
-		'profile_fields' => get_expanded_profile_fields(false),
-		'visual_verification' => get_visual_verification()
-	]);
+    'profile_fields' => get_expanded_profile_fields(false),
+    'visual_verification' => get_visual_verification()
+  ]);
 }
 
 // Displayed after registration.
@@ -48,23 +48,23 @@ function template_verification_sound() {
 // Admin center page for registering a new user.
 // <http://vesuvius.local/gw/index.php?action=admin;area=regcenter;sa=register;e6570c04=81ade41cf178d02a84715e60b49d8174>
 function template_admin_register() {
-	return render_template('pages/admin/form_register_new_user.twig');
+  return render_template('pages/admin/form_register_new_user.twig');
 }
 
 // Form for editing the agreement shown while registering.
 // <http://vesuvius.local/gw/index.php?action=admin;area=regcenter;sa=agreement;e6570c04=81ade41cf178d02a84715e60b49d8174>
 function template_edit_agreement() {
-	return render_template('pages/admin/form_edit_agreement.twig');
+  return render_template('pages/admin/form_edit_agreement.twig');
 }
 
 // Form for editing reserved words that are prohibited to use in usernames.
 // <http://vesuvius.local/gw/index.php?action=admin;area=regcenter;sa=reservednames;e6570c04=81ade41cf178d02a84715e60b49d8174>
 function template_edit_reserved_words() {
-	return render_template('pages/admin/form_reserved_words.twig');
+  return render_template('pages/admin/form_reserved_words.twig');
 }
 
 // Form for editing the privacy policy shown on the registration page.
 // <http://vesuvius.local/gw/index.php?action=admin;area=regcenter;sa=policy;e6570c04=81ade41cf178d02a84715e60b49d8174>
 function template_edit_privacy_policy() {
-	return render_template('pages/admin/form_register_privacy_policy.twig');
+  return render_template('pages/admin/form_register_privacy_policy.twig');
 }

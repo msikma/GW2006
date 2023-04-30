@@ -1,10 +1,10 @@
 {% set form_tag %}
-	<form action="{{ scripturl }}?action=admin;area=regcenter" method="post" accept-charset="{{ context.character_set }}">
+  <form action="{{ scripturl }}?action=admin;area=regcenter" method="post" accept-charset="{{ context.character_set }}">
 {% endset %}
 
 {% set form_content %}
-	{% if context.warning %}
-		<p class="error">{{ context.warning }}</p>
+  {% if context.warning %}
+    <p class="error">{{ context.warning }}</p>
   {% endif %}
   <div id="registration_agreement">
     <div class="content">

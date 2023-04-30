@@ -27,29 +27,29 @@ function template_show_month_grid($grid_name) {
 
 // Displays a weekly calendar grid. FIXME_NOT_IMPLEMENTED
 function template_show_week_grid($grid_name) {
-	return;
+  return;
 }
 
 // A clock. I don't know why this exists, but it does. FIXME_NOT_IMPLEMENTED
 // <http://vesuvius.local/gw/index.php?action=clock>
 function template_bcd() {
-	return;
+  return;
 }
 
 // Another clock. FIXME_NOT_IMPLEMENTED
 // <http://vesuvius.local/gw/index.php?action=clock;rb>
 function template_hms() {
-	return;
+  return;
 }
 
 // Yet another clock. FIXME_NOT_IMPLEMENTED
 // <http://vesuvius.local/gw/index.php?action=clock;omfg>
 function template_omfg() {
-	return;
+  return;
 }
 
 // Displays the time. FIXME_NOT_IMPLEMENTED
 // <http://vesuvius.local/gw/index.php?action=clock;thetime>
 function template_thetime() {
-	return;
+  return;
 }

@@ -6,10 +6,10 @@
 }
 
 body {
-	background: cssvar(--gw-background);
-	font-size: cssvar(--gw-font-regular);
+  background: cssvar(--gw-background);
+  font-size: cssvar(--gw-font-regular);
   font-family: string.unquote(cssvar(--gw-font-primary));
-	margin: 0 auto;
+  margin: 0 auto;
   padding: 0;
 }
 a {
@@ -25,7 +25,7 @@ img {
 }
 
 #wrapper {
-	padding: 17px 25px;
+  padding: 17px 25px;
   width: 100% !important;
 }
 #content_section {

@@ -10,7 +10,7 @@
  * So this function looks up the member groups and returns an updated array.
  */
 function add_birthday_member_groups($birthdays_list) {
-	global $db_prefix, $smcFunc;
+  global $db_prefix, $smcFunc;
 
   if (empty($birthdays_list)) {
     return $birthdays_list;
@@ -21,17 +21,17 @@ function add_birthday_member_groups($birthdays_list) {
   $birthday_ids = array_keys($birthdays);
   
   // Retrieve all member groups for members whose birthday is today or upcoming.
-	$request = $smcFunc['db_query']('', '
+  $request = $smcFunc['db_query']('', '
     select m.id_member, m.id_group, mg.group_name from {db_prefix}members as m
     left join {db_prefix}membergroups as mg on m.id_group = mg.id_group
     where m.id_member in ({array_int:members})
   ',
-		[
-			'members' => $birthday_ids
+    [
+      'members' => $birthday_ids
     ]
-	);
+  );
 
-	while ($row = $smcFunc['db_fetch_assoc']($request)) {
+  while ($row = $smcFunc['db_fetch_assoc']($request)) {
     $birthdays[$row['id_member']]['_group'] = $row['group_name'];
     $birthdays[$row['id_member']]['_group_id'] = $row['id_group'];
   }

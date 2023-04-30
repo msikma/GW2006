@@ -14,5 +14,5 @@ function template_generic_menu_dropdown_above() {
 
 // Ends the content div for the admin page.
 function template_generic_menu_dropdown_below() {
-	// Nothing here.
+  // Nothing here.
 }

@@ -55,12 +55,12 @@ function get_menu_buttons() {
  * Returns the current area's settings fields and groups them together.
  */
 function get_current_settings_group() {
-	global $context;
+  global $context;
 
-	// Check what area we're in.
-	$area = $context['menu_data_1']['current_area'];
+  // Check what area we're in.
+  $area = $context['menu_data_1']['current_area'];
 
-	return get_settings_groups($area);
+  return get_settings_groups($area);
 }
 
 /**
@@ -316,13 +316,13 @@ function get_expanded_profile_fields($extract_profile_field_data = true) {
     $extracted_data = [];
     if ($field['type'] == 'callback') {
       // Run the callback and steal the generated HTML.
-			if (isset($field['callback_func']) && function_exists('template_profile_' . $field['callback_func'])) {
-				$callback_func = 'template_profile_' . $field['callback_func'];
+      if (isset($field['callback_func']) && function_exists('template_profile_' . $field['callback_func'])) {
+        $callback_func = 'template_profile_' . $field['callback_func'];
         ob_start();
         $callback_func();
         $content = ob_get_clean();
-				$_field['_callback_result'] = $content;
-			}
+        $_field['_callback_result'] = $content;
+      }
       // Now that we have the field's HTML, split it up into a label and value.
       if (isset($_field['_callback_result']) && $extract_profile_field_data) {
         $extracted_data = extract_profile_field_data($_field['_callback_result']);
@@ -447,53 +447,53 @@ function get_member_search_context() {
  */
 function get_menu_context() {
   global $context;
-	$menu_id = isset($context['cur_menu_id']) ? $context['cur_menu_id'] + 1 : 1;
+  $menu_id = isset($context['cur_menu_id']) ? $context['cur_menu_id'] + 1 : 1;
   $menu_context = &$context['menu_data_' . $menu_id];
   $tab_context = &$menu_context['tab_data'];
   $selected_tab = null;
 
-	foreach ($context['tabs'] as $id => $tab) {
-		if (!empty($tab['disabled'])) {
-			$tab_context['tabs'][$id]['disabled'] = true;
-			continue;
-		}
+  foreach ($context['tabs'] as $id => $tab) {
+    if (!empty($tab['disabled'])) {
+      $tab_context['tabs'][$id]['disabled'] = true;
+      continue;
+    }
 
-		if (!isset($tab_context['tabs'][$id])) {
+    if (!isset($tab_context['tabs'][$id])) {
       $tab_context['tabs'][$id] = array('label' => $tab['label']);
     }
-		elseif (!isset($tab_context['tabs'][$id]['label'])) {
+    elseif (!isset($tab_context['tabs'][$id]['label'])) {
       $tab_context['tabs'][$id]['label'] = $tab['label'];
     }
 
-		// Has a custom URL defined in the main admin structure?
-		if (isset($tab['url']) && !isset($tab_context['tabs'][$id]['url'])) {
-			$tab_context['tabs'][$id]['url'] = $tab['url'];
+    // Has a custom URL defined in the main admin structure?
+    if (isset($tab['url']) && !isset($tab_context['tabs'][$id]['url'])) {
+      $tab_context['tabs'][$id]['url'] = $tab['url'];
     }
-		// Any additional paramaters for the url?
-		if (isset($tab['add_params']) && !isset($tab_context['tabs'][$id]['add_params'])) {
-			$tab_context['tabs'][$id]['add_params'] = $tab['add_params'];
+    // Any additional paramaters for the url?
+    if (isset($tab['add_params']) && !isset($tab_context['tabs'][$id]['add_params'])) {
+      $tab_context['tabs'][$id]['add_params'] = $tab['add_params'];
     }
-		// Has it been deemed selected?
-		if (!empty($tab['is_selected'])) {
-			$tab_context['tabs'][$id]['is_selected'] = true;
+    // Has it been deemed selected?
+    if (!empty($tab['is_selected'])) {
+      $tab_context['tabs'][$id]['is_selected'] = true;
     }
-		// Does it have its own help?
-		if (!empty($tab['help'])) {
-			$tab_context['tabs'][$id]['help'] = $tab['help'];
+    // Does it have its own help?
+    if (!empty($tab['help'])) {
+      $tab_context['tabs'][$id]['help'] = $tab['help'];
     }
-		// Is this the last one?
-		if (!empty($tab['is_last']) && !isset($tab_context['override_last'])) {
-			$tab_context['tabs'][$id]['is_last'] = true;
+    // Is this the last one?
+    if (!empty($tab['is_last']) && !isset($tab_context['override_last'])) {
+      $tab_context['tabs'][$id]['is_last'] = true;
     }
-	}
+  }
 
-	// Find the selected tab
-	foreach ($tab_context['tabs'] as $sa => $tab) {
-		if (!empty($tab['is_selected']) || (isset($menu_context['current_subsection']) && $menu_context['current_subsection'] == $sa)) {
-			$selected_tab = $tab;
-			$tab_context['tabs'][$sa]['is_selected'] = true;
-		}
-	}
+  // Find the selected tab
+  foreach ($tab_context['tabs'] as $sa => $tab) {
+    if (!empty($tab['is_selected']) || (isset($menu_context['current_subsection']) && $menu_context['current_subsection'] == $sa)) {
+      $selected_tab = $tab;
+      $tab_context['tabs'][$sa]['is_selected'] = true;
+    }
+  }
 
   return [
     'menu_id' => $menu_id,
@@ -522,5 +522,5 @@ function get_list_context($list_id = null) {
  */
 function get_birthdays_with_member_groups() {
   global $context;
-	return add_birthday_member_groups($context['calendar_birthdays']);
+  return add_birthday_member_groups($context['calendar_birthdays']);
 }

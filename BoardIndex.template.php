@@ -10,5 +10,5 @@ require_once('twig.php');
 // The list of forum categories and boards.
 // <http://vesuvius.local/gw/index.php>
 function template_main() {
-	return render_template('pages/objects/forums_index.twig', ['calendar_birthdays' => get_birthdays_with_member_groups()]);
+  return render_template('pages/objects/forums_index.twig', ['calendar_birthdays' => get_birthdays_with_member_groups()]);
 }

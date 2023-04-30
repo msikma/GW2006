@@ -251,22 +251,22 @@ function openEmoticonsPopup() {
   const height = 480
   
   // Focus the window if it's already opened.
-	if (state.emoticonPopupWindow !== null && 'closed' in state.emoticonPopupWindow && !state.emoticonPopupWindow.closed) {
-		state.emoticonPopupWindow.focus();
-		return;
-	}
+  if (state.emoticonPopupWindow !== null && 'closed' in state.emoticonPopupWindow && !state.emoticonPopupWindow.closed) {
+    state.emoticonPopupWindow.focus();
+    return;
+  }
 
   // Open the popup window.
-	state.emoticonPopupWindow = window.open('', 'addMoreSmileysPopup', `toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,width=${width},height=${height},resizable=yes`);
+  state.emoticonPopupWindow = window.open('', 'addMoreSmileysPopup', `toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,width=${width},height=${height},resizable=yes`);
 
-	// Paste the template in the popup.
+  // Paste the template in the popup.
   const content = generateEmoticonsPopup()
-	state.emoticonPopupWindow.document.open('text/html', 'replace');
-	state.emoticonPopupWindow.document.write(content);
-	state.emoticonPopupWindow.document.close();
+  state.emoticonPopupWindow.document.open('text/html', 'replace');
+  state.emoticonPopupWindow.document.write(content);
+  state.emoticonPopupWindow.document.close();
 
-	// Initialize the smileys that are in the popup window.
-	//state.initSmileys('popup', state.emoticonPopupWindow.document);
+  // Initialize the smileys that are in the popup window.
+  //state.initSmileys('popup', state.emoticonPopupWindow.document);
   const icons = state.emoticonPopupWindow.document.querySelector('#emoticon_icons')
   icons.addEventListener('click', ev => {
     ev.preventDefault()
@@ -277,7 +277,7 @@ function openEmoticonsPopup() {
       target = target.parentNode
     }
 
-		const emoticon = target.getAttribute('data-emoticon')
+    const emoticon = target.getAttribute('data-emoticon')
     if (emoticon === null) {
       // If there's no data-emoticon field, the user clicked inside
       // the #emoticons_selection div but not on an emoticon.
@@ -287,11 +287,11 @@ function openEmoticonsPopup() {
     return insertEmoticonToMessage(emoticon)
   })
 
-	// Add a function to the close window button.
+  // Add a function to the close window button.
   const closer = state.emoticonPopupWindow.document.querySelector('#emoticon_window_close')
   closer.addEventListener('click', ev => {
     ev.preventDefault()
-		state.emoticonPopupWindow.close()
+    state.emoticonPopupWindow.close()
   })
 }
 

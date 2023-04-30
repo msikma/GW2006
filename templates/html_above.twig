@@ -3,10 +3,10 @@
 <head>
   <meta charset="{{ context.character_set }}">
   <title>{{ page_title|default(context.page_title_html_safe) }}</title>
-	<meta name="description" content="{{ context.page_title_html_safe }}" />
+  <meta name="description" content="{{ context.page_title_html_safe }}" />
 
   {% if context.meta_keywords is not empty %}
-	  <meta name="keywords" content="{{ context.meta_keywords }}" />
+    <meta name="keywords" content="{{ context.meta_keywords }}" />
   {% endif %}
 
   {% if context.robot_no_index is not empty %}
@@ -28,9 +28,9 @@
   {% include './auxiliary/script_gw_header.twig' %}
   {% include './auxiliary/script_header.twig' %}
 
-	<link rel="help" href="{{ scripturl }}?action=help" />
-	<link rel="search" href="{{ scripturl }}?action=search" />
-	<link rel="contents" href="{{ scripturl }}" />
+  <link rel="help" href="{{ scripturl }}?action=help" />
+  <link rel="search" href="{{ scripturl }}?action=search" />
+  <link rel="contents" href="{{ scripturl }}" />
 
   {# If RSS feeds are enabled, advertise the presence of one. #}
   {% if (modSettings.xmlnews_enable is not empty) and ((modSettings.allow_guestAccess is not empty) or (context.user.is_logged)) %}
@@ -39,7 +39,7 @@
 
   {# If we're in a board, or a topic for that matter, the index will be the board's index. #}
   {% if context.current_board is not empty %}
-	  <link rel="index" href="{{ scripturl }}?board={{ context.current_board }}.0" />
+    <link rel="index" href="{{ scripturl }}?board={{ context.current_board }}.0" />
   {% endif %}
 
   {# Remaining HTML headers, e.g. from mods. #}

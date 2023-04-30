@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <theme-info xmlns="http://www.simplemachines.org/xml/theme-info" xmlns:smf="http://www.simplemachines.org/">
-	<id>smf:gw2006</id>
-	<version>2.0.19</version>
-	<name>Gaming World 2006</name>
-	<author name="Dada78641">michiel@letsdeliver.com</author>
-	<website>https://www.gamingw.net/</website>
-	<layers>html,body</layers>
-	<templates>index</templates>
-	<based-on></based-on>
+  <id>smf:gw2006</id>
+  <version>2.0.19</version>
+  <name>Gaming World 2006</name>
+  <author name="Dada78641">michiel@letsdeliver.com</author>
+  <website>https://www.gamingw.net/</website>
+  <layers>html,body</layers>
+  <templates>index</templates>
+  <based-on></based-on>
 </theme-info>

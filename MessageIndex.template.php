@@ -9,5 +9,5 @@ require_once('twig.php');
 // List of threads in a subforum.
 // <http://vesuvius.local/gw/index.php?board=8.0>
 function template_main() {
-	return render_template('pages/objects/threads_index.twig');
+  return render_template('pages/objects/threads_index.twig');
 }

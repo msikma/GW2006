@@ -2,7 +2,7 @@
 @use "sass:string";
 
 @mixin box-header {
-	color: cssvar(--gw-text-header);
+  color: cssvar(--gw-text-header);
   background-color: cssvar(--gw-box-header);
   text-decoration: none;
   font-style: normal;
@@ -13,10 +13,10 @@
   padding: cssvar(--gw-cell-medium);
   margin-top: 6px;
 
-	a {
-		color: cssvar(--gw-text-header);
-		text-decoration: none;
-	}
+  a {
+    color: cssvar(--gw-text-header);
+    text-decoration: none;
+  }
 }
 @mixin box-body {
   background-color: cssvar(--gw-test);
@@ -29,115 +29,115 @@
 
 // .post_text contains styles for posts and other kinds of text pages. All BB Code post styles are implemented here.
 #wrapper .post_text {
-	p {
-		// Note: GW posts originally did not use <p> tags, but plain text with <br /> tags, which are somewhat larger. margin-top: 1em;
-		margin-bottom: 1em;
-	}
-	> * {
-		&:first-child {
-			margin-top: 0;
-		}
-		&:last-child {
-			margin-bottom: 0;
-		}
-	}
-	h3 {
-		font-size: cssvar(--gw-font-huge);
-		margin-top: 1em;
-		margin-bottom: 1em;
-	}
-	h4 {
-		font-size: cssvar(--gw-font-large);
-		margin-top: 1em;
-		margin-bottom: 1em;
-	}
-	h5 {
-		font-size: cssvar(--gw-font-regular);
-		font-weight: bold;
-		margin-bottom: 1em;
-		padding: 0;
-	}
-	dl {
-		&:first-child dt {
-			margin-top: 0;
-		}
-	}
-	dt {
-		font-weight: bold;
-		margin-top: 0.5em;
-	}
-	dd {
-		margin-left: 1.5em;
-	}
-	ul {
-		padding-left: 3em;
-		list-style: disc;
-	}
-	ol {
-		padding-left: 3em;
-		list-style: decimal;
-	}
-	li {
-		line-height: 1.5em;
-		height: 1.5em;
-	}
+  p {
+    // Note: GW posts originally did not use <p> tags, but plain text with <br /> tags, which are somewhat larger. margin-top: 1em;
+    margin-bottom: 1em;
+  }
+  > * {
+    &:first-child {
+      margin-top: 0;
+    }
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  h3 {
+    font-size: cssvar(--gw-font-huge);
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+  h4 {
+    font-size: cssvar(--gw-font-large);
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+  h5 {
+    font-size: cssvar(--gw-font-regular);
+    font-weight: bold;
+    margin-bottom: 1em;
+    padding: 0;
+  }
+  dl {
+    &:first-child dt {
+      margin-top: 0;
+    }
+  }
+  dt {
+    font-weight: bold;
+    margin-top: 0.5em;
+  }
+  dd {
+    margin-left: 1.5em;
+  }
+  ul {
+    padding-left: 3em;
+    list-style: disc;
+  }
+  ol {
+    padding-left: 3em;
+    list-style: decimal;
+  }
+  li {
+    line-height: 1.5em;
+    height: 1.5em;
+  }
 
-	// Smileys/emoticons in posts.
-	.smiley {
-		// Use as pixel art.
-		@include pixel-image;
-		// This aligns the smileys in a way that best fits in with the surrounding lines.
-		// Large smileys create a gap at the top.
-		vertical-align: bottom;
-	}
+  // Smileys/emoticons in posts.
+  .smiley {
+    // Use as pixel art.
+    @include pixel-image;
+    // This aligns the smileys in a way that best fits in with the surrounding lines.
+    // Large smileys create a gap at the top.
+    vertical-align: bottom;
+  }
 
-	// Source code component for [code] tags.
-	.codeheader {
-		@include box-header;
+  // Source code component for [code] tags.
+  .codeheader {
+    @include box-header;
 
-		.codeoperation {
-			font-weight: normal;
-			float: right;
-		}
+    .codeoperation {
+      font-weight: normal;
+      float: right;
+    }
 
-		+ pre {
-			@include box-body;
-			white-space: pre;
-			font-family: string.unquote(cssvar(--gw-font-code));
-		}
-	}
+    + pre {
+      @include box-body;
+      white-space: pre;
+      font-family: string.unquote(cssvar(--gw-font-code));
+    }
+  }
 
-	// Post quotes.
-	.quoteheader {
-		@include box-header;
+  // Post quotes.
+  .quoteheader {
+    @include box-header;
 
-		+ blockquote {
-			margin: 0;
-			@include box-body;
-		}
-		+ blockquote + .quotefooter {
-			display: none;
-		}
-	}
+    + blockquote {
+      margin: 0;
+      @include box-body;
+    }
+    + blockquote + .quotefooter {
+      display: none;
+    }
+  }
 
-	// A [table] structure.
-	.bbc_table {
-		background-color: cssvar(--gw-test);
+  // A [table] structure.
+  .bbc_table {
+    background-color: cssvar(--gw-test);
 
-		th {
-  		background-color: cssvar(--gw-box-header);
-		}
-		th, td {
-			border: 1px solid cssvar(--gw-inner-dark);
-			padding: cssvar(--gw-cell-small);
-		}
-	}
+    th {
+      background-color: cssvar(--gw-box-header);
+    }
+    th, td {
+      border: 1px solid cssvar(--gw-inner-dark);
+      padding: cssvar(--gw-cell-small);
+    }
+  }
 
-	// Additionally there's the [php] block for posting PHP code.
-	// Which shouldn't really be used but whatever.
-	.phpcode {
-		font-family: string.unquote(cssvar(--gw-font-code));
-	}
+  // Additionally there's the [php] block for posting PHP code.
+  // Which shouldn't really be used but whatever.
+  .phpcode {
+    font-family: string.unquote(cssvar(--gw-font-code));
+  }
 }
 
 // Make the text a bit more readable than on the original layout.
