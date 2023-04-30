@@ -1,3 +1,7 @@
-<a href="#{{ icon.name }}" data-emoticon="{{ icon.name }}">
-  <img src="{{ icon.url }}" name="post_icon" class="emoticon pixel {{ gw_posticon ? 'gw_posticon' : '' }}" alt="{{ icon.name }}" title="{{ icon.name }}" width="{{ icon.size.0 }}" height="{{ icon.size.1 }}" />
-</a>
+{% if not icon.hidden %}
+  {% set name = icon.description ?? icon.filename %}
+  {% set size = icon.size.0 ? 'width="' ~ icon.size.0 ~ '" height="' ~ icon.size.1 ~ '"' : '' %}
+  <a href="#{{ icon._primary_code|e('html') }}" title="{{ name }}" data-emoticon="{{ icon.filename|e('html') }}">
+    <img src="{{ icon._url }}" name="post_icon" class="emoticon pixel {{ gw_posticon ? 'gw_posticon' : '' }}" alt="{{ name }}" title="{{ name }}" {{ size|raw }} />
+  </a>
+{% endif %}

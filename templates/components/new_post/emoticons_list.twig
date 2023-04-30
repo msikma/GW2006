@@ -1,14 +1,10 @@
-<div class="post_emoticon_sets" id="emoticons_selection">
-  {% for name, iconset in context.emoticons %}
-    {% if name == context.emoticon_base_set %}
-      <div class="iconset">
-        {% for icon in iconset %}
-          {% include 'atoms/emoticon.twig' with {'icon': icon} %}
-        {% endfor %}
-        <button name="more_emoticons" class="button_emoticons" id="button_emoticons">
-          Show more
-        </button>
-      </div>
-    {% endif %}
-  {% endfor %}
+<div class="post_emoticons" id="emoticons_selection">
+  <div class="iconset">
+    {% for emoticon in context.emoticons_metadata.emoticons %}
+      {% include 'atoms/emoticon.twig' with {'icon': emoticon} %}
+    {% endfor %}
+    <button name="more_emoticons" class="button_emoticons" id="button_emoticons">
+      Show more
+    </button>
+  </div>
 </div>

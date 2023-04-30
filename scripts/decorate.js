@@ -3,9 +3,7 @@
 
 const state = {
   messageNode: null,
-  emoticonPopupWindow: null,
-  emoticon_path: null,
-  emoticons: [],
+  emoticonPopupWindow: null
 }
 
 /** Will contain a subset of the SMF context. */
@@ -177,24 +175,32 @@ function decoratePermissionsFilter() {
  * Inserts an emoticon into the message node.
  */
 function insertEmoticonToMessage(emoticonName) {
-  const emoticon = state.emoticons[emoticonName]
-  const code = emoticon.codes[0]
+  const emoticon = state.emoticons_metadata.emoticons[emoticonName]
   
-  insertAtCursorPosition(state.messageNode, code)
+  insertAtCursorPosition(state.messageNode, `${emoticon._primary_code || emoticon.code[0]}`, true)
 }
 
 /**
  * Inserts a string into a <textarea> node at the current cursor position.
  */
-function insertAtCursorPosition(node, str) {
+function insertAtCursorPosition(node, str, pad = false) {
   const start = node.selectionStart
   const end = node.selectionEnd
 
   node.value = [
     node.value.substring(0, start),
-    str,
+    pad ? ` ${str} ` : `${str}`,
     node.value.substring(end, node.value.length)
   ].join('')
+
+  focusMessageBox()
+}
+
+function focusMessageBox() {
+  if (!state.messageNode) {
+    return
+  }
+  state.messageNode.focus()
 }
 
 function getEmoticonsPopupContent() {
@@ -205,77 +211,53 @@ function getEmoticonsPopupContent() {
  * Generates the emoticons popup HTML.
  */
 function generateEmoticonsPopup() {
-  const txt = {
-    title: `More Emoticons - ${context.forum_name}`
-  }
-
-  // Collect all emoticons and sort them into groups.
-  const emoticonGroups = {}
-  for (const emoticon of Object.values(state.emoticons)) {
-    if (!emoticonGroups[emoticon.set]) {
-      emoticonGroups[emoticon.set] = {items: [], info: state.emoticon_sets[emoticon.set]}
-    }
-    emoticonGroups[emoticon.set].items.push(emoticon)
-  }
-
   // Generate the HTML for the emoticon groups.
   const buffer = []
-  for (const group of Object.values(emoticonGroups)) {
-    buffer.push('<div class="blue_component_light blue_component_section post_emoticon_sets">')
-    if (group.info.title && group.info.display) {
-      buffer.push(`<div class="emoticon_header">${group.info.title}:</div>`)
+  buffer.push('<div class="blue_component_light blue_component_section blue_component_primary post_emoticons">')
+  buffer.push('<div class="iconset" id="emoticon_icons">')
+  for (const emoticon of Object.values(state.emoticons_metadata.emoticons).sort((a, b) => a._n - b._n)) {
+    if (emoticon._location !== 'popup') {
+      continue;
     }
-    buffer.push('<div class="iconset">')
-    for (const emoticon of group.items) {
-      buffer.push(`<a href="#${emoticon.name}" data-emoticon="${emoticon.name}">`)
-      buffer.push(`<img src="${context.theme_url}${state.emoticon_path}/${emoticon.set}/${emoticon.file}" name="post_icon" class="emoticon pixel" alt="${emoticon.name}" title="${emoticon.name}" width="${emoticon.size[0]}" height="${emoticon.size[1]}">`)
-      buffer.push(`</a>`)
-    }
-    buffer.push('</div>')
-    buffer.push('</div>')
+    const name = emoticon.description || emoticon.filename;
+    const size = emoticon.size ? `width="${emoticon.size[0]}" height="${emoticon.size[1]}"` : ''
+    buffer.push(`<a href="#${encodeURI(emoticon._primary_code)}" data-emoticon="${encodeURI(emoticon.filename)}">`)
+    buffer.push(`<img src="${emoticon._url}" name="post_icon" class="emoticon pixel" alt="${encodeURI(name)}" title="${encodeURI(name)}" ${size}>`)
+    buffer.push(`</a>`)
   }
+  buffer.push('</div>')
+  buffer.push('</div>')
 
-  return `
-    <!doctype html>
-    <html>
-      <head>
-        <meta charset="utf-8">
-        <title>${txt.title}</title>
-        <link rel="stylesheet" type="text/css" href="${context.theme_url}/css/index.css">
-      </head>
-      <body>
-        <div id="wrapper" class="pop_up_window">
-          <div class="blue_component">
-            <div class="blue_component_header">
-              <h3 class="blue_component_title">Emoticon picker</h3>
-            </div>
-            ${buffer.join('\n')}
-            <div class="blue_component_medium blue_component_section">
-              <button id="emoticon_window_close">
-                Close window
-              </button>
-            </div>
-          </div>
-        </div>
-      </body>
-    </html>
-  `
+  return createPopupPage(`More Emoticons - ${context.forum_name}`, `
+    <div class="blue_component">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">Emoticon picker</h3>
+      </div>
+      ${buffer.join('\n')}
+      <div class="blue_component_medium blue_component_section">
+        <button id="emoticon_window_close">
+          Close window
+        </button>
+      </div>
+    </div>
+  `)
 }
 
+/**
+ * Opens the emoticon picker popup.
+ */
 function openEmoticonsPopup() {
   const width = 600
   const height = 480
-  // TODO
-  	// Focus the window if it's already opened.
-	if (state.emoticonPopupWindow !== null && 'closed' in state.emoticonPopupWindow && !state.emoticonPopupWindow.closed)
-	{
+  
+  // Focus the window if it's already opened.
+	if (state.emoticonPopupWindow !== null && 'closed' in state.emoticonPopupWindow && !state.emoticonPopupWindow.closed) {
 		state.emoticonPopupWindow.focus();
 		return;
 	}
 
-	// Get the smiley HTML.
-	// Open the popup.
-	state.emoticonPopupWindow = window.open('', '_addMoreSmileysPopup', `toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,width=${width},height=${height},resizable=yes`);
+  // Open the popup window.
+	state.emoticonPopupWindow = window.open('', 'addMoreSmileysPopup', `toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,width=${width},height=${height},resizable=yes`);
 
 	// Paste the template in the popup.
   const content = generateEmoticonsPopup()
@@ -285,6 +267,25 @@ function openEmoticonsPopup() {
 
 	// Initialize the smileys that are in the popup window.
 	//state.initSmileys('popup', state.emoticonPopupWindow.document);
+  const icons = state.emoticonPopupWindow.document.querySelector('#emoticon_icons')
+  icons.addEventListener('click', ev => {
+    ev.preventDefault()
+
+    let target = ev.originalTarget
+
+    if (target.tagName === 'IMG') {
+      target = target.parentNode
+    }
+
+		const emoticon = target.getAttribute('data-emoticon')
+    if (emoticon === null) {
+      // If there's no data-emoticon field, the user clicked inside
+      // the #emoticons_selection div but not on an emoticon.
+      return
+    }
+    
+    return insertEmoticonToMessage(emoticon)
+  })
 
 	// Add a function to the close window button.
   const closer = state.emoticonPopupWindow.document.querySelector('#emoticon_window_close')
@@ -304,35 +305,63 @@ function decorateMessageField() {
 
   state.messageNode = message
 
-  button.addEventListener('click', ev => {
-    if (ev.explicitOriginalTarget !== button) {
-      return true
-    }
-    ev.preventDefault()
-    openEmoticonsPopup()
-  })
+  // The emoticons button is not always available; e.g. on the quick reply box.
+  if (button) {
+    button.addEventListener('click', ev => {
+      if (ev.explicitOriginalTarget !== button) {
+        return true
+      }
+      ev.preventDefault()
+      openEmoticonsPopup()
+    })
+  }
 
-  selection.addEventListener('click', ev => {
-    let target = ev.originalTarget
+  if (selection) {
+    selection.addEventListener('click', ev => {
+      ev.preventDefault()
+      
+      let target = ev.originalTarget
 
-    // Ignore only the 'show more' button.
-    if (target === button) {
-      return
-    }
+      // Ignore only the 'show more' button.
+      if (target === button) {
+        return
+      }
 
-    // Ensure we're targeting the anchor.
-    if (target.tagName === 'IMG') {
-      target = target.parentNode
-    }
+      // Ensure we're targeting the anchor.
+      if (target.tagName === 'IMG') {
+        target = target.parentNode
+      }
 
-    const emoticon = target.getAttribute('data-emoticon')
-    if (emoticon === null) {
-      // If there's no data-emoticon field, the user clicked inside
-      // the #emoticons_selection div but not on an emoticon.
-      return
-    }
-    return insertEmoticonToMessage(emoticon)
-  });
+      const emoticon = target.getAttribute('data-emoticon')
+      if (emoticon === null) {
+        // If there's no data-emoticon field, the user clicked inside
+        // the #emoticons_selection div but not on an emoticon.
+        return
+      }
+      return insertEmoticonToMessage(emoticon)
+    });
+  }
+}
+
+/**
+ * Returns HTML for a pop-up page.
+ */
+function createPopupPage(title, content) {
+  return `
+    <!doctype html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <title>${title}</title>
+        <link rel="stylesheet" type="text/css" href="${context.theme_url}/css/index.css">
+      </head>
+      <body>
+        <div id="wrapper" class="pop_up_window">
+          ${content}
+        </div>
+      </body>
+    </html>
+  `
 }
 
 /**

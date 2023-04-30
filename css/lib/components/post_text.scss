@@ -82,6 +82,15 @@
 		height: 1.5em;
 	}
 
+	// Smileys/emoticons in posts.
+	.smiley {
+		// Use as pixel art.
+		@include pixel-image;
+		// This aligns the smileys in a way that best fits in with the surrounding lines.
+		// Large smileys create a gap at the top.
+		vertical-align: bottom;
+	}
+
 	// Source code component for [code] tags.
 	.codeheader {
 		@include box-header;
@@ -128,7 +137,6 @@
 	// Which shouldn't really be used but whatever.
 	.phpcode {
 		font-family: string.unquote(cssvar(--gw-font-code));
-
 	}
 }
 

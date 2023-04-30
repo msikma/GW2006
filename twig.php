@@ -92,11 +92,8 @@ function render_template($file, $template_context = []) {
 	global $twig, $context, $settings, $options, $scripturl, $txt, $modSettings, $forum_copyright, $forum_version;
 	
 	// Assemble our custom data.
-	$context['emoticon_base_set'] = get_emoticon_base_set();
-	$context['emoticons_basepath'] = get_emoticon_basepath();
-	$context['emoticons_flat'] = get_flat_emoticons();
-	$context['emoticons_sets'] = get_emoticon_sets_info();
-	$context['emoticons'] = get_emoticons();
+	$context['emoticons_base_url'] = get_emoticons_base_url();
+	$context['emoticons_metadata'] = get_emoticons_metadata();
 	$context['posticon_basepath'] = get_posticon_basepath();
 	$context['posticon_context'] = find_posticon($context['icon']);
 	$context['posticons'] = get_posticons();
@@ -114,9 +111,8 @@ function render_template($file, $template_context = []) {
 
 	// Public theme data is needed to add our own emoticon functionality.
 	$context['public_theme_data'] = [
-		'emoticons' => $context['emoticons_flat'],
-		'emoticon_sets' => $context['emoticons_sets'],
-		'emoticon_path' => $context['emoticons_basepath'],
+		'emoticons_base_url' => $context['emoticons_base_url'],
+		'emoticons_metadata' => $context['emoticons_metadata'],
 	];
 	// The public context is exported to JS.
 	$context['public_context'] = [

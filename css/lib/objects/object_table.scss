@@ -246,7 +246,8 @@
   text-align: center;
 }
 .object_table .object_row .icon img {
-  vertical-align: middle;
+  display: block;
+  margin: auto;
 }
 .object_table .object_row .icon img.shadow {
   // Note: this is totally inauthentic, but it mimics the original pretty well.

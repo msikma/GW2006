@@ -1,10 +1,14 @@
 @charset "utf-8";
 
-// Images tagged with the .pixel class appear pixelated on retina displays.
-.pixel {
+@mixin pixel-image {
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
+}
+
+// Images tagged with the .pixel class appear pixelated on retina displays.
+.pixel {
+  @include pixel-image;
 }
 
 // Quoted text with automated quotation marks.

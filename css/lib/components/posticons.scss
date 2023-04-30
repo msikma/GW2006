@@ -3,11 +3,7 @@
 // The posticons selection component is displayed on the new post page.
 .post_iconsets {
 }
-.post_emoticon_sets {
-  .emoticon_header {
-    font-weight: bold;
-    margin-bottom: cssvar(--gw-cell-medium);
-  }
+.post_emoticons {
   .iconset {
     margin-left: -2px;
     display: flex;
