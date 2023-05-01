@@ -1,0 +1,1374 @@
+{
+  "name": "gw2006",
+  "website": "https://www.gamingw.net/",
+  "sets": [
+    {
+      "name": "base",
+      "title": "Base emoticons",
+      "items": [
+        {
+          "filename": "smile.gif",
+          "code": [":)"],
+          "size": [20, 20],
+          "location": "postform",
+          "hidden": false
+        },
+        {
+          "filename": "cool.gif",
+          "code": [":cool:"],
+          "size": [20, 20],
+          "location": "postform",
+          "hidden": false
+        },
+        {
+          "filename": "biggrin.gif",
+          "code": [":D"],
+          "size": [20, 20],
+          "location": "postform",
+          "hidden": false
+        },
+        {
+          "filename": "rolleyes.gif",
+          "code": [":rolleyes:"],
+          "size": [20, 20],
+          "location": "postform",
+          "hidden": false
+        },
+        {
+          "filename": "sad.gif",
+          "code": [":("],
+          "size": [20, 20],
+          "location": "postform",
+          "hidden": false
+        },
+        {
+          "filename": "angry.gif",
+          "code": [">:(", ":angry:", ":mad:"],
+          "size": [20, 20],
+          "location": "postform",
+          "hidden": false
+        },
+        {
+          "filename": "blush.gif",
+          "code": [":blush:"],
+          "size": [20, 20],
+          "location": "postform",
+          "hidden": false
+        },
+        {
+          "filename": "confused.gif",
+          "code": [":confused:"],
+          "size": [20, 20],
+          "location": "postform",
+          "hidden": false
+        },
+        {
+          "filename": "sly.gif",
+          "code": [":sly:"],
+          "size": [20, 20],
+          "location": "postform",
+          "hidden": false
+        },
+        {
+          "filename": "excl.gif",
+          "code": [":excl:"],
+          "size": [20, 20],
+          "location": "postform",
+          "hidden": false
+        },
+        {
+          "filename": "cool2.gif",
+          "code": [":cool2:"],
+          "size": [20, 20],
+          "location": "postform",
+          "hidden": false
+        },
+        {
+          "filename": "crazy.gif",
+          "code": [":crazy:"],
+          "size": [20, 20],
+          "location": "postform",
+          "hidden": false
+        },
+        {
+          "filename": "emot-brow.gif",
+          "code": [":brow:"],
+          "size": [20, 20],
+          "location": "postform",
+          "hidden": false
+        },
+        {
+          "filename": "disgust.gif",
+          "code": [":disgust:"],
+          "size": [20, 20],
+          "location": "postform",
+          "hidden": false
+        },
+        {
+          "filename": "dry.gif",
+          "code": [":dry:", ":glare:"],
+          "size": [20, 20],
+          "location": "postform",
+          "hidden": false
+        },
+        {
+          "filename": "blink.gif",
+          "code": [":blink:"],
+          "size": [20, 20],
+          "location": "postform",
+          "hidden": false
+        },
+        {
+          "filename": "gwawesome.gif",
+          "code": [":gwa:"],
+          "size": [20, 20],
+          "location": "postform",
+          "hidden": false
+        },
+        {
+          "filename": "happy.gif",
+          "code": [":happy:"],
+          "size": [20, 20],
+          "location": "postform",
+          "hidden": false
+        },
+        {
+          "filename": "huh.gif",
+          "code": [":huh:"],
+          "size": [20, 20],
+          "location": "postform",
+          "hidden": false
+        },
+        {
+          "filename": "laugh.gif",
+          "code": [":laugh:"],
+          "size": [20, 20],
+          "location": "postform",
+          "hidden": false
+        },
+        {
+          "filename": "mellow.gif",
+          "code": [":mellow:"],
+          "size": [20, 20],
+          "location": "postform",
+          "hidden": false
+        },
+        {
+          "filename": "ohmy.gif",
+          "code": [":ohmy:"],
+          "size": [20, 20],
+          "location": "postform",
+          "hidden": false
+        },
+        {
+          "filename": "ph34r.gif",
+          "code": [":ph34r:", ":ninja:"],
+          "size": [20, 20],
+          "location": "postform",
+          "hidden": false
+        },
+        {
+          "filename": "buddy.gif",
+          "code": [":buddy:"],
+          "size": [20, 20],
+          "location": "postform",
+          "hidden": false
+        },
+        {
+          "filename": "sleep.gif",
+          "code": [":sleep:", ":closedeyes:"],
+          "size": [20, 20],
+          "location": "postform",
+          "hidden": false
+        }
+      ]
+    },
+    {
+      "name": "base_extended",
+      "title": "Extended emoticons",
+      "items": [
+        {
+          "filename": "boxed.gif",
+          "code": [":boxed:"],
+          "size": [18, 18],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "shock.gif",
+          "code": [":shock:"],
+          "size": [18, 18],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "shocking.gif",
+          "code": [":shocking:"],
+          "size": [18, 18],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "fingerwag.gif",
+          "code": [":fingerwag:"],
+          "size": [20, 18],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "cheese.gif",
+          "code": [":cheese:"],
+          "size": [20, 20],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "kaze.gif",
+          "code": [":kaze:"],
+          "size": [20, 20],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "naughty.gif",
+          "code": [":naughty:"],
+          "size": [20, 20],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "ohgodvomits.gif",
+          "code": [":blargh:"],
+          "size": [20, 20],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "shady.gif",
+          "code": [":shady:"],
+          "size": [20, 20],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "sweatdrop.gif",
+          "code": [":sweatdrop:", ":sweat:"],
+          "size": [20, 20],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "tsk.gif",
+          "code": [":tsk:"],
+          "size": [20, 20],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "mario3et.gif",
+          "code": [":mario:"],
+          "size": [21, 20],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "ssh.gif",
+          "code": [":ssh:"],
+          "size": [20, 22],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "cursing.gif",
+          "code": [":cursing:"],
+          "size": [18, 26],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "gwcolbert.gif",
+          "code": [":gwcolbert:"],
+          "size": [21, 25],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "disdain.gif",
+          "code": [":disdain:"],
+          "size": [30, 18],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "pimp7ii.gif",
+          "code": [":pimp:"],
+          "size": [22, 25],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "lightbulb.gif",
+          "code": [":lightbulb:"],
+          "size": [22, 26],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "emot-hmm.gif",
+          "code": [":hmm:"],
+          "size": [25, 23],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "argh.gif",
+          "code": [":argh:"],
+          "size": [31, 20],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "attitude0.gif",
+          "code": [":attitude:"],
+          "size": [31, 20],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "f5.gif",
+          "code": [":f5:"],
+          "size": [31, 20],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "ranting6lk.gif",
+          "code": [":ranting:"],
+          "size": [28, 24],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "rite.gif",
+          "code": [":teach:"],
+          "size": [28, 24],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "shrug.gif",
+          "code": [":shrug:"],
+          "size": [34, 20],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "guns0rh.gif",
+          "code": [":gunz:"],
+          "size": [38, 18],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "cake8fg.gif",
+          "code": [":cake:"],
+          "size": [28, 25],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "gw_worship.gif",
+          "code": [":worship:", ":gw_worship:"],
+          "size": [28, 25],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "cry.gif",
+          "code": [":cry:"],
+          "size": [40, 18],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "woop.gif",
+          "code": [":woop:"],
+          "size": [31, 24],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "sombrero27ve.gif",
+          "code": [":sombrero:"],
+          "size": [30, 25],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "emot-gemo.gif",
+          "code": [":emot-gemo:"],
+          "size": [40, 20],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "gw_words.gif",
+          "code": [":words:"],
+          "size": [48, 18],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "pope.gif",
+          "code": [":pope:"],
+          "size": [30, 30],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "emot-ssj.gif",
+          "code": [":ssj:"],
+          "size": [33, 29],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "afro.gif",
+          "code": [":afro:"],
+          "size": [33, 31],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "gw_rockon.gif",
+          "code": [":rockon:"],
+          "size": [52, 20],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "2guns.gif",
+          "code": [":2guns:"],
+          "size": [48, 22],
+          "location": "popup",
+          "hidden": false
+        }
+      ]
+    },
+    {
+      "name": "base_large",
+      "items": [
+        {
+          "filename": "incredible.gif",
+          "code": [":incredible:"],
+          "size": [60, 18],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "emot-waycool.gif",
+          "code": [":waycool:"],
+          "size": [61, 20],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "gayfight.gif",
+          "code": [":gayfight:"],
+          "size": [80, 21],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "bravo.gif",
+          "code": [":bravo:"],
+          "size": [52, 33],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "drunk8iz.gif",
+          "code": [":drunks:"],
+          "size": [58, 30],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "glomp.gif",
+          "code": [":glomp:"],
+          "size": [80, 25],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "called-joke.png",
+          "code": [":itscalledajoke:", ":liberals:"],
+          "size": [107, 19],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "buttsex.gif",
+          "code": [[58, 98, 117, 116, 116, 114, 97, 112, 101, 58], ":buttsex:"],
+          "size": [80, 26],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "hbd7up.gif",
+          "code": [":hbd:"],
+          "size": [81, 26],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "spamlaser9ol.gif",
+          "code": [":laser:"],
+          "size": [120, 20],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "throw4jw.gif",
+          "code": [":throw:"],
+          "size": [72, 43],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "didyouputitinyourfriendshair.gif",
+          "code": [":dypiiyfs:"],
+          "size": [187, 19],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "ban.gif",
+          "code": [":ban:"],
+          "size": [60, 60],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "blowup6tr.gif",
+          "code": [":blam:"],
+          "size": [48, 112],
+          "location": "popup",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "name": "etc",
+      "items": [
+        {
+          "filename": "emot-weed.gif",
+          "code": [":weed:"],
+          "size": [15, 14],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "domo.gif",
+          "code": [":domo:"],
+          "size": [15, 15],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "eek.gif",
+          "code": [":eek:"],
+          "size": [16, 16],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "frown.gif",
+          "code": [":frown:"],
+          "size": [16, 16],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "ghostflip.gif",
+          "code": [":ghost:"],
+          "size": [27, 30],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "redface.gif",
+          "code": [":redface:"],
+          "size": [16, 16],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "tongue.gif",
+          "code": [":tongue:"],
+          "size": [16, 16],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "wink.gif",
+          "code": [":wink:"],
+          "size": [16, 16],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "violent-smiley-078.gif",
+          "code": [":fu:"],
+          "size": [19, 15],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "wilysmilie.gif",
+          "code": [":wily:"],
+          "size": [20, 16],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "deepee.gif",
+          "code": [":deepee:"],
+          "size": [20, 20],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "emot-love.gif",
+          "code": [":love:"],
+          "size": [20, 20],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget.gif",
+          "code": [":foget:"],
+          "size": [20, 20],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "koolaid.gif",
+          "code": [":koolaid:"],
+          "size": [20, 20],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "mistery.gif",
+          "code": [":mistery:"],
+          "size": [20, 20],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "ns.gif",
+          "code": [":ns:"],
+          "size": [20, 20],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "near-blush.gif",
+          "code": [":linkblush:"],
+          "size": [21, 21],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "near-mad.gif",
+          "code": [":linkmad:"],
+          "size": [21, 21],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "near-relief.gif",
+          "code": [":linksweatdrop:"],
+          "size": [21, 21],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "near.gif",
+          "code": [":link:"],
+          "size": [21, 21],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "near-happy.gif",
+          "code": [":linkhappy:"],
+          "size": [21, 21],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "rockon.gif",
+          "code": [":horns:", ":rockon:"],
+          "size": [21, 21],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "goose.gif",
+          "code": [":goose:"],
+          "size": [24, 19],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "rgsmiley.gif",
+          "code": [":rg:"],
+          "size": [24, 20],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "bangtoss.gif",
+          "code": [":bangtoss:"],
+          "size": [40, 40],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "palinsmiley.png",
+          "code": [":palin:"],
+          "size": [38, 53],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "bart.gif",
+          "code": [":bart:"],
+          "size": [24, 21],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "snorlax.gif",
+          "code": [":snore:"],
+          "size": [24, 21],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "steel.gif",
+          "code": [":steel:"],
+          "size": [44, 43],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "emot-quagmire.gif",
+          "code": [":emot-quagmire:"],
+          "size": [22, 24],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "faust.gif",
+          "code": [":faust:"],
+          "size": [25, 22],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "joned1.gif",
+          "code": [":joned:"],
+          "size": [44, 14],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "captainplanet.gif",
+          "code": [":captainplanet:"],
+          "size": [26, 25],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "emot-words.gif",
+          "code": [":wordz:"],
+          "size": [46, 15],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "emot-rock.gif",
+          "code": [":rock:"],
+          "size": [47, 16],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "dopefish.gif",
+          "code": [":dopefish:"],
+          "size": [30, 27],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "whitman.gif",
+          "code": [":whitman:"],
+          "size": [25, 35],
+          "location": "popup",
+          "hidden": false
+        }
+      ]
+    },
+    {
+      "name": "etc_large",
+      "items": [
+        {
+          "filename": "pwemote.gif",
+          "code": [":pw:"],
+          "size": [30, 30],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "he-is-my-friend.gif",
+          "code": [":heismyfriend:"],
+          "size": [29, 34],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "omeg-doom_def_2.gif",
+          "code": [":omeg:"],
+          "size": [34, 40],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "soapemote.gif",
+          "code": [":soap:"],
+          "size": [34, 42],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "sport009.gif",
+          "code": [":sport:"],
+          "size": [40, 40],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "emot-hurr.gif",
+          "code": [":hurr:"],
+          "size": [97, 25],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "mspaintface.png",
+          "code": [":mspaint:"],
+          "size": [67, 60],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "emot-iceburn.gif",
+          "code": [":iceburn:"],
+          "size": [100, 25],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "imfree.gif",
+          "code": [":imfree:"],
+          "size": [100, 100],
+          "location": "popup",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "name": "foget",
+      "title": "Foget emoticons",
+      "items": [
+        {
+          "filename": "foget-angry.gif",
+          "code": [":fogetangry:"],
+          "size": [28, 28],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-annoyed.gif",
+          "code": [":fogetannoyed:"],
+          "size": [28, 28],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-happy.gif",
+          "code": [":fogethappy:"],
+          "size": [28, 28],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-huh.gif",
+          "code": [":fogethuh:"],
+          "size": [28, 28],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-naughty.gif",
+          "code": [":fogetnaughty:"],
+          "size": [28, 28],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-ninja.gif",
+          "code": [":fogetninja:"],
+          "size": [28, 28],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-sad_1.gif",
+          "code": [":fogetsad:"],
+          "size": [28, 28],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-smile_1.gif",
+          "code": [":fogetsmile:"],
+          "size": [28, 28],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-unsure_1.gif",
+          "code": [":fogetunsure:"],
+          "size": [28, 28],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "newfoget.gif",
+          "code": [":newfoget:"],
+          "size": [29, 28],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-condescending.gif",
+          "code": [":fogetcondescending:", ":condescendingfoget:"],
+          "size": [30, 28],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-cool.gif",
+          "code": [":fogetcool:"],
+          "size": [30, 28],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-grown-man-crying.gif",
+          "code": [":fogetcry:"],
+          "size": [30, 28],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-rctr.gif",
+          "code": [[58, 102, 111, 103, 101, 116, 45, 110, 101, 103, 114, 111, 58]],
+          "size": [30, 28],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "foget-pout.gif",
+          "code": [":fogetpout:"],
+          "size": [30, 28],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-shifty_1.gif",
+          "code": [":fogetshifty:"],
+          "size": [30, 28],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "fogetmmh.gif",
+          "code": [":fogethmm:"],
+          "size": [28, 30],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "fogetnuh.gif",
+          "code": [":fogetnuh:"],
+          "size": [30, 28],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-shush_1.gif",
+          "code": [":fogetshush:"],
+          "size": [28, 31],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-gasp_1.gif",
+          "code": [":fogetgasp:"],
+          "size": [30, 29],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-laugh.gif",
+          "code": [":fogetlaugh:"],
+          "size": [30, 29],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "fogetfingerwag.gif",
+          "code": [":fogetfingerwag:"],
+          "size": [34, 26],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-crazy.gif",
+          "code": [":fogetcrazy:"],
+          "size": [30, 31],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-grr.gif",
+          "code": [":fogetgrr:"],
+          "size": [32, 30],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-backflippe.gif",
+          "code": [":fogetbackflippe:"],
+          "size": [30, 34],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-batshit.gif",
+          "code": [":fogetbatshit:"],
+          "size": [32, 39],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-mexican.gif",
+          "code": [":fogetmsombrero:"],
+          "size": [40, 32],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-shakefist_1.gif",
+          "code": [":fogetshakefist:"],
+          "size": [43, 30],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-pinecone.gif",
+          "code": [":fogetpinecone:"],
+          "size": [44, 30],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-fu.gif",
+          "code": [":fogetfu:"],
+          "size": [46, 29],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-emocut.gif",
+          "code": [":foget-emocut:"],
+          "size": [50, 28],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "foget-science.gif",
+          "code": [":fogetscience:"],
+          "size": [46, 33],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-rockin.gif",
+          "code": [":fogetrockin:"],
+          "size": [56, 28],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-shrug.gif",
+          "code": [":fogetshrug:"],
+          "size": [62, 30],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "welp.gif",
+          "code": [":welp:"],
+          "size": [62, 30],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-teach.gif",
+          "code": [":fogetteach:"],
+          "size": [52, 38],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-gunz.gif",
+          "code": [":fogetgunz:"],
+          "size": [64, 32],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-resistins.gif",
+          "code": [":fogetresistins:"],
+          "size": [76, 27],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-pope.gif",
+          "code": [":fogetpope:"],
+          "size": [54, 40],
+          "location": "popup",
+          "hidden": false
+        },
+        {
+          "filename": "foget-thumbsup.gif",
+          "code": [":fogetthumbsup:"],
+          "size": [88, 28],
+          "location": "popup",
+          "hidden": false
+        }
+      ]
+    },
+    {
+      "name": "text",
+      "items": [
+        {
+          "filename": "text_sweatdrop.gif",
+          "code": [":txtsweatdrop:"],
+          "size": [32, 14],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "text_attitude.gif",
+          "code": [":txtattitude:"],
+          "size": [34, 14],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "ns2.gif",
+          "code": [":ns2:"],
+          "size": [34, 16],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "text_tsk.gif",
+          "code": [":txttsk:"],
+          "size": [52, 12],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "text_domo.gif",
+          "code": [":txtdomo:"],
+          "size": [31, 21],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "text_goose.gif",
+          "code": [":txtgoose:"],
+          "size": [27, 28],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "text_hmm.gif",
+          "code": [":txthmm:"],
+          "size": [32, 26],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "text_blarg.gif",
+          "code": [":txtblarg:"],
+          "size": [36, 25],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "text_ssj.gif",
+          "code": [":txtssj:"],
+          "size": [42, 24],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "text_dopefish.gif",
+          "code": [":txtdopefish:"],
+          "size": [54, 19],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "text_cursing.gif",
+          "code": [":txtcursing:"],
+          "size": [32, 34],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "text_rite.gif",
+          "code": [":txtrite:"],
+          "size": [43, 26],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "text_rock.gif",
+          "code": [":txtrock:"],
+          "size": [82, 14],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "text_jerkoff.gif",
+          "code": [":txtjerkoff:"],
+          "size": [55, 25],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "text_2guns.gif",
+          "code": [":txt2guns:"],
+          "size": [60, 23],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "text_doom.gif",
+          "code": [":txtdoom:"],
+          "size": [41, 34],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "text_emo.gif",
+          "code": [":text_emo:"],
+          "size": [61, 23],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "text_rctr.gif",
+          "code": [[58, 116, 101, 120, 116, 95, 110, 105, 103, 103, 97, 114, 58]],
+          "size": [36, 39],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "text_foget.gif",
+          "code": [":txtfoget:"],
+          "size": [52, 29],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "text_gayfight.gif",
+          "code": [":text_gayfight:"],
+          "size": [86, 20],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "text_blowup.gif",
+          "code": [":txtblowup:"],
+          "size": [36, 52],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "text_throw.gif",
+          "code": [":txtthrow:"],
+          "size": [91, 21],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "text_hurrr.gif",
+          "code": [":txthurrr:"],
+          "size": [139, 15],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "text_spamgun.gif",
+          "code": [":txtlaser:"],
+          "size": [149, 18],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "text_didyouputitinyourfriendshair.gif",
+          "code": [":txtdypiiyfh:"],
+          "size": [249, 14],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "text_bakedbeans.gif",
+          "code": [":txtbakedbeans:"],
+          "size": [50, 75],
+          "location": "popup",
+          "hidden": true
+        },
+        {
+          "filename": "text_buttsex.gif",
+          "code": [[58, 116, 101, 120, 116, 95, 98, 117, 116, 116, 114, 97, 112, 101, 58], ":text_buttsex:"],
+          "size": [120, 32],
+          "location": "popup",
+          "hidden": true
+        }
+      ]
+    }
+  ]
+}
