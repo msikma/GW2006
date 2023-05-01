@@ -56,6 +56,9 @@
               <div>Birthdays:</div>
               <div class="subsection">
                 {%- apply spaceless %}
+                  {% if context.calendar_birthdays|length == 0 %}
+                    None.
+                  {% endif %}
                   {% for member in context.calendar_birthdays %}
                     {% if birthday_show_only_today and member.is_today %}
                       <span class="birthday_member member {{ member.is_today ? 'today' : 'not_today' }}">
