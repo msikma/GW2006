@@ -247,8 +247,8 @@ function generateEmoticonsPopup() {
  * Opens the emoticon picker popup.
  */
 function openEmoticonsPopup() {
-  const width = 600
-  const height = 480
+  const width = 680
+  const height = 520
   
   // Focus the window if it's already opened.
   if (state.emoticonPopupWindow !== null && 'closed' in state.emoticonPopupWindow && !state.emoticonPopupWindow.closed) {
