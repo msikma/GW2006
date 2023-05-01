@@ -12,6 +12,7 @@ require_once('lib/context.php');
 require_once('lib/mime.php');
 require_once('lib/icon.php');
 require_once('lib/pips.php');
+require_once('lib/cache.php');
 require_once('lib/posticons.php');
 require_once('lib/emoticons.php');
 require_once('lib/events.php');

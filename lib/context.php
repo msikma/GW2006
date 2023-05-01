@@ -28,6 +28,15 @@ function collect_pms() {
 }
 
 /**
+ * Returns the theme directory path.
+ */
+function get_theme_dir() {
+  global $settings;
+
+  return $settings['theme_dir'];
+}
+
+/**
  * Returns the search cache.
  * 
  * This is stored as session data and can be used to construct the page number links.

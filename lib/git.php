@@ -2,51 +2,73 @@
 // Gaming World 2006 <https://gamingw.net/>
 // © MIT License
 
+require_once('lib/context.php');
+require_once('lib/cache.php');
+
 /**
  * Returns the repository base URL from the composer.json file.
  */
 function get_repo_base() {
-  global $settings;
-
-  $composer = json_decode(file_get_contents($settings['theme_dir'].'/composer.json'), true);
+  $composer = json_decode(file_get_contents(get_theme_dir().'/composer.json'), true);
   return $composer['repository'];
 }
 
 /**
  * Returns basic information about the current state of the Git repo.
+ * 
+ * The data is cached for 10 minutes as retrieving Git info is expensive.
  */
-function get_git_info($default_branch = 'develop') {
-  global $settings;
-  
-  // References to the relevant .git files.
-  $git = $settings['theme_dir'].'/.git/';
-  $head = 'HEAD';
-  $file_head = $git.'/'.$head;
-  $file_logs = $git.'/logs/'.$head;
+function get_git_info($refresh = false) {
+  $key = 'gw2006_git_info';
 
-  // Extract the current Git state from the .git directory.
-  $head = explode('/', substr(trim(file_get_contents($file_head)), 5));
-  $logs = explode("\n", trim(file_get_contents($file_logs)));
-  $hash = trim(file_get_contents($git.implode('/', $head)));
+  // Retrieve cached data from the database.
+  if (!$refresh) {
+    $cache = get_cached_data($key);
+  }
+
+  // If our data is outdated, get up-to-date information and store it.
+  if ($refresh || $cache['not_found'] || $cache['is_stale']) {
+    $data = _get_live_git_info();
+    set_cached_data($key, $data, 600);
+    return $data;
+  }
+
+  return $cache['data'];
+}
+
+/**
+ * Returns basic information about the current state of the Git repo.
+ */
+function _get_live_git_info() {
+  $theme_dir = get_theme_dir();
+  $cmd_base = 'git --git-dir '.escapeshellarg("{$theme_dir}/.git");
+
+  $hash = exec("{$cmd_base} rev-parse HEAD");
   $hash_short = substr($hash, 0, 7);
-  $branch = end($head);
-  
-  // Extract the timestamp from the commit log (e.g. "1671303806 +0100").
-  preg_match('/([0-9]{10}) [+-][0-9]{4}/', end($logs), $ts);
-  $date = date('Y-m-d', $ts[1]);
+  $timestamp = exec("{$cmd_base} log -1 --format=%ct HEAD");
+  $branch = exec("{$cmd_base} rev-parse --abbrev-ref --short HEAD");
+  $count = exec("{$cmd_base} rev-list --count HEAD");
+
+  // Whether the current branch is detached; i.e. the commit name is a hash.
+  $formatted = format_git_version($branch, $count, $hash_short);
 
   // Get the repository base URL from the composer file.
   $repo_base = get_repo_base();
 
   return [
     'hash' => $hash,
-    'ts' => $ts[0],
-    'date' => $date,
     'hash_short' => $hash_short,
+    'timestamp' => intval($timestamp),
     'branch' => $branch,
-    'count' => count($logs),
-    'formatted' => $branch.'-'.count($logs).' ['.$hash_short.']',
+    'count' => intval($count),
+    'formatted' => $formatted,
     'commit_url' => $repo_base.'/commit/'.$hash,
-    'is_default_branch' => $branch === $default_branch,
   ];
+}
+
+/**
+ * Returns a formatted string representing the current git repo version.
+ */
+function format_git_version($branch, $count, $hash_short) {
+  return "$branch-$count [$hash_short]";
 }
