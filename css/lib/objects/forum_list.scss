@@ -14,7 +14,7 @@
 .forum_list .board_row {
 }
 .forum_list .board_row .icon {
-  width: 64px;
+  width: cssvar(--gw-icon-column);
 }
 .forum_list .board_row .stats {
   width: 110px;

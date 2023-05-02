@@ -57,7 +57,7 @@
 .message_table_list {
   td, th {
     &.icon {
-      width: 64px !important;
+      width: cssvar(--gw-icon-column) !important;
     }
     &.subject {
     }

@@ -4,7 +4,7 @@
 .stats_component {
 }
 .stats_component .header {
-  width: 64px;
+  width: cssvar(--gw-icon-column);
   text-align: center;
 }
 .stats_component .birthdays .name {
