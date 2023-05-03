@@ -66,3 +66,12 @@
     border-color: cssvar(--gw-notification-success-border);
   }
 }
+
+// Mute the margin if the notification appears at the top of an .object_row.
+.object_row {
+  th, td {
+    .notification_component:first-child {
+      margin-top: 0;
+    }
+  }
+}
