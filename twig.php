@@ -103,6 +103,7 @@ function render_template($file, $template_context = []) {
   $context['gw_custom_fields'] = get_gw_metadata();
   $context['search_cache'] = get_search_cache();
   $context['menu_buttons'] = get_menu_buttons();
+  $context['env'] = get_env_context();
 
   // Use our custom pip count algorithm.
   $context['use_gw_pip_count'] = true;

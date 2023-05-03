@@ -37,6 +37,47 @@ function get_theme_dir() {
 }
 
 /**
+ * Returns browser environment context.
+ */
+function get_env_context() {
+  global $context;
+
+  $ua = $_SERVER['HTTP_USER_AGENT'];
+  $is_legacy_browser = ua_has_legacy_elements($ua) || $context['browser']['is_ie'];
+  
+  return [
+    'is_legacy_browser' => $is_legacy_browser
+  ];
+}
+
+/**
+ * Returns true if a given user agent string has elements indicating it's a legacy browser.
+ * 
+ * Example legacy user agent strings:
+ * 
+ *   Mozilla/5.0 (Windows; U; Windows 98; en-US; rv:1.8.1.24) Gecko/20210302 WinternightClassic/0.1.0
+ *   Mozilla/5.0 (Windows; U; Win98; en-US; rv:1.8.1.24) Gecko/20100228 SeaMonkey/1.1.19
+ *   Mozilla/4.0 (compatible; MSIE 5.0; Windows 98; DigExt)
+ */
+function ua_has_legacy_elements($ua) {
+  $legacy = [
+    'WinternightClassic',
+    'SeaMonkey',
+    'Mozilla/4.0',
+    'Windows 98',
+    'Windows 95',
+    'Win98',
+    'Win95',
+  ];
+  foreach ($legacy as $str) {
+    if (strpos($ua, $str) !== false) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
  * Returns the search cache.
  * 
  * This is stored as session data and can be used to construct the page number links.
