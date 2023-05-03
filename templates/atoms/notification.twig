@@ -1,4 +1,5 @@
 {# Displays a notification, e.g. "this topic is locked" when trying to make a reply. #}
+{# Notification types: info, warning, danger, success. #}
 <div class="notification_component type_{{ type|default(context.type)|default('info') }}">
   <div class="inner">
     <div class="main">{{ content|default(context.content)|raw }}</div>
