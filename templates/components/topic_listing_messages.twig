@@ -74,8 +74,8 @@
                 {% if not context.can_approve_posts and not topic.approved %}
                   {% set topic_classes = topic_classes|merge(['is_unapproved']) %}
                 {% endif %}
-                {% if topic.new and user.is_logged %}
-                  {% set topic_classes = topic_classes|merge(['is_new']) %}
+                {% if topic.new and context.user.is_logged %}
+                  {% set topic_classes = topic_classes|merge(['is_unread']) %}
                 {% endif %}
                 {% if topic.is_sticky %}
                   {% set topic_classes = topic_classes|merge(['is_sticky']) %}
@@ -107,8 +107,13 @@
                     </td>
                   {% endif %}
                   <td class="subject">
-                    <div id="topic_{{ topic.first_post.id }}">
+                    <div id="topic_{{ topic.first_post.id }}" class="topic_container">
                       <span class="link">
+                        {% if topic.new %}
+                          <a href="{{ topic.last_post.href|raw }}" class="new_post_link_indicator">
+                            <img src="{{ images_url }}/__gwnew/topic_new_post.gif" alt="{{ txt.new }}" title="{{ txt.new }}" class="pixel" />
+                          </a>
+                        {% endif %}
                         {{ topic.first_post.link|raw }}
                       </span>
                       <span class="topic_pages" id="pages{{ topic.first_post.id }}">{{ topic.pages|raw }}</span>

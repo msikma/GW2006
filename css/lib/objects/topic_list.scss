@@ -12,6 +12,29 @@
     }
   }
   .topic_row {
+    .topic_container {
+      position: relative;
+    }
+    .link {
+      .new_post_link_indicator {
+        width: 19px;
+        display: inline-block;
+        margin: 0 -2px 0 0;
+
+        img {
+          position: absolute;
+          width: 19px;
+          height: 21px;
+          display: block;
+          top: -3px;
+        }
+      }
+    }
+    @if not $use-latest-post-subject-link {
+      .new_post_link_indicator {
+        display: none !important;
+      }
+    }
     &.is_locked {
       .subject .link::before {
         content: 'Locked: ';
@@ -32,6 +55,13 @@
     &.is_selected {
       td {
         background: cssvar(--gw-inner-highlighted);
+      }
+    }
+    &.is_unread {
+      .subject {
+        .link {
+          font-weight: bold;
+        }
       }
     }
   }
