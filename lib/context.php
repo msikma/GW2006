@@ -574,3 +574,11 @@ function get_birthdays_with_member_groups() {
   global $context;
   return add_birthday_member_groups($context['calendar_birthdays']);
 }
+
+/**
+ * Returns true if the currently requested page is the changelog page.
+ */
+function is_changelog_page() {
+  $query_string = $_SERVER['QUERY_STRING'];
+  return strpos($query_string, 'area=changelog') !== false;
+}
