@@ -26,8 +26,19 @@
   {key: 'Commits', value: context.git_info.count},
 ] %}
 
+{% if context.user.is_admin %}
+  {# Allow admin users to request a hard refresh. #}
+  {% set package_buttons = {
+    notify: {
+      text: 'Force refresh',
+      lang: false,
+      url: scripturl ~ '?action=help;area=changelog;forcerefresh'
+    },
+  } %}
+{% endif %}
+
 {% if context.git_info.package %}
-  {% include 'components/component_key_value.twig' with {title: 'Package', rows: pkg_details, is_wide: false, is_clamped: true} %}
+  {% include 'components/component_key_value.twig' with {title: 'Package', rows: pkg_details, is_wide: false, is_clamped: true, title_buttons: package_buttons} %}
 {% endif %}
 {% if context.git_info.branch %}
   {% include 'components/component_key_value.twig' with {title: 'Current Commit', rows: repo_details, is_wide: false, is_clamped: true} %}

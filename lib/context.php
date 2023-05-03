@@ -576,9 +576,29 @@ function get_birthdays_with_member_groups() {
 }
 
 /**
+ * Returns true if the current request is by an admin.
+ */
+function req_is_admin() {
+  global $context;
+  return $context['user']['is_admin'] === true;
+}
+
+/**
  * Returns true if the currently requested page is the changelog page.
  */
 function is_changelog_page() {
   $query_string = $_SERVER['QUERY_STRING'];
   return strpos($query_string, 'area=changelog') !== false;
+}
+
+/**
+ * Returns true if we're currently requesting a refresh of the changelog page.
+ */
+function is_changelog_refresh_request() {
+  // Only admins are permitted to request a refresh.
+  if (!req_is_admin()) {
+    return false;
+  }
+  $query_string = $_SERVER['QUERY_STRING'];
+  return strpos($query_string, 'area=changelog;forcerefresh') !== false;
 }

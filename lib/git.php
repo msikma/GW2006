@@ -43,6 +43,9 @@ function get_repo_base() {
 function get_git_info($refresh = false) {
   $key = 'gw2006_git_info';
 
+  // Check if this is a force refresh request.
+  $refresh = is_changelog_refresh_request() || $refresh;
+
   // Retrieve cached data from the database.
   if (!$refresh) {
     $cache = get_cached_data($key);

@@ -19,6 +19,11 @@ Finally, "display_all" can be passed as true to skip all tests temporarily for t
   <div class="blue_component">
     <div class="blue_component_header">
       <h3 class="blue_component_title">{{ title }}</h3>
+      {% if title_buttons %}
+        <div class="blue_component_buttons">
+          {% include 'components/forum_button_strip.twig' with {'buttons': title_buttons} %}
+        </div>
+      {% endif %}
     </div>
     <div class="object_list_frame">
       <table class="object_table key_value_table {{ is_wide ? 'wide_keys' : '' }}">
