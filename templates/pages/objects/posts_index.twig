@@ -202,10 +202,16 @@
 
 <a id="lastPost"></a>
 
-<div class="forum_page_section">
-  {% include 'components/forum_button_strip.twig' with {'buttons': normal_buttons, 'type': 'primary'} %}
-  {% include 'components/forum_page_links.twig' with {'location': 'bottom'} %}
-</div>
+{% if not context.is_locked %}
+  <div class="forum_page_section">
+    {% include 'components/forum_button_strip.twig' with {'buttons': normal_buttons, 'type': 'primary'} %}
+    {% include 'components/forum_page_links.twig' with {'location': 'bottom'} %}
+  </div>
+{% else %}
+  <div class="forum_page_section is_locked">
+    {% include 'atoms/button_locked.twig' %}
+  </div>
+{% endif %}
 
 {% if context.can_reply and options.display_quick_reply %}
   {% include 'components/thread_quick_reply.twig' %}
