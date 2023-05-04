@@ -143,7 +143,7 @@
     <div id="avatar_upload">
       <input type="file" size="44" name="attachment" value="" onfocus="selectRadioByName(document.forms.creator.avatar_choice, 'upload');" class="input_file" />
       {% if context.member.avatar.id_attach > 0 %}
-        <br /><br /><img src="{{ context.member.avatar.href }}{{ (context.member.avatar.href is not empty and context.member.avatar.href|slice({'?': 1}) == '?') ? '?' : '&amp;' }}time={{ date('U') }}" alt="" /><input type="hidden" name="id_attach" value="{{ context.member.avatar.id_attach }}" />
+        <br /><br /><img src="{{ context.member.avatar.href }}{{ (context.member.avatar.href is not empty and context.member.avatar.href|slice({'?': 1}) == '?') ? '?' : '&amp;' }}time={{ 'now'|date('U') }}" alt="" /><input type="hidden" name="id_attach" value="{{ context.member.avatar.id_attach }}" />
       {% endif %}
     </div>
   {% endif %}
