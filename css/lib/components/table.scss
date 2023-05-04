@@ -1,0 +1,83 @@
+@charset "utf-8";
+
+// A .key_value_table is a reusable table with key/value rows.
+.key_value_table {
+  .object_row {
+    .kv_key {
+      width: 130px;
+    
+      .clamped {
+        max-width: 120px;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    }
+    .kv_value {
+      width: min-content;
+    }
+  }
+  &.wide_keys {
+    .object_row .kv_key {
+      width: 210px;
+    
+      .clamped {
+        max-width: 200px;
+      }
+    }
+  }
+  &.dual_cols {
+    col {
+      width: 25%;
+    }
+
+    // Recontextualize the table structure for responsive purposes.
+    // A .dual_cols table will have two columns of key/value pairs,
+    // and this turns it into one column.
+    @media (max-width: $media-s) {
+      display: block;
+
+      tbody {
+        display: flex;
+        flex-wrap: wrap;
+
+        tr {
+          display: flex;
+          flex-wrap: wrap;
+          flex-basis: 100%;
+
+          .kv_key {
+            flex-basis: 210px;
+          }
+          .kv_value {
+            flex-basis: calc(100% - 210px);
+          }
+        }
+      }
+    }
+  }
+}
+
+// A .columns_table is only used on the general stats page.
+.columns_table {
+  width: 100%;
+
+  .column_item {
+    width: 49.5%;
+    vertical-align: top;
+  }
+  .column_separator {
+    width: 1%;
+  }
+
+  @media (max-width: $media-m) {
+    .column_item {
+      display: block;
+      width: 100%;
+    }
+    .column_separator {
+      display: table-row;
+    }
+  }
+}

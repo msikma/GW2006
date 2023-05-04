@@ -13,6 +13,9 @@
         padding-left: 3ex * $i;
       }
     }
+    .indent_target {
+      white-space: nowrap;
+    }
 
     th,
     td.form_row,

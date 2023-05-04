@@ -1,0 +1,11 @@
+@charset "utf-8";
+
+// Responsive sizes are determined based on a mid-2000s idea of screen sizes.
+// Most users are expected to be in between medium and large (960px-1150px).
+
+$minimum-width: 442px;
+
+$media-xs: 500px;
+$media-s: 796px;
+$media-m: 960px;
+$media-l: 1150px;

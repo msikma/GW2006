@@ -1,11 +1,11 @@
-<table style="width: 100%;" cellpadding="0">
+<table cellpadding="0" class="columns_table">
   <tr>
     {% for item in items %}
-      <td style="width: 49.5%; vertical-align: top;">
+      <td class="column_item">
         {{ item }}
       </td>
       {% if loop.revindex0 != 0 %}
-        <td style="width: 1%;"></td>
+        <td class="column_separator"></td>
       {% endif %}
     {% endfor %}
   </tr>
