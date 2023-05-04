@@ -269,10 +269,16 @@
 .object_table.hide_quick_mod .object_row .quick_mod {
   display: none;
 }
-.object_table .online_status img {
+.object_table .online_status {
   display: block;
-  position: relative;
-  top: 0.5px;
+  width: 17px;
+  height: 17px;
+  
+  img {
+    display: block;
+    position: relative;
+    top: 0.5px;
+  }
 }
 
 // Errors and such. TODO: make these nicer.
