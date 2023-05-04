@@ -24,7 +24,6 @@
 {% for message in context.posts %}
   {% include 'components/thread_post.twig' with {
     'is_generic_post': true,
-    'member': context.member,
     'show_header': true,
     'title_buttons': {print: print_button|merge({url: scripturl ~ '?action=printpage;topic=' ~ message.topic ~ '.0'})},
     'message': message
