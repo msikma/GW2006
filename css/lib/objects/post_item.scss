@@ -1,155 +1,174 @@
 @charset "utf-8";
 
-// A single post inside a thread.
-.post_item {
-}
 .object_list.post_item {
   margin: 5px 0;
 }
-.post_item .title {
-}
-.post_item .title .subject {
-}
-.post_item .title .subject .subject_links {
-}
-.post_item .title .subject .subject_links a {
-  // Note: links are normally only shown when viewing the "show all posts by this member" page.
-  color: white;
-  text-decoration: none;
-}
-.post_item .title .subject .subject_links a:hover {
-  color: cssvar(--gw-text-light-hover);
-}
-.post_item .title .subject .subject_links a:not(:first-child)::before {
-  content: ' > ';
-  font-size: 10px;
-  position: relative;
-  top: -1px;
-  padding-left: 4px;
-  padding-right: 4px;
-  opacity: 0.8;
-}
-.post_item .title .view_count {
-  font-size: cssvar(--gw-font-small);
-}
-.post_item .post_columns {
-  display: flex;
-}
-.post_item .author_column {
-  flex: 0 0 cssvar(--gw-post-column-a);
-}
-.post_item .post_column {
-  flex: 0 0 calc(100% - cssvar(--gw-post-column-a));
-}
-.post_item .post_column .modified {
-  font-style: italic;
-  font-size: cssvar(--gw-font-small);
-  margin-top: 8px;
-}
-.post_item .post_meta_top {
-  line-height: 20px;
-  border-bottom: 1px solid cssvar(--gw-inner-dark);
-}
-.post_item .post_meta_top .author_column,
-.post_item .post_meta_top .post_column {
-  line-height: 19px;
-}
-.post_item .post_meta_top .author_name {
-  margin: 0;
-  // Move the author name down a tiny bit since the font is larger.
-  line-height: 20px;
-}
-.post_item .post_meta_top .author_name a {
-  text-decoration: none;
-}
-.post_item .post_meta_top .date {
-  a, > span {
-    color: cssvar(--gw-text-regular);
-    font-size: cssvar(--gw-font-small);
-    text-decoration: none;
 
-    > span {
-      font-weight: bold;
+// A single post inside a thread.
+.post_item {
+  .title {
+    .subject {
+      .subject_links {
+        a {
+          // Note: links are normally only shown when viewing the "show all posts by this member" page.
+          color: white;
+          text-decoration: none;
+
+          &:hover {
+            color: cssvar(--gw-text-light-hover);
+          }
+          &:not(:first-child)::before {
+            content: ' > ';
+            font-size: 10px;
+            position: relative;
+            top: -1px;
+            padding-left: 4px;
+            padding-right: 4px;
+            opacity: 0.8;
+          }
+        }
+      }
     }
-  }
-}
-.post_item:not(.is_reply_history_post) .post_content {
-  // Bit extra breathing room between the bottom of the post text and the meta bar.
-  // Only exception is the reply history post list (underneath the reply form),
-  // as those need to be short.
-  padding-bottom: 30px !important;
-}
-.post_item .post_content.post_content_preview {
-  // Turn off that extra padding for the preview on the user profile page.
-  padding-bottom: cssvar(--gw-cell-medium) !important;
-}
-.post_item .post_content .member_info {
-  padding: 5px 0 0 0;
-  margin: 0;
-  font-size: cssvar(--gw-font-small);
-  line-height: cssvar(--gw-line-height-large);
-}
-.post_item .post_content .member_info .avatar {
-  margin-bottom: 6px;
-}
-.post_item .post_content .member_info .title {
-  margin-bottom: 6px;
-}
-.post_item .post_content .member_info .avatar a,
-.post_item .post_content .member_info .avatar img {
-  display: block;
-}
-.post_item .post_content .member_info .avatar img {
-  max-width: 150px;
-}
-.post_item .post_column .sidebar {
-  float: right;
-}
-.post_item .post_meta_bottom {
-  padding-bottom: calc(cssvar(--gw-cell-medium) - 1px);
-}
-.post_item .post_meta_bottom .online_status img {
-  margin-top: 2px;
-}
-.post_item .author_column {
-}
-.post_item .post_column {
-}
-.post_item .post_column .signature::before {
-  content: '__________________';
-  display: block;
-}
-
-// An ignored post; this is when you dislike a user's posts so much you just want to hide them.
-// We show an alternate post body in this case, with the option to unhide the real body.
-.post_item.is_ignored {
-  .post_item_ignored {
-    display: block;
-    background-color: cssvar(--gw-inner-medium);
-
-    .ignore_notification {
-      text-align: center;
+    .view_count {
       font-size: cssvar(--gw-font-small);
-      padding: 15px cssvar(--gw-cell-large);
+    }
+  }
+  .post_columns {
+    display: flex;
 
-      .text {
-        font-weight: bold;
+    .post_column {
+      flex: 0 0 calc(100% - cssvar(--gw-post-column-a));
+
+      .modified {
+        font-style: italic;
+        font-size: cssvar(--gw-font-small);
+        margin-top: 8px;
       }
-      .unhide {
-        padding-top: cssvar(--gw-cell-large);
-        display: block;
+      .sidebar {
+        float: right;
+      }
+      .signature {
+        &::before {
+          content: '__________________';
+          display: block;
+        }
+      }
+    }
+    .author_column {
+      flex: 0 0 cssvar(--gw-post-column-a);
+    }
+  }
+
+  .post_meta_top {
+    line-height: 20px;
+    border-bottom: 1px solid cssvar(--gw-inner-dark);
+
+    .author_column,
+    .post_column {
+      line-height: 19px;
+    }
+    .author_name {
+      margin: 0;
+      // Move the author name down a tiny bit since the font is larger.
+      line-height: 20px;
+
+      a {
+        text-decoration: none;
+      }
+    }
+    .date {
+      a, > span {
+        color: cssvar(--gw-text-regular);
+        font-size: cssvar(--gw-font-small);
+        text-decoration: none;
+    
+        > span {
+          font-weight: bold;
+        }
       }
     }
   }
-  .post_item_inner {
-    display: none;
+
+  .post_meta_bottom {
+    padding-bottom: calc(cssvar(--gw-cell-medium) - 1px);
+
+    .online_status {
+      display: block;
+      
+      img {
+        margin-top: 2px;
+      }
+    }
   }
-  &.display_ignored_post {
+
+  .post_content {
+    &.post_content_preview {
+      // Turn off that extra padding for the preview on the user profile page.
+      padding-bottom: cssvar(--gw-cell-medium) !important;
+    }
+
+    .member_info {
+      padding: 5px 0 0 0;
+      margin: 0;
+      font-size: cssvar(--gw-font-small);
+      line-height: cssvar(--gw-line-height-large);
+
+      .avatar {
+        margin-bottom: 6px;
+
+        a,
+        img {
+          display: block;
+          max-width: 150px;
+        }
+      }
+      .title {
+        margin-bottom: 6px;
+      }
+    }
+  }
+
+  // All post items except those from the post preview history list.
+  &:not(.is_reply_history_post) {
+    .post_content {
+      // Bit extra breathing room between the bottom of the post text and the meta bar.
+      // Only exception is the reply history post list (underneath the reply form),
+      // as those need to be short.
+      padding-bottom: 30px !important;
+    }
+  }
+
+  // An ignored post; this is when you dislike a user's posts so much you just want to hide them.
+  // We show an alternate post body in this case, with the option to unhide the real body.
+  &.is_ignored {
     .post_item_ignored {
-      display: none;
+      display: block;
+      background-color: cssvar(--gw-inner-medium);
+  
+      .ignore_notification {
+        text-align: center;
+        font-size: cssvar(--gw-font-small);
+        padding: 15px cssvar(--gw-cell-large);
+  
+        .text {
+          font-weight: bold;
+        }
+        .unhide {
+          padding-top: cssvar(--gw-cell-large);
+          display: block;
+        }
+      }
     }
     .post_item_inner {
-      display: block;
+      display: none;
+    }
+    &.display_ignored_post {
+      .post_item_ignored {
+        display: none;
+      }
+      .post_item_inner {
+        display: block;
+      }
     }
   }
 }
