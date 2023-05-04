@@ -11,6 +11,8 @@
   {% set href = scripturl ~ '?action=mlist;sort=' ~ sort ~ (sort_direction == 'down' ? ';desc') ~ (sa ? ';sa=' ~ sa) ~ (search ? ';search=' ~ search) ~ (fields ? ';fields=' ~ fields) ~ ';start=' ~ (per_page * (number - 1)) %}
 {% elseif is_pm_inbox %}
   {% set href = scripturl ~ '?action=pm' ~ (context.folder ? ';f=' ~ context.folder) ~ ';sort=' ~ sort ~ (sort_direction == 'down' ? ';desc') ~ ';start=' ~ (per_page * (number - 1)) %}
+{% elseif is_posts_index %}
+  {% set href = scripturl ~ '?topic=' ~ context.current_topic ~ '.' ~ (per_page * (number - 1)) %}
 {% else %}
   {% set href = scripturl ~ '?action=' ~ action ~ (sort ? ';sort=' ~ sort) ~ (segments|length ? segments|map(s => ";#{s}")|join('')) ~ (sort_direction == 'down' ? ';desc') ~ (sa ? ';sa=' ~ sa) ~ (search ? ';search=' ~ search) ~ (fields ? ';fields=' ~ fields) ~ ';start=' ~ (per_page * (number - 1)) %}
 {% endif %}

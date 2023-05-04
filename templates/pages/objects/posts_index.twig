@@ -183,7 +183,7 @@
 
 <div class="forum_page_section">
   {% include 'components/forum_button_strip.twig' with {'buttons': normal_buttons, 'type': 'primary'} %}
-  {% include 'components/forum_page_links.twig' %}
+  {% include 'components/forum_page_links.twig' with {'is_posts_index': true} %}
 </div>
 
 {# Show the topic information - icon, subject, etc. #}
@@ -204,7 +204,7 @@
 {% if not context.is_locked %}
   <div class="forum_page_section">
     {% include 'components/forum_button_strip.twig' with {'buttons': normal_buttons, 'type': 'primary'} %}
-    {% include 'components/forum_page_links.twig' with {'location': 'bottom'} %}
+    {% include 'components/forum_page_links.twig' with {'location': 'bottom', 'is_posts_index': true} %}
   </div>
 {% else %}
   <div class="forum_page_section is_locked">
