@@ -1,3 +1,5 @@
+{% set can_report_moderator = context.can_report_moderator %}
+
 {# Anchor to the current message, and separately an anchor if it's the first message the viewer hasn't read. #}
 {% if message.id != context.first_message %}
   <a id="msg{{ message.id }}"></a>
@@ -8,6 +10,7 @@
 
 {# Set the post values if this is a regular thread post. #}
 {% if is_thread_post %}
+  {% set topic_id = context.current_topic %}
   {% set subject = context.subject %}
   {% set subject_label = true %}
   {% set show_view_count = true %}
@@ -22,6 +25,7 @@
 
 {# Set the post values if this is a series of PMs. #}
 {% if is_pm_inbox %}
+  {% set topic_id = message.topic %}
   {% set subject = message.subject %}
   {% set subject_label = true %}
   {% set show_view_count = false %}
@@ -36,6 +40,7 @@
 
 {# Set the post values if this is a profile post (e.g. the "view all posts by member" page). #}
 {% if is_profile_post %}
+  {% set topic_id = message.topic %}
   {% set _board_link = '<a href="' ~ scripturl ~ '?board=' ~ message.board.id ~ '.0">' ~ message.board.name ~ '</a>' %}
   {% set _topic_link = '<a href="' ~ scripturl ~ '?topic=' ~ message.topic ~ '.' ~ message.start ~ '#' ~ message.start ~ '">' ~ message.subject ~ '</a>' %}
   {% set subject = '<span class="subject_links">' ~ _board_link ~ _topic_link ~ '</span>' %}
@@ -52,6 +57,7 @@
 
 {# Sets the post values if this is a thread history post (e.g. the post list underneath the reply form). #}
 {% if is_reply_history_post %}
+  {% set topic_id = context.current_topic %}
   {% set subject = context.subject %}
   {% set subject_label = true %}
   {% set show_view_count = false %}
@@ -66,6 +72,7 @@
 
 {# Sets the post values if this is a post from the recent posts page. #}  
 {% if is_generic_post %}
+  {% set topic_id = message.topic %}
   {% set _board_link = '<a href="' ~ scripturl ~ '?board=' ~ message.board.id ~ '.0">' ~ message.board.name ~ '</a>' %}
   {% set _topic_link = '<a href="' ~ scripturl ~ '?topic=' ~ message.topic ~ '.' ~ message.start ~ '#' ~ message.start ~ '">' ~ message.subject ~ '</a>' %}
   {% set subject = '<span class="subject_links">' ~ _board_link ~ _topic_link ~ '</span>' %}
@@ -82,11 +89,35 @@
 
 {# Sets the post values if this is post preview (i.e. not a real post). #}
 {% if is_post_preview %}
+  {% set topic_id = context.current_topic %}
   {% set subject_label = true %}
   {% set message_body = message %}
   {% set member_username = context.user.username ?? context.user.name %}
   {% set member_href = member.href %}
   {% set show_member_info = false %}
+{% endif %}
+
+{# If this is a search result, add the "relevance" button to the title. #}
+{% if is_search_result %}
+  {% set topic_id = topic.id %}
+  {% set title_buttons = []|merge([{
+    text: 'Relevance: ' ~ topic.relevance,
+    static: true
+  }])|merge(title_buttons) %}
+  {% set _board_link = '<a href="' ~ scripturl ~ '?board=' ~ topic.board.id ~ '.0">' ~ topic.board.name ~ '</a>' %}
+  {% set _topic_link = '<a href="' ~ scripturl ~ '?topic=' ~ topic.id ~ '.' ~ message.start ~ '#' ~ message.start ~ '">' ~ message.subject ~ '</a>' %}
+  {% set subject = '<span class="subject_links">' ~ _board_link ~ _topic_link ~ '</span>' %}
+  {% set subject_label = false %}
+  {% set show_view_count = false %}
+  {% set show_post_n = false %}
+  {% set href = scripturl ~ '?topic=' ~ topic.id ~ '.' ~ message.start ~ '#' ~ message.start %}
+
+  {% set message_body = message.body_highlighted %}
+  {% set member_username = message.member.name %}
+  {% set member_href = message.member.href %}
+  {% set is_ignored = message.is_ignored %}
+  {% set show_member_info = true %}
+  {% set can_report_moderator = true %}
 {% endif %}
 
 {# Set the member variable to the one in the post, unless it's explicitly set. #}
@@ -96,20 +127,6 @@
 
 {# Manually set signatures since we don't always have the context.signature_enabled variable. #}
 {% set signature_enabled = context.signature_enabled or modSettings.signature_settings|slice(0, 1) %}
-
-{# If this is a search result, add the "relevance" button to the title. #}
-{% if is_search_result %}
-  {% set title_buttons = []|merge([{
-    text: 'Relevance: ' ~ topic.relevance,
-    static: true
-  }])|merge(title_buttons) %}
-  {% set _board_link = '<a href="' ~ scripturl ~ '?board=' ~ topic.board.id ~ '.0">' ~ topic.board.name ~ '</a>' %}
-  {% set _topic_link = '<a href="' ~ scripturl ~ '?topic=' ~ topic.id ~ '.' ~ message.start ~ '#' ~ message.start ~ '">' ~ message.subject ~ '</a>' %}
-  {% set subject = '<span class="subject_links">' ~ _board_link ~ _topic_link ~ '</span>' %}
-  {% set show_view_count = false %}
-  {% set show_post_n = false %}
-  {% set href = scripturl ~ '?topic=' ~ topic.id ~ '.' ~ message.start ~ '#' ~ message.start %}
-{% endif %}
 
 {# Post body. #}
 <div class="post_item object_list {{ message.id ? 'post_id_' ~ message.id }} {{ is_ignored ? 'is_ignored' }} {{ not message.approved ? 'not_approved' }} member_group_{{ member.group|lower|default('member') }} {{ member.id ? 'member_id_' ~ member.id }} {{ is_reply_history_post ? 'is_reply_history_post' }} {{ is_thread_post ? 'is_thread_post' }} {{ is_profile_post ? 'is_profile_post' }}">
@@ -178,8 +195,10 @@
         </div>
         <div class="post_column">
           {# If this is the viewer's own message and it hasn't been approved yet, remind them. #}
-          {% if not message.approved and member.id != 0 and member.id == context.user.id %}
-            {% include 'atoms/notification.twig' with {'type': 'info', 'content': txt.post_awaiting_approval} %}
+          {% if message.approved != null %}
+            {% if not message.approved and member.id != 0 and member.id == context.user.id %}
+              {% include 'atoms/notification.twig' with {'type': 'info', 'content': txt.post_awaiting_approval} %}
+            {% endif %}
           {% endif %}
 
           {# Actual post content. #}
@@ -216,9 +235,9 @@
         <div class="post_column">
           <div class="sidebar">
             <ul class="action_buttons">
-              {% if context.can_report_moderator %}
+              {% if can_report_moderator %}
                 <li class="report">
-                  <a class="post_action_text" href="{{ scripturl }}?action=reporttm;topic={{ context.current_topic }}.{{ message.counter }};msg={{ message.id }}">
+                  <a class="post_action_text" href="{{ scripturl }}?action=reporttm;topic={{ topic_id }}{{ show_post_n ? '.' ~ message.counter }};msg={{ message.id }}">
                     {{ txt.report_to_mod }}
                   </a>
                 </li>

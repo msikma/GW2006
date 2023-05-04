@@ -21,15 +21,16 @@
 
 {# Displaying posts or threads. #}
 {% for topic in context.posts %}
-  {% set message = topic.matches.0 %}
-  {% include 'components/thread_post.twig' with {
-    'is_search_result': true,
-    'member': message.member,
-    'topic': topic,
-    'show_header': true,
-    'title_buttons': {print: print_button|merge({url: scripturl ~ '?action=printpage;topic=' ~ message.topic ~ '.0'})},
-    'message': message
-  } %}
+  {% for message in topic.matches %}
+    {% include 'components/thread_post.twig' with {
+      'is_search_result': true,
+      'member': message.member,
+      'topic': topic,
+      'show_header': loop.index == 1,
+      'title_buttons': {print: print_button|merge({url: scripturl ~ '?action=printpage;topic=' ~ message.topic ~ '.0'})},
+      'message': message
+    } %}
+  {% endfor %}
 {% endfor %}
 
 <a id="lastPost"></a>
