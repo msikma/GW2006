@@ -54,7 +54,7 @@
           <tbody class="poll_results">
             {% for option in context.poll.options %}
               {% set normalized_percentage = max_vote_percentage == 0 ? 0 : (option.percent / max_vote_percentage) * 100 %}
-              <tr class="object_row poll_item {{ option.voted_this ? 'voted highlighted' : 'not_voted light' }} {{ option.votes == 0 ? 'zero_votes' }}">
+              <tr class="object_row bar_item {{ option.voted_this ? 'voted highlighted' : 'not_voted light' }} {{ option.votes == 0 ? 'zero_votes' }}">
                 <td class="option">
                   {{ option.option }}
                 </td>

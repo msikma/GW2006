@@ -83,6 +83,10 @@
 }
 
 .stats_table {
+  .object_row {
+    line-height: 1.25rem;
+  }
+
   td.pie_chart {
     padding: 2px 0 2pxcssvar(--gw-cell-medium);
     

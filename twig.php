@@ -71,6 +71,11 @@ $twig->addFunction(new TwigFunction('get_max_poll_percentage', function($options
 $twig->addFunction(new TwigFunction('get_user_activity_chart', function($user_posts_by_time) {
   return get_user_activity_chart($user_posts_by_time);
 }));
+/** Returns a clock emoji for the hour of the day. */
+$twig->addFunction(new TwigFunction('get_clock_emoji', function($hour) {
+  $clocks = array('🕛', '🕐', '🕑', '🕒', '🕓', '🕔', '🕕', '🕖', '🕗', '🕘', '🕙', '🕚');
+  return $clocks[$hour % 12];
+}));
 /** Merges arrays while preserving numeric indices. */
 $twig->addFilter(new TwigFilter('pmerge', function($base, $extension) {
   foreach ($extension as $key => $value) {
