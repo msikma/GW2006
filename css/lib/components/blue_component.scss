@@ -43,7 +43,7 @@
     color: white;
     font-size: cssvar(--gw-font-regular);
     padding: cssvar(--gw-cell-large);
-    flex: 1 0 min-content;
+    flex: 1 0;
 
     a {
       color: white;
@@ -156,7 +156,7 @@
     // The .blue_component_buttons item contains a button strip with unique styling.
     display: flex;
     white-space: nowrap;
-    flex: 0 1 min-content;
+    flex: 0 1;
   }
 
   .blue_component_buttons .button_strip {
