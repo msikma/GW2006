@@ -15,7 +15,7 @@ require_once('lib/pips.php');
 require_once('lib/cache.php');
 require_once('lib/posticons.php');
 require_once('lib/emoticons.php');
-require_once('lib/events.php');
+require_once('lib/db.php');
 require_once('lib/git.php');
 require_once('lib/custom_fields.php');
 require_once('lib/stats.php');
@@ -32,8 +32,8 @@ $twig = new Twig\Environment($loader, [
 $twig->addExtension(new Twig\Extra\Intl\IntlExtension());
 
 /** Returns posticon image data by icon name. */
-$twig->addFunction(new TwigFunction('find_posticon', function($icon_name, $is_poll = false) {
-  return find_posticon($icon_name, $is_poll);
+$twig->addFunction(new TwigFunction('find_posticon', function($icon_name, $is_system = false) {
+  return find_posticon($icon_name, $is_system);
 }));
 /** Returns an icon that can be used to represent a specific filetype. */
 $twig->addFunction(new TwigFunction('get_filetype_icon', function($filename) {
@@ -93,6 +93,7 @@ function render_template($file, $template_context = []) {
   global $twig, $context, $settings, $options, $scripturl, $txt, $modSettings, $forum_copyright, $forum_version;
   
   // Assemble our custom data.
+  $context['topics'] = get_decorated_topics();
   $context['emoticons_base_url'] = get_emoticons_base_url();
   $context['emoticons_metadata'] = get_emoticons_metadata();
   $context['posticon_basepath'] = get_posticon_basepath();

@@ -62,7 +62,7 @@
                   {% for member in context.calendar_birthdays %}
                     {% if birthday_show_only_today and member.is_today %}
                       <span class="birthday_member member {{ member.is_today ? 'today' : 'not_today' }}">
-                        {# Note: we're adding _group ourselves. See lib/events.php. #}
+                        {# Note: we're adding _group ourselves. See lib/db.php. #}
                         <a href="{{ scripturl }}?action=profile;u={{ member.id }}" class="{{ get_username_pip_class(member._group, member.id, true) }}">
                           <span class="name">{{ member.name ?? member.username }}</span>
                           {% if member.age %}

@@ -8,7 +8,7 @@
  * 
  * Used by the quick moderation tools to select threads to moderate.
  */
-function selectCheckAll($checkbox, $form, requiredName, ignoreDisabled) {
+function selectCheckAll($checkbox, $form, requiredName, ignoreDisabled = true) {
   // The value that all checkboxes should be set to.
   const isChecked = $checkbox.checked
 

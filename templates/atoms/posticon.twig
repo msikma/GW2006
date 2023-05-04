@@ -1,9 +1,13 @@
 {# Gaming World post icons should have a shadow. #}
 {% set has_shadow = true %}
 
+{% if is_poll %}
+  {% set icon_name = 'poll' %}
+{% endif %}
+
 {% if icon_name %}
   {# If only an icon name was passed, find the icon object in the context array. #}
-  {% set icon = find_posticon(icon_name, is_poll) %}
+  {% set icon = find_posticon(icon_name, is_system) %}
 {% endif %}
 
 {% set image %}

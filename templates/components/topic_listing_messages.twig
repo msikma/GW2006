@@ -83,8 +83,34 @@
                 {% if topic.is_poll %}
                   {% set topic_classes = topic_classes|merge(['is_poll']) %}
                 {% endif %}
-                {% if topic.is_locked %}
+                {% if topic.is_locked and not topic._is_redirect_topic %}
                   {% set topic_classes = topic_classes|merge(['is_locked']) %}
+                {% endif %}
+                {% if topic._is_redirect_topic %}
+                  {% set topic_classes = topic_classes|merge(['is_redirect']) %}
+                {% endif %}
+
+                {# Whether we're displaying information about a different topic, which this topic redirects to. #}
+                {% set is_redirect_row = topic._is_redirect_topic and topic._redirects.topic_link %}
+
+                {% if not is_redirect_row %}
+                  {# Normal topics. #}
+                  {% set post_link = topic.first_post.link %}
+                  {% set member_link = topic.first_post.member.link %}
+                  {% set replies = topic.replies %}
+                  {% set views = topic.views %}
+                  {% set last_post_url = topic.last_post.href %}
+                  {% set last_post_time = topic.last_post.time %}
+                  {% set last_post_member_link = topic.last_post.member.link %}
+                {% else %}
+                  {# Redirect topic. #}
+                  {% set post_link = '<a href="' ~ topic._redirects.topic_link ~'">' ~ topic.subject ~ '</a>' %}
+                  {% set member_link = topic._redirects.first_post._member_link %}
+                  {% set replies = topic._redirects.topic.num_replies %}
+                  {% set views = topic._redirects.topic.num_views %}
+                  {% set last_post_url = topic._redirects.topic._last_post_url %}
+                  {% set last_post_time = topic._redirects.last_post._post_time %}
+                  {% set last_post_member_link = topic._redirects.last_post._member_link %}
                 {% endif %}
 
                 {# If we've just printed all the sticky topics and reached the first non-sticky, print a bar. #}
@@ -103,7 +129,8 @@
                   {% endif %}
                   {% if display_message_icon %}
                     <td class="icon minimal">
-                      {% include 'atoms/posticon.twig' with {'icon_name': topic.first_post.icon, 'is_poll': topic.is_poll} %}
+                      {% set has_system_icon = topic.is_poll or topic._is_redirect_topic %}
+                      {% include 'atoms/posticon.twig' with {'icon_name': topic.first_post.icon, 'is_system': has_system_icon, 'is_poll': topic.is_poll} %}
                     </td>
                   {% endif %}
                   <td class="subject">
@@ -114,30 +141,29 @@
                             <img src="{{ images_url }}/__gwnew/topic_new_post.gif" alt="{{ txt.new }}" title="{{ txt.new }}" class="pixel" />
                           </a>
                         {% endif %}
-                        {{ topic.first_post.link|raw }}
+                        {{ post_link|raw }}
                       </span>
                       <span class="topic_pages" id="pages{{ topic.first_post.id }}">{{ topic.pages|raw }}</span>
                     </div>
                   </td>
                   <td class="starter text_center">
-                    {# TODO: how does this factor in with name changes? #}
-                    {{ topic.first_post.member.link|raw }}
+                    {{ member_link|raw }}
                   </td>
                   <td class="stats replies text_center">
-                    {{ topic.replies }}
+                    {{ replies }}
                   </td>
                   <td class="stats views text_center">
-                    {{ topic.views }}
+                    {{ views }}
                   </td>
                   <td class="last_post small no_wrap">
                     <div class="last_post_time">
-                      {{ topic.last_post.time|raw }}
+                      {{ last_post_time|raw }}
                     </div>
                     <div>
-                      <a href="{{ topic.last_post.href|raw }}" class="last_post_icon">
+                      <a href="{{ last_post_url|raw }}" class="last_post_icon">
                         <img src="{{ images_url }}/__gwnew/ui_icons/last_post.gif" alt="{{ txt.last_post }}" title="{{ txt.last_post }}" class="pixel" />
                       </a>
-                      {{ txt.by }} {{ topic.last_post.member.link|raw }}
+                      {{ txt.by }} {{ last_post_member_link|raw }}
                     </div>
                   </td>
                   <td class="text_center quick_mod minimal no_padding">

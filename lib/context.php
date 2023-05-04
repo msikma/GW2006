@@ -2,7 +2,8 @@
 // Gaming World 2006 <https://gamingw.net/>
 // © MIT License
 
-require_once('lib/events.php');
+require_once('lib/db.php');
+require_once('lib/data.php');
 require_once('lib/html.php');
 require_once('lib/util.php');
 
@@ -25,6 +26,47 @@ function collect_topics() {
  */
 function collect_pms() {
   return collect_messages('get_pmessage');
+}
+
+/**
+ * Takes the existing topics array in the context and modifies it slightly.
+ * 
+ * This is used to display direct links to moved topics.
+ */
+function get_decorated_topics() {
+  global $context;
+
+  // If we're not on a page that has topics, do nothing.
+  if (empty($context['topics'])) {
+    return $context['topics'];
+  }
+
+  $topics = [];
+  foreach ($context['topics'] as $id => $data) {
+    // If a topic's icon is set to 'moved', it means it's a redirect post to somewhere else.
+    // We need to retrieve the post data in order to know where to link to.
+    $is_move_redirect = $data['icon'] === 'moved';
+    if ($is_move_redirect) {
+      $data = add_topic_redirect_link($data);
+    }
+    $topics[$id] = $data;
+  }
+  return $topics;
+}
+
+/**
+ * Adds data to a redirect topic that allows us to directly link users there from the thread index.
+ */
+function add_topic_redirect_link($topic) {
+  $first_post = get_post_data($topic['first_post']['id']);
+  $redirect = get_post_redirect_target($first_post);
+  if (empty($first_post) || empty($redirect['topic_link'])) {
+    return $topic;
+  }
+  return array_merge($topic, [
+    '_is_redirect_topic' => true,
+    '_redirects' => $redirect,
+  ]);
 }
 
 /**
