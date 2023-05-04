@@ -21,7 +21,7 @@
   color: cssvar(--gw-text-light-hover);
 }
 .post_item .title .subject .subject_links a:not(:first-child)::before {
-  content: ' ❯ ';
+  content: ' > ';
   font-size: 10px;
   position: relative;
   top: -1px;

@@ -9,6 +9,7 @@
 {# Set the post values if this is a regular thread post. #}
 {% if is_thread_post %}
   {% set subject = context.subject %}
+  {% set subject_label = true %}
   {% set show_view_count = true %}
   {% set show_post_n = true %}
   {% set href = message.href %}
@@ -22,6 +23,7 @@
 {# Set the post values if this is a series of PMs. #}
 {% if is_pm_inbox %}
   {% set subject = message.subject %}
+  {% set subject_label = true %}
   {% set show_view_count = false %}
   {% set show_post_n = true %}
   {% set href = null %}
@@ -37,6 +39,7 @@
   {% set _board_link = '<a href="' ~ scripturl ~ '?board=' ~ message.board.id ~ '.0">' ~ message.board.name ~ '</a>' %}
   {% set _topic_link = '<a href="' ~ scripturl ~ '?topic=' ~ message.topic ~ '.' ~ message.start ~ '#' ~ message.start ~ '">' ~ message.subject ~ '</a>' %}
   {% set subject = '<span class="subject_links">' ~ _board_link ~ _topic_link ~ '</span>' %}
+  {% set subject_label = false %}
   {% set show_view_count = false %}
   {% set show_post_n = false %}
   {% set href = scripturl ~ '?topic=' ~ message.topic ~ '.' ~ message.start ~ '#' ~ message.start %}
@@ -50,6 +53,7 @@
 {# Sets the post values if this is a thread history post (e.g. the post list underneath the reply form). #}
 {% if is_reply_history_post %}
   {% set subject = context.subject %}
+  {% set subject_label = true %}
   {% set show_view_count = false %}
   {% set show_post_n = false %}
   {% set href = message.href %}
@@ -65,6 +69,7 @@
   {% set _board_link = '<a href="' ~ scripturl ~ '?board=' ~ message.board.id ~ '.0">' ~ message.board.name ~ '</a>' %}
   {% set _topic_link = '<a href="' ~ scripturl ~ '?topic=' ~ message.topic ~ '.' ~ message.start ~ '#' ~ message.start ~ '">' ~ message.subject ~ '</a>' %}
   {% set subject = '<span class="subject_links">' ~ _board_link ~ _topic_link ~ '</span>' %}
+  {% set subject_label = false %}
   {% set show_view_count = false %}
   {% set show_post_n = true %}
   {% set href = message.href %}
@@ -77,6 +82,7 @@
 
 {# Sets the post values if this is post preview (i.e. not a real post). #}
 {% if is_post_preview %}
+  {% set subject_label = true %}
   {% set message_body = message %}
   {% set member_username = context.user.username ?? context.user.name %}
   {% set member_href = member.href %}
@@ -116,7 +122,12 @@
             {% if first_post_header %}
               {{ first_post_header|raw }}
             {% else %}
-              <span class="subject">{{ txt['topic'] }}: <span class="content">{{ subject|raw }}</span></span>
+              <span class="subject">
+                {% if subject_label %}
+                  {{ txt['topic'] }}:
+                {% endif %}
+                <span class="content">{{ subject|raw }}</span>
+              </span>
               {% if show_view_count %}
                 <span class="view_count">({{ txt['read'] }} {{ context['num_views'] }} {{ txt['times'] }})</span>
               {% endif %}
