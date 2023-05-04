@@ -21,6 +21,14 @@
         @include pixel-image;
         // Margins used to make the images work correctly despite padding.
         margin: -2px 0 -5px;
+        position: absolute;
+        float: left;
+        display: block;
+      }
+      a {
+        padding-left: 3ex;
+        float: left;
+        display: block;
       }
     }
 
