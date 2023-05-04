@@ -54,7 +54,7 @@
   {% endif %}
 
   {# Show the member's primary group (like "Administrator"). #}
-  <li class="member_group">Group: {{ member.group|default('Member') }}</li>
+  <li class="member_group">Group: {{ member.is_banned ? 'BANNED!' : member.group|default('Member') }}</li>
 
   {# Show when the member registered. #}
   {% if member.registered_timestamp %}
