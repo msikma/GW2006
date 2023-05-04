@@ -16,6 +16,13 @@
     .indent_target {
       white-space: nowrap;
     }
+    .expandable_row {
+      img {
+        @include pixel-image;
+        // Margins used to make the images work correctly despite padding.
+        margin: -2px 0 -5px;
+      }
+    }
 
     th,
     td.form_row,
