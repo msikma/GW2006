@@ -4,8 +4,8 @@
   #upper_section {
     border-top: 1px solid cssvar(--gw-inner-dark);
 
-    // User information for when you're logged in.
-    .current_user_info {
+    // Displays either the current user's information or a login form if the user is a guest.
+    .current_user {
       font-size: cssvar(--gw-font-small);
 
       ul {
@@ -13,6 +13,15 @@
         margin: 0;
         list-style-type: disc;
         list-style-position: inside;
+      }
+
+      #guest_form {
+        .info.top {
+          margin-bottom: 4px;
+        }
+        .info.bottom {
+          margin-top: 4px;
+        }
       }
     }
     .user_welcome p {

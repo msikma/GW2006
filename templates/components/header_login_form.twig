@@ -2,7 +2,7 @@
 {% set login_hashing = context.disable_login_hashing is empty ? 'onsubmit="hashLoginPassword(this, \'' ~ context.session_id ~ '\');"' : '' %}
 
 <form id="guest_form" action="{{ login_url }}" method="post" accept-charset="{{ context.character_set }}" {{ login_hashing }}>
-  <div class="info">{{ txt.welcome_guest|format(txt.guest_title)|raw }}</div>
+  <div class="info top">{{ txt.welcome_guest|format(txt.guest_title)|raw }}</div>
 
   <input type="text" name="user" size="10" />
   <input type="password" name="passwrd" size="10" class="input_password" />
@@ -16,7 +16,7 @@
   </select>
 
   <input type="submit" value="{{ txt.login }}" /><br />
-  <div class="info">{{ txt.quick_login_dec }}</div>
+  <div class="info bottom">{{ txt.quick_login_dec }}</div>
 
   {% if modSettings.enableOpenID is not empty %}
     <br /><input type="text" name="openid_identifier" id="openid_url" size="25" class="input_text openid_login" />

@@ -4,7 +4,7 @@
       {% include 'components/layout_title.twig' with {'use_linktree': true} %}
     </div>
     <div id="upper_section" class="blue_component_medium blue_component_section">
-      <div class="current_user_info">
+      <div class="current_user">
         {% if context.user.is_logged %}
           {# If the user is logged in, display their information. #}
           {# Note: if 'display_unread_links' is true, some additional useful links are shown. #}
