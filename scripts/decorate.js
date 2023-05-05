@@ -184,13 +184,26 @@ function insertEmoticonToMessage(emoticonName) {
  * Inserts a string into a <textarea> node at the current cursor position.
  */
 function insertAtCursorPosition(node, str, pad = false) {
+  // The insertion point.
   const start = node.selectionStart
   const end = node.selectionEnd
 
+  // The contents of the message box before and after our insertion point.
+  const prefix = node.value.substring(0, start)
+  const suffix = node.value.substring(end, node.value.length)
+
+  // To ensure whatever is inserted (usually an emoticon) renders properly,
+  // we need to buffer the insertion with spaces on either side.
+  // Only do this if there isn't already a space there.
+  const prefixChar = prefix[prefix.length - 1]
+  const suffixChar = suffix[0]
+  const bufferStart = pad && prefixChar && prefixChar !== ' ' ? ' ' : ''
+  const bufferEnd = pad && suffixChar !== ' ' ? ' ' : ''
+
   node.value = [
-    node.value.substring(0, start),
-    pad ? ` ${str} ` : `${str}`,
-    node.value.substring(end, node.value.length)
+    prefix,
+    `${bufferStart}${str}${bufferEnd}`,
+    suffix
   ].join('')
 
   focusMessageBox()
@@ -246,10 +259,7 @@ function generateEmoticonsPopup() {
 /**
  * Opens the emoticon picker popup.
  */
-function openEmoticonsPopup() {
-  const width = 680
-  const height = 520
-  
+function openEmoticonsPopup(width = 680, height = 520) {
   // Focus the window if it's already opened.
   if (state.emoticonPopupWindow !== null && 'closed' in state.emoticonPopupWindow && !state.emoticonPopupWindow.closed) {
     state.emoticonPopupWindow.focus();
