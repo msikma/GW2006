@@ -99,8 +99,11 @@
       float: right;
     }
 
-    + pre {
+    + pre,
+    + code {
       @include box-body;
+      display: block;
+      margin: 0;
       white-space: pre;
       font-family: string.unquote(cssvar(--gw-font-code));
     }
