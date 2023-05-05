@@ -24,6 +24,12 @@
   {% include 'components/profile_attachments.twig' with {'attachments': context.attachments, 'member': context.member} %}
 {% else %}
   {# Displaying posts or threads. #}
+  {% if not context.posts %}
+    {% set content %}
+      <p>No messages found for user <a href="{{ scripturl }}?action=profile;u={{ context.member.id }}">{{ context.member.name }}</a>.</p>
+    {% endset %}
+    {% include 'components/component_article.twig' with {'title': 'Notice', 'content': content} %}
+  {% endif %}
   {% for message in context.posts %}
     {% include 'components/thread_post.twig' with {
       'is_profile_post': true,
