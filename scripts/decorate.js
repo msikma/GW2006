@@ -363,7 +363,7 @@ function createPopupPage(title, content) {
       <head>
         <meta charset="utf-8">
         <title>${title}</title>
-        <link rel="stylesheet" type="text/css" href="${context.theme_url}/css/index.css">
+        <link rel="stylesheet" type="text/css" href="${context.theme_url}/css/dist/index.css">
       </head>
       <body>
         <div id="wrapper" class="pop_up_window">

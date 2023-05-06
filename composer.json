@@ -8,8 +8,8 @@
     "issues": "https://github.com/msikma/gw2006/issues"
   },
   "scripts": {
-    "build-scss": "sass css/index.scss:css/index.css css/legacy.scss:css/legacy.css",
-    "dev-scss": "sass --watch css/index.scss:css/index.css css/legacy.scss:css/legacy.css"
+    "build-scss": "rm css/dist/*.map; sass --no-source-map css/index.scss:css/dist/index.css css/legacy.scss:css/dist/legacy.css",
+    "dev-scss": "sass --watch css/index.scss:css/dist/index.css css/legacy.scss:css/dist/legacy.css"
   },
   "license": "mit",
   "keywords": ["forum", "community"],
