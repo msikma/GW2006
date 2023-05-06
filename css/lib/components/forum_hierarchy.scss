@@ -11,7 +11,7 @@
 .forum_hierarchy .category,
 .forum_hierarchy .board {
   position: relative;
-  background: url('../images/__gwnew/ui_icons/forum_list_category.gif');
+  background: url('../../images/__gwnew/ui_icons/forum_list_category.gif');
   background-size: 20px 20px;
   background-repeat: no-repeat;
   background-position: center left;
@@ -27,7 +27,7 @@
   margin-top: 0;
 }
 .forum_hierarchy .board {
-  background-image: url('../images/__gwnew/ui_icons/forum_list_board.gif');
+  background-image: url('../../images/__gwnew/ui_icons/forum_list_board.gif');
 }
 .forum_hierarchy .board.depth_0 {
   margin-left: 20px;
