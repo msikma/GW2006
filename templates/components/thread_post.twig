@@ -212,11 +212,11 @@
           {% endif %}
 
           {# If the post has been edited, note the last edit date. #}
-          <div class="modified" id="modified_{{ message.id }}">
-            {% if show_modify and message.modified.name is not empty %}
+          {% if show_modify and message.modified.name %}
+            <div class="modified" id="modified_{{ message.id }}">
               {{ txt.last_edit }}: {{ message.modified.time|raw }} {{ txt.by }} {{ message.modified.name }}
-            {% endif %}
-          </div>
+            </div>
+          {% endif %}
 
           {# Include the signature. #}
           {% if member.signature is not empty and options.show_no_signatures is empty and signature_enabled %}
