@@ -1,7 +1,6 @@
 {% set is_new = board.new or board.children_new %}
 {% set is_redirect = board.is_redirect %}
 {% set is_stale = not is_new and not is_redirect %}
-{% set show_board_children_new_icon = false %}
 {% set has_posts_to_approve = board.can_approve_posts and (board.unapproved_posts or board.unapproved_topics) %}
 
 <tr id="board_{{ board.id }}" class="board_row object_row">
@@ -37,28 +36,25 @@
       {% endif %}
       {% if board.children is not empty %}
         <div class="subsection board_children" id="board_{{ board.id }}_children">
-          <span class="sub_title">{{ txt.parent_boards }}</span>:
-          {% for child in board.children %}
-            {% set has_posts_to_approve = child.can_approve_posts and (child.unapproved_posts or child.unapproved_topics) %}
-            <span class="{{ child.new ? 'has_new' : '' }}">
-              {% if not child.is_redirect %}
-                {% set title = (child.new ? txt.new_posts : txt.old_posts) ~ ' (' ~ txt.board_topics ~ ': ' ~ child.topics|number_format ~ ', ' ~ txt.posts ~ ': ' ~ child.posts|number_format ~ ')' %}
-                <a class="{{ child.new ? 'new_posts' : '' }}" href="{{ child.href }}" title="{{ title }}">
-                  {{ child.name }}
-                </a>
-                {% if child.new and show_board_children_new_icon %}
-                  <a href="{{ scripturl }}?action=unread;board={{ child.id }}" title="{{ title }}">
-                    <img class="pixel" src="{{ lang_images_url }}/new.gif" class="new_posts" alt="" />
-                  </a>
-                {% endif %}
-              {% else %}
-                <a href="{{ child.href }}" title="{{ child.posts|number_format }} {{ txt.redirects }}">{{ child.name }}</a>
-              {% endif %}
-              {% if has_posts_to_approve %}
-                <a href="{{ scripturl }}?action=moderate;area=postmod;sa={{ child.unapproved_topics > 0 ? 'topics' : 'posts' }}&brd={{ child.id }}&{{ context.session_var }}={{ context.session_id }}" title="{{ txt.unapproved_posts|format(child.unapproved_topics, child.unapproved_posts) }}" class="moderation_link">(!)</a>
-              {% endif %}
-            </span>
-          {% endfor %}
+          <span class="sub_title">{{ txt.parent_boards }}:</span>
+          <ul>
+            {% for child in board.children %}
+              {% set has_posts_to_approve = child.can_approve_posts and (child.unapproved_posts or child.unapproved_topics) %}
+              <li class="{{ child.new ? 'has_new' : '' }}">
+                {%- apply spaceless %}
+                  {% if not child.is_redirect %}
+                    {% set title = (child.new ? txt.new_posts : txt.old_posts) ~ ' (' ~ txt.board_topics ~ ': ' ~ child.topics|number_format ~ ', ' ~ txt.posts ~ ': ' ~ child.posts|number_format ~ ')' %}
+                    <a class="{{ child.new ? 'new_posts' : '' }}" href="{{ child.href }}" title="{{ title }}">{{ child.name }}</a>
+                  {% else %}
+                    <a href="{{ child.href }}" title="{{ child.posts|number_format }} {{ txt.redirects }}">{{ child.name }}</a>
+                  {% endif %}
+                  {% if has_posts_to_approve %}
+                    <a href="{{ scripturl }}?action=moderate;area=postmod;sa={{ child.unapproved_topics > 0 ? 'topics' : 'posts' }}&brd={{ child.id }}&{{ context.session_var }}={{ context.session_id }}" title="{{ txt.unapproved_posts|format(child.unapproved_topics, child.unapproved_posts) }}" class="moderation_link">(!)</a>
+                  {% endif %}
+                {% endapply -%}
+              </li>
+            {% endfor %}
+          </ul>
         </div>
       {% endif %}
     </div>
