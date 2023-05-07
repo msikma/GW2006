@@ -27,6 +27,11 @@ img {
 #wrapper {
   padding: 17px 25px;
   width: 100% !important;
+
+  @media screen and (max-width: $media-xxs) {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
 }
 #content_section {
   margin-top: cssvar(--gw-content-margin);

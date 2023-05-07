@@ -64,4 +64,36 @@
       }
     }
   }
+  @media screen and (max-width: $media-s) {
+    .board_row {
+      .stats {
+        // Hide the row without deleting it (or the header's colspan will cause the page to break).
+        width: 0px;
+        display: flex;
+        visibility: hidden;
+        padding: 0 !important;
+        border-left: 0 !important;
+      }
+    }
+  }
+
+  @media screen and (max-width: $media-xs) {
+    .last_post_header {
+      display: none;
+    }
+    .board_row {
+      .stats,
+      .last_post {
+        display: none;
+      }
+    }
+  }
+
+  @media screen and (max-width: $media-xxxs) {
+    .board_row {
+      .icon {
+        display: none;
+      }
+    }
+  }
 }

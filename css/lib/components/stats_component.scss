@@ -2,24 +2,52 @@
 
 // The stats component contains information about how many users are online, how many posts exist, etc. It's at the bottom of the forum list.
 .stats_component {
-}
-.stats_component .header {
-  width: cssvar(--gw-icon-column);
-  text-align: center;
-}
-.stats_component .birthdays .name {
-  font-weight: bold;
-}
-.stats_component .forum_stats_wrapper {
-  display: flex;
-  gap: 8px;
-}
-.stats_component .forum_stats_wrapper .item {
-  flex: 1 1 33%;
-}
-.stats_component .forum_stats_wrapper .item.type_a {
-  flex-basis: 62%;
-}
-.stats_component .forum_stats_wrapper .value {
-  font-weight: bold;
+  .header {
+    width: cssvar(--gw-icon-column);
+    text-align: center;
+
+    @media screen and (max-width: $media-xxxs) {
+      display: none;
+
+      & + td {
+        border-left: none !important;
+      }
+    }
+  }
+  .birthdays {
+    .name {
+      font-weight: bold;
+    }
+  }
+  .forum_stats_wrapper {
+    display: flex;
+    gap: 8px;
+    flex-wrap: nowrap;
+
+    @media screen and (max-width: $media-m) {
+      flex-wrap: wrap;
+      gap: 0;
+      margin-top: -4px;
+    }
+
+    .item {
+      flex: 1 1 33%;
+
+      @media screen and (max-width: $media-m) {
+        flex-basis: 100% !important;
+        margin-top: 4px;
+
+        &.type_a {
+          order: 3;
+        }
+      }
+
+      &.type_a {
+        flex-basis: 62%;
+      }
+    }
+    .value {
+      font-weight: bold;
+    }
+  }
 }

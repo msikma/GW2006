@@ -6,10 +6,10 @@ $legacy-mode: false !default;
 
 @import 'vendor/reset_1.7.3.scss';
 
+@import 'lib/responsive.scss';
 @import 'lib/variables.scss';
 @import 'lib/base.scss';
 @import 'lib/util.scss';
-@import 'lib/responsive.scss';
 
 @import 'lib/components/attachments.scss';
 @import 'lib/components/auto_suggestions.scss';
