@@ -3,7 +3,7 @@
     {% for emoticon in context.emoticons_metadata.emoticons %}
       {% include 'atoms/emoticon.twig' with {'icon': emoticon} %}
     {% endfor %}
-    <button name="more_emoticons" class="button_emoticons" id="button_emoticons">
+    <button name="more_emoticons" class="button_emoticons" id="button_emoticons" type="button">
       Show more
     </button>
   </div>

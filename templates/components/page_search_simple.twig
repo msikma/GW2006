@@ -36,7 +36,7 @@
           <tr class="object_row dark">
             <th class="minimal"></th>
             <td>
-              <button><strong>Search</strong></button>
+              <button type="submit"><strong>Search</strong></button>
               {# TODO: make this tag include ;search=<text typed into search field> on click #}
               {#  onclick="this.href += \';search=\' + escape(document.forms.search_form.search.value);" #}
               <a href="{{ scripturl }}?action=search;advanced">{{ txt.search_advanced }}</a>

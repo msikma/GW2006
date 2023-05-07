@@ -36,10 +36,10 @@
             <tr class="object_row dark">
               <td>
                 {% if context.show_coppa %}
-                  <button name="accept_agreement"><strong>{{ context.coppa_agree_above }}</strong></button>
-                  <button name="accept_agreement_coppa"><strong>{{ context.coppa_agree_below }}</strong></button>
+                  <button name="accept_agreement" type="submit"><strong>{{ context.coppa_agree_above }}</strong></button>
+                  <button name="accept_agreement_coppa" type="submit"><strong>{{ context.coppa_agree_below }}</strong></button>
                 {% else %}
-                  <button name="accept_agreement"><strong>{{ txt['agreement' ~ (context.require_policy_agreement ? '_policy') ~ '_agree'] }}</strong></button>
+                  <button name="accept_agreement" type="submit"><strong>{{ txt['agreement' ~ (context.require_policy_agreement ? '_policy') ~ '_agree'] }}</strong></button>
                 {% endif %}
               </td>
             </tr>

@@ -215,7 +215,7 @@
                 <td>
                   {# New attachments: #}
                   {% if context.can_post_attachment %}
-                    <button disabled="disabled">Remove</button>
+                    <button disabled="disabled" type="button">Remove</button>
                     <input type="file" size="60" name="attachment[]" class="input_file" />
                     <div class="subline">
                       {% if modSettings.attachmentCheckExtensions %}

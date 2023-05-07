@@ -38,7 +38,7 @@
 
             <tr class="object_row dark">
               <td class="option">
-                <button>{{ txt.poll_vote }}</button>
+                <button type="submit">{{ txt.poll_vote }}</button>
                 <input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />
                 {# Show a notice if you're allowed more than one option. #}
                 {% if context.poll.allowed_warning %}
