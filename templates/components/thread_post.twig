@@ -174,7 +174,8 @@
           <div class="main">
             <div class="date">
               {% set date_content %}
-                {% if show_post_n %}<span>#{{ message.counter + 1 }}</span>{% endif %} {{ message.time|raw }}
+                {% if show_post_n %}<span class="post_n">#{{ message.counter + 1 }}</span>{% endif %}
+                {% include 'atoms/timestamp.twig' with {time: message.time, timestamp: message.timestamp} %}
               {% endset %}
               {% if href %}
                 <a href="{{ href }}" rel="nofollow">{{ date_content }}</a>

@@ -1,6 +1,7 @@
 {
   "name": "dada/gw2006",
   "version": "1.0.0",
+  "description": "SMF 2.0.19 theme for Gaming World Forums based on a design from 2006",
   "authors": [
     {"name": "Michiel Sikma", "email": "michiel@sikma.org"}
   ],
@@ -8,11 +9,13 @@
     "issues": "https://github.com/msikma/gw2006/issues"
   },
   "scripts": {
-    "build-scss": "rm css/dist/*.map; sass --no-source-map css/index.scss:css/dist/index.css css/legacy.scss:css/dist/legacy.css",
-    "dev-scss": "sass --watch css/index.scss:css/dist/index.css css/legacy.scss:css/dist/legacy.css"
+    "build-scss": "rm -f css/dist/*.map; sass --no-source-map css/index.scss:css/dist/index.css css/legacy.scss:css/dist/legacy.css",
+    "build-js": "NODE_ENV=production webpack --mode=production --config=.webpack.config.js",
+    "dev-scss": "sass --watch css/index.scss:css/dist/index.css css/legacy.scss:css/dist/legacy.css",
+    "dev-js": "NODE_ENV=development webpack --mode=production --config=.webpack.config.js --watch --progress"
   },
   "license": "mit",
-  "keywords": ["forum", "community"],
+  "keywords": ["forum", "community", "Simple Machines Forum"],
   "homepage": "https://github.com/msikma/gw2006",
   "type": "project",
   "repository": "https://github.com/msikma/gw2006",

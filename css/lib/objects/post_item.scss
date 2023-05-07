@@ -77,13 +77,31 @@
       }
     }
     .date {
-      a, > span {
+      a,
+      > span {
         color: cssvar(--gw-text-regular);
         font-size: cssvar(--gw-font-small);
         text-decoration: none;
     
-        > span {
+        > .post_n {
           font-weight: bold;
+        }
+        > .timestamp {
+          .relative {
+          }
+          .relative + .regular {
+            &::before {
+              content: ', ';
+            }
+          }
+          .regular + .relative {
+            &::before {
+              content: ' (';
+            }
+            &::after {
+              content: ')';
+            }
+          }
         }
       }
     }

@@ -5,25 +5,22 @@
   <title>{{ page_title|default(context.page_title_html_safe) }}</title>
   <meta name="description" content="{{ context.page_title_html_safe }}" />
 
-  {% if context.meta_keywords is not empty %}
+  {% if context.meta_keywords %}
     <meta name="keywords" content="{{ context.meta_keywords }}" />
   {% endif %}
 
-  {% if context.robot_no_index is not empty %}
+  {% if context.robot_no_index %}
     <meta name="robots" content="noindex" />
   {% endif %}
 
-  {% if context.canonical_url is not empty %}
+  {% if context.canonical_url %}
     <link rel="canonical" href="{{ context.canonical_url }}" />
   {% endif %}
 
-  <link rel="icon" type="image/png" sizes="32x32" href="{{ images_url }}/__gwnew/favicon/foget-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="{{ images_url }}/__gwnew/favicon/foget-16x16.png">
-  <link rel="stylesheet" type="text/css" href="{{ theme_url }}/css/dist/{{ context.env.is_legacy_browser ? 'legacy' : 'index' }}.css">
+  {% include './head/favicon.twig' %}
+  {% include './head/style_main.twig' %}
   {% include './head/style_pips.twig' %}
-  <script src="{{ theme_url }}/scripts/decorate.js"></script>
-  <script src="{{ theme_url }}/scripts/gw.js"></script>
-  <script src="{{ default_theme_url }}/scripts/sha1.js"></script>
+  {% include './head/script_main.twig' %}
   {% include './auxiliary/script_gw_header.twig' %}
   {% include './auxiliary/script_header.twig' %}
 
@@ -32,12 +29,12 @@
   <link rel="contents" href="{{ scripturl }}" />
 
   {# If RSS feeds are enabled, advertise the presence of one. #}
-  {% if (modSettings.xmlnews_enable is not empty) and ((modSettings.allow_guestAccess is not empty) or (context.user.is_logged)) %}
+  {% if (modSettings.xmlnews_enable) and ((modSettings.allow_guestAccess) or (context.user.is_logged)) %}
     <link rel="alternate" type="application/rss+xml" title="{{ context.forum_name_html_safe }} - {{ txt.rss }}" href="{{ scripturl }}?type=rss;action=.xml" />
   {% endif %}
 
   {# If we're in a board, or a topic for that matter, the index will be the board's index. #}
-  {% if context.current_board is not empty %}
+  {% if context.current_board %}
     <link rel="index" href="{{ scripturl }}?board={{ context.current_board }}.0" />
   {% endif %}
 
