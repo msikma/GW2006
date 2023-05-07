@@ -13,4 +13,10 @@
   &:not(:first-child) {
     margin-top: 6px;
   }
+
+  &.colophon {
+    span {
+      display: inline-block;
+    }
+  }
 }
