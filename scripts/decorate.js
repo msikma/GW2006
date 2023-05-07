@@ -248,7 +248,7 @@ function generateEmoticonsPopup() {
       </div>
       ${buffer.join('\n')}
       <div class="blue_component_medium blue_component_section">
-        <button id="emoticon_window_close">
+        <button id="emoticon_window_close" type="button">
           Close window
         </button>
       </div>
