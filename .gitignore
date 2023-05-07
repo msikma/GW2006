@@ -2,6 +2,9 @@
 _source
 todo.md
 
+# Files added by the gwbbc installation
+images/bbc/gwbbc*
+
 # Vendor code installed by Composer and npm
 /vendor
 node_modules
