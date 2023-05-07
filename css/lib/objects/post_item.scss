@@ -135,9 +135,17 @@
         margin-bottom: 6px;
 
         a,
+        span,
         img {
           display: block;
+        }
+        .avatar_wrapper {
           max-width: 150px;
+
+          img {
+            max-width: 100%;
+            height: auto;
+          }
         }
       }
       .title {

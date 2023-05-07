@@ -14,8 +14,8 @@ export function decorateAvatar() {
   const setRetinaScale = (ev, scale = 2) => {
     const width = img.naturalWidth / scale
     const height = img.naturalHeight / scale
-    img.style.width = `${width}px`
-    img.style.height = `${height}px`
+    img.setAttribute('width', Math.round(width))
+    img.setAttribute('height', Math.round(height))
   }
 
   if (isRetina) {

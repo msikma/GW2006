@@ -27,7 +27,9 @@
   {% if show_user_images is not empty and options.show_no_avatars is empty and avatar_url is not empty %}
     <li class="avatar source_{{ avatar_source }}">
       <a href="{{ scripturl }}?action=profile;u={{ member.id }}" class="gw_avatar" data-avatar-source="{{ avatar_source }}" data-avatar-retina="{{ member.options.cust_useret ? 'retina' : '' }}">
-        <img src="{{ avatar_url }}" alt="Avatar of {{ member.name ?? member.username }}" class="{{ member.options.cust_useret ? 'retina' }}" />
+        <span class="avatar_wrapper">
+          <img src="{{ avatar_url }}" alt="Avatar of {{ member.name ?? member.username }}" class="{{ member.options.cust_useret ? 'retina' }}" />
+        </span>
       </a>
       <script>gw.decorateAvatar();</script>
     </li>
