@@ -1,0 +1,10 @@
+@charset "utf-8";
+
+.changelog {
+  .insertions {
+    color: cssvar(--gw-changelog-insertions);
+  }
+  .deletions {
+    color: cssvar(--gw-changelog-deletions);
+  }
+}

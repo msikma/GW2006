@@ -1,22 +1,7 @@
-{% set changelog_content %}
-  {% if not context.git_info.history %}
-    <p>Commit history unavailable.</p>
-  {% else %}
-    <p>Recent commit history:</p>
-    <ul>
-    {% for commit in context.git_info.history %}
-      <li>
-        <a href="{{ commit.commit_url }}"><code>{{ commit.hash_short }}</code></a> {{ commit.timestamp|format_datetime(pattern='y-MM-dd') }}, {{ commit.subject }}
-      </li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-  <p>View the <a href="{{ context.git_info.package.repository }}">repository</a> for the full commit history.</p>
-{% endset %}
-
 {% set pkg_details = [
   {key: 'Name', value: context.git_info.package.name},
   {key: 'Version', value: context.git_info.package.version},
+  {key: 'Repository', value: '<a href="' ~ context.git_info.package.repository ~ '">' ~ context.git_info.package.repository ~ '</a>'},
 ] %}
 
 {% set repo_details = [
@@ -43,4 +28,26 @@
 {% if context.git_info.branch %}
   {% include 'components/component_key_value.twig' with {title: 'Current Commit', rows: repo_details, is_wide: false, is_clamped: true} %}
 {% endif %}
-{% include 'components/component_article.twig' with {title: 'Changelog', 'content': changelog_content} %}
+
+<div class="object_list changelog">
+  <div class="blue_component">
+    <div class="blue_component_header">
+      <h3 class="blue_component_title">Changelog</h3>
+    </div>
+    <div class="object_list_frame">
+      <table class="object_table key_value_table {{ is_wide ? 'wide_keys' : '' }}">
+        <tbody>
+          {% for commit in context.git_info.history %}
+            <tr class="object_row">
+              <td class="kv_key medium"><a href="{{ commit.commit_url }}"><code>{{ commit.hash_short }}</code></a></td>
+              <td class="kv_value light">{{ commit.subject }}</td>
+              <td class="minimal light"><code class="insertions">{{ commit.summary[0] }}</code></td>
+              <td class="minimal connected_left light"><code class="deletions">{{ commit.summary[1] }}</code></td>
+              <td class="minimal light">{{ commit.timestamp|format_datetime(pattern='y-MM-dd') }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

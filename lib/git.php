@@ -75,7 +75,7 @@ function _get_live_git_info() {
   $timestamp = exec("{$cmd_base} log -1 --format=%ct HEAD");
   $branch = exec("{$cmd_base} rev-parse --abbrev-ref --short HEAD");
   $count = exec("{$cmd_base} rev-list --count HEAD");
-  exec("{$cmd_base} --no-pager log --pretty=format:\"%H %ct %s\" --no-color --no-abbrev -25", $history);
+  exec("{$cmd_base} --no-pager log --pretty=format:\"%H %ct %s\" --no-color --no-abbrev -25 --numstat", $history);
 
   // Whether the current branch is detached; i.e. the commit name is a hash.
   $formatted = format_git_version($branch, $count, $hash_short);
@@ -90,7 +90,7 @@ function _get_live_git_info() {
     'branch' => $branch,
     'count' => intval($count),
     'formatted' => $formatted,
-    'history' => parse_git_history($repo_base, $history),
+    'history' => parse_git_history($repo_base, $history, $count),
     'repo_url' => $repo_base,
     'package' => get_package_version(),
     'commit_url' => get_commit_url($repo_base, $hash),
@@ -100,21 +100,98 @@ function _get_live_git_info() {
 /**
  * Parses the most recent Git commit lines from git log and returns them as an array.
  */
-function parse_git_history($repo_base, $history_lines) {
+function parse_git_history($repo_base, $history_lines, $start_count) {
+  $history_lines[] = '';
   $history = [];
 
+  $item = [];
+  $type = 1;
   foreach ($history_lines as $line) {
-    $data = explode(' ', $line, 3);
-    $history[] = [
-      'hash' => $data[0],
-      'hash_short' => substr($data[0], 0, 7),
-      'commit_url' => get_commit_url($repo_base, $data[0]),
-      'timestamp' => intval($data[1]),
-      'subject' => $data[2],
-    ];
+    if ($type === 1) {
+      // The first line in an item contains base information about the commit.
+      $item = parse_commit_line($line, count($history), $start_count, $repo_base);
+      $type = 2;
+      continue;
+    }
+    if ($type === 2) {
+      // When we reach an empty line, conclude this item.
+      if (trim($line) === '' && !empty($item)) {
+        $item = array_merge($item, ['summary' => get_commit_short_summary($item)]);
+        unset($item['changes']);
+        $history[] = $item;
+        $item = [];
+        $type = 1;
+        continue;
+      }
+
+      // If not, assume this line contains --numstat information.
+      $item['changes'][] = parse_commit_file_line($line);
+      continue;
+    }
   }
 
   return $history;
+}
+
+/**
+ * Parses a Git commit line as defined by our git log command.
+ */
+function parse_commit_line($line, $count, $start_count, $repo_base) {
+  $data = explode(' ', $line, 3);
+  $item = [
+    'hash' => $data[0],
+    'hash_short' => substr($data[0], 0, 7),
+    'commit_url' => get_commit_url($repo_base, $data[0]),
+    'timestamp' => intval($data[1]),
+    'subject' => $data[2],
+    'n' => $start_count - $count,
+    'changes' => [],
+  ];
+  return $item;
+}
+
+/**
+ * Parses a Git insertions/deletions line.
+ */
+function parse_commit_file_line($line) {
+  $data = preg_split("/\t+/", $line);
+  $item = [
+    'insertions' => $data[0] === '-' ? null : intval($data[0]),
+    'deletions' => $data[1] === '-' ? null : intval($data[1]),
+    'filename' => trim($data[2]),
+  ];
+  return $item;
+}
+
+/**
+ * Returns a shorthand format for the number of insertions/deletions for a commit.
+ */
+function get_commit_short_summary($commit_data) {
+  $changes = get_commit_changes($commit_data);
+  return ['+'.$changes['insertions'], '-'.$changes['deletions']];
+}
+
+/**
+ * Returns the total number of insertions, deletions and changes for a commit.
+ */
+function get_commit_changes($commit_data) {
+  $insertions = 0;
+  $deletions = 0;
+  $changes = 0;
+  foreach ($commit_data['changes'] as $change) {
+    $changes += 1;
+    if (is_integer($change['insertions'])) {
+      $insertions += $change['insertions'];
+    }
+    if (is_integer($change['deletions'])) {
+      $deletions += $change['deletions'];
+    }
+  }
+  return [
+    'insertions' => $insertions,
+    'deletions' => $deletions,
+    'changes' => $changes,
+  ];
 }
 
 /**
