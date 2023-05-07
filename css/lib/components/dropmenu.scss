@@ -6,110 +6,133 @@
   margin: 0;
   list-style: none;
   display: flex;
-}
-.dropmenu a {
-  text-decoration: none;
-}
-.dropmenu li {
-  padding: 0;
-  margin: 0;
-  position: relative;
-}
-.dropmenu > li {
-}
-.dropmenu > li > a {
-  color: white;
-  padding: 0 cssvar(--gw-cell-large);
-  font-size: cssvar(--gw-font-small); // note: used to be 11px or 0.6875rem
-  line-height: cssvar(--gw-header-cell-height);
-  display: inline-block;
-  font-weight: bold;
-}
-.dropmenu > li > ul {
-  display: none;
-  width: 16rem;
-  z-index: 90;
-  padding: 0;
-  position: absolute;
-  font-weight: normal;
-  border: 1px solid cssvar(--gw-text-light);
-  background: white;
-  margin-top: 0.25rem;
-  font-size: cssvar(--gw-font-small);
-}
-.dropmenu > li > ul > li > a {
-  // font-weight: bold;
-}
-.dropmenu > li > ul > li > ul {
-  padding: 0;
-}
-.dropmenu > li > ul > li > ul > li > a {
-  padding-left: 26px;
-}
-.dropmenu > li:hover > ul {
-  display: block;
-}
-.dropmenu > li:hover > a.with_submenu::after {
-  content: '';
-  background: url('../../images/__gwnew/arrow_dropmenu.png');
-  background-size: 18px 9px;
-  width: 18px;
-  height: 9px;
-  position: absolute;
-  bottom: calc(-0.25rem - 1px);
-  left: calc(50% - 9px);
-  z-index: 120;
-}
-.dropmenu > li > ul::after {
-  content: '';
-  background: none;
-  height: calc(0.5rem - 1px);
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -0.5rem;
-  z-index: 150;
-}
-.dropmenu > li > ul > li {
-  padding: 1px;
-}
-.dropmenu > li > ul > li:not(:last-child) {
-  border-bottom: 1px solid cssvar(--gw-inner-dark);
-}
-.dropmenu > li > ul li a {
-  display: block;
-  padding: calc(cssvar(--gw-cell-medium) - 1px) calc(cssvar(--gw-cell-large) - 1px);
-}
-.dropmenu > li > ul li a:hover {
-  background: cssvar(--gw-inner-medium);
-  text-decoration: none;
-  color: #000;
+  flex-wrap: wrap;
+
+  a {
+    text-decoration: none;
+  }
+
+  li {
+    padding: 0;
+    margin: 0;
+    position: relative;
+  }
+
+  > li {
+    > a {
+      color: white;
+      padding: 0 cssvar(--gw-cell-large);
+      font-size: cssvar(--gw-font-small); // note: used to be 11px or 0.6875rem
+      line-height: cssvar(--gw-header-cell-height);
+      display: inline-block;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    > ul {
+      display: none;
+      width: 16rem;
+      z-index: 90;
+      padding: 0;
+      position: absolute;
+      font-weight: normal;
+      border: 1px solid cssvar(--gw-text-light);
+      background: white;
+      margin-top: 0.25rem;
+      font-size: cssvar(--gw-font-small);
+
+      &::after {
+        content: '';
+        background: none;
+        height: calc(0.5rem - 1px);
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: -0.5rem;
+        z-index: 150;
+      }
+
+      > li {
+        padding: 1px;
+
+        &:not(:last-child) {
+          border-bottom: 1px solid cssvar(--gw-inner-dark);
+        }
+
+        > a {
+          // font-weight: bold;
+        }
+        > ul {
+          padding: 0;
+
+          > li > a {
+            padding-left: 26px;
+          }
+        }
+      }
+
+      li a {
+        display: block;
+        padding: calc(cssvar(--gw-cell-medium) - 1px) calc(cssvar(--gw-cell-large) - 1px);
+
+        &:hover {
+          background: cssvar(--gw-inner-medium);
+          text-decoration: none;
+          color: #000;
+        }
+      }
+    }
+
+    &:hover {
+      > ul {
+        display: block;
+      }
+      
+      > a.with_submenu {
+        &::after {
+          content: '';
+          background: url('../../images/__gwnew/arrow_dropmenu.png');
+          background-size: 18px 9px;
+          width: 18px;
+          height: 9px;
+          position: absolute;
+          bottom: calc(-0.25rem - 1px);
+          left: calc(50% - 9px);
+          z-index: 120;
+        }
+      }
+    }
+  }
 }
 // Submenu styles.
 .submenu {
   border: 1px solid cssvar(--gw-outline);
   background: cssvar(--gw-inner-dark);
   padding: 1px;
-}
-.submenu.attached {
-  // For when the submenu is attached to the main menu.
-  border-top: none;
-  margin-top: calc(cssvar(--gw-content-margin) * -1 - 2px);
-  margin-bottom: cssvar(--gw-content-margin);
-}
-.submenu .dropmenu {
-  background: cssvar(--gw-inner-negative-active);
-}
-.submenu .dropmenu > li > a {
-  line-height: cssvar(--gw-subheader-cell-height);
-}
-.submenu.page_title {
-}
-.submenu.page_title .content {
-  color: white;
-  padding: 0 cssvar(--gw-cell-large);
-  font-size: cssvar(--gw-font-small);
-  font-weight: bold;
-  background: cssvar(--gw-inner-negative-active);
-  line-height: cssvar(--gw-subheader-cell-height);
+
+  &.attached {
+    // For when the submenu is attached to the main menu.
+    border-top: none;
+    margin-top: calc(cssvar(--gw-content-margin) * -1 - 2px);
+    margin-bottom: cssvar(--gw-content-margin);
+  }
+
+  &.page_title {
+    .content {
+      color: white;
+      padding: 0 cssvar(--gw-cell-large);
+      font-size: cssvar(--gw-font-small);
+      font-weight: bold;
+      background: cssvar(--gw-inner-negative-active);
+      line-height: cssvar(--gw-subheader-cell-height);
+    }
+  }
+
+  .dropmenu {
+    background: cssvar(--gw-inner-negative-active);
+
+    > li > a {
+      line-height: cssvar(--gw-subheader-cell-height);
+    }
+  }
 }
