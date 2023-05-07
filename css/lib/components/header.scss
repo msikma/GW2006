@@ -45,6 +45,11 @@
       flex-direction: column;
       justify-content: center;
 
+      // Remove the quick search below 900px size to ensure the menu has more space.
+      @media screen and (max-width: $media-hide-quick-search) {
+        display: none;
+      }
+
       #header_search_form {
         display: flex;
         padding-right: cssvar(--gw-cell-large);
