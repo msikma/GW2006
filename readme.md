@@ -10,15 +10,16 @@ This is a modern recreation of the 2006 version of its layout, with the goal bei
 
 ## Development
 
-Dependencies must be installed through [Composer](https://getcomposer.org/):
+This project includes [Composer](https://getcomposer.org/) and [npm](https://www.npmjs.com/) dependencies:
 
 ```sh
 composer install
+npm install
 ```
 
-The stylesheet is written in SCSS, so [Sass](https://sass-lang.com/) must be installed. To develop styles, run `composer run dev-scss`.
+The stylesheet is written in SCSS, so [Sass](https://sass-lang.com/) must be installed as well (specifically, the [Dart Sass](https://sass-lang.com/dart-sass) implementation).
 
-This theme is built using [Twig](https://twig.symfony.com/) templates. 
+Use `composer run dev-js` and `dev-scss` for development.
 
 ## Migration
 
@@ -32,7 +33,7 @@ Due to the forum having been moved around to different forum systems several tim
 * [Salt World](https://saltworld.net/) (2010-2022)
 * [Simple Machines Forum homepage](https://www.simplemachines.org/)
     * [Online manual](https://wiki.simplemachines.org/)
-* [SVGGraph](https://www.goat1000.com/svggraph.php) - Used for creating SVG graphs
+* [dada/gwbbc](https://github.com/msikma/gwbbc) - SMF mod for GW forums
 
 ## License
 
