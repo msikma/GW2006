@@ -129,6 +129,162 @@ function get_search_cache() {
 }
 
 /**
+ * Returns metadata for the current page.
+ * 
+ * This is used to display Open Graph information.
+ * 
+ * There are two different situations that this function accounts for:
+ * it either returns metadata for a specific page on the site, such as a single topic
+ * or a subforum, or it returns generic metadata that's not specific to any single page.
+ * 
+ * This should run only once, while generating the html_above template,
+ * as that's the only place where the metadata can get used.
+ */
+function get_page_metadata($template_context) {
+  global $context, $settings, $smcFunc;
+
+  if (!$template_context['is_html_above']) {
+    return null;
+  }
+
+  $description = null;
+  $image = null;
+
+  list($title, $title_full, $is_generic) = get_html_page_title();
+
+  // If this value is set, it means we're viewing the thread index of a forum.
+  $forum_description = $context['description'];
+
+  // The site slogan; this is used when displaying a generic description.
+  $site_description = $settings['site_slogan'];
+
+  // The currently active post ID, if any.
+  list($thread_id, $first_message_id, $message_id) = get_current_post_ids();
+
+  if ($forum_description) {
+    $description = $forum_description;
+  }
+  else if ($context['current_topic']) {
+    // If we have a topic ID, use that to generate a description for this specific topic.
+    $post_summary = get_post_summary($thread_id, $first_message_id, $message_id);
+    $description = $post_summary['post_body_plain'];
+    $image = $post_summary['first_image'];
+  }
+  else {
+    // Fallback if all else fails.
+    $description = $site_description;
+  }
+
+  $canonical_url = $context['canonical_url'];
+  $parsed_url = parse_url($canonical_url);
+
+  return [
+    'title' => $title,
+    'title_full' => $title_full,
+    'description' => limit_meta_string($description, 160),
+    'description_full' => $description,
+    'image' => $image,
+    'domain' => $parsed_url['host'],
+    'canonical_url' => $canonical_url,
+  ];
+}
+
+/**
+ * Returns IDs for the current thread, its first message, and the current message.
+ */
+function get_current_post_ids() {
+  global $context, $_SERVER;
+  $thread_id = $context['current_topic'];
+  if (empty($thread_id)) {
+    return [null, null, null];
+  }
+  
+  $first_message_id = $context['topic_first_message'] ? intval($context['topic_first_message']) : null;
+
+  $uri = $_SERVER['REQUEST_URI'];
+  preg_match('/\.msg([0-9]+)($|;|&)/m', $uri, $matches);
+  if (empty($matches[1])) {
+    return [$thread_id, $first_message_id, null];
+  }
+  $message_id = intval($matches[1]);
+  return [$thread_id, $first_message_id, $message_id];
+}
+
+/**
+ * Returns a summary of a given post.
+ * 
+ * This is used to create Open Graph tags.
+ */
+function get_post_summary($thread_id, $first_message_id, $message_id) {
+  $target_message_id = empty($message_id) ? $first_message_id : $message_id;
+  $post_data = get_post_data($target_message_id);
+
+  $poster_name = $post_data['modified_name'] ?? $post_data['poster_name'];
+  $post_body = parse_bbc($post_data['body'], 0, $target_message_id);
+  $first_img = find_first_image($post_body);
+  $post_plain = strip_tags($post_body);
+  
+  return [
+    'thread_id' => $thread_id,
+    'message_id' => $target_message_id,
+    'post_body' => $post_body,
+    'first_image' => $first_img,
+    'post_body_plain' => $post_plain,
+  ];
+}
+
+/**
+ * Returns the page title for use in the <title> header tag.
+ */
+function get_html_page_title($limit = 60) {
+  global $context;
+
+  $info = get_page_title_info();
+
+  // Return just the forum name in a few cases.
+  if ($info['is_index'] || $info['is_generic']) {
+    return ["{$context['forum_name']}", "{$context['forum_name']}", true];
+  }
+
+  // Otherwise, add the forum name to the title.
+  $title = $context['page_title_html_safe'];
+  $forum = $context['forum_name_html_safe'];
+  
+  // Substract the length of the static part of the title.
+  $separator = ' - ';
+  $static_len = strlen($forum) + strlen($separator);
+
+  $items = [limit_meta_string($title, $limit - $static_len), $forum];
+  $items_full = [$title, $forum];
+  
+  return [implode(' - ', $items), implode(' - ', $items_full), false];
+}
+
+/**
+ * Gracefully limits a string to a specific length.
+ */
+function limit_meta_string($description, $limit) {
+  $static = '..';
+  if (strlen($description) > $limit) {
+    return implode('', [substr($description, 0, $limit - strlen($static)), $static]);
+  }
+  return $description;
+}
+
+/**
+ * Returns information about the current page's title.
+ * 
+ * This is required to know how exactly to modify the title in get_html_page_title().
+ */
+function get_page_title_info() {
+  global $context, $txt;
+  $index = sprintf($txt['forum_index'], $context['forum_name']);
+  $is_index = $context['page_title_html_safe'] === $index;
+  $is_generic = $context['page_title_html_safe'] === $context['forum_name'];
+  return ['is_index' => $is_index, 'is_generic' => $is_generic];
+}
+
+/**
  * Returns the buttons we need to display in the top menu.
  */
 function get_menu_buttons() {

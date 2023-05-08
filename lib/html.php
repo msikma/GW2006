@@ -175,6 +175,23 @@ function trim_br($_html) {
 }
 
 /**
+ * Returns the first image in an HTML string.
+ */
+function find_first_image($html) {
+  $doc = new DOMDocument();
+  $doc->loadHTML('<?xml encoding="UTF-8">'.$html);
+
+  $img_nodes = $doc->getElementsByTagName('img');
+  
+  if ($img_nodes->length > 0) {
+    $first = $img_nodes[0];
+    return $first->getAttribute('src');
+  }
+
+  return null;
+}
+
+/**
  * Retrieves a number of ndoes by classname.
  */
 function find_nodes_by_class($doc, $classname, $context = null) {

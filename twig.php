@@ -98,6 +98,7 @@ function render_template($file, $template_context = []) {
   global $twig, $context, $settings, $options, $scripturl, $txt, $modSettings, $forum_copyright, $forum_version;
   
   // Assemble our custom data.
+  $context['page_metadata'] = get_page_metadata($template_context);
   $context['topics'] = get_decorated_topics();
   $context['emoticons_base_url'] = get_emoticons_base_url();
   $context['emoticons_metadata'] = get_emoticons_metadata();

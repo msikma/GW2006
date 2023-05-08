@@ -24,7 +24,7 @@ function template_init() {
 
 // The top part of the <html>.
 function template_html_above() {
-  return render_template('html_above.twig');
+  return render_template('html_above.twig', ['is_html_above' => true]);
 }
 
 // The top part of the <body>.

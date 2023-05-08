@@ -2,8 +2,7 @@
 <html>
 <head>
   <meta charset="{{ context.character_set }}">
-  <title>{{ page_title|default(context.page_title_html_safe) }}</title>
-  <meta name="description" content="{{ context.page_title_html_safe }}" />
+  <title>{{ page_title|default(context.page_metadata.title_full)|default(context.page_title_html_safe) }}</title>
 
   {% if context.meta_keywords %}
     <meta name="keywords" content="{{ context.meta_keywords }}" />
@@ -17,6 +16,7 @@
     <link rel="canonical" href="{{ context.canonical_url }}" />
   {% endif %}
 
+  {% include './head/og_tags.twig' %}
   {% include './head/favicon.twig' %}
   {% include './head/style_main.twig' %}
   {% include './head/style_pips.twig' %}
