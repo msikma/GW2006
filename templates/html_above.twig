@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="{{ context.character_set }}">
-  <title>{{ page_title|default(context.page_metadata.title_full)|default(context.page_title_html_safe) }}</title>
+  <title>{{ page_title|default(context.page_metadata.title_full)|default(context.page_title_html_safe)|raw }}</title>
 
   {% if context.meta_keywords %}
     <meta name="keywords" content="{{ context.meta_keywords }}" />

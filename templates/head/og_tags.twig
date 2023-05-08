@@ -1,11 +1,11 @@
 {% set meta = context.page_metadata %}
 {% if meta is not empty %}
-  <meta name="description" content="{{ meta.description_full }}">
+  <meta name="description" content="{{ meta.description_full|raw }}">
 
   <meta property="og:url" content="{{ meta.canonical_url }}">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="{{ meta.title }}">
-  <meta property="og:description" content="{{ meta.description }}">
+  <meta property="og:title" content="{{ meta.title|raw }}">
+  <meta property="og:description" content="{{ meta.description|raw }}">
   {% if meta.image %}
     <meta property="og:image" content="{{ meta.image }}">
   {% endif %}
@@ -13,8 +13,8 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta property="twitter:domain" content="{{ meta.domain }}">
   <meta property="twitter:url" content="{{ meta.canonical_url }}">
-  <meta name="twitter:title" content="{{ meta.title }}">
-  <meta name="twitter:description" content="{{ meta.description }}">
+  <meta name="twitter:title" content="{{ meta.title|raw }}">
+  <meta name="twitter:description" content="{{ meta.description|raw }}">
   {% if meta.image %}
     <meta name="twitter:image" content="{{ meta.image }}">
   {% endif %}

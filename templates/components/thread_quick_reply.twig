@@ -12,7 +12,7 @@
       <div class="blue_component_medium object_list_frame" id="quickreplybox">
         <form action="{{ scripturl }}?board={{ context.current_board }};action=post2" method="post" accept-charset="{{ context.character_set }}" name="postmodify" id="postmodify" onsubmit="submitonce(this);">
           <input type="hidden" name="topic" value="{{ context.current_topic }}" />
-          <input type="hidden" name="subject" value="{{ context.response_prefix }}{{ context.subject }}" />
+          <input type="hidden" name="subject" value="{{ context.response_prefix }}{{ context.subject|raw }}" />
           <input type="hidden" name="icon" value="xx" />
           <input type="hidden" name="from_qr" value="1" />
           <input type="hidden" name="notify" value="{{ context.is_marked_notify or options.auto_notify ? '1' : '0' }}" />

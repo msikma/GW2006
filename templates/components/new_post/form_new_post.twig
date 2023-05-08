@@ -30,7 +30,7 @@
   {% endif %}
   {% if is_reply and not is_first_post %}
     {# If this is a reply, and we're not editing the first post, we hide the subject field (and message icon picker). #}
-    <input type="hidden" name="subject" value="{{ context.subject }}" />
+    <input type="hidden" name="subject" value="{{ context.subject|raw }}" />
   {% endif %}
 
   {# Include various info or error messages if they are applicable. #}
@@ -95,7 +95,7 @@
                       {% include 'atoms/posticon.twig' with {'icon': context.posticon_context} %}
                     </div>
                     <div class="input_item_main subject_input">
-                      <input type="text" name="subject"{% if context.subject != "" %} value="{{ context.subject }}"{% endif %} tabindex="{{ context.tabindex }}" size="80" maxlength="80" />
+                      <input type="text" name="subject"{% if context.subject != "" %} value="{{ context.subject|raw }}"{% endif %} tabindex="{{ context.tabindex }}" size="80" maxlength="80" />
                     </div>
                   </div>
                 </td>
@@ -300,7 +300,7 @@
     {% include 'components/thread_post.twig' with {
       'is_reply_history_post': true,
       'show_header': loop.index == 1,
-      'first_post_header': txt.topic_summary ~ ': ' ~ context.subject,
+      'first_post_header': txt.topic_summary ~ ': ' ~ context.subject|raw,
       'message': message
     } %}
   {% endfor %}
