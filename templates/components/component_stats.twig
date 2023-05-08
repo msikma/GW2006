@@ -1,3 +1,5 @@
+{# Show today's birthdays. #}
+{% set show_birthdays = false %}
 {# Only show birthdays that are actually today, not just soon. #}
 {% set birthday_show_only_today = true %}
 
@@ -41,45 +43,47 @@
       </tbody>
     </table>
   </div>
-  <div class="blue_component_header">
-    <h3 class="blue_component_title">{{ txt.calendar_today }}</h3>
-  </div>
-  <div class="object_list_frame">
-    <table class="object_table">
-      <tbody>
-        <tr class="object_row">
-          <td class="medium header">
-            <img src="{{ images_url }}/__gwnew/ui_icons/stats_calendar.gif" width="20" height="22" class="pixel" />
-          </td>
-          <td class="light sections">
-            <div class="birthdays member_list small section">
-              <div>Birthdays:</div>
-              <div class="subsection">
-                {%- apply spaceless %}
-                  {% if context.calendar_birthdays|length == 0 %}
-                    None.
-                  {% endif %}
-                  {% for member in context.calendar_birthdays %}
-                    {% if birthday_show_only_today and member.is_today %}
-                      <span class="birthday_member member {{ member.is_today ? 'today' : 'not_today' }}">
-                        {# Note: we're adding _group ourselves. See lib/db.php. #}
-                        <a href="{{ scripturl }}?action=profile;u={{ member.id }}" class="{{ get_username_pip_class(member._group, member.id, true) }}">
-                          <span class="name">{{ member.name ?? member.username }}</span>
-                          {% if member.age %}
-                            ({{ member.age }})
-                          {% endif %}
-                        </a>
-                      </span>
+  {% if show_birthdays %}
+    <div class="blue_component_header">
+      <h3 class="blue_component_title">{{ txt.calendar_today }}</h3>
+    </div>
+    <div class="object_list_frame">
+      <table class="object_table">
+        <tbody>
+          <tr class="object_row">
+            <td class="medium header">
+              <img src="{{ images_url }}/__gwnew/ui_icons/stats_calendar.gif" width="20" height="22" class="pixel" />
+            </td>
+            <td class="light sections">
+              <div class="birthdays member_list small section">
+                <div>Birthdays:</div>
+                <div class="subsection">
+                  {%- apply spaceless %}
+                    {% if context.calendar_birthdays|length == 0 %}
+                      None.
                     {% endif %}
-                  {% endfor %}
-                {% endapply -%}
+                    {% for member in context.calendar_birthdays %}
+                      {% if birthday_show_only_today and member.is_today %}
+                        <span class="birthday_member member {{ member.is_today ? 'today' : 'not_today' }}">
+                          {# Note: we're adding _group ourselves. See lib/db.php. #}
+                          <a href="{{ scripturl }}?action=profile;u={{ member.id }}" class="{{ get_username_pip_class(member._group, member.id, true) }}">
+                            <span class="name">{{ member.name ?? member.username }}</span>
+                            {% if member.age %}
+                              ({{ member.age }})
+                            {% endif %}
+                          </a>
+                        </span>
+                      {% endif %}
+                    {% endfor %}
+                  {% endapply -%}
+                </div>
               </div>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  {% endif %}
   <div class="blue_component_header">
     <h3 class="blue_component_title">{{ txt.forum_stats }}</h3>
   </div>
