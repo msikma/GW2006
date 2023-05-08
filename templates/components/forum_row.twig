@@ -68,11 +68,13 @@
     </p>
   </td>
   <td class="last_post light small">
-    {% if board.last_post.id is not empty %}
+    {% if board.last_post.id %}
       <p>
-      {{ board.last_post.time|raw }}<br/>
-      {{ txt.in }} {{ board.last_post.link|raw }} {{ txt.by }} {{ board.last_post.member.link|raw }}
+        {{ board.last_post.time|raw }}<br/>
+        {{ txt.in }} {{ board.last_post.link|raw }} {{ txt.by }} {{ board.last_post.member.link|raw }}
       </p>
+    {% else %}
+      <p>—</p>
     {% endif %}
   </td>
 </tr>
