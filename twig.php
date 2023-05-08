@@ -22,11 +22,10 @@ require_once('lib/stats.php');
 
 global $twig;
 
-// Sets up the Twig renderer.
+// Sets up the Twig renderer. Use cache only if we're in production mode.
 $loader = new Twig\Loader\FilesystemLoader("{$settings['theme_dir']}/templates");
 $twig = new Twig\Environment($loader, [
-  //'cache' => "{$settings['theme_dir']}/cache",
-  'cache' => false,
+  'cache' => get_env() === 'production' ? "{$settings['theme_dir']}/cache" : false,
 ]);
 // Add extension for rendering international dates.
 $twig->addExtension(new Twig\Extra\Intl\IntlExtension());
@@ -106,6 +105,7 @@ function render_template($file, $template_context = []) {
   $context['posticon_context'] = find_posticon($context['icon']);
   $context['posticons'] = get_posticons();
   $context['git_info'] = get_git_info();
+  $context['env_info'] = get_env();
   $context['pip_styles'] = get_all_pip_css_styles();
   $context['gw_custom_fields'] = get_gw_metadata();
   $context['search_cache'] = get_search_cache();

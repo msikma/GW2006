@@ -190,6 +190,17 @@ function get_page_metadata($template_context) {
 }
 
 /**
+ * Returns whether we're in development or in production mode.
+ */
+function get_env() {
+  $addr = $_SERVER['SERVER_ADDR'];
+  $is_dev_addr = $addr === '127.0.0.1' || str_starts_with($addr, '10.0.1') || str_starts_with($addr, '192.168.0');
+  parse_str($_SERVER['QUERY_STRING'], $query);
+  $is_dev_mode = isset($query['nocache']);
+  return $is_dev_addr || $is_dev_mode ? 'development' : 'production';
+}
+
+/**
  * Returns IDs for the current thread, its first message, and the current message.
  */
 function get_current_post_ids() {
