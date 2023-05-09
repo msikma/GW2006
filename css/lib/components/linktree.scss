@@ -5,6 +5,7 @@
   ul {
     margin: 0;
     padding: cssvar(--gw-cell-medium) cssvar(--gw-cell-small);
+    line-height: 18px;
   }
   li {
     display: inline-block;
@@ -13,16 +14,59 @@
       vertical-align: middle;
       margin-top: -3px;
     }
+
+    &:last-child:not(:first-child) {
+      display: block;
+
+      span {
+        font-weight: bold;
+      }
+    }
+    &:nth-last-child(n+3)::after {
+      content: '>';
+      color: cssvar(--gw-text-link);
+    }
   }
-  li:last-child:not(:first-child) {
-    display: block;
-    margin-top: 1px;
-  }
-  li:last-child:not(:first-child) span {
-    font-weight: bold;
-  }
-  li:nth-last-child(n+3)::after {
-    content: '>';
-    color: cssvar(--gw-text-link);
+}
+
+// Use an alternate layout for smaller viewport sizes.
+// This lays it out like a vertical list.
+@media screen and (max-width: $media-xxs) {
+  .linktree {
+    ul {
+      display: block;
+
+      li {
+        display: block;
+
+        img {
+          display: none;
+        }
+
+        @include pixel-image;
+        padding-left: 30px;
+        background: url('../../images/__gwnew/linktree_subforum.png');
+        background-repeat: no-repeat;
+
+        &:first-child {
+          padding-left: 15px;
+          background-image: url('../../images/__gwnew/linktree_hierarchy.png');
+        }
+
+        &:last-child {
+          background-image: url('../../images/__gwnew/linktree_page_longer.png');
+        }
+
+        &::after {
+          content: '' !important;
+        }
+
+        > a,
+        > span {
+          margin-left: 0.4ch;
+          display: block;
+        }
+      }
+    }
   }
 }
