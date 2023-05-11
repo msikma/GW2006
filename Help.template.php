@@ -12,7 +12,7 @@ require_once('twig.php');
 function template_manual() {
   // Hook in the changelog page.
   if (is_changelog_page()) {
-    return render_template('pages/article/changelog.twig');
+    return render_template('pages/general/changelog.twig');
   }
   return render_template('pages/article/help.twig');
 }
