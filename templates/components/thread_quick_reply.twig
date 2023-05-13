@@ -1,6 +1,9 @@
 {# Always return to the same topic when quick replying. #}
 {% set always_return = true %}
 
+{# Whether to add a prefix to the subject (should be false: we always keep subjects the same as the first post). #}
+{% set add_prefix = false %}
+
 {% if not context.is_locked %}
   <a id="quickreply"></a>
 
@@ -12,7 +15,7 @@
       <div class="blue_component_medium object_list_frame" id="quickreplybox">
         <form action="{{ scripturl }}?board={{ context.current_board }};action=post2" method="post" accept-charset="{{ context.character_set }}" name="postmodify" id="postmodify" onsubmit="submitonce(this);">
           <input type="hidden" name="topic" value="{{ context.current_topic }}" />
-          <input type="hidden" name="subject" value="{{ context.response_prefix }}{{ context.subject|raw }}" />
+          <input type="hidden" name="subject" value="{{ add_prefix ? context.response_prefix }}{{ context.subject|raw }}" />
           <input type="hidden" name="icon" value="xx" />
           <input type="hidden" name="from_qr" value="1" />
           <input type="hidden" name="notify" value="{{ context.is_marked_notify or options.auto_notify ? '1' : '0' }}" />

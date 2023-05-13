@@ -79,6 +79,10 @@ $twig->addFunction(new TwigFunction('get_clock_emoji', function($hour) {
 $twig->addFunction(new TwigFunction('parse_bbc', function($str) {
   return parse_bbc($str);
 }));
+/** Removes the response prefix of a subject if it's there'. */
+$twig->addFunction(new TwigFunction('remove_response_prefix', function($subject) {
+  return remove_response_prefix($subject);
+}));
 /** Merges arrays while preserving numeric indices. */
 $twig->addFilter(new TwigFilter('pmerge', function($base, $extension) {
   foreach ($extension as $key => $value) {

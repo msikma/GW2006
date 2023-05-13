@@ -30,7 +30,7 @@
   {% endif %}
   {% if is_reply and not is_first_post %}
     {# If this is a reply, and we're not editing the first post, we hide the subject field (and message icon picker). #}
-    <input type="hidden" name="subject" value="{{ context.subject|raw }}" />
+    <input type="hidden" name="subject" value="{{ remove_response_prefix(context.subject)|raw }}" />
   {% endif %}
 
   {# Include various info or error messages if they are applicable. #}
@@ -64,7 +64,7 @@
   <div class="object_form new_post_form object_list">
     <div class="blue_component">
       <div class="blue_component_header">
-        <h3 class="blue_component_title">{{ context.page_title }}</h3>
+        <h3 class="blue_component_title">{{ context.page_title|raw }}</h3>
       </div>
       <div class="blue_component_medium object_list_frame">
         <table class="object_table">

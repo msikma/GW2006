@@ -811,3 +811,13 @@ function is_changelog_refresh_request() {
   $query_string = $_SERVER['QUERY_STRING'];
   return strpos($query_string, 'area=changelog;forcerefresh') !== false;
 }
+
+/**
+ * Removes the response prefix from a subject line, if it exists.
+ */
+function remove_response_prefix($subject) {
+  global $context, $txt;
+  $prefix = $txt['response_prefix'];
+  $re = '/^'.preg_quote($prefix, '/').'/';
+  return preg_replace($re, '', $subject, 1);
+}
