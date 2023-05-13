@@ -25,8 +25,8 @@
           <a href="{{ scripturl }}?action=moderate;area=postmod;sa={% if board.unapproved_topics > 0 %}topics{% else %}posts{% endif %};brd={{ board.id }};{{ context.session_var }}={{ context.session_id }}" title="{{ txt.unapproved_posts|format(board.unapproved_topics, board.unapproved_posts) }}" class="moderation_link">(!)</a>
         </div>
       {% endif %}
-      <div class="subsection item_description">
-        <p>{{ board.description }}</p>
+      <div class="subsection item_description post_text">
+        <p>{{ parse_bbc(board.description)|raw }}</p>
       </div>
       {% if board.moderators is not empty %}
         <div class="subsection moderators">

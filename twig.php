@@ -75,6 +75,10 @@ $twig->addFunction(new TwigFunction('get_clock_emoji', function($hour) {
   $clocks = array('🕛', '🕐', '🕑', '🕒', '🕓', '🕔', '🕕', '🕖', '🕗', '🕘', '🕙', '🕚');
   return $clocks[$hour % 12];
 }));
+/** Parses a string as BBC and returns HTML. */
+$twig->addFunction(new TwigFunction('parse_bbc', function($str) {
+  return parse_bbc($str);
+}));
 /** Merges arrays while preserving numeric indices. */
 $twig->addFilter(new TwigFilter('pmerge', function($base, $extension) {
   foreach ($extension as $key => $value) {
