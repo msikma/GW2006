@@ -75,6 +75,8 @@ $gw-properties: (
   --gw-cell-medium: 5px,
   --gw-cell-small: 3px,
 
+  --gw-signature-max-lines: 14, // Maximum lines of text visible in a signature (everything else is clipped).
+
   --gw-post-column-a: 180px, // Width of the leftmost column inside posts.
 
   --gw-icon-column: 65px, // Icon column on the thread/subforum index list.
