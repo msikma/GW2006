@@ -7,11 +7,11 @@
   <td class="icon center">
     <a href="{% if board.is_redirect or context.user.is_guest %}{{ board.href }}{% else %}{{ scripturl }}?action=unread;board={{ board.id }}.0;children{% endif %}">
       {% if is_new %}
-        <img class="pixel" src="{{ images_url }}/__gwnew/forum_list_board_unread{% if not board.new %}_sub{% endif %}.png" alt="{{ txt.new_posts }}" title="{{ txt.new_posts }}" />
+        <img src="{{ images_url }}/__gwnew/forum_list_board_unread{% if not board.new %}_sub{% endif %}.png" alt="{{ txt.new_posts }}" title="{{ txt.new_posts }}" width="42" height="42" />
       {% elseif is_redirect %}
-        <img class="pixel" src="{{ images_url }}/__gwnew/forum_list_board_redirect.png" alt="*" title="*" />
+        <img src="{{ images_url }}/__gwnew/forum_list_board_redirect.png" alt="Redirect" title="Redirects to an external site" width="42" height="42" />
       {% elseif is_stale %}
-        <img class="pixel" src="{{ images_url }}/__gwnew/forum_list_board_read.png" alt="{{ txt.old_posts }}" title="{{ txt.old_posts }}" />
+        <img src="{{ images_url }}/__gwnew/forum_list_board_read.png" alt="{{ txt.old_posts }}" title="{{ txt.old_posts }}" width="42" height="42" />
       {% endif %}
     </a>
   </td>
