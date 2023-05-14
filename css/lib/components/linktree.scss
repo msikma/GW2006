@@ -53,7 +53,7 @@
           background-image: url('../../images/__gwnew/linktree_hierarchy.png');
         }
 
-        &:last-child {
+        &:last-child:not(:first-child) {
           background-image: url('../../images/__gwnew/linktree_page_longer.png');
         }
 
