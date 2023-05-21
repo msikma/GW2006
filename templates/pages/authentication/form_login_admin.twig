@@ -2,7 +2,7 @@
 <form action="{{ scripturl }}{{ context.get_data }}" method="post" accept-charset="{{ context['character_set'] }}" name="frmLogin" id="frmLogin">
   <input type="hidden" name="admin_hash_pass" value="" />
   {{ context['post_data']|raw }}
-  <div class="object_form login_form type_simple object_list">
+  <div class="object_form login_form object_list">
     <div class="blue_component">
       <div class="blue_component_header">
         <h3 class="blue_component_title">{{ txt.admin_login }}</h3>
