@@ -53,6 +53,26 @@
       }
     }
 
+    &.is_being_viewed {
+      .subject {
+        font-weight: bold;
+
+        &::before {
+          @include pixel-image;
+          content: '';
+          display: inline-block;
+          background: url('../../images/__gwnew/ui_icons/arrow_is_viewing.png');
+          background-size: 12px 12px;
+          width: 12px;
+          height: 12px;
+          vertical-align: baseline;
+          position: relative;
+          top: 1px;
+          margin-right: -2px;
+        }
+      }
+    }
+
     td, th {
       &.connected_left {
         border-left: none !important;

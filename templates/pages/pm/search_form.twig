@@ -1,4 +1,14 @@
-{% set form_action = scripturl ~ '?action=search2' %}
+{% set form_action = scripturl ~ '?action=pm;sa=search2' %}
+
+<script type="text/javascript">
+  function expandCollapseLabels()
+  {
+    var current = document.getElementById("searchLabelsExpand").style.display != "none";
+
+    document.getElementById("searchLabelsExpand").style.display = current ? "none" : "";
+    document.getElementById("expandLabelsIcon").src = smf_images_url + (current ? "/expand.gif" : "/collapse.gif");
+  }
+</script>
 
 <form action="{{ form_action }}" method="post" accept-charset="{{ context.character_set }}" name="search_form" id="search_form">
   {# Include various info or error messages if they are applicable. #}
@@ -12,8 +22,8 @@
   {% endif %}
 
   {% if context.simple_search %}
-    {% include 'components/page_search_simple.twig' %}
+    {% include 'components/pm/pm_search_simple.twig' %}
   {% else %}
-    {% include 'components/page_search_advanced.twig' %}
+    {% include 'components/pm/pm_search_advanced.twig' %}
   {% endif %}
 </form>

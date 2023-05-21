@@ -10,7 +10,7 @@
 {% elseif is_member_list %}
   {% set href = scripturl ~ '?action=mlist;sort=' ~ sort ~ (sort_direction == 'down' ? ';desc') ~ (sa ? ';sa=' ~ sa) ~ (search ? ';search=' ~ search) ~ (fields ? ';fields=' ~ fields) ~ ';start=' ~ (per_page * (number - 1)) %}
 {% elseif is_pm_inbox %}
-  {% set href = scripturl ~ '?action=pm' ~ (context.folder ? ';f=' ~ context.folder) ~ ';sort=' ~ sort ~ (sort_direction == 'down' ? ';desc') ~ ';start=' ~ (per_page * (number - 1)) %}
+  {% set href = scripturl ~ '?action=pm' ~ (sa ? ';sa=' ~ sa) ~ (params ? ';params=' ~ params) ~ (context.folder ? ';f=' ~ context.folder) ~ (sort ? ';sort=' ~ sort) ~ (sort_direction == 'down' ? ';desc') ~ ';start=' ~ (per_page * (number - 1)) %}
 {% elseif is_posts_index %}
   {% set href = scripturl ~ '?topic=' ~ context.current_topic ~ '.' ~ (per_page * (number - 1)) %}
 {% else %}

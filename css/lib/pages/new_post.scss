@@ -2,6 +2,8 @@
 
 // Styles for the "new post" form.
 .new_post_form {
+  margin-bottom: cssvar(--gw-content-margin);
+
   .post_subject .posticon_prefix {
     align-self: center;
     
@@ -13,4 +15,21 @@
     line-height: 1.5625rem;
     margin-bottom: 4px !important;
   }
+  // Suggestions for what users to send e.g. a PM to.
+  .user_suggestion_container {
+    font-size: cssvar(--gw-font-small);
+    
+    > div {
+      display: inline-block;
+      margin: 4px 8px 0 0;
+
+      img {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.post_preview + .new_post_form {
+  margin-top: cssvar(--gw-content-margin);
 }

@@ -25,7 +25,28 @@ function collect_topics() {
  * Collects all private messages on a page.
  */
 function collect_pms() {
-  return collect_messages('get_pmessage');
+  $subjects = collect_messages('get_pmessage', ['subject'], true);
+  $messages = collect_messages('get_pmessage', ['message']);
+  $has_labels = check_message_labels($subjects);
+  return [
+    'subjects' => $subjects,
+    'messages' => $messages,
+    'has_labels' => $has_labels,
+  ];
+}
+
+/**
+ * Returns true if any private message in the array has one or more labels set.
+ * 
+ * By default all private messages have the "inbox" label, so we check for 2 or more.
+ */
+function check_message_labels($messages) {
+  foreach ($messages as $message) {
+    if (!empty($message['labels']) && count($message['labels']) > 1) {
+      return true;
+    }
+  }
+  return false;
 }
 
 /**
@@ -88,7 +109,8 @@ function get_env_context() {
   $is_legacy_browser = ua_has_legacy_elements($ua) || $context['browser']['is_ie'];
   
   return [
-    'is_legacy_browser' => $is_legacy_browser
+    'is_legacy_browser' => $is_legacy_browser,
+    'mode' => get_env_mode()
   ];
 }
 
@@ -192,7 +214,7 @@ function get_page_metadata($template_context) {
 /**
  * Returns whether we're in development or in production mode.
  */
-function get_env() {
+function get_env_mode() {
   $addr = $_SERVER['SERVER_ADDR'];
   $is_dev_addr = $addr === '127.0.0.1' || str_starts_with($addr, '10.0.1') || str_starts_with($addr, '192.168.0');
   parse_str($_SERVER['QUERY_STRING'], $query);
@@ -661,13 +683,15 @@ function get_start_letter($members) {
  * We need to do this before loading the Twig template, as we can't
  * run the callback inside the Twig template code.
  */
-function collect_messages($label) {
+function collect_messages($label, $args = [], $skip_reset = false) {
   global $context;
 
   $messages = [];
   $collector = $context[$label];
-  while ($message = $collector()) {
-    $messages[] = $message;
+  if ($skip_reset || call_user_func_array($collector, array_merge($args, [true]))) {
+    while ($message = call_user_func_array($collector, $args)) {
+      $messages[] = $message;
+    }
   }
 
   return $messages;

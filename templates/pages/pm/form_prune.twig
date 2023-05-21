@@ -1,0 +1,28 @@
+<form action="{{ scripturl }}?action=pm;sa=prune" method="post" accept-charset="{{ context.character_set }}" onsubmit="return confirm('{{ txt.pm_prune_warning }}');">
+  <input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />
+  <div class="object_form search_form type_simple object_list">
+    <div class="blue_component">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">{{ txt.pm_prune }}</h3>
+      </div>
+      <div class="blue_component_medium object_list_frame">
+        <table class="object_table">
+          <tbody>
+            <tr class="object_row">
+              <th class="minimal">Prune:</th>
+              <td>
+                <p>{{ txt.pm_prune_desc1 }} <input type="text" name="age" size="3" value="14" class="input_text" /> {{ txt.pm_prune_desc2 }}</p>
+              </td>
+            </tr>
+            <tr class="object_row dark">
+              <th class="minimal"></th>
+              <td>
+                <button type="submit"><strong>{{ txt.delete }}</strong></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</form>

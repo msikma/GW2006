@@ -1,0 +1,184 @@
+<form action="{{ scripturl }}?action=pm;sa=send2" method="post" accept-charset="{{ context.character_set }}" name="postmodify" id="postmodify" class="flow_hidden" onsubmit="submitonce(this);">
+  {# If the PM could not be sent to all recipients. #}
+  {% if context.send_log %}
+    {% set list %}
+      <p><strong>Sent:</strong></p>
+      <ul class="reasons" id="error_list">
+      {% for log_entry in context.send_log.sent %}
+        <li>{{ log_entry }}</li>
+      {% endfor %}
+      <p><strong>Failed to send:</strong></p>
+      {% for log_entry in context.send_log.failed %}
+        <li>{{ log_entry }}</li>
+      {% endfor %}
+      </ul>
+    {% endset %}
+    {% include 'atoms/notification.twig' with {'type': 'warning', 'content': 'Not all messages could be sent.', 'content_sub': list} %}
+  {% endif %}
+
+  {# If anything went wrong while composing the PM. #}
+  {% if context.post_error.messages %}
+    {% set reasons %}
+      <ul class="reasons" id="error_list">
+        {{ context.post_error.messages|map(m => "<li>#{m}</li>")|join('\n')|raw }}
+      </ul>
+    {% endset %}
+    {% include 'atoms/notification.twig' with {'type': 'danger', 'content': txt.error_while_submitting, 'content_sub': reasons} %}
+  {% endif %}
+
+  {# Show the preview of the personal message. #}
+  {% if context.preview_message %}
+    <div class="post_preview">
+      {% include 'components/thread_post.twig' with {
+        'is_post_preview': true,
+        'show_header': true,
+        'first_post_header': 'Post preview',
+        'title_buttons': context.preview_subject,
+        'message': context.preview_message
+      } %}
+    </div>
+  {% endif %}
+
+  <div class="object_form new_post_form object_list">
+    <div class="blue_component">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">{{ txt.new_message }}</h3>
+      </div>
+      <div class="blue_component_medium object_list_frame">
+        <table class="object_table">
+          <tbody>
+            <tr class="object_row {{ context.post_error.no_to or context.post_error.bad_to ? 'error' }}">
+              <th>{{ txt.pm_to }}:</th>
+              <td>
+                <input type="text" name="to" id="to_control" value="{{ context.to_value|raw }}" tabindex="{{ context.tabindex }}" size="40" />
+                <span class="smalltext" id="bcc_link_container" style="display: none;"></span>
+                <div id="to_item_list_container" class="user_suggestion_container"></div>
+              </td>
+            </tr>
+            <tr class="object_row {{ context.post_error.no_to or context.post_error.bad_bcc ? 'error' }}">
+              <th id="bcc_div">{{ txt.pm_bcc }}:</th>
+              <td id="bcc_div2">
+                <input type="text" name="bcc" id="bcc_control" value="{{ context.bcc_value }}" tabindex="{{ context.tabindex }}" size="40" />
+                <div id="bcc_item_list_container" class="user_suggestion_container"></div>
+              </td>
+            </tr>
+            <tr class="object_row {{ context.post_error.no_subject ? 'error' }}">
+              <th>{{ txt.subject }}:</th>
+              <td>
+                <input type="text" name="subject" value="{{ context.subject }}" tabindex="{{ context.tabindex }}" size="60" maxlength="60" />
+              </td>
+            </tr>
+            <tr class="object_row">
+              <th class="minimal">{{ txt.message }}:</th>
+              <td>
+                {% if context.show_bbc %}
+                  <div id="bbcBox_message"></div>
+                {% endif %}
+                {# TODO #}
+                {# {{ template_control_richedit(context.post_box_name, 'smileyBox_message', 'bbcBox_message') }} #}
+                {% include 'components/new_post/emoticons_list.twig' %}
+                <textarea class="editor" name="message" id="message" rows="12" cols="600" tabindex="2">{{ context.message|raw }}</textarea>
+                <script>decorateComponent('messageField');</script>
+              </td>
+            </tr>
+            <tr class="object_row">
+              <th class="minimal">Options:</th>
+              <td>
+                <ul class="object_row_list list_columns post_options">
+                  <li>
+                    <label>
+                      <input type="checkbox" name="outbox" id="outbox" {{ context.copy_to_outbox ? 'checked="checked"' }} value="1" />
+                      {{ txt.pm_save_outbox }}
+                    </label>
+                  </li>
+                </ul>
+                <div class="shortcuts subline">
+                  {% if context.browser.is_firefox %}
+                    {{ txt['shortcuts_firefox'] }}
+                  {% else %}
+                    {{ txt['shortcuts'] }}
+                  {% endif %}
+                </div>
+              </td>
+            </tr>
+            <tr class="object_row dark">
+              <th class="minimal"></th>
+              <td>
+                <button type="submit" tabindex="6" onclick="return submitThisOnce(this);" accesskey="s"><strong>{{ txt.send_message }}</strong></button>
+                <button type="submit" name="preview" tabindex="7" onclick="return submitThisOnce(this);" accesskey="p">{{ txt.preview }}</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />
+  <input type="hidden" name="seqnum" value="{{ context.form_sequence_number }}" />
+  <input type="hidden" name="replied_to" value="{{ context.quoted_message.id|default(0) }}" />
+  <input type="hidden" name="pm_head" value="{{ context.quoted_message.pm_head|default(0) }}" />
+  <input type="hidden" name="f" value="{{ context.folder|default('') }}" />
+  <input type="hidden" name="l" value="{{ context.current_label_id|default(-1) }}" />
+</form>
+{% if context.reply %}
+asdf
+  <div class="post_preview">
+    {% include 'components/thread_post.twig' with {
+      'is_pm_reply_to': true,
+      'show_header': true,
+      'first_post_header': 'Replying to: ' ~ context.quoted_message.subject,
+      'message': context.quoted_message
+    } %}
+  </div>
+  <br />
+  <br />
+  <div class="cat_bar">
+    <h3 class="catbg">{{ txt['subject'] }}: {{ context['quoted_message']['subject'] }}</h3>
+  </div>
+  <div class="windowbg2">
+    <span class="topslice"><span></span></span>
+    <div class="content">
+      <div class="clear">
+        <span class="smalltext floatright">{{ txt['on'] }}: {{ context['quoted_message']['time'] }}</span>
+        <strong>{{ txt['from'] }}: {{ context['quoted_message']['member']['name'] }}</strong>
+      </div><hr />
+      {{ context['quoted_message']['body'] }}
+    </div>
+    <span class="botslice"><span></span></span>
+  </div><br class="clear" />
+{% endif %}
+
+<script type="text/javascript" src="{{ default_theme_url }}/scripts/PersonalMessage.js?fin20"></script>
+<script type="text/javascript" src="{{ default_theme_url }}/scripts/suggest.js?fin20"></script>
+<script type="text/javascript">
+  var oPersonalMessageSend = new smf_PersonalMessageSend({
+    sSelf: 'oPersonalMessageSend',
+    sSessionId: '{{ context['session_id'] }}',
+    sSessionVar: '{{ context['session_var'] }}',
+    sTextDeleteItem: '{{ txt['autosuggest_delete_item'] }}',
+    sToControlId: 'to_control',
+    aToRecipients: [
+      {% for member in context['recipients']['to'] %}
+        {
+          sItemId: {{ member['id']|json_encode|raw }},
+          sItemName: {{ member['name']|json_encode|raw }}
+        }{% if loop.last %}{% else %},{% endif %}
+      {% endfor %}
+    ],
+    aBccRecipients: [
+      {% for member in context['recipients']['bcc'] %}
+        {
+          sItemId: {{ member['id']|json_encode|raw }},
+          sItemName: {{ member['name']|json_encode|raw }}
+        }{% if loop.last %}{% else %},{% endif %}
+      {% endfor %}
+    ],
+    sBccControlId: 'bcc_control',
+    sBccDivId: 'bcc_div',
+    sBccDivId2: 'bcc_div2',
+    sBccLinkId: 'bcc_link',
+    sBccLinkContainerId: 'bcc_link_container',
+    bBccShowByDefault: {{ context['recipients']['bcc'] is empty and context['bcc_value'] is empty ? 'false' : 'true' }},
+    sShowBccLinkTemplate: {{ ('<a href="#" id="bcc_link">' ~ txt['make_bcc'] ~ '</a> <a href="' ~ scripturl ~ '?action=helpadmin;help=pm_bcc" onclick="return reqWin(this.href);">(?)</a>')|json_encode|raw }}
+  });
+</script>

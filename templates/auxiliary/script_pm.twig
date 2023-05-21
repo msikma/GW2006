@@ -9,6 +9,7 @@ function loadLabelChoices()
 
   if (theSelect.childNodes.length == 0)
     return;
+
   if (!('-1' in allLabels))
   {
     for (var o = 0; o < theSelect.options.length; o++)
@@ -47,8 +48,8 @@ function loadLabelChoices()
 
   if (toAdd.length != 0)
   {
-    theSelect.options[theSelect.options.length] = new Option("Add Label", "");
-    setInnerHTML(theSelect.options[theSelect.options.length - 1], "Add Label");
+    theSelect.options[theSelect.options.length] = new Option("{{ txt['pm_msg_label_apply'] }}", "");
+    setInnerHTML(theSelect.options[theSelect.options.length - 1], "{{ txt['pm_msg_label_apply'] }}");
     theSelect.options[theSelect.options.length - 1].disabled = true;
 
     for (i in toAdd)
@@ -60,8 +61,8 @@ function loadLabelChoices()
 
   if (toRemove.length != 0)
   {
-    theSelect.options[theSelect.options.length] = new Option("Remove Label", "");
-    setInnerHTML(theSelect.options[theSelect.options.length - 1], "Remove Label");
+    theSelect.options[theSelect.options.length] = new Option("{{ txt['pm_msg_label_remove'] }}", "");
+    setInnerHTML(theSelect.options[theSelect.options.length - 1], "{{ txt['pm_msg_label_remove'] }}");
     theSelect.options[theSelect.options.length - 1].disabled = true;
 
     for (i in toRemove)

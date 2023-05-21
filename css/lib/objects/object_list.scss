@@ -13,13 +13,26 @@
     margin-top: 1px;
   }
 
+  .form_line {
+    margin-top: 4px;
+  }
   .description {
     font-size: cssvar(--gw-font-small);
     margin-top: 4px;
+
+    select {
+      font-size: cssvar(--gw-font-small);
+    }
   }
   .object_row_list {
     margin: 0;
     padding: 0;
+  }
+  &.after_pagination {
+    margin-top: var(--gw-content-margin);
+  }
+  &.before_pagination {
+    margin-bottom: var(--gw-content-margin);
   }
 }
 

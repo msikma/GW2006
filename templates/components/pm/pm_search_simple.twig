@@ -1,0 +1,41 @@
+<div class="object_form search_form type_simple object_list">
+  <input type="hidden" name="advanced" value="0" />
+  <div class="blue_component">
+    <div class="blue_component_header">
+      <h3 class="blue_component_title">{{ txt.pm_search_title }}</h3>
+    </div>
+    <div class="blue_component_medium object_list_frame">
+      <input type="hidden" name="advanced" value="1" />
+      <table class="object_table">
+        <tbody>
+
+          <tr class="object_row">
+            <th class="minimal">{{ txt.pm_search_text }}:</th>
+            <td>
+              <div class="form_input_row">
+                <div class="input_item_main">
+                  <input type="text" name="search" size="40" {{ context.search_params.search ? 'value="' ~ context.search_params.search ~ '"' }} maxlength={{ context.search_string_limit }} />
+                </div>
+                <div class="input_item">
+                  <select name="searchtype">
+                    <option value="1" {{ context.search_params.searchtype ? 'selected="selected"' }}>{{ txt.pm_search_match_all }}</option>
+                    <option value="2" {{ not context.search_params.searchtype ? 'selected="selected"' }}>{{ txt.pm_search_match_any }}</option>
+                  </select>
+                </div>
+              </div>
+            </td>
+          </tr>
+          
+          <tr class="object_row dark">
+            <th class="minimal"></th>
+            <td>
+              <button type="submit"><strong>{{ txt.pm_search_go }}</strong></button>
+              <a href="{{ scripturl }}?action=pm;sa=search;advanced" onclick="this.href += ';search=' + escape(document.forms.searchform.search.value);">{{ txt.pm_search_advanced }}</a>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

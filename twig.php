@@ -19,13 +19,14 @@ require_once('lib/db.php');
 require_once('lib/git.php');
 require_once('lib/custom_fields.php');
 require_once('lib/stats.php');
+require_once('lib/prng.php');
 
 global $twig;
 
 // Sets up the Twig renderer. Use cache only if we're in production mode.
 $loader = new Twig\Loader\FilesystemLoader("{$settings['theme_dir']}/templates");
 $twig = new Twig\Environment($loader, [
-  'cache' => get_env() === 'production' ? "{$settings['theme_dir']}/cache" : false,
+  'cache' => get_env_mode() === 'production' ? "{$settings['theme_dir']}/cache" : false,
 ]);
 // Add extension for rendering international dates.
 $twig->addExtension(new Twig\Extra\Intl\IntlExtension());
@@ -83,6 +84,18 @@ $twig->addFunction(new TwigFunction('parse_bbc', function($str) {
 $twig->addFunction(new TwigFunction('remove_response_prefix', function($subject) {
   return remove_response_prefix($subject);
 }));
+/** Returns a pseudorandomly generated number for a given message label name. */
+$twig->addFunction(new TwigFunction('get_label_color_n', function($name) {
+  return getRandomIntBySeed($name, 1, 10);
+}));
+/** Returns an alert dialog box, either as a string or as an attribute. */
+$twig->addFunction(new TwigFunction('js_alert', function($message, $is_attr = false) {
+  return $is_attr ? get_dialog_attr($message, 'alert') : get_dialog($message, 'alert') ;
+}));
+/** Returns a confirm dialog box, either as a string or as an attribute. */
+$twig->addFunction(new TwigFunction('js_confirm', function($message, $is_attr = false) {
+  return $is_attr ? get_dialog_attr($message, 'confirm') : get_dialog($message, 'confirm') ;
+}));
 /** Merges arrays while preserving numeric indices. */
 $twig->addFilter(new TwigFilter('pmerge', function($base, $extension) {
   foreach ($extension as $key => $value) {
@@ -113,7 +126,6 @@ function render_template($file, $template_context = []) {
   $context['posticon_context'] = find_posticon($context['icon']);
   $context['posticons'] = get_posticons();
   $context['git_info'] = get_git_info();
-  $context['env_info'] = get_env();
   $context['pip_styles'] = get_all_pip_css_styles();
   $context['gw_custom_fields'] = get_gw_metadata();
   $context['search_cache'] = get_search_cache();

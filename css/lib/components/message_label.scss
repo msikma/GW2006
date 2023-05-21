@@ -1,0 +1,51 @@
+@charset "utf-8";
+
+// Labels for private messages. Basically tags.
+.message_label {
+  font-size: cssvar(--gw-font-small);
+  border: 1px solid rgba(5, 2, 2, 0.08);
+  border-bottom-color: rgba(5, 2, 2, 0.22);
+  padding: 2px 4px;
+  display: inline-block;
+  overflow: hidden;
+  border-radius: 3px;
+  background-color: cssvar(--gw-inner-highlighted);
+  position: relative;
+  text-decoration: none;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    bottom: -1px;
+    left: -1px;
+    background: rgba(0, 0, 0, 0);
+  }
+
+  &:hover {
+    &::before {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+  }
+
+  @for $n from 1 through length($gw-rainbow) {
+    &.label_color_#{$n} {
+      color: white;
+      text-shadow: 0 0.5px 1px rgba(5, 2, 2, 0.3);
+      background-color: nth($gw-rainbow, $n);
+    }
+  }
+}
+.dark_labels {
+  .message_label {
+    text-shadow: none;
+    color: black;
+    border-color: rgba(5, 2, 2, 0.58);
+    border-bottom-color: rgba(5, 2, 2, 0.72);
+
+    &::before {
+      box-shadow: inset 2px 2px 0px 0px rgba(255, 255, 255, 0.3);
+    }
+  }
+}

@@ -21,13 +21,14 @@
   {% set member_href = message.member.href %}
   {% set is_ignored = message.is_ignored %}
   {% set show_member_info = true %}
+  {% set message_approved = message.approved %}
 {% endif %}
 
 {# Set the post values if this is a series of PMs. #}
 {% if is_pm_inbox %}
   {% set topic_id = message.topic %}
   {% set subject = message.subject %}
-  {% set subject_label = true %}
+  {% set subject_label = false %}
   {% set show_view_count = false %}
   {% set show_post_n = true %}
   {% set href = null %}
@@ -36,6 +37,7 @@
   {% set member_href = message.member.href %}
   {% set is_ignored = message.is_ignored %}
   {% set show_member_info = true %}
+  {% set message_approved = true %}
 {% endif %}
 
 {# Set the post values if this is a profile post (e.g. the "view all posts by member" page). #}
@@ -53,6 +55,7 @@
   {% set member_href = member.href %}
   {% set is_ignored = message.is_ignored %}
   {% set show_member_info = true %}
+  {% set message_approved = message.approved %}
 {% endif %}
 
 {# Sets the post values if this is a thread history post (e.g. the post list underneath the reply form). #}
@@ -68,6 +71,7 @@
   {% set member_href = member.href %}
   {% set is_ignored = message.is_ignored %}
   {% set show_member_info = false %}
+  {% set message_approved = message.approved %}
 {% endif %}
 
 {# Sets the post values if this is a post from the recent posts page. #}  
@@ -85,6 +89,7 @@
   {% set member_href = message.poster.href %}
   {% set is_ignored = message.is_ignored %}
   {% set show_member_info = false %}
+  {% set message_approved = message.approved %}
 {% endif %}
 
 {# Sets the post values if this is post preview (i.e. not a real post). #}
@@ -95,6 +100,18 @@
   {% set member_username = context.user.username ?? context.user.name %}
   {% set member_href = member.href %}
   {% set show_member_info = false %}
+  {% set message_approved = true %}
+{% endif %}
+
+{# Displays information from a PM that we're replying to. #}
+{% if is_pm_reply_to %}
+  {% set topic_id = context.id %}
+  {% set subject_label = true %}
+  {% set message_body = message.body %}
+  {% set member_username = message.member.name %}
+  {% set member_href = message.member.href %}
+  {% set show_member_info = false %}
+  {% set message_approved = true %}
 {% endif %}
 
 {# If this is a search result, add the "relevance" button to the title. #}
@@ -129,7 +146,7 @@
 {% set signature_enabled = context.signature_enabled or modSettings.signature_settings|slice(0, 1) %}
 
 {# Post body. #}
-<div class="post_item object_list {{ message.id ? 'post_id_' ~ message.id }} {{ is_ignored ? 'is_ignored' }} {{ not message.approved ? 'not_approved' }} member_group_{{ member.group|lower|default('member') }} {{ member.id ? 'member_id_' ~ member.id }} {{ is_reply_history_post ? 'is_reply_history_post' }} {{ is_thread_post ? 'is_thread_post' }} {{ is_profile_post ? 'is_profile_post' }}">
+<div class="post_item object_list {{ message.id ? 'post_id_' ~ message.id }} {{ is_ignored ? 'is_ignored' }} {{ not message_approved ? 'not_approved' }} member_group_{{ member.group|lower|default('member') }} {{ member.id ? 'member_id_' ~ member.id }} {{ is_reply_history_post ? 'is_reply_history_post' }} {{ is_thread_post ? 'is_thread_post' }} {{ is_profile_post ? 'is_profile_post' }}">
   <div class="blue_component">
     <div class="post_item_inner">
       {% if show_header %}
@@ -151,6 +168,17 @@
             {% endif %}
           </h3>
           <div class="blue_component_buttons">
+            {% if context.has_labels %}
+              <div class="labels dark_labels">
+                {% if message.labels|length > 1 %}
+                  {% for id, label in message.labels %}
+                    {% if id > -1 %}
+                      {% include 'atoms/message_label.twig' with {name: label.name, id: id} %}
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+              </div>
+            {% endif %}
             {% include 'components/forum_button_strip.twig' with {'buttons': title_buttons} %}
           </div>
         </div>
@@ -174,8 +202,29 @@
           <div class="main">
             <div class="date">
               {% set date_content %}
-                {% if show_post_n %}<span class="post_n">#{{ message.counter + 1 }}</span>{% endif %}
+                {% if show_post_n %}
+                  <span class="post_n">#{{ message.counter + 1 }}</span>
+                {% endif %}
+                {% if is_pm_inbox %}
+                  <span class="pm_info">
+                    <strong>{{ txt.sent_to }}:</strong> 
+
+                    {% if message.recipients.to is not empty %}
+                      {{ message.recipients.to|join(', ')|raw }}
+                    {% elseif context.folder != 'sent' %}
+                      ({{ txt.pm_undisclosed_recipients }})
+                    {% endif %}
+
+                    <strong>{{ txt.on }}:</strong>
+                  </span>
+                {% endif %}
                 {% include 'atoms/timestamp.twig' with {time: message.time, timestamp: message.timestamp} %}
+                {% if is_pm_inbox and (message.recipients.bcc is not empty) %}
+                  <span class="sub">
+                    <strong>{{ txt.pm_bcc }}:</strong>
+                    {{ message.recipients.bcc|join(', ')|raw }}
+                  </span>
+                {% endif %}
               {% endset %}
               {% if href %}
                 <a href="{{ href }}" rel="nofollow">{{ date_content }}</a>
@@ -196,8 +245,8 @@
         </div>
         <div class="post_column">
           {# If this is the viewer's own message and it hasn't been approved yet, remind them. #}
-          {% if message.approved != null %}
-            {% if not message.approved and member.id != 0 and member.id == context.user.id %}
+          {% if message_approved != null %}
+            {% if not message_approved and member.id != 0 and member.id == context.user.id %}
               {% include 'atoms/notification.twig' with {'type': 'info', 'content': txt.post_awaiting_approval} %}
             {% endif %}
           {% endif %}
@@ -236,12 +285,51 @@
         <div class="post_column">
           <div class="sidebar">
             <ul class="action_buttons">
+              {# Report button for regular thread posts. #}
               {% if can_report_moderator %}
                 <li class="report">
                   <a class="post_action_text" href="{{ scripturl }}?action=reporttm;topic={{ topic_id }}{{ show_post_n ? '.' ~ message.counter }};msg={{ message.id }}">
                     {{ txt.report_to_mod }}
                   </a>
                 </li>
+              {% endif %}
+              {% if is_pm_inbox and context.folder != 'sent' %}
+                {# Report button for private messages. #}
+                {% if modSettings.enableReportPM %}
+                  <li class="report">
+                    <a class="post_action_text" href="{{ scripturl }}?action=pm;sa=report;l={{ context.current_label_id }};pmsg={{ message.id }}">
+                      {{ txt.pm_report_to_admin|capitalize }}
+                    </a>
+                  </li>
+                {% endif %}
+                {# Option to add a label to a private message. #}
+                {% if context.currently_using_labels and not conversation_mode and not context.sub_template == 'search_results' %}
+                  <li class="labels">
+                    <select name="pm_actions[{{ message.id }}]" onchange="if (this.options[this.selectedIndex].value) form.submit();">
+                      <option value="">{{ txt['pm_msg_label_title'] }}:</option>
+                      <option value="" disabled="disabled">---------------</option>
+
+                      {% if not message.fully_labeled %}
+                        <option value="" disabled="disabled">{{ txt.pm_msg_label_apply }}:</option>
+                        {% for label in context.labels %}
+                          {% if label.id not in message.labels|keys %}
+                            <option value="{{ label.id }}">{{ label.name }}</option>
+                          {% endif %}
+                        {% endfor %}
+                      {% endif %}
+
+                      {% if message.labels and (message.labels|length > 1 or -1 not in message.labels|keys) %}
+                        <option value="" disabled="disabled">{{ txt.pm_msg_label_remove }}:</option>
+                        {% for label in message.labels %}
+                          <option value="{{ label.id }}">{{ label.name }}</option>
+                        {% endfor %}
+                      {% endif %}
+                    </select>
+                    <noscript>
+                      <input type="submit" value="{{ txt.pm_apply }}" class="button_submit" />
+                    </noscript>
+                  </li>
+                {% endif %}
               {% endif %}
               <li class="back_to_top">
                 {% include 'atoms/back_to_top.twig' %}

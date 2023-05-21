@@ -1,0 +1,148 @@
+{% include 'pages/pm/form_rules_add_js.twig' %}
+
+<form action="{{ scripturl }}?action=pm;sa=manrules;save;rid={{ context.rid }}" method="post" accept-charset="{{ context.character_set }}" name="addrule" id="addrule" class="flow_hidden">
+  <input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />
+
+  <div class="object_form pm_rules object_list">
+    <div class="blue_component">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">{{ context.rid == 0 ? txt.pm_add_rule : txt.pm_edit_rule }}</h3>
+      </div>
+      <div class="blue_component_medium object_list_frame">
+        <table class="object_table">
+          <tbody>
+
+            <tr class="object_row">
+              <th class="minimal">{{ txt.pm_rule_name }}</th>
+              <td>
+                <input type="text" name="rule_name" value="{{ context.rule.name | default(txt.pm_rule_name_default) }}" size="50" class="input_text" />
+                <div class="description">{{ txt.pm_rule_name_desc }}</div>
+              </td>
+            </tr>
+
+            <tr class="object_row rule_items">
+              <th class="minimal">{{ txt.pm_rule_criteria }}</th>
+              <td>
+                {% for k, criteria in context.rule.criteria %}
+                  <select name="ruletype[{{ k }}]" id="ruletype{{ k }}" onchange="updateRuleDef({{ k }}); rebuildRuleDesc();">
+                    <option value="">{{ txt.pm_rule_criteria_pick }}:</option>
+                    <option value="mid" {% if criteria.t == 'mid' %}selected="selected"{% endif %}>{{ txt.pm_rule_mid }}</option>
+                    <option value="gid" {% if criteria.t == 'gid' %}selected="selected"{% endif %}>{{ txt.pm_rule_gid }}</option>
+                    <option value="sub" {% if criteria.t == 'sub' %}selected="selected"{% endif %}>{{ txt.pm_rule_sub }}</option>
+                    <option value="msg" {% if criteria.t == 'msg' %}selected="selected"{% endif %}>{{ txt.pm_rule_msg }}</option>
+                    <option value="bud" {% if criteria.t == 'bud' %}selected="selected"{% endif %}>{{ txt.pm_rule_bud }}</option>
+                  </select>
+                  <span id="defdiv{{ k }}" {% if criteria.t not in ['gid', 'bud'] %}{% else %}style="display: none;"{% endif %}>
+                    <input type="text" name="ruledef[{{ k }}]" id="ruledef{{ k }}" onkeyup="rebuildRuleDesc();" value="{{ criteria.t in ['mid', 'sub', 'msg'] ? criteria.v }}" class="input_text" />
+                  </span>
+                  <span id="defseldiv{{ k }}" {% if criteria.t == 'gid' %}{% else %}style="display: none;"{% endif %}>
+                    <select name="ruledefgroup[{{ k }}]" id="ruledefgroup{{ k }}" onchange="rebuildRuleDesc();">
+                      <option value="">{{ txt.pm_rule_sel_group }}</option>
+                      {% for id, group in context.groups %}
+                        <option value="{{ id }}" {% if criteria.t == 'gid' and criteria.v == id %}selected="selected"{% endif %}>{{ group }}</option>
+                      {% endfor %}
+                    </select>
+                  </span>
+                {% endfor %}
+                <span id="criteriaAddHere"></span>
+                <div>
+                  <button type="button" id="addonjs1" style="display: none;" onclick="addCriteriaOption(); return false;">{{ txt.pm_rule_criteria_add }}</button>
+                </div>
+                <div class="form_line">
+                  {{ txt.pm_rule_logic }}:
+                  <select name="rule_logic" id="logic" onchange="rebuildRuleDesc();">
+                    <option value="and" {% if context.rule.logic == 'and' %}selected="selected"{% endif %}>{{ txt.pm_rule_logic_and }}</option>
+                    <option value="or" {% if context.rule.logic == 'or' %}selected="selected"{% endif %}>{{ txt.pm_rule_logic_or }}</option>
+                  </select>
+                </div>
+              </td>
+            </tr>
+
+            <tr class="object_row rule_items">
+              <th class="minimal">{{ txt.pm_rule_actions }}</th>
+              <td>
+                {% for k, action in context.rule.actions %}
+                  <select name="acttype[{{ k }}]" id="acttype{{ k }}" onchange="updateActionDef({{ k }}); rebuildRuleDesc();">
+                    <option value="">{{ txt.pm_rule_sel_action }}</option>
+                    <option value="lab" {% if action.t == 'lab' %}selected="selected"{% endif %}>{{ txt.pm_rule_label }}</option>
+                    <option value="del" {% if action.t == 'del' %}selected="selected"{% endif %}>{{ txt.pm_rule_delete }}</option>
+                  </select>
+                  <span id="labdiv{{ k }}">
+                    <select name="labdef[{{ k }}]" id="labdef{{ k }}" onchange="rebuildRuleDesc();">
+                      <option value="">{{ txt.pm_rule_sel_label }}</option>
+                      {% for label in context.labels %}
+                        {% if label.id != -1 %}
+                          <option value="{{ label.id + 1 }}" {% if action.t == 'lab' and action.v == label.id %}selected="selected"{% endif %}>{{ label.name }}</option>
+                        {% endif %}
+                      {% endfor %}
+                    </select>
+                  </span>
+                {% endfor %}
+                <span id="actionAddHere"></span>
+                <div>
+                  <button type="button" id="addonjs2" style="display: none;" onclick="addActionOption(); return false;">{{ txt.pm_rule_add_action }}</button>
+                </div>
+              </td>
+            </tr>
+
+            <tr class="object_row dark">
+              <th class="minimal"></th>
+              <td>
+                <button type="submit" name="save"><strong>{{ txt.pm_rule_save }}</strong></button>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="object_form object_list">
+    <div class="blue_component">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">{{ txt.pm_rule_description }}</h3>
+      </div>
+      <div class="blue_component_medium object_list_frame">
+        <table class="object_table">
+          <tbody>
+
+            <tr class="object_row light">
+              <td>
+                <div id="ruletext">{{ txt.pm_rule_js_disabled }}</div>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</form>
+
+
+<script type="text/javascript">
+  {% for k, c in context.rule.criteria %}
+    updateRuleDef({{ k }});
+  {% endfor %}
+
+  {% for k, c in context.rule.actions %}
+    updateActionDef({{ k }});
+  {% endfor %}
+
+  rebuildRuleDesc();
+
+  // If this isn't a new rule and we have JS enabled remove the JS compatibility stuff.
+  {% if context.rid %}
+    document.getElementById("removeonjs1").style.display = "none";
+    document.getElementById("removeonjs2").style.display = "none";
+  {% endif %}
+
+  {% if context.rule.criteria|length <= context.rule_limiters.criteria %}
+    document.getElementById("addonjs1").style.display = "";
+  {% endif %}
+
+  {% if context.rule.actions|length <= context.rule_limiters.actions %}
+    document.getElementById("addonjs2").style.display = "";
+  {% endif %}
+</script>

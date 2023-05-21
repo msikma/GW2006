@@ -106,6 +106,9 @@
             }
           }
         }
+        > .sub {
+          display: block;
+        }
       }
     }
   }
@@ -118,6 +121,20 @@
       
       img {
         margin-top: 2px;
+      }
+    }
+
+    .action_buttons {
+      .labels {
+        display: flex;
+
+        select,
+        input[type="submit"] {
+          font-size: var(--gw-font-small);
+        }
+        input[type="submit"] {
+          margin-left: 2px;
+        }
       }
     }
   }

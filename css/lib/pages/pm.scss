@@ -1,0 +1,25 @@
+@charset "utf-8";
+
+.pm_page {
+  // Single mode; displays a single message and then the full list of PMs.
+  &.single_mode {
+    .pm_messages {
+      // Move the message list down a bit more.
+      .post_item {
+        margin-bottom: var(--gw-content-margin);
+      }
+    }
+  }
+
+  .subject_list {
+    .object_row {
+      .subject {
+        width: 45%;
+
+        @media screen and (max-width: $media-m) {
+          width: auto;
+        }
+      }
+    }
+  }
+}

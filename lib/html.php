@@ -210,3 +210,19 @@ function get_inner_html($node) {
   }
   return $inner;
 }
+
+/**
+ * Returns a string that calls a Javascript alert() or confirm() dialog box.
+ */
+function get_dialog($message, $type = 'alert') {
+  $message_encoded = json_encode($message);
+  return ($type === 'confirm' ? 'return ' : '').$type.'('.json_encode($message).')'.($type === 'alert' ? ';return false' : '');
+}
+
+/**
+ * Returns an alert() or confirm() call wrapped in an onclick attribute.
+ */
+function get_dialog_attr($message, $type) {
+  $js_code = get_dialog($message, $type);
+  return 'onclick="'.htmlspecialchars($js_code).'"';
+}

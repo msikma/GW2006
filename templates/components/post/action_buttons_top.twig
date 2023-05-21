@@ -9,6 +9,14 @@
 {% set conversation_mode = context.display_mode == 2 %}
 
 <ul class="action_buttons">
+  {% if message.is_replied_to %}
+    <li class="is_replied_to_button">
+      <a href="#" {{ js_alert(txt.pm_is_replied_to, true)|raw }}>
+        {% include 'atoms/post_button.twig' with {'type': 'pm_is_read.gif', 'label': txt.modify} %}
+      </a>
+    </li>
+  {% endif %}
+
   {% if message.can_approve %}
     <li class="approve_button">
       <a class="post_action_text" href="{{ scripturl }}?action=moderate;area=postmod;sa=approve;topic={{ message_topic_id }}{{ message_start ? '.' ~ message_start }};msg={{ message.id }};{{ context.session_var }}={{ context.session_id }}">
@@ -77,7 +85,7 @@
   {% endif %}
 
   {% if is_pm_inbox %}
-    {% if context['can_send_pm'] %}
+    {% if context.can_send_pm %}
       {% if not message.member.is_guest %}
         {% if message.number_recipients > 1 and not conversation_mode %}
           <li class="reply_all_button">

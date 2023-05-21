@@ -1,0 +1,167 @@
+<script type="text/javascript">
+  var criteriaNum = 0;
+  var actionNum = 0;
+  var groups = new Array();
+  var labels = new Array();
+
+  {% for id, title in context.groups %}
+    groups[{{ id }}] = "{{ title|e('js') }}";
+  {% endfor %}
+
+  {% for label in context.labels %}
+    {% if label.id != -1 %}
+      labels[{{ label.id + 1 }}] = "{{ label.name|e('js') }}";
+    {% endif %}
+  {% endfor %}
+
+  function addCriteriaOption() {
+    if (criteriaNum == 0) {
+      for (var i = 0; i < document.forms.addrule.elements.length; i++) {
+        if (document.forms.addrule.elements[i].id.substr(0, 8) == "ruletype") {
+          criteriaNum++;
+        }
+      }
+    }
+
+    if (criteriaNum++ >= {{ context.rule_limiters.criteria }}) {
+      return false;
+    }
+
+    var html = `<br /><select name="ruletype[${criteriaNum}]" id="ruletype${criteriaNum}" onchange="updateRuleDef(${criteriaNum}); rebuildRuleDesc();"><option value="">{{ txt['pm_rule_criteria_pick']|e('html') }}:</option><option value="mid">{{ txt['pm_rule_mid']|e('html') }}</option><option value="gid">{{ txt['pm_rule_gid']|e('html') }}</option><option value="sub">{{ txt['pm_rule_sub']|e('html') }}</option><option value="msg">{{ txt['pm_rule_msg']|e('html') }}</option><option value="bud">{{ txt['pm_rule_bud']|e('html') }}</option></select>&nbsp;<span id="defdiv${criteriaNum}" style="display: none;"><input type="text" name="ruledef[${criteriaNum}]" id="ruledef${criteriaNum}" onkeyup="rebuildRuleDesc();" value="" class="input_text" /></span><span id="defseldiv${criteriaNum}" style="display: none;"><select name="ruledefgroup[${criteriaNum}]" id="ruledefgroup${criteriaNum}" onchange="rebuildRuleDesc();"><option value="">{{ txt['pm_rule_sel_group']|e('html') }}</option>
+    {% for id, group in context.groups %}
+      <option value="{{ id }}">{{ group|replace({"'": "\'"})|e('html') }}</option>
+    {% endfor %}
+    </select></span><span id="criteriaAddHere"></span>`;
+
+    setOuterHTML(document.getElementById("criteriaAddHere"), html);
+
+    if (criteriaNum + 1 > {{ context.rule_limiters.criteria }}) {
+      document.getElementById('addonjs1').style.display = 'none';
+    }
+  }
+
+  function addActionOption() {
+    if (actionNum == 0) {
+      for (var i = 0; i < document.forms.addrule.elements.length; i++) {
+        if (document.forms.addrule.elements[i].id.substr(0, 7) == "acttype") {
+          actionNum++;
+        }
+      }
+    }
+    if (actionNum++ >= {{ context.rule_limiters.actions }}) {
+      return false;
+    }
+
+    var html = `<br /><select name="acttype[${actionNum}]" id="acttype${actionNum}" onchange="updateActionDef(${actionNum}); rebuildRuleDesc();"><option value="">{{ txt['pm_rule_sel_action']|e('html') }}:</option><option value="lab">{{ txt['pm_rule_label']|e('html') }}</option><option value="del">{{ txt['pm_rule_delete']|e('html') }}</option></select>&nbsp;<span id="labdiv${actionNum}" style="display: none;"><select name="labdef[${actionNum}]" id="labdef${actionNum}" onchange="rebuildRuleDesc();"><option value="">{{ txt['pm_rule_sel_label']|e('html') }}</option>
+    {% for label in context.labels %}
+      {% if label.id != -1 %}
+        <option value="{{ label.id + 1 }}">{{ label.name|e('html') }}</option>
+      {% endif %}
+    {% endfor %}
+    </select></span><span id="actionAddHere"></span>`;
+
+    setOuterHTML(document.getElementById("actionAddHere"), html);
+
+    if (actionNum + 1 > {{ context.rule_limiters.actions }}) {
+      document.getElementById('addonjs2').style.display = 'none';
+    }
+  }
+
+  function updateRuleDef(optNum) {
+    if (document.getElementById("ruletype" + optNum).value == "gid") {
+      document.getElementById("defdiv" + optNum).style.display = "none";
+      document.getElementById("defseldiv" + optNum).style.display = "";
+    } else if (document.getElementById("ruletype" + optNum).value == "bud" || document.getElementById("ruletype" + optNum).value == "") {
+      document.getElementById("defdiv" + optNum).style.display = "none";
+      document.getElementById("defseldiv" + optNum).style.display = "none";
+    } else {
+      document.getElementById("defdiv" + optNum).style.display = "";
+      document.getElementById("defseldiv" + optNum).style.display = "none";
+    }
+  }
+
+  function updateActionDef(optNum) {
+    if (document.getElementById("acttype" + optNum).value == "lab") {
+      document.getElementById("labdiv" + optNum).style.display = "";
+    } else {
+      document.getElementById("labdiv" + optNum).style.display = "none";
+    }
+  }
+
+  // Rebuild the rule description!
+  function rebuildRuleDesc() {
+    // Start with nothing.
+    var text = "";
+    var joinText = "";
+    var actionText = "";
+    var hadBuddy = false;
+    var foundCriteria = false;
+    var foundAction = false;
+    var curNum, curVal, curDef;
+
+    for (var i = 0; i < document.forms.addrule.elements.length; i++) {
+      if (document.forms.addrule.elements[i].id.substr(0, 8) == "ruletype") {
+        if (foundCriteria)
+          joinText = document.getElementById("logic").value == 'and' ? {{ txt['pm_readable_and']|json_encode|raw }} : {{ txt['pm_readable_or']|json_encode|raw }};
+        else
+          joinText = '';
+        foundCriteria = true;
+
+        curNum = document.forms.addrule.elements[i].id.match(/\d+/);
+        curVal = document.forms.addrule.elements[i].value;
+        if (curVal == "gid")
+          curDef = document.getElementById("ruledefgroup" + curNum).value.php_htmlspecialchars();
+        else if (curVal != "bud")
+          curDef = document.getElementById("ruledef" + curNum).value.php_htmlspecialchars();
+        else
+          curDef = "";
+
+        // What type of test is this?
+        if (curVal == "mid" && curDef)
+          text += joinText + {{ txt['pm_readable_member']|json_encode|raw }}.replace("{MEMBER}", curDef);
+        else if (curVal == "gid" && curDef && groups[curDef])
+          text += joinText + {{ txt['pm_readable_group']|json_encode|raw }}.replace("{GROUP}", groups[curDef]);
+        else if (curVal == "sub" && curDef)
+          text += joinText + {{ txt['pm_readable_subject']|json_encode|raw }}.replace("{SUBJECT}", curDef);
+        else if (curVal == "msg" && curDef)
+          text += joinText + {{ txt['pm_readable_body']|json_encode|raw }}.replace("{BODY}", curDef);
+        else if (curVal == "bud" && !hadBuddy) {
+          text += joinText + {{ txt['pm_readable_buddy']|json_encode|raw }};
+          hadBuddy = true;
+        }
+      }
+      if (document.forms.addrule.elements[i].id.substr(0, 7) == "acttype") {
+        if (foundAction)
+          joinText = {{ txt['pm_readable_and']|json_encode|raw }};
+        else
+          joinText = "";
+        foundAction = true;
+
+        curNum = document.forms.addrule.elements[i].id.match(/\d+/);
+        curVal = document.forms.addrule.elements[i].value;
+        if (curVal == "lab")
+          curDef = document.getElementById("labdef" + curNum).value.php_htmlspecialchars();
+        else
+          curDef = "";
+
+        // Now pick the actions.
+        if (curVal == "lab" && curDef && labels[curDef])
+          actionText += joinText + {{ txt['pm_readable_label']|json_encode|raw }}.replace("{LABEL}", labels[curDef]);
+        else if (curVal == "del")
+          actionText += joinText + {{ txt['pm_readable_delete']|json_encode|raw }};
+      }
+    }
+
+    // If still nothing make it default!
+    if (text == "" || !foundCriteria)
+      text = {{ txt['pm_rule_not_defined']|json_encode|raw }};
+    else {
+      if (actionText != "")
+        text += {{ txt['pm_readable_then']|json_encode|raw }} + actionText;
+      text = {{ txt['pm_readable_start']|json_encode|raw }} + text + {{ txt['pm_readable_end']|json_encode|raw }};
+    }
+
+    // Set the actual HTML!
+    setInnerHTML(document.getElementById("ruletext"), text);
+  }
+</script>

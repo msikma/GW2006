@@ -5,7 +5,7 @@
   }
 } %}
 
-<ul class="action_buttons">
+<ul class="action_buttons align_left">
   {% if context.can_send_pm and message.member.id %}
     <li class="pm_button">
       <a href="{{ scripturl }}?action=pm;sa=send;u={{ message.member.id }}" title="{{ message.member.online.is_online ? txt.pm_online : txt.pm_offline }}">

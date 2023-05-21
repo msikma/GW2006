@@ -1,0 +1,10 @@
+@charset "utf-8";
+
+.posts_index {
+  &.after_pagination {
+    margin-top: var(--gw-content-margin);
+  }
+  &.before_pagination {
+    margin-bottom: var(--gw-content-margin);
+  }
+}

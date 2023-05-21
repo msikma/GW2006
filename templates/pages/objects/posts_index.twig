@@ -1,5 +1,16 @@
+{% set messages = messages ?? context.messages %}
+
 {# This is currently not implemented yet. #}
 {% set mod_link_to_cal = false %}
+
+{# Whether to use a <form> wrapper. #}
+{% set use_form = use_form ?? true %}
+
+{# Whether we're displaying the 'who is currently viewing' section. #}
+{% set display_viewing = display_viewing ?? true %}
+
+{# Whether we're displaying page links. #}
+{% set display_page_links = display_page_links ?? true %}
 
 {# Action buttons shown at the top of the thread. #}
 {% set normal_buttons = {
@@ -160,6 +171,22 @@
   }) %}
 {% endif %}
 
+{% if is_pm_inbox and conversation_mode %}
+  {% set title_buttons = {
+    reply_to_all: {
+      text: 'reply_to_all',
+      lang: true,
+      url: scripturl ~ '?action=pm;sa=send;f=' ~ contex.folder ~ (context.current_label_id != -1 ? ';l=' ~ context.current_label_id) ~ ';pmsg=' ~ context.current_pm ~ ';u=all',
+    },
+    delete_conversation: {
+      text: 'delete_conversation',
+      lang: true,
+      url: scripturl ~ '?action=pm;sa=pmactions;pm_actions[' ~ context.current_pm ~ ']=delete;conversation;f=' ~ contex.folder ~ ';start=' ~ context.start ~ (context.current_label_id != -1 ? ';l=' ~ context.current_label_id) ~ ';' ~ context.session_var ~ '=' ~ context.session_id,
+      custom: js_confirm(txt.remove_message, true),
+    },
+  } %}
+{% endif %}
+
 <a id="top"></a>
 
 {# Notifications at the top of the page. #}
@@ -183,28 +210,42 @@
 
 <div class="forum_page_section">
   {% include 'components/forum_button_strip.twig' with {'buttons': normal_buttons, 'type': 'primary'} %}
-  {% include 'components/forum_page_links.twig' with {'is_posts_index': true} %}
+  {% if display_page_links %}
+    {% include 'components/forum_page_links.twig' with {'is_posts_index': true} %}
+  {% endif %}
 </div>
 
-{# Show the topic information - icon, subject, etc. #}
-<form action="{{ scripturl }}?action=quickmod2;topic={{ context.current_topic }}.{{ context.start }}" method="post" accept-charset="{{ context.character_set }}" name="quickModForm" id="quickModForm">
-  {# Loop that prints every post in the thread. #}
-  {% for message in context.messages %}
+{# Loop that prints every post in the thread. #}
+{% set rendered_messages %}
+  {% for message in messages %}
     {% include 'components/thread_post.twig' with {
       'is_thread_post': true,
-      'show_header': loop.index == 1,
+      'show_header': show_all_headers or loop.index == 1,
       'title_buttons': title_buttons,
       'message': message
     } %}
   {% endfor %}
-</form>
+{% endset %}
+
+{# Either wrap posts inside of a quick mod form or just render the messages plain. #}
+{% if use_form %}
+  <form action="{{ scripturl }}?action=quickmod2;topic={{ context.current_topic }}.{{ context.start }}" method="post" accept-charset="{{ context.character_set }}" name="quickModForm" id="quickModForm" class="posts_index{{ wrapper_classes ? ' ' ~ wrapper_classes }}">
+    {{ rendered_messages }}
+  </form>
+{% else %}
+  <div class="posts_index{{ wrapper_classes ? ' ' ~ wrapper_classes }}">
+    {{ rendered_messages }}
+  </div>
+{% endif %}
 
 <a id="lastPost"></a>
 
 {% if not context.is_locked %}
   <div class="forum_page_section">
     {% include 'components/forum_button_strip.twig' with {'buttons': normal_buttons, 'type': 'primary'} %}
-    {% include 'components/forum_page_links.twig' with {'location': 'bottom', 'is_posts_index': true} %}
+    {% if display_page_links %}
+      {% include 'components/forum_page_links.twig' with {'location': 'bottom', 'is_posts_index': true} %}
+    {% endif %}
   </div>
 {% else %}
   <div class="forum_page_section is_locked">
@@ -216,5 +257,7 @@
   {% include 'components/thread_quick_reply.twig' %}
 {% endif %}
 
-{% include 'components/thread_who_is_viewing.twig' %}
+{% if display_viewing %}
+  {% include 'components/thread_who_is_viewing.twig' %}
+{% endif %}
 {% include 'components/thread_moderation_buttons.twig' with {'buttons': mod_buttons} %}

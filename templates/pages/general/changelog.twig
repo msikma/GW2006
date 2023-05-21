@@ -2,7 +2,7 @@
   {key: 'Name', value: context.git_info.package.name},
   {key: 'Version', value: context.git_info.package.version},
   {key: 'Repository', value: '<a href="' ~ context.git_info.package.repository ~ '">' ~ context.git_info.package.repository ~ '</a>'},
-  {key: 'Mode', value: context.env_info},
+  {key: 'Mode', value: context.env.mode},
 ] %}
 
 {% set repo_details = [

@@ -1,0 +1,47 @@
+<form action="{{ scripturl }}?action=pm;sa=report;l={{ context.current_label_id }}" method="post" accept-charset="{{ context.character_set }}">
+  <input type="hidden" name="pmsg" value="{{ context.pm_id }}" />
+  <input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />
+  <div class="object_form object_list">
+    <div class="blue_component">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">{{ txt.pm_report_title }}</h3>
+      </div>
+      <div class="blue_component_medium object_list_frame">
+        <table class="object_table">
+          <tbody>
+            <tr class="object_row light">
+              <td colspan="2"><p>{{ txt.pm_report_desc }}</p></td>
+            </tr>
+            {% if context.admin_count > 1 %}
+              <tr class="object_row">
+                <th class="minimal">Report to:</th>
+                <td>
+                  <select name="ID_ADMIN">
+                    <option value="0">{{ txt.pm_report_all_admins }}</option>
+                    {% for id, name in context.admins %}
+                      <option value="{{ id }}">{{ name }}</option>
+                    {% endfor %}
+                  </select>
+                  <div class="description">{{ txt.pm_report_admins }}.</div>
+                </td>
+              </tr>
+            {% endif %}
+            <tr class="object_row">
+              <th class="minimal">Reason:</th>
+              <td>
+                <textarea name="reason" rows="4" cols="70"></textarea>
+                <div class="description">{{ txt.pm_report_reason }}.</div>
+              </td>
+            </tr>
+            <tr class="object_row dark">
+              <th class="minimal"></th>
+              <td>
+                <button type="submit" name="report"><strong>{{ txt.pm_report_message }}</strong></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</form>

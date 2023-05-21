@@ -1,0 +1,65 @@
+<form action="{{ scripturl }}?action=pm;sa=manrules" method="post" accept-charset="{{ context.character_set }}">
+  <input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />
+
+  <div class="object_form search_form type_simple object_list">
+    <div class="blue_component">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">{{ txt.pm_manage_rules }}</h3>
+      </div>
+      <div class="blue_component_medium object_list_frame">
+        <table class="object_table">
+          <thead>
+            <tr class="object_row">
+              <td colspan="3" class="text_left light">
+                <p>{{ txt.pm_manage_rules_desc }}</p>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+
+            {% if context.rules %}
+              <tr class="object_row">
+                <th class="text_center quick_mod minimal no_padding">
+                  <input type="checkbox" onclick="invertAll(this, this.form);" />
+                </th>
+                <th class="text_left">
+                  <span>{{ txt.pm_rule_title }}</span>
+                </th>
+              </tr>
+            {% endif %}
+
+            {% if context.rules is empty %}
+              <tr class="object_row">
+                <td>{{ txt.pm_rules_none }}</td>
+              </tr>
+            {% else %}
+              {% for rule in context.rules %}
+                <tr class="object_row light">
+                  <td class="minimal text_center">
+                    <input type="checkbox" name="delrule[{{ rule.id }}]" class="input_check" />
+                  </td>
+                  <td>
+                    <a href="{{ scripturl }}?action=pm;sa=manrules;add;rid={{ rule.id }}">{{ rule.name }}</a>
+                  </td>
+                </tr>
+              {% endfor %}
+            {% endif %}
+
+            <tr class="object_row dark">
+              {% if context.rules %}
+                <th class="minimal"></th>
+              {% endif %}
+              <td>
+                <button type="button" onclick="window.location.href='{{ scripturl }}?action=pm;sa=manrules;add;rid=0'">{{ txt['pm_add_rule'] }}</button>
+                <button type="button" onclick="if (confirm('{{ txt['pm_js_apply_rules_confirm'] }}')) { window.location.href='{{ scripturl }}?action=pm;sa=manrules;apply;{{ context.session_var }}={{ context.session_id }}' }; return false">{{ txt['pm_apply_rules'] }}</button>
+                {% if context.rules %}
+                  <button type="submit" name="delselected" onclick="return confirm('{{ txt['pm_js_delete_rule_confirm'] }}');">{{ txt['pm_delete_selected_rule'] }}</button>
+                {% endif %}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</form>

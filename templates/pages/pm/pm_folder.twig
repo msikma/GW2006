@@ -3,17 +3,35 @@
 {% set single_mode = context.display_mode == 1 %}
 {% set conversation_mode = context.display_mode == 2 %}
 
+{# The subject list; either displayed at the bottom or at the top, depending on the view mode. #}
+{% set subject_list %}
+  {% include 'components/pm_subject_list.twig' with {
+    messages: context.subjects,
+    overview_mode: overview_mode,
+    single_mode: single_mode,
+    conversation_mode: conversation_mode
+  } %}
+{% endset %}
+
 {% include 'auxiliary/script_pm.twig' %}
-<form class="flow_hidden" action="{{ scripturl }}?action=pm;sa=pmactions;{{ context['display_mode'] == 2 ? 'conversation;' }}f={{ context['folder'] }};start={{ context['start'] }}{{ context['current_label_id'] != -1 ? ';l=' ~ context['current_label_id'] }}" method="post" accept-charset="{{ context['character_set'] }}" name="pmFolder">
-  <div>display mode: {{ context.display_mode }}</div>
+
+<form class="pm_page pm_mode_{{ context.display_mode }} {{ overview_mode ? 'overview_mode' }} {{ single_mode ? 'single_mode' }} {{ conversation_mode ? 'conversation_mode' }}" action="{{ scripturl }}?action=pm;sa=pmactions;{{ context['display_mode'] == 2 ? 'conversation;' }}f={{ context['folder'] }};start={{ context['start'] }}{{ context['current_label_id'] != -1 ? ';l=' ~ context['current_label_id'] }}" method="post" accept-charset="{{ context['character_set'] }}" name="pmFolder">
   {% if not single_mode %}
-    {% include 'components/pm_subject_list.twig' with {messages: context.messages} %}
+    {{ subject_list }}
   {% endif %}
-  {% if messages|length %}
-    {% if not single_mode %}
-      todo title bar
-    {% endif %}
+  <div class="pm_messages">
+    {% include 'pages/objects/posts_index.twig' with {
+      messages: context.messages,
+      wrapper_classes: 'after_pagination',
+      display_viewing: false,
+      display_page_links: false,
+      show_all_headers: overview_mode or single_mode,
+      is_pm_inbox: true,
+      use_form: false
+    } %}
+  </div>
+  {% if single_mode %}
+    {{ subject_list }}
   {% endif %}
-  {# todo: properly display messages #}
-  {% include 'pages/objects/posts_index.twig' with {messages: context.messages} %}
+  <input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />
 </form>

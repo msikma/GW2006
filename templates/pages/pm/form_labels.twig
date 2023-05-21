@@ -1,0 +1,97 @@
+<form action="{{ scripturl }}?action=pm;sa=manlabels" method="post" accept-charset="{{ context.character_set }}">
+  <input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />
+
+  <div class="object_form search_form type_simple object_list">
+    <div class="blue_component">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">{{ txt.pm_manage_labels }}</h3>
+      </div>
+      <div class="blue_component_medium object_list_frame">
+        <table class="object_table">
+          <thead>
+            <tr class="object_row">
+              <td colspan="3" class="text_left light">
+                <p>{{ txt.pm_labels_desc }}</p>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr class="object_row">
+              <th class="text_center quick_mod minimal no_padding">
+                {% if context.labels|length > 1 %}
+                  <input type="checkbox" class="input_check" onclick="invertAll(this, this.form);" />
+                {% endif %}
+              </th>
+              <th class="text_left" colspan="2">
+                <span>{{ txt.pm_label_name }}</span>
+              </th>
+            </tr>
+
+            {% if context.labels|length < 2 %}
+              <tr class="object_row">
+                <td colspan="2">{{ txt.pm_labels_no_exist }}</td>
+              </tr>
+            {% else %}
+              {% for label in context.labels %}
+                {% if label.id != -1 %}
+                  <tr class="object_row light">
+                    <td class="minimal text_center"><input type="checkbox" class="input_check" name="delete_label[{{ label.id }}]" /></td>
+                    <td>
+                      <span class="label_input">
+                        <input type="text" name="label_name[{{ label.id }}]" value="{{ label.name }}" size="30" maxlength="30" class="input_text" />
+                      </span>
+                      <span class="label">{{ label.name }}</span>
+                    </td>
+                  </tr>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+
+            {% if context.labels|length > 1 %}
+              <tr class="object_row dark">
+                <th class="minimal"></th>
+                <td>
+                  <button type="submit" name="save"><strong>{{ txt.save }}</strong></button>
+                  <button type="submit" name="delete" onclick="return confirm('{{ txt.pm_labels_delete }}');">{{ txt.quickmod_delete_selected }}</button>
+                </td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="object_form search_form type_simple object_list">
+    <div class="blue_component">
+      <div class="blue_component_header">
+        <h3 class="blue_component_title">{{ txt.pm_label_add_new }}</h3>
+      </div>
+      <div class="blue_component_medium object_list_frame">
+        <table class="object_table">
+          <tbody>
+
+            <tr class="object_row">
+              <th class="minimal">
+                <label for="add_label">{{ txt.pm_label_name }}:</label>
+              </th>
+              <th class="text_left" colspan="2">
+                <input type="text" id="add_label" name="label" value="" size="30" maxlength="30" class="input_text" />
+              </th>
+            </tr>
+
+            <tr class="object_row dark">
+              <th class="minimal"></th>
+              <td>
+                <button type="submit" name="add"><strong>{{ txt.pm_label_add_new }}</strong></button>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</form>

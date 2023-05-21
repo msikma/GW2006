@@ -1,0 +1,81 @@
+{% set page_links_args = {
+  current: context.page_index_context.current_page_number,
+  last: context.page_index_context.last_page_number,
+  per_page: modSettings.search_results_per_page,
+  action: context.current_action,
+  member_id: context.id_member
+} %}
+
+{% set page_links_top %}
+  {% include 'components/forum_page_links.twig' with page_links_args %}
+{% endset %}
+
+{% set page_links_bottom %}
+  {% include 'components/forum_page_links.twig' with page_links_args|merge({location: 'bottom'}) %}
+{% endset %}
+
+<a id="top"></a>
+
+{% if context.search_params.show_complete %}
+  <div class="pm_page search_results">
+
+    <div class="object_list before_pagination">
+      <div class="blue_component">
+        <div class="topic_list_inner">
+          <div class="blue_component_header">
+            <h3 class="blue_component_title">Search results</h3>
+          </div>
+          <div class="object_list_frame">
+            <table class="message_table_list object_table">
+              <tbody>
+                <tr class="object_row">
+                  <td>
+                    {% if context.personal_messages is empty %}
+                      No results found for: <strong>{{ context.search_params.search|raw }}</strong><br /><br />
+                      <a href="{{ scripturl }}?action=pm">Back to PM index</a>
+                    {% else %}
+                      Showing results for: <strong>{{ context.search_params.search|raw }}</strong>
+                    {% endif %}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% if context.personal_messages is not empty %}
+      <div class="forum_page_section">
+        {{ page_links_top }}
+      </div>
+
+      <div class="pm_messages">
+        {% include 'pages/objects/posts_index.twig' with {
+          messages: context.personal_messages,
+          display_viewing: false,
+          display_page_links: false,
+          show_all_headers: true,
+          is_pm_inbox: true,
+          use_form: false
+        } %}
+      </div>
+    {% endif %}
+  </div>
+{% else %}
+  <div class="forum_page_section">
+    {{ page_links_top }}
+  </div>
+
+  {% include 'components/pm_subject_list.twig' with {
+    messages: context.personal_messages,
+    title: txt.pm_search_results,
+    is_search_results: true,
+    display_action_buttons: false,
+    display_page_links: false,
+  } %}
+  
+  <div class="forum_page_section">
+    {{ page_links_bottom }}
+  </div>
+{% endif %}

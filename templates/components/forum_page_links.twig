@@ -18,8 +18,9 @@
 
 {# Information used to construct the URL. #}
 {% set board_id = board_id|default(context.current_board) %}
-{% set params = params|default('') %}
+{% set params = params|default(context.params)|default('') %}
 {% set action = action|default(context.current_action) %}
+{% set sa = sa|default(context.current_subaction) %}
 {% set sort = sort|default(context.sort_by) %}
 {% set sort_direction = sort_direction|default(context.sort_direction) %}
 {% set is_pm_inbox = is_pm_inbox|default(context.current_action == 'pm') %}

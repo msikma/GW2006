@@ -117,10 +117,19 @@
   .action_buttons {
     padding: 0;
     margin: 0;
+
+    &.align_left {
+      margin-left: -2px;
+    }
   
     li {
       float: left;
       display: block;
+
+      input[type="image"] {
+        display: block;
+        margin-left: 4px;
+      }
   
       a {
         margin-left: 4px;
@@ -157,6 +166,17 @@
     display: flex;
     white-space: nowrap;
     flex: 0 1;
+
+    .labels {
+      display: flex;
+      place-content: center;
+      place-items: center;
+      padding: 0 3px;
+
+      .message_label {
+        margin-right: 5px;
+      }
+    }
   }
 
   .blue_component_buttons .button_strip {
