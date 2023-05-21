@@ -5,7 +5,7 @@
 {% set show_member_strip = true %}
 
 {# Whether to show the "change view" button. Otherwise it's accessible only in the PM settings section. #}
-{% set show_change_view = true %}
+{% set show_change_view = false %}
 
 {% set label_arg = context.current_label_id != -1 ? ';l=' ~ context.current_label_id : '' %}
 {% set sort_arg = ';f=' ~ context.folder ~ ';start=' ~ context.start %}
