@@ -2,10 +2,15 @@
 // Gaming World 2006 <https://gamingw.net/>
 // © MIT License
 
+require_once('vendor/autoload.php');
 require_once('lib/db.php');
 require_once('lib/data.php');
 require_once('lib/html.php');
 require_once('lib/util.php');
+
+// Load .env data if available.
+$dotenv = Dotenv\Dotenv::createImmutable(realpath(__DIR__.'/..'));
+$dotenv->safeLoad();
 
 /**
  * Collects all posts on a page.
@@ -97,6 +102,18 @@ function get_theme_dir() {
   global $settings;
 
   return $settings['theme_dir'];
+}
+
+/**
+ * Returns whether we're in development or in production mode.
+ */
+function get_env_mode() {
+  $addr = $_SERVER['SERVER_ADDR'];
+  $is_dev_addr = $addr === '127.0.0.1' || str_starts_with($addr, '10.0.1') || str_starts_with($addr, '192.168.0');
+  parse_str($_SERVER['QUERY_STRING'], $query);
+  $is_dev_env = $_ENV['MODE'] === 'DEVELOPMENT';
+  $is_no_cache = isset($query['nocache']);
+  return ($is_dev_env || $is_dev_addr || $is_no_cache) ? 'development' : 'production';
 }
 
 /**
@@ -209,17 +226,6 @@ function get_page_metadata($template_context) {
     'domain' => $parsed_url['host'],
     'canonical_url' => $canonical_url,
   ];
-}
-
-/**
- * Returns whether we're in development or in production mode.
- */
-function get_env_mode() {
-  $addr = $_SERVER['SERVER_ADDR'];
-  $is_dev_addr = $addr === '127.0.0.1' || str_starts_with($addr, '10.0.1') || str_starts_with($addr, '192.168.0');
-  parse_str($_SERVER['QUERY_STRING'], $query);
-  $is_dev_mode = isset($query['nocache']);
-  return $is_dev_addr || $is_dev_mode ? 'development' : 'production';
 }
 
 /**

@@ -23,6 +23,7 @@
     "twig/twig": "^3.0",
     "twig/intl-extra": "^3.4",
     "cocur/slugify": "^4.3",
-    "goat1000/svggraph": "^3.19"
+    "goat1000/svggraph": "^3.19",
+    "vlucas/phpdotenv": "^5.5"
   }
 }
