@@ -5,6 +5,9 @@ todo.md
 # Files added by the gwbbc installation
 images/bbc/gwbbc*
 
+# Environment information
+.env
+
 # Vendor code installed by Composer and npm
 /vendor
 node_modules
