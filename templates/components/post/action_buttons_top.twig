@@ -12,7 +12,7 @@
   {% if message.is_replied_to %}
     <li class="is_replied_to_button">
       <a href="#" {{ js_alert(txt.pm_is_replied_to, true)|raw }}>
-        {% include 'atoms/post_button.twig' with {'type': 'pm_is_read.gif', 'label': txt.modify} %}
+        {% include 'atoms/post_button.twig' with {'type': 'meta_is_read.gif', 'label': txt.modify} %}
       </a>
     </li>
   {% endif %}
