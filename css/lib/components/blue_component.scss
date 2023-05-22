@@ -85,10 +85,6 @@
   .blue_component_header_cell {
     // When using the component header inside a table, we need to wrap the HTML slightly differently to avoid a 0.5px off bug.
     padding: 0;
-
-    &:not(:first-child) .blue_component_title {
-      padding-left: cssvar(--gw-cell-medium);
-    }
   }
 
   &.spaced_bottom {
