@@ -8,7 +8,7 @@ global $emoticon_sets, $emoticon_sets_info, $emoticon_basepath;
 $emoticon_sets = null;
 $emoticon_sets_info = null;
 // The base path where all emoticons are located, from the theme directory.
-$emoticon_basepath = '/images/__gwnew/emoticons';
+$emoticon_basepath = '/images/emoticons';
 
 /**
  * Returns the base URL where the smileys are stored.
@@ -26,7 +26,7 @@ function get_emoticons_base_url() {
  */
 function get_gw_emoticons_data() {
   global $settings;
-  return json_decode(file_get_contents("{$settings['theme_dir']}/images/__gwnew/emoticons/info.json"), true);
+  return json_decode(file_get_contents("{$settings['theme_dir']}/images/emoticons/info.json"), true);
 }
 
 /**

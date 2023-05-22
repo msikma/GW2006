@@ -9,7 +9,7 @@
   {# Display the user's avatar if they set one. #}
   {% if member.is_banned %}
     {# Use the "banned" avatar if the user is banned. #}
-    {% set avatar_url = images_url ~ '/__gwnew/other/banned_avatar_' ~ (member.id is even ? '1' : '2') ~ '.gif' %}
+    {% set avatar_url = images_url ~ '/other/banned_avatar_' ~ (member.id is even ? '1' : '2') ~ '.gif' %}
     {% set avatar_source = 'static_banned' %}
   {% elseif member.avatar.url %}
     {# This is if the member has a remotely hosted avatar. #}

@@ -5,11 +5,11 @@
         <li>
           {% set is_last = link_num == context.linktree|length - 1 and context.linktree|length > 1 %}
           {% if link_num == 0 %}
-            <img src="{{ images_url }}/__gwnew/linktree_hierarchy.png" alt="" class="pixel" role="presentation" />
+            <img src="{{ images_url }}/linktree_hierarchy.png" alt="" class="pixel" role="presentation" />
           {% endif %}
 
           {% if is_last %}
-            <img src="{{ images_url }}/__gwnew/linktree_page.png" alt="" class="pixel" role="presentation" />
+            <img src="{{ images_url }}/linktree_page.png" alt="" class="pixel" role="presentation" />
           {% endif %}
           {% if tree.url is defined and not is_last %}
             <a href="{{tree.url}}"><span>{{ tree.name|raw }}</span></a>

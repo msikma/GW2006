@@ -16,7 +16,7 @@
                 {{ txt['apply_filter_of_type']|raw }}:
                 {% set error_types = [] %}
                 {% for type, details in context.error_types %}
-                    {% set error_types = error_types|merge([(details.is_selected ? '<img src="' ~ settings.images_url ~ '/__gwnew/ui_icons/selected.gif" alt="" /> ' : '') ~ '<a href="' ~ details.url ~ '" ' ~ (details.is_selected ? 'style="font-weight: bold;"' : '') ~ ' title="' ~ details.description ~ '">' ~ details.label ~ '</a>']) %}
+                    {% set error_types = error_types|merge([(details.is_selected ? '<img src="' ~ settings.images_url ~ '/ui_icons/selected.gif" alt="" /> ' : '') ~ '<a href="' ~ details.url ~ '" ' ~ (details.is_selected ? 'style="font-weight: bold;"' : '') ~ ' title="' ~ details.description ~ '">' ~ details.label ~ '</a>']) %}
                 {% endfor %}
                 {{ error_types|join('&nbsp;|&nbsp;')|raw }}
               </td>
@@ -57,32 +57,32 @@
                 </td>
                 <td class="half_width">
                   <a href="{{ scripturl }}?action=admin;area=logs;sa=errorlog{{ context['sort_direction'] == 'down' ? ';desc' }};filter=id_member;value={{ error['member']['id'] }}" title="{{ txt['apply_filter'] }}: {{ txt['filter_only_member'] }}">
-                    <img src="{{ images_url }}/__gwnew/ui_icons/filter.gif" alt="{{ txt['apply_filter'] }}: {{ txt['filter_only_member']|raw }}" />
+                    <img src="{{ images_url }}/ui_icons/filter.gif" alt="{{ txt['apply_filter'] }}: {{ txt['filter_only_member']|raw }}" />
                   </a>
                   <strong>{{ error['member']['link']|raw }}</strong><br />
                   <a href="{{ scripturl }}?action=admin;area=logs;sa=errorlog{{ context['sort_direction'] == 'down' ? ';desc' }};filter=ip;value={{ error['member']['ip'] }}" title="{{ txt['apply_filter'] }}: {{ txt['filter_only_ip'] }}">
-                    <img src="{{ images_url }}/__gwnew/ui_icons/filter.gif" alt="{{ txt['apply_filter'] }}: {{ txt['filter_only_ip'] }}" />
+                    <img src="{{ images_url }}/ui_icons/filter.gif" alt="{{ txt['apply_filter'] }}: {{ txt['filter_only_ip'] }}" />
                   </a>
                   <strong><a href="{{ scripturl }}?action=trackip;searchip={{ error['member']['ip'] }}">{{ error['member']['ip']|raw }}</a></strong>
                   <br />
                 </td>
                 <td class="half_width">
                   <a href="{{ scripturl }}?action=admin;area=logs;sa=errorlog{{ context['sort_direction'] == 'down' ? '' : ';desc' }}{{ context['has_filter'] ? context['filter']['href'] }}" title="{{ txt['reverse_direction'] }}">
-                    <img src="{{ images_url }}/__gwnew/ui_icons/arrow_sort_{{ context['sort_direction'] }}.gif" alt="{{ txt['reverse_direction'] }}" />
+                    <img src="{{ images_url }}/ui_icons/arrow_sort_{{ context['sort_direction'] }}.gif" alt="{{ txt['reverse_direction'] }}" />
                   </a>
                   {{ error['time']|raw }}
                   <br />
 
                   {% if error.member.session %}
                     <a href="{{ scripturl }}?action=admin;area=logs;sa=errorlog{{ context['sort_direction'] == 'down' ? ';desc' }};filter=session;value={{ error['member']['session'] }}" title="{{ txt['apply_filter'] }}: {{ txt['filter_only_session'] }}">
-                      <img src="{{ images_url }}/__gwnew/ui_icons/filter.gif" alt="{{ txt['apply_filter'] }}: {{ txt['filter_only_session']|raw }}" />
+                      <img src="{{ images_url }}/ui_icons/filter.gif" alt="{{ txt['apply_filter'] }}: {{ txt['filter_only_session']|raw }}" />
                     </a>
                     {{ error.member.session|raw }}
                     <br />
                   {% endif %}
                   
                   <a href="{{ scripturl }}?action=admin;area=logs;sa=errorlog{{ context['sort_direction'] == 'down' ? ';desc' }};filter=error_type;value={{ error['error_type']['type'] }}" title="{{ txt['apply_filter'] }}: {{ txt['filter_only_type'] }}">
-                    <img src="{{ images_url }}/__gwnew/ui_icons/filter.gif" alt="{{ txt['apply_filter'] }}: {{ txt['filter_only_type'] }}" />
+                    <img src="{{ images_url }}/ui_icons/filter.gif" alt="{{ txt['apply_filter'] }}: {{ txt['filter_only_type'] }}" />
                   </a>
                   {{ txt.error_type }}: {{ error['error_type']['name']|raw }}
                 </td>
@@ -92,7 +92,7 @@
                 <td colspan="2">
                   <div class="clear_left floatleft">
                     <a href="{{ scripturl }}?action=admin;area=logs;sa=errorlog{{ context['sort_direction'] == 'down' ? ';desc' }};filter=url;value={{ error['url']['href'] }}" title="{{ txt['apply_filter'] }}: {{ txt['filter_only_url'] }}">
-                      <img src="{{ images_url }}/__gwnew/ui_icons/filter.gif" alt="{{ txt['apply_filter'] }}: {{ txt['filter_only_url'] }}" />
+                      <img src="{{ images_url }}/ui_icons/filter.gif" alt="{{ txt['apply_filter'] }}: {{ txt['filter_only_url'] }}" />
                     </a>
                   </div>
                   <div class="floatleft marginleft">
@@ -100,7 +100,7 @@
                   </div>
                   <div class="clear_left floatleft">
                     <a href="{{ scripturl }}?action=admin;area=logs;sa=errorlog{{ context['sort_direction'] == 'down' ? ';desc' }};filter=message;value={{ error['message']['href'] }}" title="{{ txt['apply_filter'] }}: {{ txt['filter_only_message'] }}">
-                      <img src="{{ images_url }}/__gwnew/ui_icons/filter.gif" alt="{{ txt['apply_filter'] }}: {{ txt['filter_only_message']|raw }}" />
+                      <img src="{{ images_url }}/ui_icons/filter.gif" alt="{{ txt['apply_filter'] }}: {{ txt['filter_only_message']|raw }}" />
                     </a>
                   </div>
                   <div class="floatleft marginleft">{{ error['message']['html']|raw }}</div>
@@ -108,7 +108,7 @@
                   {% if error.file %}
                     <div class="clear_left floatleft">
                       <a href="{{ scripturl }}?action=admin;area=logs;sa=errorlog{{ context['sort_direction'] == 'down' ? ';desc' }};filter=file;value={{ error['file']['search'] }}" title="{{ txt['apply_filter'] }}: {{ txt['filter_only_file'] }}">
-                        <img src="{{ images_url }}/__gwnew/ui_icons/filter.gif" alt="{{ txt['apply_filter'] }}: {{ txt['filter_only_file']|raw }}" />
+                        <img src="{{ images_url }}/ui_icons/filter.gif" alt="{{ txt['apply_filter'] }}: {{ txt['filter_only_file']|raw }}" />
                       </a>
                     </div>
                     <div class="floatleft marginleft">

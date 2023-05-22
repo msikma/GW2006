@@ -179,7 +179,7 @@
             {% for id, year in context.yearly %}
               <tr class="object_row light" id="year_{{ id }}">
                 <td class="text_left expandable_row" width="25%">
-                  <img id="year_img_{{ id }}" src="{{ images_url }}/__gwnew/table_collapse.gif" alt="*" />
+                  <img id="year_img_{{ id }}" src="{{ images_url }}/table_collapse.gif" alt="*" />
                   <a href="#year_{{ id }}" id="year_link_{{ id }}">{{ year.year }}</a>
                 </td>
                 <td width="15%">{{ year.new_topics }}</td>
@@ -194,7 +194,7 @@
               {% for month in year.months %}
                 <tr class="object_row light indent_1" id="tr_month_{{ month.id }}">
                   <td class="text_left expandable_row indent_target" width="25%">
-                    <img id="img_{{ month.id }}" src="{{ images_url }}/{{ month.expanded ? '__gwnew/table_collapse.gif' : '__gwnew/table_expand.gif' }}" alt="" />
+                    <img id="img_{{ month.id }}" src="{{ images_url }}/{{ month.expanded ? 'table_collapse.gif' : 'table_expand.gif' }}" alt="" />
                     <a id="m{{ month.id }}" href="{{ month.href }}" onclick="return doingExpandCollapse;">{{ month.month }} {{ month.year }}</a>
                   </td>
                   <td width="15%">{{ month.new_topics }}</td>
@@ -236,14 +236,14 @@ var oStatsCenter = new smf_StatsCenter({
   sTableId: 'stats',
 
   reYearPattern: /year_(\d+)/,
-  sYearImageCollapsed: '__gwnew/table_expand.gif',
-  sYearImageExpanded: '__gwnew/table_collapse.gif',
+  sYearImageCollapsed: 'table_expand.gif',
+  sYearImageExpanded: 'table_collapse.gif',
   sYearImageIdPrefix: 'year_img_',
   sYearLinkIdPrefix: 'year_link_',
 
   reMonthPattern: /tr_month_(\d+)/,
-  sMonthImageCollapsed: '__gwnew/table_expand.gif',
-  sMonthImageExpanded: '__gwnew/table_collapse.gif',
+  sMonthImageCollapsed: 'table_expand.gif',
+  sMonthImageExpanded: 'table_collapse.gif',
   sMonthImageIdPrefix: 'img_',
   sMonthLinkIdPrefix: 'm',
 

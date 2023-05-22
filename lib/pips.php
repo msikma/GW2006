@@ -221,7 +221,7 @@ function get_user_pip_images_from_stars($stars_html, $member_group, $member_id) 
  */
 function get_pip_base_url() {
   global $settings;
-  return $settings['images_url'].'/__gwnew/pips/';
+  return $settings['images_url'].'/pips/';
 }
 
 /**

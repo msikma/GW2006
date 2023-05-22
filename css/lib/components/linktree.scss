@@ -45,16 +45,16 @@
 
         @include pixel-image;
         padding-left: 30px;
-        background: url('../../images/__gwnew/linktree_subforum.png');
+        background: url('../../images/linktree_subforum.png');
         background-repeat: no-repeat;
 
         &:first-child {
           padding-left: 15px;
-          background-image: url('../../images/__gwnew/linktree_hierarchy.png');
+          background-image: url('../../images/linktree_hierarchy.png');
         }
 
         &:last-child:not(:first-child) {
-          background-image: url('../../images/__gwnew/linktree_page_longer.png');
+          background-image: url('../../images/linktree_page_longer.png');
         }
 
         &::after {

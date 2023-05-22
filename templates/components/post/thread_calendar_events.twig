@@ -11,7 +11,7 @@
           <li>
             {% if event.can_edit %}
               <a href="{{ event.modify_href }}">
-                <img src="{{ images_url }}/__gwnew/ui_icons/modify_small.gif" alt="" title="{{ txt.modify }}" class="edit_event" />
+                <img src="{{ images_url }}/ui_icons/modify_small.gif" alt="" title="{{ txt.modify }}" class="edit_event" />
               </a>
             {% endif %}
             <strong>{{ event.title }}</strong>: {{ event.start_date }}

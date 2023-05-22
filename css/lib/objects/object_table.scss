@@ -61,7 +61,7 @@
           @include pixel-image;
           content: '';
           display: inline-block;
-          background: url('../../images/__gwnew/ui_icons/arrow_is_viewing.png');
+          background: url('../../images/ui_icons/arrow_is_viewing.png');
           background-size: 12px 12px;
           width: 12px;
           height: 12px;
@@ -166,7 +166,7 @@
 .object_table thead .object_row th.active_sort_up a::after,
 .object_table thead .object_row th.active_sort_down a::after {
   display: inline-block;
-  background-image: url('../../images/__gwnew/ui_icons/arrow_sort_up.png');
+  background-image: url('../../images/ui_icons/arrow_sort_up.png');
   background-repeat: no-repeat;
   content: '';
   width: 12px;
@@ -178,7 +178,7 @@
   image-rendering: crisp-edges;
 }
 .object_table thead .object_row th.active_sort_down a::after {
-  background-image: url('../../images/__gwnew/ui_icons/arrow_sort_down.png');
+  background-image: url('../../images/ui_icons/arrow_sort_down.png');
 }
 .object_table tbody .object_row th {
   text-align: left;

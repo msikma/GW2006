@@ -138,7 +138,7 @@
                       <span class="link">
                         {% if topic.new %}
                           <a href="{{ topic.last_post.href|raw }}" class="new_post_link_indicator">
-                            <img src="{{ images_url }}/__gwnew/topic_new_post.gif" alt="{{ txt.new }}" title="{{ txt.new }}" class="pixel" />
+                            <img src="{{ images_url }}/topic_new_post.gif" alt="{{ txt.new }}" title="{{ txt.new }}" class="pixel" />
                           </a>
                         {% endif %}
                         {{ post_link|raw }}
@@ -161,7 +161,7 @@
                     </div>
                     <div>
                       <a href="{{ last_post_url|raw }}" class="last_post_icon">
-                        <img src="{{ images_url }}/__gwnew/ui_icons/last_post.gif" alt="{{ txt.last_post }}" title="{{ txt.last_post }}" class="pixel" />
+                        <img src="{{ images_url }}/ui_icons/last_post.gif" alt="{{ txt.last_post }}" title="{{ txt.last_post }}" class="pixel" />
                       </a>
                       {{ txt.by }} {{ last_post_member_link|raw }}
                     </div>

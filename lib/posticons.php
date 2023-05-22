@@ -7,7 +7,7 @@ global $posticon_sets, $posticon_basepath;
 // A reference to all our posticons. This gets populated on initialization.
 $posticon_sets = null;
 // The base path where all posticons are located, from the theme directory.
-$posticon_basepath = '/images/__gwnew/posticons';
+$posticon_basepath = '/images/posticons';
 
 /**
  * Returns the base path where posticons can be found.

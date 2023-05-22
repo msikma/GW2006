@@ -1,4 +1,4 @@
 {% set background = background|default('light') %}
 <a href="{{ online.href }}" title="{{ online.label }}" class="online_status">
-  <img class="pixel" src="{{ images_url }}/__gwnew/{{ modSettings.onlineEnable and not is_guest and online.is_online ? 'meta_online_' ~ background ~ '.gif' : 'meta_offline_' ~ background ~ '.gif' }}" alt="{{ online.text }}" />
+  <img class="pixel" src="{{ images_url }}/{{ modSettings.onlineEnable and not is_guest and online.is_online ? 'meta_online_' ~ background ~ '.gif' : 'meta_offline_' ~ background ~ '.gif' }}" alt="{{ online.text }}" />
 </a>

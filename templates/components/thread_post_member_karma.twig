@@ -17,7 +17,7 @@
     {% if context.can_issue_warning %}
       <a href="{{ scripturl }}?action=profile;area=issuewarning;u={{ message.member.id }}">
     {% endif %}
-      <img src="{{ images_url }}/__gwnew/ui_icons/warning_{{ message.member.warning_status }}.gif" alt="{{ txt['user_warn_' ~ message.member.warning_status] }}" />
+      <img src="{{ images_url }}/ui_icons/warning_{{ message.member.warning_status }}.gif" alt="{{ txt['user_warn_' ~ message.member.warning_status] }}" />
     {% if context.can_issue_warning %}
       </a>
     {% endif %}

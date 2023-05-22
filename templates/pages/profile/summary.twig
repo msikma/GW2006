@@ -102,7 +102,7 @@
   {
     test: true,
     key: txt.age,
-    value: context.member.age ~ (context.member.today_is_birthday ? ' <img src="' ~ images_url ~ '/__gwnew/ui_icons/profile_birthday.gif" class="pixel" width="81" height="26" />' : '')
+    value: context.member.age ~ (context.member.today_is_birthday ? ' <img src="' ~ images_url ~ '/ui_icons/profile_birthday.gif" class="pixel" width="81" height="26" />' : '')
   },
   {
     test: not context.disabled_fields.location and context.member.location,
@@ -110,10 +110,10 @@
     value: context.member.location,
   },
   {
-    value: '<a href="' ~ scripturl ~ '?action=profile;area=showposts;u=' ~ context.id_member ~ '" class="text_icon_row"><img src="' ~ images_url ~'/__gwnew/ui_icons/view_user_posts.gif" width="20" height="20" class="pixel" />Show the last posts of this person.</a>',
+    value: '<a href="' ~ scripturl ~ '?action=profile;area=showposts;u=' ~ context.id_member ~ '" class="text_icon_row"><img src="' ~ images_url ~'/ui_icons/view_user_posts.gif" width="20" height="20" class="pixel" />Show the last posts of this person.</a>',
   },
   {
-    value: '<a href="' ~ scripturl ~ '?action=profile;area=statistics;u=' ~ context.id_member ~ '" class="text_icon_row"><img src="' ~ images_url ~'/__gwnew/ui_icons/view_user_statistics.png" width="20" height="20" class="pixel" />Show general statistics for this member.</a>',
+    value: '<a href="' ~ scripturl ~ '?action=profile;area=statistics;u=' ~ context.id_member ~ '" class="text_icon_row"><img src="' ~ images_url ~'/ui_icons/view_user_statistics.png" width="20" height="20" class="pixel" />Show general statistics for this member.</a>',
   },
 ] %}
 

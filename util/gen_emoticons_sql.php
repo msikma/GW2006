@@ -5,7 +5,7 @@
 // gen_emoticons_sql.php <https://localhost/gw/Themes/gw2006/util/gen_emoticons_sql.php>
 // Script for generating an SQL dump that inserts the emoticons.
 
-$emoticons_base_path = '../images/__gwnew/emoticons';
+$emoticons_base_path = '../images/emoticons';
 $emoticons_info_path = realpath("{$emoticons_base_path}").'/info.json';
 $emoticons = json_decode(file_get_contents($emoticons_info_path), true);
 
