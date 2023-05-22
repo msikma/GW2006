@@ -12,7 +12,7 @@
           <div class="righttext">
             <input type="hidden" name="sa" value="policy" />
             <input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />
-            <input type="submit" name="change" value="{{ txt.admin_agreement_select_language_change }}" tabindex="{{ context.tabindex }}" class="button_submit" />
+            <input type="submit" name="change" value="{{ txt.admin_agreement_select_language_change }}" tabindex="{{ context.tabindex }}" />
           </div>
         </form>
       </div>
@@ -29,7 +29,7 @@
         {% if not context.force_gdpr %}
           <label for="minor_edit"><input type="checkbox" value="" id="minor_edit" name="minor_edit" tabindex="{{ context.tabindex }}" /> {{ txt.admin_agreement_minor_edit }}</label>
         {% endif %}
-        <input type="submit" value="{{ txt.save }}" tabindex="{{ context.tabindex }}" class="button_submit" onclick="return resetPolicyConfirm()" />
+        <input type="submit" value="{{ txt.save }}" tabindex="{{ context.tabindex }}" onclick="return resetPolicyConfirm()" />
         <input type="hidden" name="policy_lang" value="{{ context.current_policy_lang }}" />
         <input type="hidden" name="sa" value="policy" />
         <input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />

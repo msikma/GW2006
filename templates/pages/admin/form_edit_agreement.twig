@@ -27,7 +27,7 @@
 {% endset %}
 
 {% set form_footer %}
-  <input type="submit" value="{{ txt['save'] }}" tabindex="{{ context.tabindex }}" class="button_submit" onclick="return resetAgreementConfirm()" />
+  <input type="submit" value="{{ txt['save'] }}" tabindex="{{ context.tabindex }}" onclick="return resetAgreementConfirm()" />
   <input type="hidden" name="agree_lang" value="{{ context.current_agreement }}" />
   <input type="hidden" name="sa" value="agreement" />
   <input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />
