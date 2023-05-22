@@ -119,6 +119,7 @@
   {% set topic_id = topic.id %}
   {% set title_buttons = []|merge([{
     text: 'Relevance: ' ~ topic.relevance,
+    no_bg: true,
     static: true
   }])|merge(title_buttons) %}
   {% set _board_link = '<a href="' ~ scripturl ~ '?board=' ~ topic.board.id ~ '.0">' ~ topic.board.name ~ '</a>' %}

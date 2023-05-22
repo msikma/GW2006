@@ -216,6 +216,11 @@
         span.static {
           font-weight: normal;
         }
+
+        span.no_bg {
+          background: none;
+          border-left: none;
+        }
       }
     }
   }
