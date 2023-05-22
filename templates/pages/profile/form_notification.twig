@@ -19,7 +19,7 @@
               <div>
                 <input type="hidden" name="notify_announcements" value="0" />
                 <label for="notify_announcements">
-                  <input type="checkbox" id="notify_announcements" name="notify_announcements" {{ context['member']['notify_announcements'] ? 'checked="checked"' }} class="input_check" />
+                  <input type="checkbox" id="notify_announcements" name="notify_announcements" {{ context['member']['notify_announcements'] ? 'checked="checked"' }} />
                   {{ txt['notify_important_email'] }}
                 </label>
               </div>
@@ -27,7 +27,7 @@
 
             <div>
               <label for="auto_notify">
-                <input type="checkbox" id="auto_notify" name="default_options[auto_notify]" value="1" {{ context['member']['options']['auto_notify'] ? 'checked="checked"' }} class="input_check" />
+                <input type="checkbox" id="auto_notify" name="default_options[auto_notify]" value="1" {{ context['member']['options']['auto_notify'] ? 'checked="checked"' }} />
                 {{ txt['auto_notify'] }}
               </label>
             </div>
@@ -36,7 +36,7 @@
               <div>
                 <input type="hidden" name="notify_send_body" value="0" />
                 <label for="notify_send_body">
-                  <input type="checkbox" id="notify_send_body" name="notify_send_body" {{ context['member']['notify_send_body'] ? 'checked="checked"' }} class="input_check" />
+                  <input type="checkbox" id="notify_send_body" name="notify_send_body" {{ context['member']['notify_send_body'] ? 'checked="checked"' }} />
                   {{ txt['notify_send_body'] }}
                 </label>
               </div>

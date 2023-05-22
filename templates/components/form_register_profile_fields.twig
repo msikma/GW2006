@@ -22,7 +22,7 @@
         {% elseif field.type in ['int', 'float', 'text', 'password'] %}
           <input type="{{ field.type == 'password' ? 'password' : 'text' }}" name="{{ key }}" id="{{ key }}" size="{{ field.size|default(30) }}" value="{{ field.value }}" tabindex="{{ context.tabindex }}" {{ field.input_attr|raw }} class="input_{{ field.type == 'password' ? 'password' : 'text' }}" />
         {% elseif field.type == 'check' %}
-          <input type="hidden" name="{{ key }}" value="0" /><input type="checkbox" name="{{ key }}" id="{{ key }}" {% if field.value %}checked="checked"{% endif %} value="1" tabindex="{{ context.tabindex }}" class="input_check" {{ field.input_attr|raw }} />
+          <input type="hidden" name="{{ key }}" value="0" /><input type="checkbox" name="{{ key }}" id="{{ key }}" {% if field.value %}checked="checked"{% endif %} value="1" tabindex="{{ context.tabindex }}" {{ field.input_attr|raw }} />
         {% elseif field.type == 'select' %}
           <select name="{{ key }}" id="{{ key }}" tabindex="{{ context.tabindex }}">
             {% if field.options is defined %}

@@ -34,7 +34,7 @@
                     <li>
                       <label for="fields-{{ id }}">
                         {% set is_checked = id in context['search_defaults'] %}
-                        <input type="checkbox" name="fields[]" id="fields-{{ id }}" value="{{ id }}" {{ is_checked ? 'checked="checked"' }} class="input_check" />
+                        <input type="checkbox" name="fields[]" id="fields-{{ id }}" value="{{ id }}" {{ is_checked ? 'checked="checked"' }} />
                         {{ title }}
                       </label>
                     </li>

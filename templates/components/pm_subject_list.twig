@@ -58,7 +58,7 @@
           <thead>
             <tr class="object_row">
               <th class="text_center quick_mod minimal no_padding">
-                <input type="checkbox" onclick="invertAll(this, this.form);" class="input_check" />
+                <input type="checkbox" onclick="invertAll(this, this.form);" />
               </th>
               <th class="text_left subject {{ context.sort_by == 'subject' ? 'active_sort_' ~ context.sort_direction }}">
                 <a href="{{ scripturl }}?action=pm{{ sort_arg }};sort=subject{{ context.sort_by == 'subject' and context.sort_direction == 'up' ? ';desc' }}{{ label_arg }}">
@@ -117,7 +117,7 @@
               </script>
               <tr class="object_row topic_row light {{ is_currently_viewing ? 'is_being_viewed' }} {{ message.is_unread ? 'is_unread' }} {{ message.is_replied_to ? 'is_replied_to' }}">
                 <td>
-                  <input type="checkbox" name="pms[]" id="deletelisting{{ message.id }}" value="{{ message.id }}" {{ message.is_selected ? 'checked="checked"' }} onclick="if (document.getElementById('deletedisplay{{ message.id }}')) document.getElementById('deletedisplay{{ message.id }}').checked = this.checked;" class="input_check" />
+                  <input type="checkbox" name="pms[]" id="deletelisting{{ message.id }}" value="{{ message.id }}" {{ message.is_selected ? 'checked="checked"' }} onclick="if (document.getElementById('deletedisplay{{ message.id }}')) document.getElementById('deletedisplay{{ message.id }}').checked = this.checked;" />
                 </td>
                 <td class="subject">
                   <a href="{{ scripturl }}?action=pm;pmid={{ message.id }};kstart;f={{ context.folder }};start={{ context.start }};sort={{ context.sort_by }}{{ context.sort_direction != 'up' ? ';desc' }}{{ context.current_label_id != -1 ? ';l=' ~ context.current_label_id }}#msg{{ message.id }}" class="link">

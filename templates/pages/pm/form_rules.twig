@@ -36,7 +36,7 @@
               {% for rule in context.rules %}
                 <tr class="object_row light">
                   <td class="minimal text_center">
-                    <input type="checkbox" name="delrule[{{ rule.id }}]" class="input_check" />
+                    <input type="checkbox" name="delrule[{{ rule.id }}]" />
                   </td>
                   <td>
                     <a href="{{ scripturl }}?action=pm;sa=manrules;add;rid={{ rule.id }}">{{ rule.name }}</a>

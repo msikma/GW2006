@@ -15,7 +15,7 @@
             <tr class="object_row">
               <th class="minimal">{{ txt.pm_rule_name }}</th>
               <td>
-                <input type="text" name="rule_name" value="{{ context.rule.name | default(txt.pm_rule_name_default) }}" size="50" class="input_text" />
+                <input type="text" name="rule_name" value="{{ context.rule.name | default(txt.pm_rule_name_default) }}" size="50" />
                 <div class="description">{{ txt.pm_rule_name_desc }}</div>
               </td>
             </tr>
@@ -33,7 +33,7 @@
                     <option value="bud" {% if criteria.t == 'bud' %}selected="selected"{% endif %}>{{ txt.pm_rule_bud }}</option>
                   </select>
                   <span id="defdiv{{ k }}" {% if criteria.t not in ['gid', 'bud'] %}{% else %}style="display: none;"{% endif %}>
-                    <input type="text" name="ruledef[{{ k }}]" id="ruledef{{ k }}" onkeyup="rebuildRuleDesc();" value="{{ criteria.t in ['mid', 'sub', 'msg'] ? criteria.v }}" class="input_text" />
+                    <input type="text" name="ruledef[{{ k }}]" id="ruledef{{ k }}" onkeyup="rebuildRuleDesc();" value="{{ criteria.t in ['mid', 'sub', 'msg'] ? criteria.v }}" />
                   </span>
                   <span id="defseldiv{{ k }}" {% if criteria.t == 'gid' %}{% else %}style="display: none;"{% endif %}>
                     <select name="ruledefgroup[{{ k }}]" id="ruledefgroup{{ k }}" onchange="rebuildRuleDesc();">

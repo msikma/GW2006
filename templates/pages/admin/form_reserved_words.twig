@@ -17,7 +17,7 @@
       } %}
       {% for name, option in options %}
         <li>
-          <label for="{{ option.name }}"><input type="checkbox" name="{{ option.name }}" id="{{ option.name }}" tabindex="{{ context.tabindex }}" {% if context.reserved_word_options[name] %}checked="checked"{% endif %} class="input_check" /> {{ option.label }}</label>
+          <label for="{{ option.name }}"><input type="checkbox" name="{{ option.name }}" id="{{ option.name }}" tabindex="{{ context.tabindex }}" {% if context.reserved_word_options[name] %}checked="checked"{% endif %} /> {{ option.label }}</label>
         </li>
       {% endfor %}
     </ul>

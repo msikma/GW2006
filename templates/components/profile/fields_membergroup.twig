@@ -34,7 +34,7 @@
             <input type="checkbox" name="additional_groups[]" value="{{ member_group['id'] }}"
                 id="additional_groups-{{ member_group['id'] }}"
                 {% if member_group['is_additional'] %} checked="checked"{% endif %}
-                class="input_check" />
+                />
             {{ member_group['name'] }}
           </label><br />
         {% endif %}

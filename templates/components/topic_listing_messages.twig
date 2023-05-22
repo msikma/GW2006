@@ -53,7 +53,7 @@
               </th>
               <th scope="col" class="text_center quick_mod minimal no_padding">
                 <label class="checkbox_wrapper">
-                  <input type="checkbox" onclick="gw.selectCheckAll(this, this.form, 'topics[]');" class="input_check" />
+                  <input type="checkbox" onclick="gw.selectCheckAll(this, this.form, 'topics[]');" />
                 </label>
               </th>
             </tr>
@@ -168,7 +168,7 @@
                   </td>
                   <td class="text_center quick_mod minimal no_padding">
                     <label class="checkbox_wrapper">
-                      <input type="checkbox" name="topics[]" value="{{ topic.id }}" class="input_check" onclick="gw.selectCheck(this);" />
+                      <input type="checkbox" name="topics[]" value="{{ topic.id }}" onclick="gw.selectCheck(this);" />
                     </label>
                   </td>
                 </tr>

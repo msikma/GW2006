@@ -20,7 +20,7 @@
             <tr class="object_row">
               <th class="text_center quick_mod minimal no_padding">
                 {% if context.labels|length > 1 %}
-                  <input type="checkbox" class="input_check" onclick="invertAll(this, this.form);" />
+                  <input type="checkbox" onclick="invertAll(this, this.form);" />
                 {% endif %}
               </th>
               <th class="text_left" colspan="2">
@@ -36,10 +36,10 @@
               {% for label in context.labels %}
                 {% if label.id != -1 %}
                   <tr class="object_row light">
-                    <td class="minimal text_center"><input type="checkbox" class="input_check" name="delete_label[{{ label.id }}]" /></td>
+                    <td class="minimal text_center"><input type="checkbox" name="delete_label[{{ label.id }}]" /></td>
                     <td>
                       <span class="label_input">
-                        <input type="text" name="label_name[{{ label.id }}]" value="{{ label.name }}" size="30" maxlength="30" class="input_text" />
+                        <input type="text" name="label_name[{{ label.id }}]" value="{{ label.name }}" size="30" maxlength="30" />
                       </span>
                       <span class="label">{{ label.name }}</span>
                     </td>
@@ -77,7 +77,7 @@
                 <label for="add_label">{{ txt.pm_label_name }}:</label>
               </th>
               <th class="text_left" colspan="2">
-                <input type="text" id="add_label" name="label" value="" size="30" maxlength="30" class="input_text" />
+                <input type="text" id="add_label" name="label" value="" size="30" maxlength="30" />
               </th>
             </tr>
 
