@@ -11,7 +11,7 @@
             <img src="{{ images_url }}/icons/{{ selected_tab.icon ? selected_tab.icon : tab_context.icon }}" alt="" class="icon" />
           {% endif %}
           {% if selected_tab.help or tab_context.help %}
-            <a href="{{ scripturl }}?action=helpadmin;help={{ selected_tab.help ? selected_tab.help : tab_context.help }}" onclick="return reqWin(this.href);" class="help"><img src="{{ images_url }}/helptopics.gif" alt="{{ txt.help }}" class="icon" /></a>
+            <a href="{{ scripturl }}?action=helpadmin;help={{ selected_tab.help ? selected_tab.help : tab_context.help }}" onclick="return reqWin(this.href);" class="help"><img src="{{ images_url }}/__gwnew/ui_icons/helptopics.gif" alt="{{ txt.help }}" class="icon" /></a>
           {% endif %}
           {{ tab_context.title }}
         </span>

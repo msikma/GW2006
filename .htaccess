@@ -1,0 +1,5 @@
+RewriteEngine On
+
+# Redirect requests for images to the default theme if not found here.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^images/(.*)$ ../default/images/$1 [L]
