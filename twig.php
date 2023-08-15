@@ -63,6 +63,7 @@ function render_template($file, $template_context = []) {
     'forum_name' => $context['forum_name_html_safe'],
     'theme_url' => $settings['theme_url'],
     'images_url' => $settings['images_url'],
+    'character_set' => $context['character_set'],
     'topics_per_page' => $context['topics_per_page'],
     'messages_per_page' => $context['messages_per_page'],
   ];

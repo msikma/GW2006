@@ -361,7 +361,7 @@ function createPopupPage(title, content) {
     <!doctype html>
     <html>
       <head>
-        <meta charset="utf-8">
+        <meta charset="${context.character_set}">
         <title>${title}</title>
         <link rel="stylesheet" type="text/css" href="${context.theme_url}/css/dist/index.css">
       </head>
