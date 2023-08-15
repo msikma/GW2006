@@ -21,7 +21,7 @@ Finally, "display_all" can be passed as true to skip all tests temporarily for t
       <h3 class="blue_component_title">{{ title }}</h3>
       {% if title_buttons %}
         <div class="blue_component_buttons">
-          {% include 'components/forum_button_strip.twig' with {'buttons': title_buttons} %}
+          {% include 'components/layout/button_strip.twig' with {'buttons': title_buttons} %}
         </div>
       {% endif %}
     </div>

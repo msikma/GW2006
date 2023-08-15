@@ -1,0 +1,17 @@
+{% set can_quick_moderate = not context.can_quick_mod is empty and options.display_quick_mod > 0 and not context.topics is empty %}
+
+<div class="forum_page_section">
+  {% include 'components/layout/button_strip.twig' with {'buttons': buttons, 'type': 'primary'} %}
+  {% include 'components/layout/page_number_links.twig' with {'is_message_index': true, 'board_id': context.current_board}|merge(page_links_context ?? {}) %}
+</div>
+
+<form action="{{ scripturl }}?action=quickmod;board={{ context.current_board }}.{{ context.start }}" method="post" accept-charset="{{ context.character_set }}" class="clear" name="quickModForm" id="quickModForm">
+  {% include 'components/topic_list/topic_list_posts.twig' with {'buttons': buttons}|merge(listing_messages_context ?? {}) %}
+  <a id="bot"></a>
+  <input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />
+</form>
+
+<div class="forum_page_section">
+  {% include 'components/layout/button_strip.twig' with {'buttons': buttons, 'type': 'primary'} %}
+  {% include 'components/layout/page_number_links.twig' with {'location': 'bottom', 'is_message_index': true, 'board_id': context.current_board}|merge(page_links_context ?? {}) %}
+</div>

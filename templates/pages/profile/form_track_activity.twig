@@ -36,5 +36,5 @@
   },
 ] %}
 
-{% include 'components/component_key_value.twig' with {title: txt.view_ips_by ~ ' ' ~ (context.member.name ?? context.member.username), rows: ip_rows, is_wide: true} %}
+{% include 'components/generic/component_key_value.twig' with {title: txt.view_ips_by ~ ' ' ~ (context.member.name ?? context.member.username), rows: ip_rows, is_wide: true} %}
 {% include 'pages/objects/generic_list.twig' with {cur_list: context.track_user_list, list_id: 'track_user_list'} %}

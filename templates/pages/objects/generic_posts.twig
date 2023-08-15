@@ -6,7 +6,7 @@
 } %}
 
 {% set page_links %}
-  {% include 'components/forum_page_links.twig' with {
+  {% include 'components/layout/page_number_links.twig' with {
     current: context.page_index_context.current_page_number,
     last: context.page_index_context.last_page_number,
     per_page: context.per_page,
@@ -22,7 +22,7 @@
 </div>
 
 {% for message in context.posts %}
-  {% include 'components/thread_post.twig' with {
+  {% include 'components/post/post.twig' with {
     'is_generic_post': true,
     'show_header': true,
     'title_buttons': {print: print_button|merge({url: scripturl ~ '?action=printpage;topic=' ~ message.topic ~ '.0'})},
@@ -33,6 +33,6 @@
 <a id="lastPost"></a>
 
 <div class="forum_page_section">
-  {% include 'components/forum_button_strip.twig' with {'buttons': normal_buttons, 'type': 'primary'} %}
+  {% include 'components/layout/button_strip.twig' with {'buttons': normal_buttons, 'type': 'primary'} %}
   {{ page_links }}
 </div>

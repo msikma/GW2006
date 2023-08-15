@@ -26,7 +26,7 @@
 
 {% if display_page_links %}
   <div class="forum_page_section">
-    {% include 'components/forum_page_links.twig' with {'is_posts_index': true} %}
+    {% include 'components/layout/page_number_links.twig' with {'is_posts_index': true} %}
   </div>
 {% endif %}
 
@@ -50,7 +50,7 @@
           {% endif %}
         </h3>
         <div class="blue_component_buttons">
-          {% include 'components/forum_button_strip.twig' with {'buttons': actions} %}
+          {% include 'components/layout/button_strip.twig' with {'buttons': actions} %}
         </div>
       </div>
       <div class="object_list_frame">
@@ -172,6 +172,6 @@
 
 {% if display_page_links %}
   <div class="forum_page_section">
-    {% include 'components/forum_page_links.twig' with {'location': 'bottom', 'is_posts_index': true} %}
+    {% include 'components/layout/page_number_links.twig' with {'location': 'bottom', 'is_posts_index': true} %}
   </div>
 {% endif %}

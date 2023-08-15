@@ -5,7 +5,7 @@
 
 {# The subject list; either displayed at the bottom or at the top, depending on the view mode. #}
 {% set subject_list %}
-  {% include 'components/pm_subject_list.twig' with {
+  {% include 'components/pm/pm_subject_list.twig' with {
     messages: context.subjects,
     overview_mode: overview_mode,
     single_mode: single_mode,

@@ -209,16 +209,16 @@
 {% endif %}
 
 <div class="forum_page_section">
-  {% include 'components/forum_button_strip.twig' with {'buttons': normal_buttons, 'type': 'primary'} %}
+  {% include 'components/layout/button_strip.twig' with {'buttons': normal_buttons, 'type': 'primary'} %}
   {% if display_page_links %}
-    {% include 'components/forum_page_links.twig' with {'is_posts_index': true} %}
+    {% include 'components/layout/page_number_links.twig' with {'is_posts_index': true} %}
   {% endif %}
 </div>
 
 {# Loop that prints every post in the thread. #}
 {% set rendered_messages %}
   {% for message in messages %}
-    {% include 'components/thread_post.twig' with {
+    {% include 'components/post/post.twig' with {
       'is_thread_post': true,
       'show_header': show_all_headers or loop.index == 1,
       'title_buttons': title_buttons,
@@ -242,9 +242,9 @@
 
 {% if not context.is_locked %}
   <div class="forum_page_section">
-    {% include 'components/forum_button_strip.twig' with {'buttons': normal_buttons, 'type': 'primary'} %}
+    {% include 'components/layout/button_strip.twig' with {'buttons': normal_buttons, 'type': 'primary'} %}
     {% if display_page_links %}
-      {% include 'components/forum_page_links.twig' with {'location': 'bottom', 'is_posts_index': true} %}
+      {% include 'components/layout/page_number_links.twig' with {'location': 'bottom', 'is_posts_index': true} %}
     {% endif %}
   </div>
 {% else %}
@@ -254,10 +254,10 @@
 {% endif %}
 
 {% if context.can_reply and options.display_quick_reply %}
-  {% include 'components/thread_quick_reply.twig' %}
+  {% include 'components/post/thread_quick_reply.twig' %}
 {% endif %}
 
 {% if display_viewing %}
-  {% include 'components/thread_who_is_viewing.twig' %}
+  {% include 'components/post/thread_who_is_viewing.twig' %}
 {% endif %}
-{% include 'components/thread_moderation_buttons.twig' with {'buttons': mod_buttons} %}
+{% include 'components/post/thread_moderation_buttons.twig' with {'buttons': mod_buttons} %}

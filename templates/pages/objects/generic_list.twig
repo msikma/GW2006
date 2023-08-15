@@ -2,13 +2,13 @@
 {% set list_menu = list_menu|default(context.list_context.list_menu) %}
 
 {% if settings.use_tabs and list_menu and list_menu.show_on and (list_menu.show_on == 'both' or list_menu.show_on == 'top') %}
-  {% include 'components/generic_list_menu.twig' with {list_menu: list_menu, position: 'top'} %}
+  {% include 'components/generic/generic_list_menu.twig' with {list_menu: list_menu, position: 'top'} %}
 {% endif %}
 
 {% set list_content %}
   {% if cur_list.items_per_page %}
     <div class="forum_page_section">
-      {% include 'components/forum_page_links.twig' with {
+      {% include 'components/layout/page_number_links.twig' with {
         current: context.current_page + 1,
         last: context.page_index_context.last_page_number,
         per_page: cur_list.items_per_page
@@ -29,7 +29,7 @@
 
       {# todo: integrate these with the title or something #}
       {% if settings.use_tabs and list_menu and list_menu.show_on and (list_menu.show_on == 'both' or list_menu.show_on == 'top') %}
-        {% include 'components/generic_list_menu.twig' with {list_menu: list_menu, position: 'top'} %}
+        {% include 'components/generic/generic_list_menu.twig' with {list_menu: list_menu, position: 'top'} %}
       {% endif %}
 
       
@@ -38,17 +38,17 @@
         <table class="object_table key_value_table" width="{{ cur_list.width ?: '100%' }}">
           {% if cur_list.additional_rows.after_title %}
             <thead class="header_text">
-              {% include 'components/generic_list_additional_rows.twig' with {cur_list: cur_list, position: 'after_title'} %}
+              {% include 'components/generic/generic_list_additional_rows.twig' with {cur_list: cur_list, position: 'after_title'} %}
             </thead>
           {% endif %}
           {% if cur_list.additional_rows.top_of_list %}
             <thead class="header_text">
-              {% include 'components/generic_list_additional_rows.twig' with {cur_list: cur_list, position: 'top_of_list'} %}
+              {% include 'components/generic/generic_list_additional_rows.twig' with {cur_list: cur_list, position: 'top_of_list'} %}
             </thead>
           {% endif %}
           {% if cur_list.additional_rows.above_column_headers %}
             <thead class="header_text">
-              {% include 'components/generic_list_additional_rows.twig' with {cur_list: cur_list, position: 'above_column_headers'} %}
+              {% include 'components/generic/generic_list_additional_rows.twig' with {cur_list: cur_list, position: 'above_column_headers'} %}
             </thead>
           {% endif %}
           {% if cur_list.headers|length >= 2 or cur_list.headers[0].label %}
@@ -95,12 +95,12 @@
         <div class="flow_auto">
           {% if cur_list.additional_rows.below_table_data is defined %}
             <div class="floatright">
-              {% include 'components/generic_list_additional_rows.twig' with {cur_list: cur_list, position: 'below_table_data'} %}
+              {% include 'components/generic/generic_list_additional_rows.twig' with {cur_list: cur_list, position: 'below_table_data'} %}
             </div>
           {% endif %}
           {% if cur_list.additional_rows.bottom_of_list is defined %}
             <div class="floatright">
-              {% include 'components/generic_list_additional_rows.twig' with {cur_list: cur_list, position: 'bottom_of_list'} %}
+              {% include 'components/generic/generic_list_additional_rows.twig' with {cur_list: cur_list, position: 'bottom_of_list'} %}
             </div>
           {% endif %}
         </div>
@@ -121,7 +121,7 @@
 {% endif %}
  
 {% if settings.use_tabs and list_menu and list_menu.show_on and (list_menu.show_on == 'both' or list_menu.show_on == 'bottom') %}
-  {% include 'components/generic_list_menu.twig' with {list_menu: list_menu, position: 'bottom'} %}
+  {% include 'components/generic/generic_list_menu.twig' with {list_menu: list_menu, position: 'bottom'} %}
 {% endif %}
 
 {% if cur_list.javascript %}

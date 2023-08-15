@@ -1,6 +1,6 @@
 <form action="{{ scripturl }}?action=register2" method="post" accept-charset="{{ context.character_set }}" name="registration" id="registration" onsubmit="return verifyAgree();">
   <input type="hidden" name="step" value="2" />
-  {% include 'components/component_errors.twig' with {
+  {% include 'components/authentication/notification_errors.twig' with {
     'active': context.registration_errors,
     'content': txt.registration_errors_occurred,
     'list': context.registration_errors
@@ -111,7 +111,7 @@
             </tr>
 
             {% if context.profile_fields %}
-              {% include 'components/form_register_profile_fields.twig' with {profile_fields: context.profile_fields} %}
+              {% include 'components/authentication/fields_profile.twig' with {profile_fields: context.profile_fields} %}
             {% endif %}
 
             {% if context.custom_fields %}

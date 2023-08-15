@@ -1,4 +1,4 @@
-{% include 'components/component_submenu.twig' with {menu_sections: [
+{% include 'components/generic/nav_submenu.twig' with {menu_sections: [
   {
     text: txt.view_all_members,
     url: scripturl ~ '?action=mlist;sa=all'
@@ -16,7 +16,7 @@
 
 {# Page links component. #}
 {% set page_links %}
-  {% include 'components/forum_page_links.twig' with {
+  {% include 'components/layout/page_number_links.twig' with {
     current: context.page_index_context.current_page_number,
     last: context.page_index_context.last_page_number,
     per_page: modSettings.defaultMaxMembers,
@@ -34,7 +34,7 @@
   {% if context.old_search_value %}
     {{ page_links }}
   {% else %}
-    {% include 'components/forum_alpha_links.twig' with {
+    {% include 'components/layout/page_alphabet_links.twig' with {
       name: txt.members_list,
       base: scripturl ~ '?action=mlist;sa=all',
       current: context.start_letter

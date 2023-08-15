@@ -57,7 +57,7 @@
                   </tr>
                 </tbody>
               {% else %}
-                {% include 'components/component_permissions_list.twig' with {item: item} %}
+                {% include 'components/profile/list_permissions.twig' with {item: item} %}
               {% endif %}
             </table>
           </div>
@@ -106,7 +106,7 @@
       <div class="blue_component_header">
         <h3 class="blue_component_title">Board specific permissions</h3>
         <div class="blue_component_buttons">
-          {% include 'components/forum_button_strip.twig' with {'buttons': actions} %}
+          {% include 'components/layout/button_strip.twig' with {'buttons': actions} %}
           <script>decorateComponent('permissionsFilter');</script>
         </div>
       </div>
@@ -119,7 +119,7 @@
               </tr>
             </tbody>
           {% else %}
-            {% include 'components/component_permissions_list.twig' with {item: {permissions: context.member.permissions.board, is_visible: true}} %}
+            {% include 'components/profile/list_permissions.twig' with {item: {permissions: context.member.permissions.board, is_visible: true}} %}
           {% endif %}
         </table>
       </div>

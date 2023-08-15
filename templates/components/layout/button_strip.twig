@@ -1,3 +1,5 @@
+{# This template creates a menu that can be seen at the top of a forum or thread, e.g. "Reply", "New Poll", etc. #}
+{# It also creates the light blue buttons inside of a blue_component header, e.g. "Notify", "Mark Unread". #}
 {% if buttons is defined and buttons %}
   {% if not strip_options is iterable %}
     {% set strip_options = [] %}

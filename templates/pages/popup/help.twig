@@ -1,7 +1,7 @@
 <!doctype html>
 <html {% if context.right_to_left %} dir="rtl"{% endif %}>
   <head>
-    <meta charset="utf-8">
+    <meta charset="{{ context.character_set }}">
     <meta name="robots" content="noindex">
     <title>{{ txt.page_title }}</title>
     <link rel="stylesheet" type="text/css" href="{{ theme_url }}/css/dist/index.css">

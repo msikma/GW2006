@@ -96,7 +96,7 @@
   <input type="hidden" name="{{ context['session_var'] }}" value="{{ context['session_id'] }}" />
 {% endset %}
 
-{% include 'components/component_list_form.twig' with {
+{% include 'components/generic/list_form.twig' with {
   'title': txt.admin_browse_register_new,
   'form_tag': form_tag,
   'form_content': form_content,

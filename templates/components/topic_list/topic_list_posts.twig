@@ -18,7 +18,7 @@
       <div class="blue_component_header">
         <h3 class="blue_component_title">{{ index_title }}</h3>
         <div class="blue_component_buttons">
-          {% include 'components/forum_button_strip.twig' with {'buttons': title_buttons} %}
+          {% include 'components/layout/button_strip.twig' with {'buttons': title_buttons} %}
         </div>
       </div>
       <div class="object_list_frame">
@@ -175,7 +175,7 @@
               {% endfor %}
 
               {% if show_quick_mod and context.topics is not empty %}
-                {% include 'components/topic_listing_mod_row.twig' %}
+                {% include 'components/topic_list/topic_list_quickmod.twig' %}
               {% endif %}
             {% else %}
               {# Displayed when there's no posts. #}

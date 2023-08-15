@@ -8,7 +8,7 @@
       {% for a in 1..26 %}
         {% set letter = get_letter(a)|lower %}
         {% set link = base ~ ';start=' ~ letter ~ '#letter' ~ letter %}
-        {% include 'components/forum_page_link.twig' with {'link': link, 'number': letter, 'value': letter|upper, 'is_current': letter == current} %}
+        {% include 'components/layout/page_number_link.twig' with {'link': link, 'number': letter, 'value': letter|upper, 'is_current': letter == current} %}
       {% endfor %}
     </div>
   </div>

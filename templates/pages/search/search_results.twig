@@ -16,13 +16,13 @@
 <div class="forum_page_section">
   {% set current_page = (context.search_cache.start / modSettings.search_results_per_page)|round(0, 'floor') + 1 %}
   {% set last_page = (context.search_cache.num_results / modSettings.search_results_per_page)|round(0, 'floor') %}
-  {% include 'components/forum_page_links.twig' with {current: current_page, last: last_page, per_page: modSettings.search_results_per_page, is_search_result: true, params: context.params} %}
+  {% include 'components/layout/page_number_links.twig' with {current: current_page, last: last_page, per_page: modSettings.search_results_per_page, is_search_result: true, params: context.params} %}
 </div>
 
 {# Displaying posts or threads. #}
 {% for topic in context.posts %}
   {% for message in topic.matches %}
-    {% include 'components/thread_post.twig' with {
+    {% include 'components/post/post.twig' with {
       'is_search_result': true,
       'member': message.member,
       'topic': topic,
@@ -36,6 +36,6 @@
 <a id="lastPost"></a>
 
 <div class="forum_page_section">
-  {% include 'components/forum_button_strip.twig' with {'buttons': normal_buttons, 'type': 'primary'} %}
-  {% include 'components/forum_page_links.twig' with {location: 'bottom', current: current_page, last: last_page, per_page: modSettings.search_results_per_page, is_search_result: true, params: context.params} %}
+  {% include 'components/layout/button_strip.twig' with {'buttons': normal_buttons, 'type': 'primary'} %}
+  {% include 'components/layout/page_number_links.twig' with {location: 'bottom', current: current_page, last: last_page, per_page: modSettings.search_results_per_page, is_search_result: true, params: context.params} %}
 </div>

@@ -3,4 +3,4 @@
   <a href="{{ scripturl }}?action=pm;l={{ context.current_label_id }}">{{ txt.pm_report_return }}</a>
 {% endset %}
 
-{% include 'components/component_article.twig' with {'title': txt.pm_report_title, 'content': content} %}
+{% include 'components/generic/article.twig' with {'title': txt.pm_report_title, 'content': content} %}

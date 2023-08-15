@@ -12,5 +12,5 @@
     }
   } %}
 {% else %}
-  {% include 'components/component_article.twig' with {'title': context.page_title, 'content': context.showing_all_topics ? txt.msg_alert_none : txt.unread_topics_visit_none} %}
+  {% include 'components/generic/article.twig' with {'title': context.page_title, 'content': context.showing_all_topics ? txt.msg_alert_none : txt.unread_topics_visit_none} %}
 {% endif %}

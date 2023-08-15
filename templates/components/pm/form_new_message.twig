@@ -29,7 +29,7 @@
   {# Show the preview of the personal message. #}
   {% if context.preview_message %}
     <div class="post_preview">
-      {% include 'components/thread_post.twig' with {
+      {% include 'components/post/post.twig' with {
         'is_post_preview': true,
         'show_header': true,
         'first_post_header': 'Post preview',
@@ -123,7 +123,7 @@
 {% if context.reply %}
 asdf
   <div class="post_preview">
-    {% include 'components/thread_post.twig' with {
+    {% include 'components/post/post.twig' with {
       'is_pm_reply_to': true,
       'show_header': true,
       'first_post_header': 'Replying to: ' ~ context.quoted_message.subject,

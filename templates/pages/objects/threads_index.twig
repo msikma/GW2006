@@ -39,11 +39,11 @@
 <a id="top"></a>
 
 {% if has_children %}
-  {% include 'components/forum_list.twig' with {'child': true, 'context_board_id': context.current_board, 'context_boards': context.boards} %}
+  {% include 'components/forum/forum_list.twig' with {'child': true, 'context_board_id': context.current_board, 'context_boards': context.boards} %}
 {% endif %}
 
 {% if not context.no_topic_listing %}
-  {% include 'components/topic_listing.twig' with {'buttons': buttons, 'title_buttons': title_buttons} %}
+  {% include 'components/topic_list/topic_list.twig' with {'buttons': buttons, 'title_buttons': title_buttons} %}
 {% endif %}
 
 {# TODO #}

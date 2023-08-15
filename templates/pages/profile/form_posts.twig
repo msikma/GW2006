@@ -9,7 +9,7 @@
 
 {% if context.posts %}
   <div class="forum_page_section">
-    {% include 'components/forum_page_links.twig' with {
+    {% include 'components/layout/page_number_links.twig' with {
       current: context.current_page_number,
       last: context.page_index_context.last_page_number,
       per_page: modSettings.defaultMaxMessages,
@@ -23,17 +23,17 @@
 
 {% if context.attachments is defined %}
   {# Displaying attachments. #}
-  {% include 'components/profile_attachments.twig' with {'attachments': context.attachments, 'member': context.member} %}
+  {% include 'components/profile/list_attachments.twig' with {'attachments': context.attachments, 'member': context.member} %}
 {% else %}
   {# Displaying posts or threads. #}
   {% if not context.posts %}
     {% set content %}
       <p>No messages found for user <a href="{{ scripturl }}?action=profile;u={{ context.member.id }}">{{ context.member.name }}</a>.</p>
     {% endset %}
-    {% include 'components/component_article.twig' with {'title': 'Notice', 'content': content} %}
+    {% include 'components/generic/article.twig' with {'title': 'Notice', 'content': content} %}
   {% endif %}
   {% for message in context.posts %}
-    {% include 'components/thread_post.twig' with {
+    {% include 'components/post/post.twig' with {
       'is_profile_post': true,
       'member': context.member,
       'show_header': true,
@@ -47,8 +47,8 @@
 
 {% if context.posts %}
   <div class="forum_page_section">
-    {% include 'components/forum_button_strip.twig' with {'buttons': normal_buttons, 'type': 'primary'} %}
-    {% include 'components/forum_page_links.twig' with {
+    {% include 'components/layout/button_strip.twig' with {'buttons': normal_buttons, 'type': 'primary'} %}
+    {% include 'components/layout/page_number_links.twig' with {
       current: context.current_page + 1,
       last: context.page_index_context.last_page_number,
       per_page: modSettings.defaultMaxMessages,

@@ -138,17 +138,17 @@
 
 <div class="user_profile component_grid">
   <div class="grid_item profile_info">
-    {% include 'components/component_key_value.twig' with {title: txt.summary, rows: summary_rows} %}
-    {% include 'components/component_key_value.twig' with {title: 'Contact information', rows: contact_rows} %}
-    {% include 'components/component_key_value.twig' with {title: 'Additional information', rows: additional_rows} %}
+    {% include 'components/generic/component_key_value.twig' with {title: txt.summary, rows: summary_rows} %}
+    {% include 'components/generic/component_key_value.twig' with {title: 'Contact information', rows: contact_rows} %}
+    {% include 'components/generic/component_key_value.twig' with {title: 'Additional information', rows: additional_rows} %}
     {% if context.member.signature %}
-      {% include 'components/component_article.twig' with {title: (context.member.name ?? context.member.username) ~ "'s signature", content: context.member.signature} %}
+      {% include 'components/generic/article.twig' with {title: (context.member.name ?? context.member.username) ~ "'s signature", content: context.member.signature} %}
     {% endif %}
     {% if context.can_see_ip and show_admin_rows %}
-      {% include 'components/component_key_value.twig' with {title: 'Moderator information', rows: admin_rows} %}
+      {% include 'components/generic/component_key_value.twig' with {title: 'Moderator information', rows: admin_rows} %}
     {% endif %}
   </div>
   <div class="grid_item profile_preview">
-    {% include 'components/component_profile_preview.twig' with {member: context.member} %}
+    {% include 'components/profile/profile_preview.twig' with {member: context.member} %}
   </div>
 </div>

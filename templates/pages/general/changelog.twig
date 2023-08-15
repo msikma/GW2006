@@ -24,10 +24,10 @@
 {% endif %}
 
 {% if context.git_info.package %}
-  {% include 'components/component_key_value.twig' with {title: 'Package', rows: pkg_details, is_wide: false, is_clamped: true, title_buttons: package_buttons} %}
+  {% include 'components/generic/component_key_value.twig' with {title: 'Package', rows: pkg_details, is_wide: false, is_clamped: true, title_buttons: package_buttons} %}
 {% endif %}
 {% if context.git_info.branch %}
-  {% include 'components/component_key_value.twig' with {title: 'Current Commit', rows: repo_details, is_wide: false, is_clamped: true} %}
+  {% include 'components/generic/component_key_value.twig' with {title: 'Current Commit', rows: repo_details, is_wide: false, is_clamped: true} %}
 {% endif %}
 
 <div class="object_list changelog">

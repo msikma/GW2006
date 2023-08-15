@@ -17,7 +17,7 @@
         <span class="subject">Poll: <span class="content">{{ context.poll.question }}</span></span>
       </h3>
       <div class="blue_component_buttons">
-        {% include 'components/forum_button_strip.twig' with {'buttons': poll_buttons} %}
+        {% include 'components/layout/button_strip.twig' with {'buttons': poll_buttons} %}
       </div>
     </div>
     <div class="blue_component_medium object_list_frame">

@@ -74,7 +74,7 @@
   {# Don't show these things for guests. #}
   {% if not member.is_guest %}
     {% if show_karma %}
-      {% include 'components/thread_post_member_karma.twig' %}
+      {% include 'components/post/post_member_info_karma.twig' %}
     {% endif %}
     
     {% if show_gender and member.message.gender.image != '' and not context.disabled_fields.gender %}
@@ -86,7 +86,7 @@
     {% endif %}
 
     {% if show_custom_fields %}
-      {% include 'components/thread_post_member_custom.twig' %}
+      {% include 'components/post/post_member_info_custom.twig' %}
     {% endif %}
   {% endif %}
 </ul>

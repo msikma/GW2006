@@ -51,7 +51,7 @@
 
   {% if message_preview %}
     <div class="post_preview">
-      {% include 'components/thread_post.twig' with {
+      {% include 'components/post/post.twig' with {
         'is_post_preview': true,
         'show_header': true,
         'first_post_header': 'Post preview',
@@ -297,7 +297,7 @@
 
 <div class="post_history">
   {% for message in context.previous_posts %}
-    {% include 'components/thread_post.twig' with {
+    {% include 'components/post/post.twig' with {
       'is_reply_history_post': true,
       'show_header': loop.index == 1,
       'first_post_header': txt.topic_summary ~ ': ' ~ context.subject|raw,

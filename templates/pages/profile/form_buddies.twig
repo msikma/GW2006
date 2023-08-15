@@ -43,7 +43,7 @@
 {#<a href="', $scripturl, '?action=profile;area=lists;sa=buddies;u=', $context['id_member'], ';remove=', $buddy['id'], ';', $context['session_var'], '=', $context['session_id'], '"><img src="', $settings['images_url'], '/icons/delete.gif" alt="', $txt['buddy_remove'], '" title="', $txt['buddy_remove'], '" /></a></td>
 #}
 
-{% include 'components/component_table_list.twig' with {
+{% include 'components/generic/table_list.twig' with {
   table_cols: table_cols,
   data_list: context.buddies,
   txt_no_data: txt.no_buddies,

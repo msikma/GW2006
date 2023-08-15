@@ -12,8 +12,8 @@
   {% endif %}
 
   {% if context.simple_search %}
-    {% include 'components/page_search_simple.twig' %}
+    {% include 'components/search/search_simple.twig' %}
   {% else %}
-    {% include 'components/page_search_advanced.twig' %}
+    {% include 'components/search/search_advanced.twig' %}
   {% endif %}
 </form>

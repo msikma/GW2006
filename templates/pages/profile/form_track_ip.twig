@@ -12,7 +12,7 @@
 ] %}
 
 <form action="{{ context.base_url }}" method="post" accept-charset="{{ context.character_set }}">
-  {% include 'components/component_key_value.twig' with {title: txt.trackIP, rows: ip_lookup_rows, is_wide: true} %}
+  {% include 'components/generic/component_key_value.twig' with {title: txt.trackIP, rows: ip_lookup_rows, is_wide: true} %}
 </form>
 
 {% set whois_servers_rows = [] %}
@@ -29,7 +29,7 @@
 {% endfor %}
 
 {% if context.single_ip %}
-  {% include 'components/component_key_value.twig' with {title: txt.whois_title ~ ': ' ~ context.ip, rows: whois_servers_rows, is_wide: true} %}
+  {% include 'components/generic/component_key_value.twig' with {title: txt.whois_title ~ ': ' ~ context.ip, rows: whois_servers_rows, is_wide: true} %}
 {% endif %}
 
 <div class="object_list">

@@ -58,19 +58,19 @@
       </div>
       <div class="links_section blue_component_light">
         {% if show_first %}
-          {% include 'components/forum_page_link.twig' with {'number': first, 'value': 'First', 'class': 'first', 'is_current': first == current}|merge(link_arguments) %}
+          {% include 'components/layout/page_number_link.twig' with {'number': first, 'value': 'First', 'class': 'first', 'is_current': first == current}|merge(link_arguments) %}
         {% endif %}
         {% if show_prev %}
-          {% include 'components/forum_page_link.twig' with {'number': page_prev, 'value': '<', 'is_current': page_prev == current}|merge(link_arguments) %}
+          {% include 'components/layout/page_number_link.twig' with {'number': page_prev, 'value': '<', 'is_current': page_prev == current}|merge(link_arguments) %}
         {% endif %}
         {% for n in page_range %}
-          {% include 'components/forum_page_link.twig' with {'number': n, 'is_current': n == current}|merge(link_arguments) %}
+          {% include 'components/layout/page_number_link.twig' with {'number': n, 'is_current': n == current}|merge(link_arguments) %}
         {% endfor %}
         {% if show_next %}
-          {% include 'components/forum_page_link.twig' with {'number': page_next, 'value': '>', 'is_current': page_next == current}|merge(link_arguments) %}
+          {% include 'components/layout/page_number_link.twig' with {'number': page_next, 'value': '>', 'is_current': page_next == current}|merge(link_arguments) %}
         {% endif %}
         {% if show_last %}
-          {% include 'components/forum_page_link.twig' with {'number': last, 'value': 'Last', 'class': 'last', 'is_current': last == current}|merge(link_arguments) %}
+          {% include 'components/layout/page_number_link.twig' with {'number': last, 'value': 'Last', 'class': 'last', 'is_current': last == current}|merge(link_arguments) %}
         {% endif %}
       </div>
     </div>

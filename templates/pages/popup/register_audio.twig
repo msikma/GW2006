@@ -13,4 +13,4 @@
   </div>
 {% endset %}
 
-{% include 'components/component_popup_template.twig' with {'popup_title': context.page_title|default('Audio verification'), 'content': content} %}
+{% include 'components/generic/popup_template.twig' with {'popup_title': context.page_title|default('Audio verification'), 'content': content} %}

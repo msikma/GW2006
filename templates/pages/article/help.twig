@@ -20,4 +20,4 @@
   <p>{{ txt.manual_docs_and_credits|format(context.wiki_url, '?action=credits')|raw }}</p>
 {% endset %}
 
-{% include 'components/component_article.twig' with {'title': title, 'content': content} %}
+{% include 'components/generic/article.twig' with {'title': title, 'content': content} %}

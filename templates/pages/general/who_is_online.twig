@@ -20,7 +20,7 @@
 
 <div class="forum_page_section">
   todo: add pagination
-  {% include 'components/forum_page_links.twig' %}
+  {% include 'components/layout/page_number_links.twig' %}
 </div>
 
 <form action="{{ scripturl }}?action=who" method="post" id="who_is_online_filter" accept-charset="{{ context.character_set }}">
@@ -29,7 +29,7 @@
       <div class="blue_component_header">
         <h3 class="blue_component_title">{{ txt.who_title }}</h3>
         <div class="blue_component_buttons">
-          {% include 'components/forum_button_strip.twig' with {'buttons': actions} %}
+          {% include 'components/layout/button_strip.twig' with {'buttons': actions} %}
           <script>decorateComponent('whoFilter');</script>
         </div>
       </div>

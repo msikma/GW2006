@@ -130,30 +130,30 @@
 {% endfor %}
 
 {% set general_stats_rows = general_stats_rows_a|merge(general_stats_rows_b) %}
-{% include 'components/component_key_value_dual.twig' with {title: txt.general_stats, rows: general_stats_rows, is_wide: true, is_clamped: true, double_cols: true} %}
+{% include 'components/generic/component_key_value_dual.twig' with {title: txt.general_stats, rows: general_stats_rows, is_wide: true, is_clamped: true, double_cols: true} %}
 
 {% set top_10_posters_component %}
-  {% include 'components/component_key_value.twig' with {title: txt.top_posters, rows: top_10_posters, is_wide: true, is_clamped: true} %}
+  {% include 'components/generic/component_key_value.twig' with {title: txt.top_posters, rows: top_10_posters, is_wide: true, is_clamped: true} %}
 {% endset %}
 {% set top_10_boards_component %}
-  {% include 'components/component_key_value.twig' with {title: txt.top_boards, rows: top_10_boards, is_wide: true, is_clamped: true} %}
+  {% include 'components/generic/component_key_value.twig' with {title: txt.top_boards, rows: top_10_boards, is_wide: true, is_clamped: true} %}
 {% endset %}
 {% set top_10_topics_by_replies_component %}
-  {% include 'components/component_key_value.twig' with {title: txt.top_topics_replies, rows: top_10_topics_by_replies, is_wide: true, is_clamped: true} %}
+  {% include 'components/generic/component_key_value.twig' with {title: txt.top_topics_replies, rows: top_10_topics_by_replies, is_wide: true, is_clamped: true} %}
 {% endset %}
 {% set top_10_topics_by_views_component %}
-  {% include 'components/component_key_value.twig' with {title: txt.top_topics_views, rows: top_10_topics_by_views, is_wide: true, is_clamped: true} %}
+  {% include 'components/generic/component_key_value.twig' with {title: txt.top_topics_views, rows: top_10_topics_by_views, is_wide: true, is_clamped: true} %}
 {% endset %}
 {% set top_10_topics_starters_component %}
-  {% include 'components/component_key_value.twig' with {title: txt.top_starters, rows: top_10_topics_starters, is_wide: true, is_clamped: true} %}
+  {% include 'components/generic/component_key_value.twig' with {title: txt.top_starters, rows: top_10_topics_starters, is_wide: true, is_clamped: true} %}
 {% endset %}
 {% set top_10_online_members_component %}
-  {% include 'components/component_key_value.twig' with {title: txt.most_time_online, rows: top_10_online_members, is_wide: true, is_clamped: true} %}
+  {% include 'components/generic/component_key_value.twig' with {title: txt.most_time_online, rows: top_10_online_members, is_wide: true, is_clamped: true} %}
 {% endset %}
 
-{% include 'components/component_columns.twig' with {items: [top_10_posters_component, top_10_boards_component]} %}
-{% include 'components/component_columns.twig' with {items: [top_10_topics_by_replies_component, top_10_topics_by_views_component]} %}
-{% include 'components/component_columns.twig' with {items: [top_10_topics_starters_component, top_10_online_members_component]} %}
+{% include 'components/generic/columns.twig' with {items: [top_10_posters_component, top_10_boards_component]} %}
+{% include 'components/generic/columns.twig' with {items: [top_10_topics_by_replies_component, top_10_topics_by_views_component]} %}
+{% include 'components/generic/columns.twig' with {items: [top_10_topics_starters_component, top_10_online_members_component]} %}
 
 {% if context.yearly %}
   <div class="object_list">

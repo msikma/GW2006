@@ -7,11 +7,11 @@
 } %}
 
 {% set page_links_top %}
-  {% include 'components/forum_page_links.twig' with page_links_args %}
+  {% include 'components/layout/page_number_links.twig' with page_links_args %}
 {% endset %}
 
 {% set page_links_bottom %}
-  {% include 'components/forum_page_links.twig' with page_links_args|merge({location: 'bottom'}) %}
+  {% include 'components/layout/page_number_links.twig' with page_links_args|merge({location: 'bottom'}) %}
 {% endset %}
 
 <a id="top"></a>

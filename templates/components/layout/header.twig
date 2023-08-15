@@ -1,7 +1,7 @@
 <div id="header">
   <div class="blue_component">
     <div id="top_section" class="blue_component_light blue_component_section">
-      {% include 'components/layout_title.twig' with {'use_linktree': true} %}
+      {% include 'components/layout/header_title.twig' with {'use_linktree': true} %}
     </div>
     <div id="upper_section" class="blue_component_medium blue_component_section">
       <div class="current_user">
@@ -9,16 +9,16 @@
           {# If the user is logged in, display their information. #}
           {# Note: if 'display_unread_links' is true, some additional useful links are shown. #}
           {# These links were not shown in the original GW 2006 design. #}
-          {% include 'components/header_user_info.twig' with {'display_unread_links': false} %}
+          {% include 'components/layout/header_user_info.twig' with {'display_unread_links': false} %}
         {% elseif context.show_login_bar is not empty %}
           {# If the user is a guest, display the login form. #}
-          {% include 'components/header_login_form.twig' %}
+          {% include 'components/layout/header_login_form.twig' %}
         {% endif %}
       </div>
     </div>
     <div id="menu_section" class="blue_component_header">
-      {% include 'components/header_menu.twig' %}
-      {% include 'components/header_search_form.twig' %}
+      {% include 'components/layout/header_menu.twig' %}
+      {% include 'components/layout/header_search_form.twig' %}
     </div>
   </div>
 </div>
