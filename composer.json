@@ -10,9 +10,9 @@
   },
   "scripts": {
     "build-scss": "rm -f css/dist/*.map; sass --no-source-map css/index.scss:css/dist/index.css css/legacy.scss:css/dist/legacy.css",
-    "build-js": "NODE_ENV=production webpack --mode=production --config=.webpack.config.js",
+    "build-js": "NODE_ENV=production npx webpack-cli --mode=production --config=.webpack.config.js",
     "dev-scss": "sass --watch css/index.scss:css/dist/index.css css/legacy.scss:css/dist/legacy.css",
-    "dev-js": "NODE_ENV=development webpack --mode=production --config=.webpack.config.js --watch --progress"
+    "dev-js": "NODE_ENV=development npx webpack-cli --mode=production --config=.webpack.config.js --watch --progress"
   },
   "license": "mit",
   "keywords": ["forum", "community", "Simple Machines Forum"],
