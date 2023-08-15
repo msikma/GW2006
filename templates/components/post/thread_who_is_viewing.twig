@@ -28,17 +28,19 @@
       </h3>
     </div>
     <div class="blue_component_section blue_component_primary blue_component_light">
-      <div class="section {{ show_members ? 'small' }}">
+      <div class="section viewing_info {{ show_members ? 'small' }}">
         {% if show_only_numbers %}
           {{ currently_viewing }}
         {% else %}
-          {% if context.view_members|length %}
+          {% set members = context.view_members %}
+          {% if members|length %}
             {%- apply spaceless %}
-              {% for member in context.view_members %}
+              {% for member in members %}
                 <span class="viewing_member member">
                   {# TODO: pass on member.group_name which isn't present here. #}
                   <a href="{{ scripturl }}?action=profile;u={{ member.id }}" class="{{ get_username_pip_class(member.group, member.id, true) }}">{{ member.name ?? member.username }}</a>
                 </span>
+                {% if loop.revindex0 > 0 %}<span class="separator">, </span>{% endif %}
               {% endfor %}
             {% endapply -%}
           {% else %}
