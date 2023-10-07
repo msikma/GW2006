@@ -132,28 +132,30 @@
     </div>
   {% endif %}
 
-  {% if context.member.avatar.allow_external is not empty %}
+  {% if context.member.avatar.allow_external %}
     <div id="avatar_external">
       <div class="smalltext">{{ txt.avatar_by_url|raw }}</div>
       <input type="text" name="userpicpersonal" size="45" value="{{ context.member.avatar.external_original }}" onfocus="selectRadioByName(document.forms.creator.avatar_choice, 'external');" onchange="if (typeof(previewExternalAvatar) != 'undefined') previewExternalAvatar(this.value);" />
     </div>
   {% endif %}
 
-  {% if context.member.avatar.allow_upload is not empty %}
+  {% if context.member.avatar.allow_upload %}
     <div id="avatar_upload">
       <input type="file" size="44" name="attachment" value="" onfocus="selectRadioByName(document.forms.creator.avatar_choice, 'upload');" class="input_file" />
       {% if context.member.avatar.id_attach > 0 %}
-        <br /><br /><img src="{{ context.member.avatar.href }}{{ (context.member.avatar.href is not empty and context.member.avatar.href|slice({'?': 1}) == '?') ? '?' : '&amp;' }}time={{ 'now'|date('U') }}" alt="" /><input type="hidden" name="id_attach" value="{{ context.member.avatar.id_attach }}" />
+        {% set href = context.member.avatar.href %}
+        {% set href = href ~ ('?' in href ? '&' : '?') ~ 'time=' ~ ('now'|date('U')) %}
+        <br /><br /><img src="{{ href }}" alt="" /><input type="hidden" name="id_attach" value="{{ context.member.avatar.id_attach }}" />
       {% endif %}
     </div>
   {% endif %}
 
   <script type="text/javascript">
-    {% if context.member.avatar.allow_server_stored is not empty %}
+    {% if context.member.avatar.allow_server_stored %}
       document.getElementById("avatar_server_stored").style.display = "{{ (context.member.avatar.choice == 'server_stored' ? '' : 'none') }}";
     {% endif %}
 
-    {% if context.member.avatar.allow_external is not empty %}
+    {% if context.member.avatar.allow_external %}
       document.getElementById("avatar_external").style.display = "{{ (context.member.avatar.choice == 'external' ? '' : 'none') }}";
     {% endif %}
 
