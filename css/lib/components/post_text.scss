@@ -145,4 +145,9 @@
 // Make the text a bit more readable than on the original layout.
 .post_line_height {
   line-height: cssvar(--gw-article-line-height);
+
+  // All alternate font sizes indicated by [size] should be relative to their font size.
+  .bbc_size {
+    line-height: 1em;
+  }
 }

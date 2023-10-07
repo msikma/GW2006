@@ -48,7 +48,7 @@
         float: right;
       }
       .signature {
-        max-height: calc(cssvar(--gw-article-line-height) * cssvar(--gw-signature-max-lines));
+        max-height: calc((cssvar(--gw-article-line-height) / 1.2) * cssvar(--gw-signature-max-lines) * 1rem);
         overflow: hidden;
         
         &::before {
