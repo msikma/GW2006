@@ -25,7 +25,7 @@
             <td>
               {% for field in fields %}
                 <div class="field_{{ field.name }}">
-                  <input type="{{ field.type }}" name="{{ field.name }}" {{ field.value_test ? 'value="' ~ field.value ~ '"' : '' }} maxlength={{ field.maxlength }} />
+                  <input type="{{ field.type }}" name="{{ field.name }}" value="{{ field.value_test ? field.value }}" maxlength="{{ field.maxlength }}" />
                   {% if field.description_test %}
                     <p class="input_description">{{ field.description }}</p>
                   {% endif %}

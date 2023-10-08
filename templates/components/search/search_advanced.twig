@@ -16,7 +16,7 @@
             <td>
               <div class="form_input_row">
                 <div class="input_item_main">
-                  <input type="text" name="search" size="40" {{ context.search_params.search ? 'value="' ~ context.search_params.search ~ '"' : '' }} maxlength={{ context.search_string_limit }} />
+                  <input type="text" name="search" size="40" value="{{ context.search_params.search ? context.search_params.search }}" maxlength="{{ context.search_string_limit }}" />
                   {% if modSettings.search_simple_fulltext is empty and show_search_example %}
                     <p class="input_description">{{ txt.search_example|raw }}</p>
                   {% endif %}
