@@ -33,6 +33,12 @@
   {% endfor %}
 {% endfor %}
 
+{# If no results were found, display an error and another form. #}
+{% if context.topics is empty %}
+  {% include 'components/search/search_no_results.twig' %}
+  {% include 'pages/search/search_form.twig' %}
+{% endif %}
+
 <a id="lastPost"></a>
 
 <div class="forum_page_section">
