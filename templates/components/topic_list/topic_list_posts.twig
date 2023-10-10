@@ -107,7 +107,8 @@
                   {% set last_post_member_link = topic.last_post.member.link %}
                 {% else %}
                   {# Redirect topic. #}
-                  {% set post_link = '<a href="' ~ topic._redirects.topic_link ~'">' ~ topic.subject ~ '</a>' %}
+                  {% set subject = topic.subject starts with 'MOVED: ' ? topic.subject|slice(7) : topic.subject %}
+                  {% set post_link = '<a href="' ~ topic._redirects.topic_link ~'">' ~ subject ~ '</a>' %}
                   {% set has_post_info = topic._redirects.not_found == false %}
                   {% set member_link = topic._redirects.first_post._member_link %}
                   {% set replies = topic._redirects.topic.num_replies %}

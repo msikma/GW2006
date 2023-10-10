@@ -43,6 +43,16 @@
         content: 'Locked: ';
       }
     }
+    &.is_redirect {
+      .subject .link::before {
+        content: 'Moved: ';
+      }
+      &.is_locked {
+        .subject .link::before {
+          content: 'Locked: Moved: ';
+        }
+      }
+    }
     &.is_poll {
       .subject .link::before {
         content: 'Poll: ';
