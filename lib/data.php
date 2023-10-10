@@ -44,6 +44,9 @@ function get_post_redirect_target($post) {
   $post_data = [];
   if (!empty($id)) {
     $post_data = get_topic_data($id);
+    if ($post_data === null) {
+      $post_data = ['not_found' => true];
+    }
   }
   return array_merge([
     'topic_link' => $url,

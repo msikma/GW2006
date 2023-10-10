@@ -12,6 +12,9 @@
     }
   }
   .topic_row {
+    // This sets a minimum height on the topic rows.
+    height: 41px;
+
     .topic_container {
       position: relative;
     }

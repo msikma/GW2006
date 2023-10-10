@@ -93,6 +93,9 @@
                 {# Whether we're displaying information about a different topic, which this topic redirects to. #}
                 {% set is_redirect_row = topic._is_redirect_topic and topic._redirects.topic_link %}
 
+                {# Normally we always have post info. Only if it's a redirect to a topic that no longer exists, we don't. #}
+                {% set has_post_info = true %}
+
                 {% if not is_redirect_row %}
                   {# Normal topics. #}
                   {% set post_link = topic.first_post.link %}
@@ -105,6 +108,7 @@
                 {% else %}
                   {# Redirect topic. #}
                   {% set post_link = '<a href="' ~ topic._redirects.topic_link ~'">' ~ topic.subject ~ '</a>' %}
+                  {% set has_post_info = not topic._redirects.not_found %}
                   {% set member_link = topic._redirects.first_post._member_link %}
                   {% set replies = topic._redirects.topic.num_replies %}
                   {% set views = topic._redirects.topic.num_views %}
@@ -133,7 +137,7 @@
                       {% include 'atoms/posticon.twig' with {'icon_name': topic.first_post.icon, 'is_system': has_system_icon, 'is_poll': topic.is_poll} %}
                     </td>
                   {% endif %}
-                  <td class="subject">
+                  <td class="subject" {{ not has_post_info ? 'colspan="5"' }}>
                     <div id="topic_{{ topic.first_post.id }}" class="topic_container">
                       <span class="link">
                         {% if topic.new %}
@@ -146,26 +150,28 @@
                       <span class="topic_pages" id="pages{{ topic.first_post.id }}">{{ topic.pages|raw }}</span>
                     </div>
                   </td>
-                  <td class="starter text_center">
-                    {{ member_link|raw }}
-                  </td>
-                  <td class="stats replies text_center">
-                    {{ replies }}
-                  </td>
-                  <td class="stats views text_center">
-                    {{ views }}
-                  </td>
-                  <td class="last_post small no_wrap">
-                    <div class="last_post_time">
-                      {{ last_post_time|raw }}
-                    </div>
-                    <div>
-                      <a href="{{ last_post_url|raw }}" class="last_post_icon">
-                        <img src="{{ images_url }}/ui_icons/last_post.gif" alt="{{ txt.last_post }}" title="{{ txt.last_post }}" class="pixel" />
-                      </a>
-                      {{ txt.by }} {{ last_post_member_link|raw }}
-                    </div>
-                  </td>
+                  {% if has_post_info %}
+                    <td class="starter text_center">
+                      {{ member_link|raw }}
+                    </td>
+                    <td class="stats replies text_center">
+                      {{ replies }}
+                    </td>
+                    <td class="stats views text_center">
+                      {{ views }}
+                    </td>
+                    <td class="last_post small no_wrap">
+                      <div class="last_post_time">
+                        {{ last_post_time|raw }}
+                      </div>
+                      <div>
+                        <a href="{{ last_post_url|raw }}" class="last_post_icon">
+                          <img src="{{ images_url }}/ui_icons/last_post.gif" alt="{{ txt.last_post }}" title="{{ txt.last_post }}" class="pixel" />
+                        </a>
+                        {{ txt.by }} {{ last_post_member_link|raw }}
+                      </div>
+                    </td>
+                  {% endif %}
                   <td class="text_center quick_mod minimal no_padding">
                     <label class="checkbox_wrapper">
                       <input type="checkbox" name="topics[]" value="{{ topic.id }}" onclick="gw.selectCheck(this);" />
