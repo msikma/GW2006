@@ -86,7 +86,7 @@ function get_decorated_topics() {
 function add_topic_redirect_link($topic) {
   $first_post = get_post_data($topic['first_post']['id']);
   $redirect = get_post_redirect_target($first_post);
-  if (empty($first_post) || empty($redirect['topic_link'])) {
+  if (empty($redirect['not_found']) && (empty($first_post) || empty($redirect['topic_link']))) {
     return $topic;
   }
   return array_merge($topic, [
@@ -850,4 +850,12 @@ function remove_response_prefix($subject) {
   $prefix = $txt['response_prefix'];
   $re = '/^'.preg_quote($prefix, '/').'/';
   return preg_replace($re, '', $subject, 1);
+}
+
+/**
+ * Returns a URL from a query string array.
+ */
+function make_script_url($query = []) {
+  global $scripturl;
+  return $scripturl.(empty($query) ? '' : '?'.http_build_query($query));
 }

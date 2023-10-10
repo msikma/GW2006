@@ -37,10 +37,20 @@ function get_post_timestamp($post_time) {
  */
 function get_post_redirect_target($post) {
   $body = $post['body'];
-  preg_match_all('/\[iurl\](.+?)\[\/iurl\]/m', $body, $matches);
-  $url = $matches[1][0];
-  preg_match('/topic=([0-9]+)\./', $url, $matches);
-  $id = intval($matches[1]);
+  if (str_contains($body, '[topicinfo topic=')) {
+    preg_match_all('/\[topicinfo topic=(.+?)\]/m', $body, $matches);
+    $id = intval($matches[1][0]);
+    if (!$id) {
+      return ['not_found' => true];
+    }
+    $url = make_script_url(['topic' => "$id.0"]);
+  }
+  else {
+    preg_match_all('/\[iurl\](.+?)\[\/iurl\]/m', $body, $matches);
+    $url = $matches[1][0];
+    preg_match('/topic=([0-9]+)\./', $url, $matches);
+    $id = intval($matches[1]);
+  }
   $post_data = [];
   if (!empty($id)) {
     $post_data = get_topic_data($id);

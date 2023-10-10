@@ -91,7 +91,7 @@
                 {% endif %}
 
                 {# Whether we're displaying information about a different topic, which this topic redirects to. #}
-                {% set is_redirect_row = topic._is_redirect_topic and topic._redirects.topic_link %}
+                {% set is_redirect_row = topic._is_redirect_topic and (topic._redirects.topic_link or topic._redirects.not_found) %}
 
                 {# Normally we always have post info. Only if it's a redirect to a topic that no longer exists, we don't. #}
                 {% set has_post_info = true %}
@@ -108,7 +108,7 @@
                 {% else %}
                   {# Redirect topic. #}
                   {% set post_link = '<a href="' ~ topic._redirects.topic_link ~'">' ~ topic.subject ~ '</a>' %}
-                  {% set has_post_info = not topic._redirects.not_found %}
+                  {% set has_post_info = topic._redirects.not_found == false %}
                   {% set member_link = topic._redirects.first_post._member_link %}
                   {% set replies = topic._redirects.topic.num_replies %}
                   {% set views = topic._redirects.topic.num_views %}
