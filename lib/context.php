@@ -305,7 +305,7 @@ function get_html_page_title($limit = 60) {
 function limit_meta_string($description, $limit) {
   $static = '..';
   if (strlen($description) > $limit) {
-    return implode('', [substr($description, 0, $limit - strlen($static)), $static]);
+    return implode('', [mb_substr($description, 0, $limit - strlen($static)), $static]);
   }
   return $description;
 }
