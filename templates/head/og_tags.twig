@@ -1,6 +1,6 @@
 {% set meta = context.page_metadata %}
 {% if meta is not empty %}
-  <meta name="description" content="{{ meta.description_full|raw }}">
+  <meta name="description" content="{{ meta.description|raw }}">
 
   <meta property="og:url" content="{{ meta.canonical_url }}">
   <meta property="og:type" content="website">
