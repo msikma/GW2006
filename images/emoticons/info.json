@@ -8,7 +8,7 @@
       "items": [
         {
           "filename": "smile.gif",
-          "code": [":)"],
+          "code": [":)", ":smile:"],
           "size": [20, 20],
           "location": "postform",
           "hidden": false
@@ -22,28 +22,28 @@
         },
         {
           "filename": "biggrin.gif",
-          "code": [":D"],
+          "code": [":D", ":grin:", ":grins:"],
           "size": [20, 20],
           "location": "postform",
           "hidden": false
         },
         {
           "filename": "rolleyes.gif",
-          "code": [":rolleyes:"],
+          "code": [":rolleyes:", ":rollseyes:"],
           "size": [20, 20],
           "location": "postform",
           "hidden": false
         },
         {
           "filename": "sad.gif",
-          "code": [":("],
+          "code": [":(", ":sad:"],
           "size": [20, 20],
           "location": "postform",
           "hidden": false
         },
         {
           "filename": "angry.gif",
-          "code": [">:(", ":angry:", ":mad:"],
+          "code": [">:(", ":angry:", ":mad:", ":angery:"],
           "size": [20, 20],
           "location": "postform",
           "hidden": false
@@ -92,7 +92,7 @@
         },
         {
           "filename": "emot-brow.gif",
-          "code": [":brow:"],
+          "code": [":brow:", ":peopleseyebrow:"],
           "size": [20, 20],
           "location": "postform",
           "hidden": false
@@ -100,6 +100,13 @@
         {
           "filename": "disgust.gif",
           "code": [":disgust:"],
+          "size": [20, 20],
+          "location": "postform",
+          "hidden": false
+        },
+        {
+          "filename": "doh.gif",
+          "code": [":doh:"],
           "size": [20, 20],
           "location": "postform",
           "hidden": false
@@ -120,7 +127,7 @@
         },
         {
           "filename": "gwawesome.gif",
-          "code": [":gwa:"],
+          "code": [":gwa:", ":awesome:"],
           "size": [20, 20],
           "location": "postform",
           "hidden": false
@@ -238,7 +245,7 @@
         },
         {
           "filename": "ohgodvomits.gif",
-          "code": [":blargh:"],
+          "code": [":blargh:", ":blarg:"],
           "size": [20, 20],
           "location": "popup",
           "hidden": false
@@ -252,14 +259,14 @@
         },
         {
           "filename": "sweatdrop.gif",
-          "code": [":sweatdrop:", ":sweat:"],
+          "code": [":sweatdrop:", ":sweat:", ":sweating:"],
           "size": [20, 20],
           "location": "popup",
           "hidden": false
         },
         {
           "filename": "tsk.gif",
-          "code": [":tsk:"],
+          "code": [":tsk:", ":shakehead:"],
           "size": [20, 20],
           "location": "popup",
           "hidden": false
@@ -273,7 +280,7 @@
         },
         {
           "filename": "ssh.gif",
-          "code": [":ssh:"],
+          "code": [":ssh:", ":shh:"],
           "size": [20, 22],
           "location": "popup",
           "hidden": false
@@ -287,14 +294,14 @@
         },
         {
           "filename": "gwcolbert.gif",
-          "code": [":gwcolbert:"],
+          "code": [":gwcolbert:", ":colb:"],
           "size": [21, 25],
           "location": "popup",
           "hidden": false
         },
         {
           "filename": "disdain.gif",
-          "code": [":disdain:"],
+          "code": [":disdain:", ":blegh:", ":blech:"],
           "size": [30, 18],
           "location": "popup",
           "hidden": false
@@ -315,21 +322,21 @@
         },
         {
           "filename": "emot-hmm.gif",
-          "code": [":hmm:"],
+          "code": [":hmm:", ":hm:", ":hmmmm:"],
           "size": [25, 23],
           "location": "popup",
           "hidden": false
         },
         {
           "filename": "argh.gif",
-          "code": [":argh:"],
+          "code": [":argh:", ":shakefist:"],
           "size": [31, 20],
           "location": "popup",
           "hidden": false
         },
         {
           "filename": "attitude0.gif",
-          "code": [":attitude:"],
+          "code": [":attitude:", ":smug:", ":talktothehand:"],
           "size": [31, 20],
           "location": "popup",
           "hidden": false
@@ -350,14 +357,14 @@
         },
         {
           "filename": "rite.gif",
-          "code": [":teach:"],
+          "code": [":teach:", ":rite:"],
           "size": [28, 24],
           "location": "popup",
           "hidden": false
         },
         {
           "filename": "shrug.gif",
-          "code": [":shrug:"],
+          "code": [":shrug:", ":shrugs:", ":shrugshrug:"],
           "size": [34, 20],
           "location": "popup",
           "hidden": false
@@ -371,7 +378,7 @@
         },
         {
           "filename": "cake8fg.gif",
-          "code": [":cake:"],
+          "code": [":cake:", ":bday:"],
           "size": [28, 25],
           "location": "popup",
           "hidden": false
@@ -385,7 +392,7 @@
         },
         {
           "filename": "cry.gif",
-          "code": [":cry:"],
+          "code": [":cry:", ":cries:"],
           "size": [40, 18],
           "location": "popup",
           "hidden": false
@@ -413,7 +420,7 @@
         },
         {
           "filename": "gw_words.gif",
-          "code": [":words:"],
+          "code": [":words:", ":werds:"],
           "size": [48, 18],
           "location": "popup",
           "hidden": false
@@ -441,7 +448,7 @@
         },
         {
           "filename": "gw_rockon.gif",
-          "code": [":rockon:"],
+          "code": [":rockon:", ":rockout:"],
           "size": [52, 20],
           "location": "popup",
           "hidden": false
@@ -474,7 +481,7 @@
         },
         {
           "filename": "gayfight.gif",
-          "code": [":gayfight:"],
+          "code": [":gayfight:", ":gay:"],
           "size": [80, 21],
           "location": "popup",
           "hidden": true
@@ -488,7 +495,7 @@
         },
         {
           "filename": "drunk8iz.gif",
-          "code": [":drunks:"],
+          "code": [":drunks:", ":drunk:"],
           "size": [58, 30],
           "location": "popup",
           "hidden": false
@@ -523,7 +530,7 @@
         },
         {
           "filename": "spamlaser9ol.gif",
-          "code": [":laser:"],
+          "code": [":laser:", ":spamgun:"],
           "size": [120, 20],
           "location": "popup",
           "hidden": false
@@ -537,7 +544,7 @@
         },
         {
           "filename": "didyouputitinyourfriendshair.gif",
-          "code": [":dypiiyfs:"],
+          "code": [":dypiiyfs:", ":putit:"],
           "size": [187, 19],
           "location": "popup",
           "hidden": false
@@ -551,7 +558,7 @@
         },
         {
           "filename": "blowup6tr.gif",
-          "code": [":blam:"],
+          "code": [":blam:", ":blowup:"],
           "size": [48, 112],
           "location": "popup",
           "hidden": true
@@ -563,7 +570,7 @@
       "items": [
         {
           "filename": "emot-weed.gif",
-          "code": [":weed:"],
+          "code": [":weed:", ":ganja:"],
           "size": [15, 14],
           "location": "popup",
           "hidden": false
@@ -626,7 +633,7 @@
         },
         {
           "filename": "wilysmilie.gif",
-          "code": [":wily:"],
+          "code": [":wily:", ":drwily:"],
           "size": [20, 16],
           "location": "popup",
           "hidden": false
@@ -647,7 +654,7 @@
         },
         {
           "filename": "foget.gif",
-          "code": [":foget:"],
+          "code": [":foget:", ":resistins:"],
           "size": [20, 20],
           "location": "popup",
           "hidden": false
@@ -668,7 +675,7 @@
         },
         {
           "filename": "ns.gif",
-          "code": [":ns:"],
+          "code": [":ns:", [58, 110, 105, 103, 103, 97, 114, 58]],
           "size": [20, 20],
           "location": "popup",
           "hidden": true
@@ -710,7 +717,7 @@
         },
         {
           "filename": "rockon.gif",
-          "code": [":horns:", ":rockon:"],
+          "code": [":horns:", ":rockon:", ":m:"],
           "size": [21, 21],
           "location": "popup",
           "hidden": false
@@ -724,7 +731,7 @@
         },
         {
           "filename": "rgsmiley.gif",
-          "code": [":rg:"],
+          "code": [":rg:", ":rgsmiley:"],
           "size": [24, 20],
           "location": "popup",
           "hidden": false
@@ -752,7 +759,7 @@
         },
         {
           "filename": "snorlax.gif",
-          "code": [":snore:"],
+          "code": [":snore:", ":snorlax:"],
           "size": [24, 21],
           "location": "popup",
           "hidden": false
@@ -766,7 +773,7 @@
         },
         {
           "filename": "emot-quagmire.gif",
-          "code": [":emot-quagmire:"],
+          "code": [":emot-quagmire:", ":quagmire:"],
           "size": [22, 24],
           "location": "popup",
           "hidden": false
@@ -966,7 +973,7 @@
         },
         {
           "filename": "foget-condescending.gif",
-          "code": [":fogetcondescending:", ":condescendingfoget:"],
+          "code": [":fogetcondescending:", ":condescendingfoget:", ":fogetrolleyes:"],
           "size": [30, 28],
           "location": "popup",
           "hidden": false
@@ -987,7 +994,7 @@
         },
         {
           "filename": "foget-rctr.gif",
-          "code": [[58, 102, 111, 103, 101, 116, 45, 110, 101, 103, 114, 111, 58]],
+          "code": [[58, 102, 111, 103, 101, 116, 45, 110, 101, 103, 114, 111, 58], ":blackfoget:"],
           "size": [30, 28],
           "location": "popup",
           "hidden": true
@@ -1001,28 +1008,28 @@
         },
         {
           "filename": "foget-shifty_1.gif",
-          "code": [":fogetshifty:"],
+          "code": [":fogetshifty:", ":fogetshady:"],
           "size": [30, 28],
           "location": "popup",
           "hidden": false
         },
         {
           "filename": "fogetmmh.gif",
-          "code": [":fogethmm:"],
+          "code": [":fogethmm:", ":fogetmmh:"],
           "size": [28, 30],
           "location": "popup",
           "hidden": false
         },
         {
           "filename": "fogetnuh.gif",
-          "code": [":fogetnuh:"],
+          "code": [":fogetnuh:", ":fogetnah:"],
           "size": [30, 28],
           "location": "popup",
           "hidden": false
         },
         {
           "filename": "foget-shush_1.gif",
-          "code": [":fogetshush:"],
+          "code": [":fogetshush:", ":fogetshh:"],
           "size": [28, 31],
           "location": "popup",
           "hidden": false
@@ -1064,21 +1071,21 @@
         },
         {
           "filename": "foget-backflippe.gif",
-          "code": [":fogetbackflippe:"],
+          "code": [":fogetbackflippe:", ":fogetbackflip:", ":fogetbacklip:", ":fogetflip:"],
           "size": [30, 34],
           "location": "popup",
           "hidden": false
         },
         {
           "filename": "foget-batshit.gif",
-          "code": [":fogetbatshit:"],
+          "code": [":fogetbatshit:", ":fogetinsane:"],
           "size": [32, 39],
           "location": "popup",
           "hidden": false
         },
         {
           "filename": "foget-mexican.gif",
-          "code": [":fogetmsombrero:"],
+          "code": [":fogetmsombrero:", ":fogetmexican:"],
           "size": [40, 32],
           "location": "popup",
           "hidden": false
@@ -1106,7 +1113,7 @@
         },
         {
           "filename": "foget-emocut.gif",
-          "code": [":foget-emocut:"],
+          "code": [":foget-emocut:", ":fogetemo:"],
           "size": [50, 28],
           "location": "popup",
           "hidden": true
@@ -1120,7 +1127,7 @@
         },
         {
           "filename": "foget-rockin.gif",
-          "code": [":fogetrockin:"],
+          "code": [":fogetrockin:", ":fogetrockon:"],
           "size": [56, 28],
           "location": "popup",
           "hidden": false
@@ -1141,14 +1148,14 @@
         },
         {
           "filename": "foget-teach.gif",
-          "code": [":fogetteach:"],
+          "code": [":fogetteach:", ":fogetrite:"],
           "size": [52, 38],
           "location": "popup",
           "hidden": false
         },
         {
           "filename": "foget-gunz.gif",
-          "code": [":fogetgunz:"],
+          "code": [":fogetgunz:", ":fogetguns:"],
           "size": [64, 32],
           "location": "popup",
           "hidden": false
@@ -1169,7 +1176,7 @@
         },
         {
           "filename": "foget-thumbsup.gif",
-          "code": [":fogetthumbsup:"],
+          "code": [":fogetthumbsup:", ":fogetthumbup:"],
           "size": [88, 28],
           "location": "popup",
           "hidden": false
