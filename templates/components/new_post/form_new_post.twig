@@ -213,6 +213,26 @@
               <tr class="object_row">
                 <th class="minimal">{{ txt.attach }}:</th>
                 <td>
+                  {# Current attachments: #}
+                  {% if context.current_attachments %}
+                    <div class="attachments_edit">
+                      <input type="hidden" name="attach_del[]" value="0" />
+                      <p>{{ txt.uncheck_unwatchd_attach }}:</p>
+                      <ul class="object_row_list current_attachments">
+                        {% for attachment in context.current_attachments %}
+                          <li class="{{ not attachment.approved ? 'not_approved' }}">
+                            <label>
+                              <input type="checkbox" name="attach_del[]" value="{{ attachment.id }}" {{ attachment.unchecked ?: 'checked="checked"' }} />
+                              {{ attachment.name }}
+                              {% if not attachment.approved %} ({{ txt.awaiting_approval }}){% endif %}
+                            </label>
+                          </dd>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                    <hr />
+                  {% endif %}
+
                   {# New attachments: #}
                   {% if context.can_post_attachment %}
                     <button disabled="disabled" type="button">Remove</button>
@@ -230,25 +250,6 @@
                         <span class="alert">{{ txt.attachment_requires_approval }}</span><br />
                       {% endif %}
                     </div>
-                  {% endif %}
-
-                  {# Current attachments: #}
-                  {# TODO: EDIT ATATCHMENTS: http://vesuvius.local/gw/index.php?action=post;msg=460159;topic=15472.0 #}
-                  {% if context.current_attachments %}
-                    <p>{{ txt.attached }}: (temp)</p>
-                    <input type="hidden" name="attach_del[]" value="0" />
-                    {{ txt.uncheck_unwatchd_attach }}:
-                    <ul class="object_row_list current_attachments">
-                      {% for attachment in context.current_attachments %}
-                        <li class="{{ not attachment.approved ? 'not_approved' }}">
-                          <label>
-                            <input type="checkbox" name="attach_del[]" value="{{ attachment.id }}" {{ attachment.unchecked ? 'checked="checked"' }} />
-                            {{ attachment.name }}
-                            {% if not attachment.approved %} ({{ txt.awaiting_approval }}){% endif %}
-                          </label>
-                        </dd>
-                      {% endfor %}
-                    </ul>
                   {% endif %}
                 </td>
               </tr>

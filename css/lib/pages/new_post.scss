@@ -28,6 +28,12 @@
       }
     }
   }
+  // Currently attached files.
+  .attachments_edit {
+    .current_attachments {
+      margin-top: 4px;
+    }
+  }
 }
 
 .post_preview + .new_post_form {
