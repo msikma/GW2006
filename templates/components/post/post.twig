@@ -271,7 +271,7 @@
 
           {# Include the signature. #}
           {% if member.signature is not empty and options.show_no_signatures is empty and signature_enabled %}
-            <div class="signature" id="msg_{{ message.id }}_signature">
+            <div class="signature post_text" id="msg_{{ message.id }}_signature">
               {{ member.signature|raw }}
             </div>
           {% endif %}
