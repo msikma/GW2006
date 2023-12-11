@@ -14,7 +14,7 @@
   <div class="blue_component">
     <div class="blue_component_header">
       <h3 class="blue_component_title title">
-        <span class="subject">Poll: <span class="content">{{ context.poll.question }}</span></span>
+        <span class="subject">Poll: <span class="content">{{ context.poll.question|raw }}</span></span>
       </h3>
       <div class="blue_component_buttons">
         {% include 'components/layout/button_strip.twig' with {'buttons': poll_buttons} %}
@@ -30,7 +30,7 @@
                 <td>
                   <label for="{{ option.id }}">
                     {{ option.vote_button|raw }}
-                    {{ option.option }}
+                    {{ option.option|raw }}
                   </label>
                 </td>
               </tr>

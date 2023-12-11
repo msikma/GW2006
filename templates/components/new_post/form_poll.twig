@@ -2,7 +2,7 @@
 <tr id="edit_poll" class="object_row {% if context.poll_error.no_question %}error{% endif %}">
   <th class="minimal">{{ txt.poll_question }}:</th>
   <td>
-    <input type="text" name="question" value="{{ context.poll.question ?? context.question ?? '' }}" tabindex="{{ context.tabindex + 1 }}" size="80" />
+    <input type="text" name="question" value="{{ (context.poll.question ?? context.question ?? '')|raw }}" tabindex="{{ context.tabindex + 1 }}" size="80" />
   </td>
 </tr>
 <tr id="edit_poll" class="object_row">
@@ -12,7 +12,7 @@
       {% for choice in context.choices %}
         <li>
           <label for="options-{{ choice.id }}">{{ txt.option }} {{ choice.number }}</label>:
-          <input type="text" name="options[{{ choice.id }}]" id="options-{{ choice.id }}" value="{{ choice.label }}" tabindex="{{ context.tabindex + 1 }}" size="80" maxlength="255" />
+          <input type="text" name="options[{{ choice.id }}]" id="options-{{ choice.id }}" value="{{ choice.label|raw }}" tabindex="{{ context.tabindex + 1 }}" size="80" maxlength="255" />
         </li>
       {% endfor %}
       <li id="pollMoreOptions"></li>
