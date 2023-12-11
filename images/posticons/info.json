@@ -233,10 +233,22 @@
           "legacy": false
         },
         {
+          "fn": "locked_ipbv1.png",
+          "name": "Locked (IPB v1.x)",
+          "size": [54, 15],
+          "legacy": true
+        },
+        {
           "fn": "microsoft.gif",
           "name": "Microsoft",
           "size": [54, 15],
           "legacy": false
+        },
+        {
+          "fn": "locked_ipbv1.png",
+          "name": "Moved (IPB v1.x)",
+          "size": [54, 15],
+          "legacy": true
         },
         {
           "fn": "movies.gif",
@@ -267,6 +279,12 @@
           "name": "Nintendo",
           "size": [54, 15],
           "legacy": false
+        },
+        {
+          "fn": "none.png",
+          "name": "None",
+          "size": [54, 15],
+          "legacy": true
         },
         {
           "fn": "nsfw.gif",
