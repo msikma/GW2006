@@ -55,7 +55,7 @@ function get_post_data($post_id) {
   // Get the topic data.
   $request = $smcFunc['db_query']('', '
     select
-      p.id_msg, p.id_topic, p.id_board, p.poster_time, p.id_member, p.id_msg_modified,
+      p.id_msg, p.id_topic, p.id_board, p.poster_time, p.id_member, p.id_msg_modified, p.icon,
       p.subject, p.poster_name, p.poster_email, p.modified_time, p.modified_name, p.body, p.approved
     from {db_prefix}messages as p
     where p.id_msg = {int:post_id}

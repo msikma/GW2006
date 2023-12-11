@@ -44,6 +44,15 @@ $twig->addFunction(new TwigFunction('get_user_pip_images_from_posts', function($
   return get_user_pip_images_from_posts($posts, $member_group, $member_id);
 }));
 /** Returns a letter from a number; used for the member list. */
+$twig->addFunction(new TwigFunction('get_legacy_ipb_tags', function($post_body_unparsed) {
+  $tags = [];
+  preg_match_all('/\[legacy_ipb_tag\](.+?)\[\/legacy_ipb_tag\]/s', $post_body_unparsed, $matches);
+  foreach ($matches[1] as $match) {
+    $tags[] = ['value' => $match];
+  }
+  return $tags;
+}));
+/** Returns a letter from a number; used for the member list. */
 $twig->addFunction(new TwigFunction('get_letter', function($n) {
   return chr(64 + $n);
 }));

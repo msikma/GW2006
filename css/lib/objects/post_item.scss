@@ -7,6 +7,17 @@
 // A single post inside a thread.
 .post_item {
   .title {
+    position: relative;
+
+    .topic_icon {
+      display: block;
+      float: left;
+      position: relative;
+      top: 1px;
+      margin-right: cssvar(--gw-cell-large);
+      // Height is arbitrary, as long as it's under the line-height.
+      height: 10px;
+    }
     .subject {
       .subject_links {
         a {
@@ -31,6 +42,31 @@
     }
     .view_count {
       font-size: cssvar(--gw-font-small);
+    }
+    .tags {
+      display: flex;
+      position: absolute;
+      right: cssvar(--gw-cell-large);
+      top: 0;
+      bottom: 0;
+      align-items: center;
+
+      .tag {
+        &.legacy_tag {
+          &::before {
+            content: '#';
+          }
+          display: flex;
+          font-weight: normal;
+          border-radius: cssvar(--gw-rounding-small);
+          background: cssvar(--gw-inner-negative);
+          font-size: cssvar(--gw-font-small);
+          line-height: cssvar(--gw-line-height-large);
+          margin-left: 8px;
+          padding: 1px 6px;
+          border: 1px solid cssvar(--gw-inner-dark);
+        }
+      }
     }
   }
   .post_columns {

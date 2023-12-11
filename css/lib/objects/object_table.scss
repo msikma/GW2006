@@ -287,10 +287,6 @@
   display: block;
   margin: auto;
 }
-.object_table .object_row .icon img.shadow {
-  // Note: this is totally inauthentic, but it mimics the original pretty well.
-  box-shadow: 0px 1px 1.5px rgba(0, 0, 0, 0.2);
-}
 .object_table .sort_icon {
   margin-bottom: -1px;
 }

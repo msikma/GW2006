@@ -1,3 +1,7 @@
+{# The message icon is only available for the first post in the thread. #}
+{% set display_message_icon = true %}
+
+{# Whether this post can be reported. #}
 {% set can_report_moderator = context.can_report_moderator %}
 
 {# Anchor to the current message, and separately an anchor if it's the first message the viewer hasn't read. #}
@@ -22,6 +26,9 @@
   {% set is_ignored = message.is_ignored %}
   {% set show_member_info = true %}
   {% set message_approved = message.approved %}
+  {# Note: we get the message icon from the page_metadata, as we always need the FIRST POST's icon. #}
+  {# Subsequent pages do not include any metadata about the first post by default. #}
+  {% set topic_icon = context.page_metadata.icon != 'xx' or context.is_poll ? context.page_metadata.icon : null %}
 {% endif %}
 
 {# Set the post values if this is a series of PMs. #}
@@ -143,6 +150,9 @@
   {% set member = message.member %}
 {% endif %}
 
+{# Extract legacy tags from the first post, if applicable. #}
+{% set legacy_tags = get_legacy_ipb_tags(context.page_metadata.description_unparsed) %}
+
 {# Manually set signatures since we don't always have the context.signature_enabled variable. #}
 {% set signature_enabled = context.signature_enabled or modSettings.signature_settings|slice(0, 1) %}
 
@@ -157,8 +167,14 @@
             {% if first_post_header %}
               {{ first_post_header|raw }}
             {% else %}
+              {# The topic icon is the same icon that's displayed on the thread index. #}
+              {% if display_message_icon and topic_icon %}
+                <span class="topic_icon icon">
+                  {% include 'atoms/posticon.twig' with {'icon_name': topic_icon, 'is_system': context.is_poll, 'is_poll': context.is_poll, 'no_link': true} %}
+                </span>
+              {% endif %}
               <span class="subject">
-                {% if subject_label %}
+                {% if (not display_message_icon or not topic_icon) and subject_label %}
                   {{ txt['topic'] }}:
                 {% endif %}
                 <span class="content">{{ subject|raw }}</span>
@@ -166,6 +182,18 @@
               {% if show_view_count %}
                 <span class="view_count">({{ txt['read'] }} {{ context['num_views'] }} {{ txt['times'] }})</span>
               {% endif %}
+            {% endif %}
+            {% if legacy_tags %}
+              <span class="legacy_tags tags">
+                {# Legacy tags are tags that got imported from IPB after 2011. #}
+                {% if legacy_tags %}
+                  {% for tag in legacy_tags %}
+                    <span class="legacy_tag tag {{ tag.is_prefix ? 'is_prefix' }}" data-tag-id="{{ tag.tag_id }}" data-member-id="{{ tag.member_id }}" data-is-prefix="{{ tag.is_prefix ? '1' : '0' }}">
+                      {{ tag.value }}
+                    </span>
+                  {% endfor %}
+                {% endif %}
+              </span>
             {% endif %}
           </h3>
           <div class="blue_component_buttons">

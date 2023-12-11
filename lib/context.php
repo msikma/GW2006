@@ -207,7 +207,9 @@ function get_page_metadata($template_context) {
     // If we have a topic ID, use that to generate a description for this specific topic.
     $post_summary = get_post_summary($thread_id, $first_message_id, $message_id);
     $description = $post_summary['post_body_plain'];
+    $description_unparsed = $post_summary['post_body_unparsed'];
     $image = $post_summary['first_image'];
+    $icon = $post_summary['post_icon'];
   }
   else {
     // Fallback if all else fails.
@@ -221,10 +223,11 @@ function get_page_metadata($template_context) {
     'title' => $title,
     'title_full' => $title_full,
     'description' => limit_meta_string($description, 160),
-    'description_full' => $description,
+    'description_unparsed' => $description_unparsed,
     'image' => $image,
     'domain' => $parsed_url['host'],
     'canonical_url' => $canonical_url,
+    'icon' => $icon,
   ];
 }
 
@@ -267,6 +270,8 @@ function get_post_summary($thread_id, $first_message_id, $message_id) {
     'thread_id' => $thread_id,
     'message_id' => $target_message_id,
     'post_body' => $post_body,
+    'post_body_unparsed' => $post_data['body'],
+    'post_icon' => $post_data['icon'],
     'first_image' => $first_img,
     'post_body_plain' => $post_plain,
   ];
