@@ -71,6 +71,7 @@
 
               {% for topic in context.topics %}
                 {% set topic_classes = [] %}
+                {% set topic_is_age_locked = topic._locked == 2 %}
                 {% if not context.can_approve_posts and not topic.approved %}
                   {% set topic_classes = topic_classes|merge(['is_unapproved']) %}
                 {% endif %}
@@ -83,7 +84,7 @@
                 {% if topic.is_poll %}
                   {% set topic_classes = topic_classes|merge(['is_poll']) %}
                 {% endif %}
-                {% if topic.is_locked and not topic._is_redirect_topic %}
+                {% if topic.is_locked and not topic._is_redirect_topic and not topic_is_age_locked %}
                   {% set topic_classes = topic_classes|merge(['is_locked']) %}
                 {% endif %}
                 {% if topic._is_redirect_topic %}

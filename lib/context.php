@@ -77,6 +77,14 @@ function get_decorated_topics() {
     }
     $topics[$id] = $data;
   }
+
+  // Fetch the locked status; this is used to determine if we display the topics
+  // as "regular" locked topics, or as "locked due to old age".
+  $topic_locked = get_topic_locked_status(array_keys($topics));
+  foreach ($topic_locked as $id => $locked_status) {
+    $topics[$id]['_locked'] = $locked_status;
+  }
+
   return $topics;
 }
 

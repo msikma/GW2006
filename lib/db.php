@@ -118,3 +118,33 @@ function get_topic_data($topic_id) {
     'last_post' => $last_post,
   ];
 }
+
+/**
+ * Returns the locked status for a list of topic ids.
+ * 
+ * This is used to determine if topics should be displayed as "regular" locked, or as locked due to old age.
+ */
+function get_topic_locked_status($topic_ids) {
+  global $db_prefix, $smcFunc;
+
+  if (empty($topic_ids)) {
+    return [];
+  }
+  
+  // Retrieve all member groups for members whose birthday is today or upcoming.
+  $request = $smcFunc['db_query']('', '
+    select id_topic, locked from {db_prefix}topics
+    where id_topic in ({array_int:topics})
+  ',
+    [
+      'topics' => $topic_ids
+    ]
+  );
+
+  $topic_locked = [];
+  while ($row = $smcFunc['db_fetch_assoc']($request)) {
+    $topic_locked[$row['id_topic']] = $row['locked'];
+  }
+  
+  return $topic_locked;
+}
