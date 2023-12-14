@@ -17,6 +17,10 @@
         span {
         }
 
+        &.disabled {
+          pointer-events: none;
+        }
+
         &.button_new_topic {
           background-image: url('../../images/topic_buttons/new_topic.gif');
         }

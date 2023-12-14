@@ -11,7 +11,7 @@
         {% if (value.static_test is defined and value.static_test == true) or (value.test and context[value.test]) or (value.static_test is not defined and value.test is not defined) %}
           {% set tag = value.static ? 'span' : 'a' %}
           <li>
-            <{{ tag }}{{ value.id is defined ? ' id="button_strip_' ~ value.id ~ '"' : ''}} class="button button_{{ key }} {{ value.active ? 'active'}} {{ value.static ? 'static' }} {{ value.no_bg ? 'no_bg' }}" href="{{ value.url }}" {{ value.custom is defined ? value.custom|raw : ''}}>
+            <{{ tag }}{{ value.id is defined ? ' id="button_strip_' ~ value.id ~ '"' : ''}} class="button button_{{ key }} {{ value.active ? 'active'}} {{ value.static ? 'static' }} {{ value.no_bg ? 'no_bg' }} {{ disabled ? 'disabled' }}" href="{{ value.url }}" {{ value.custom is defined ? value.custom|raw : ''}}>
               <span class="{{ value.form ? 'button_strip_form' : '' }}">{{ value.lang ? txt[value.text] : value.text }}</span>
             </{{ tag }}>
           </li>

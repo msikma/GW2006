@@ -1,3 +1,4 @@
+{# The messages to display. #}
 {% set messages = messages ?? context.messages %}
 
 {# This is currently not implemented yet. #}
@@ -11,6 +12,11 @@
 
 {# Whether we're displaying page links. #}
 {% set display_page_links = display_page_links ?? true %}
+
+{# Whether the post is locked; either manually locked (1), or locked due to age (2). #}
+{% set is_locked = context.is_locked > 0 %}
+{% set is_manually_locked = context.is_locked == 1 %}
+{% set is_age_locked = context.is_locked == 2 %}
 
 {# Action buttons shown at the top of the thread. #}
 {% set normal_buttons = {
@@ -127,14 +133,14 @@
   },
   lock: {
     test: 'can_lock',
-    text: context.is_locked is empty ? 'set_lock' : 'set_unlock',
+    text: is_locked ? 'set_lock' : 'set_unlock',
     image: 'mod_lock_unlock.gif',
     lang: true,
     url: scripturl ~ '?action=lock;topic=' ~ context.current_topic ~ '.' ~ context.start ~ ';' ~ context.session_var ~ '=' ~ context.session_id
   },
   sticky: {
     test: 'can_sticky',
-    text: context.is_sticky is empty ? 'set_sticky' : 'set_nonsticky',
+    text: is_locked ? 'set_sticky' : 'set_nonsticky',
     image: 'mod_sticky_unsticky.gif',
     lang: true,
     url: scripturl ~ '?action=sticky;topic=' ~ context.current_topic ~ '.' ~ context.start ~ ';' ~ context.session_var ~ '=' ~ context.session_id
@@ -240,21 +246,22 @@
 
 <a id="lastPost"></a>
 
-{% if not context.is_locked %}
-  <div class="forum_page_section">
-    {% include 'components/layout/button_strip.twig' with {'buttons': normal_buttons, 'type': 'primary'} %}
-    {% if display_page_links %}
-      {% include 'components/layout/page_number_links.twig' with {'location': 'bottom', 'is_posts_index': true} %}
-    {% endif %}
-  </div>
-{% else %}
-  <div class="forum_page_section is_locked">
+<div class="forum_page_section {{ is_manually_locked ? 'is_locked' }}">
+  {% if is_manually_locked %}
+    {# Display the locked image for topics that were manually locked. #}
     {% include 'atoms/button_locked.twig' %}
-  </div>
-{% endif %}
+  {% else %}
+    {# If the topic isn't locked (or is locked due to age), display the interaction buttons. #}
+    {# The buttons are non-interactive if the topic is locked due to age. #}
+    {% include 'components/layout/button_strip.twig' with {'buttons': normal_buttons, 'type': 'primary', 'disabled': is_age_locked} %}
+  {% endif %}
+  {% if display_page_links %}
+    {% include 'components/layout/page_number_links.twig' with {'location': 'bottom', 'is_posts_index': true} %}
+  {% endif %}
+</div>
 
 {% if context.can_reply and options.display_quick_reply %}
-  {% include 'components/post/thread_quick_reply.twig' %}
+  {% include 'components/post/thread_quick_reply.twig' with {'is_age_locked': is_age_locked} %}
 {% endif %}
 
 {% if display_viewing %}

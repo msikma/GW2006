@@ -4,7 +4,15 @@
 {# Whether to add a prefix to the subject (should be false: we always keep subjects the same as the first post). #}
 {% set add_prefix = false %}
 
-{% if not context.is_locked %}
+{% set old_topic_warning %}
+  {# Displayed if the topic has been locked due to old age. #}
+  Warning: this topic has been auto-locked as it has not been posted in for over %1$d days.<br />
+  Only admins and moderators can reply. If you really want to say something, start a new topic.
+{% endset %}
+
+{% set is_locked_due_to_age = context.oldTopicError or is_age_locked %}
+
+{% if context.is_locked != 1 %}
   <a id="quickreply"></a>
 
   <div class="object_form new_post_form quick_reply object_list spaced_top">
@@ -43,23 +51,23 @@
               <tr class="object_row">
                 <th class="minimal">{{ txt.message }}:</th>
                 <td>
-                  {% if context.oldTopicError %}
-                    {% include 'atoms/notification.twig' with {'type': 'warning', 'content': txt.error_old_topic|format(modSettings.oldTopicDays)} %}
+                  {% if is_locked_due_to_age %}
+                    {% include 'atoms/notification.twig' with {'type': 'warning', 'content': old_topic_warning|format(modSettings.oldTopicDays)} %}
                   {% endif %}
                   {% if not context.can_reply_approved %}
                     {% include 'atoms/notification.twig' with {'type': 'info', 'content': txt.wait_for_approval} %}
                   {% endif %}
-                  <textarea class="editor" name="message" id="message" rows="12" cols="600" tabindex="{{ context.tabindex }}"></textarea>
+                  <textarea class="editor" name="message" id="message" rows="12" cols="600" tabindex="{{ context.tabindex }}" {{ is_locked_due_to_age ? 'disabled="disabled"' }}></textarea>
                   <script>decorateComponent('messageField');</script>
                 </td>
               </tr>
               <tr class="object_row dark">
                 <th class="minimal"></th>
                 <td>
-                  <button type="submit" name="post" onclick="return submitThisOnce(this);" tabindex="{{ context.tabindex }}"><strong>Post quick reply</strong></button>
-                  <button type="submit" name="preview" onclick="return submitThisOnce(this);" accesskey="p" tabindex="{{ context.tabindex }}">{{ txt.preview }}</button>
+                  <button type="submit" name="post" onclick="return submitThisOnce(this);" tabindex="{{ context.tabindex }}" {{ is_locked_due_to_age ? 'disabled="disabled"' }}><strong>Post quick reply</strong></button>
+                  <button type="submit" name="preview" onclick="return submitThisOnce(this);" accesskey="p" tabindex="{{ context.tabindex }}" {{ is_locked_due_to_age ? 'disabled="disabled"' }}>{{ txt.preview }}</button>
                   {% if context.show_spellchecking %}
-                    <button type="button" name="preview" onclick="spellCheck('postmodify', 'messageField');" tabindex="{{ context.tabindex }}">{{ txt.spell_check }}</button>
+                    <button type="button" name="preview" onclick="spellCheck('postmodify', 'messageField');" tabindex="{{ context.tabindex }}" {{ is_locked_due_to_age ? 'disabled="disabled"' }}>{{ txt.spell_check }}</button>
                   {% endif %}
                 </td>
               </tr>
