@@ -142,6 +142,11 @@
   // Which shouldn't really be used but whatever.
   .phpcode {
     font-family: string.unquote(cssvar(--gw-font-code));
+    display: inline-block;
+
+    span {
+      display: inline-block;
+    }
   }
 }
 
