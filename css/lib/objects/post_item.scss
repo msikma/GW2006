@@ -74,6 +74,7 @@
 
     .post_column {
       flex: 0 0 calc(100% - cssvar(--gw-post-column-a));
+      width: calc(100% - cssvar(--gw-post-column-a));
 
       .modified {
         font-style: italic;
