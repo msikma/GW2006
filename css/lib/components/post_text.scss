@@ -27,6 +27,14 @@
   padding: cssvar(--gw-cell-medium) !important;
 }
 
+// Keyframes for the <blink> tag.
+@keyframes blink {
+  67% {
+    // Note: the original <blink> tag ONLY blinked text, nothing else.
+    color: transparent;
+  }
+}
+
 // .post_text contains styles for posts and other kinds of text pages. All BB Code post styles are implemented here.
 #wrapper .post_text {
   p {
@@ -79,6 +87,9 @@
   }
   li {
     line-height: 1.5em;
+  }
+  blink {
+    animation: blink 1s step-end infinite;
   }
   .bbc_u {
     text-decoration: underline;
