@@ -19,7 +19,6 @@ function decorateComponent(type, ...args) {
   const types = {
     loginForm: decorateLoginForm,
     messageField: decorateMessageField,
-    postItem: decoratePostItem,
     permissionsFilter: decoratePermissionsFilter,
     popupWindow: decoratePopupWindow,
     posticons: decoratePostIcons,
@@ -29,29 +28,6 @@ function decorateComponent(type, ...args) {
   const runDecorator = types[type] || unknownDecorator
 
   runDecorator(type, ...args)
-}
-
-/**
- * Interactivity for a single post item, e.g. a post thread, or a reply, or a post history item.
- */
-function decoratePostItem(_, id) {
-  // There should only ever be a single instance of a post on a page, but...just in case.
-  const $postItems = document.querySelectorAll(`.post_item.post_id_${id}`)
-  $postItems.forEach($postItem => {
-    // Again, this should never be needed. Protection in case we double decorate a post.
-    if ($postItem._isDecorated) {
-      return
-    }
-    $postItem._isDecorated = true
-
-    // If this is an ignored post, decorate its unhide link.
-    if ($postItem.className.includes('is_ignore')) {
-      $postItem.querySelector('.unhide a').addEventListener('click', ev => {
-        ev.preventDefault()
-        $postItem.classList.add('display_ignored_post')
-      })
-    }
-  })
 }
 
 /**
