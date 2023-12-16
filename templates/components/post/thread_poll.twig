@@ -56,7 +56,7 @@
               {% set normalized_percentage = max_vote_percentage == 0 ? 0 : (option.percent / max_vote_percentage) * 100 %}
               <tr class="object_row bar_item {{ option.voted_this ? 'voted highlighted' : 'not_voted light' }} {{ option.votes == 0 ? 'zero_votes' }}">
                 <td class="option">
-                  {{ option.option }}
+                  {{ option.option|raw }}
                 </td>
                 {% if can_view_results %}
                   <td class="bar_container">
