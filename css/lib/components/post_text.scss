@@ -37,6 +37,8 @@
 
 // .post_text contains styles for posts and other kinds of text pages. All BB Code post styles are implemented here.
 #wrapper .post_text {
+  word-break: break-word;
+
   p {
     // Note: GW posts originally did not use <p> tags, but plain text with <br /> tags, which are somewhat larger. margin-top: 1em;
     margin-bottom: 1em;
