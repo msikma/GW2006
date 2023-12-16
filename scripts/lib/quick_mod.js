@@ -8,24 +8,24 @@
  * 
  * Used by the quick moderation tools to select threads to moderate.
  */
-export function selectCheckAll($checkbox, $form, requiredName, ignoreDisabled = true) {
+export function selectCheckAll(checkbox, form, requiredName, ignoreDisabled = true) {
   // The value that all checkboxes should be set to.
-  const isChecked = $checkbox.checked
+  const isChecked = checkbox.checked
 
-  for (let n = 0; n < $form.length; ++n) {
-    const $item = $form[n]
-    const hasName = 'name' in $item
-    const matchesName = !requiredName || (hasName && ($item.name.startsWith(requiredName) || $item.id.startsWith(requiredName)))
-    const isDisabled = $item.disabled
-    const isCheckbox = $item.type === 'checkbox'
+  for (let n = 0; n < form.length; ++n) {
+    const item = form[n]
+    const hasName = 'name' in item
+    const matchesName = !requiredName || (hasName && (item.name.startsWith(requiredName) || item.id.startsWith(requiredName)))
+    const isDisabled = item.disabled
+    const isCheckbox = item.type === 'checkbox'
     
     // Skip if this item does not match our requirements.
     if (!isCheckbox || !hasName || !matchesName || (ignoreDisabled && isDisabled)) {
       continue
     }
 
-    $item.checked = isChecked
-    highlightTr($item)
+    item.checked = isChecked
+    highlightTr(item)
   }
 }
 
@@ -34,14 +34,14 @@ export function selectCheckAll($checkbox, $form, requiredName, ignoreDisabled = 
  * 
  * Used by the quick moderation tools to select threads to moderate.
  */
-export function selectCheck($checkbox) {
-  highlightTr($checkbox)
+export function selectCheck(checkbox) {
+  highlightTr(checkbox)
 }
 
 /**
  * Adds the .is_selected class to a checkbox's containing <tr> tag.
  */
-function highlightTr($checkbox) {
-  const $tr = $checkbox.closest('tr')
-  $tr.classList.toggle('is_selected', $checkbox.checked)
+function highlightTr(checkbox) {
+  const tr = checkbox.closest('tr')
+  tr.classList.toggle('is_selected', checkbox.checked)
 }
