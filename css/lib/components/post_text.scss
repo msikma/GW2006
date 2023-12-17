@@ -107,21 +107,22 @@
   }
 
   // Source code component for [code] tags.
-  .codeheader {
-    @include box-header;
+  .bbc_code_block {
+    .codeheader {
+      @include box-header;
 
-    .codeoperation {
-      font-weight: normal;
-      float: right;
-    }
+      .codeoperation {
+        font-weight: normal;
+        float: right;
+      }
 
-    + pre,
-    + code {
-      @include box-body;
-      display: block;
-      margin: 0;
-      white-space: pre;
-      font-family: string.unquote(cssvar(--gw-font-code));
+      + code {
+        @include box-body;
+        display: block;
+        margin: 0;
+        white-space: pre;
+        font-family: string.unquote(cssvar(--gw-font-code));
+      }
     }
   }
 
