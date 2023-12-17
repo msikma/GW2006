@@ -77,6 +77,13 @@
         }
       }
     }
+    .subject.no_post_info {
+      // Subjects with .no_post_info are old redirects to topics that no longer exist.
+      // Most likely these topics got deleted at some point but the redirect still exists.
+      .link a {
+        pointer-events: none;
+      }
+    }
   }
   .last_post {
     .last_post_icon {

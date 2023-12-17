@@ -139,7 +139,7 @@
                       {% include 'atoms/posticon.twig' with {'icon_name': topic.first_post.icon, 'is_system': has_system_icon, 'is_poll': topic.is_poll} %}
                     </td>
                   {% endif %}
-                  <td class="subject" {{ not has_post_info ? 'colspan="5"' }}>
+                  <td class="subject {{ not has_post_info ? 'no_post_info' }}" {{ not has_post_info ? 'colspan="5"' }}>
                     <div id="topic_{{ topic.first_post.id }}" class="topic_container">
                       <span class="link">
                         {% if topic.new %}
