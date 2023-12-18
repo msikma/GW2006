@@ -96,6 +96,18 @@
   .bbc_u {
     text-decoration: underline;
   }
+  .bbc_img {
+    &.bbc_img_error {
+      @include pixel-image;
+
+      min-width: 24px;
+      min-height: 24px;
+      margin-top: -4.8px;
+      display: inline-block;
+      vertical-align: bottom;
+      background: url('../../images/img_broken.png') no-repeat 50% 50%;
+    }
+  }
 
   // Smileys/emoticons in posts.
   .smiley {

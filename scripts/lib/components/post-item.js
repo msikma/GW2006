@@ -16,8 +16,16 @@ export function decoratePostItem(id) {
     postItem._isDecorated = true
 
     const postText = postItem.querySelector('.inner.post_text')
+    const sigText = postItem.querySelector('.signature.post_text')
+
+    // Add a CSS class to all images that fail to load.
+    const bbcImages = [...postText.querySelectorAll('.bbc_img'), ...sigText ? sigText.querySelectorAll('.bbc_img') : []]
+    bbcImages.forEach(img => img.addEventListener('error', ev => {
+      ev.target.classList.add('bbc_img_error')
+    }))
 
     // Check if this post contains Youtube URLs. Replace those into embeds.
+    // We don't replace the links in the signature since there's not enough space.
     const ytLinks = postText.querySelectorAll('a.bbc_link[href*="youtu.be"], a.bbc_link[href*="youtube.com"]')
     ytLinks.forEach(ytLink => {
       const content = ytLink.innerText.trim()
