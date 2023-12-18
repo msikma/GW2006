@@ -30,16 +30,16 @@ require_once('lib/prng.php');
  * An additional $template_context array can be passed on to include in the context.
  */
 function render_template($file, $template_context = []) {
-  global $twig, $settings, $options, $scripturl, $txt, $modSettings, $forum_copyright, $forum_version;
+  global $twig, $settings, $context, $options, $scripturl, $txt, $modSettings, $forum_copyright, $forum_version;
 
   // Generate the context used to render this template.
   // This does a bunch of preprocessing for everything we need to be able to render templates.
-  $context = get_render_context($template_context);
+  $render_context = get_render_context($template_context);
 
   // Pass on all data to Twig and render the requested template.
   // Note that all $settings values are exported directly, not in an array.
   print($twig->render($file, array_merge($settings, [
-    'context' => array_merge($context, $template_context),
+    'context' => array_merge($context, $render_context, $template_context),
     'forum_copyright' => sprintf($forum_copyright, $forum_version),
     'forum_version' => $forum_version,
     'modSettings' => $modSettings,
