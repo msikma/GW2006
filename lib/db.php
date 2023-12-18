@@ -148,30 +148,3 @@ function get_topic_locked_status($topic_ids) {
   
   return $topic_locked;
 }
-
-/**
- * Locks all topics older than $
- */
-function auto_lock_old_topics() {
-  global $db_prefix, $smcFunc, $modSettings;
-  
-  // Amount of days of no replies after which a topic is locked due to age.
-  $days = $modSettings['oldTopicDays'];
-  
-  // Retrieve all member groups for members whose birthday is today or upcoming.
-  $request = $smcFunc['db_query']('', '
-    update {db_prefix}topics t
-    join {db_prefix}messages m on m.id_msg = t.id_last_msg
-    set t.locked = {int:to_locked}
-    where m.poster_time < unix_timestamp(date_sub(now(), interval {int:days} day))
-    and t.locked = {int:locked}
-  ',
-    [
-      'days' => $days,
-      'to_locked' => 2,
-      'locked' => 0
-    ]
-  );
-
-  return !!$request;
-}
