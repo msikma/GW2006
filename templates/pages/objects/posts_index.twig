@@ -260,7 +260,8 @@
   {% endif %}
 </div>
 
-{% if context.can_reply and options.display_quick_reply %}
+{# Note: if the topic is locked due to age, display the reply box so the user can see the warning. #}
+{% if (context.can_reply or is_age_locked) and options.display_quick_reply %}
   {% include 'components/post/thread_quick_reply.twig' with {'is_age_locked': is_age_locked} %}
 {% endif %}
 
