@@ -5,8 +5,9 @@
   <div class="years">
     <span>© 2001-2023.</span> <span>Modifications by Dada78641.</span> <span>All Rights Reserved.</span>
   </div>
-  <div class="generation">
-    {# Normally we should check if context.show_load_time is set but whatever. #}
-    {{ txt.page_created }} <span class="load_time">{{ context.load_time }}</span> {{ txt.seconds_with }} <span class="load_queries">{{ context.load_queries }}</span> {{ txt.queries }}
-  </div>
+  {% if context.show_load_time %}
+    <div class="generation">
+      {{ txt.page_created }} <span class="load_time">{{ context.load_time }}</span> {{ txt.seconds_with }} <span class="load_queries">{{ context.load_queries }}</span> {{ txt.queries }}
+    </div>
+  {% endif %}
 </div>
