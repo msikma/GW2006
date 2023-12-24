@@ -8,8 +8,9 @@ input[type="url"],
 input[type="email"] {
   height: 22px;
 }
-select:not[multiple] {
+select:not([multiple]) {
   height: 22px;
+  vertical-align: bottom;
 }
 button,
 input[type="submit"],
