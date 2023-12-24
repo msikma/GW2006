@@ -102,10 +102,10 @@
 
       min-width: 24px;
       min-height: 24px;
-      margin-top: -4.8px;
       display: inline-block;
       vertical-align: bottom;
       background: url('../../images/img_broken.png') no-repeat 50% 50%;
+      border: 1px inset cssvar(--gw-browser-image-border);
 
       &:first-child {
         margin-top: 0;

@@ -38,6 +38,8 @@ $gw-properties: (
 
   --gw-text-light: #696a7c,
 
+  --gw-browser-image-border: #b2b2b2, // Old browser inset border color for <img> tags.
+
   --gw-header-cell-height: 1.875rem,
   --gw-subheader-cell-height: 1.625rem,
   --gw-font-regular: 0.8333rem, // 13.333px. Note: original font size was 10pt. This works out to 83.333% of the root 16px.
