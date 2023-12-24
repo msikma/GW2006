@@ -75,7 +75,7 @@
     {% set contact_rows = contact_rows|merge([{
       display: service_info,
       key: service.name,
-      value: service.is_link ? '<a href="' ~ service_info ~ '" rel="nofollow">' ~ service_info ~ '</a>' : service_info,
+      value: service.is_link ? get_link_or_text(service_info) : service_info,
     }]) %}
   {% endif %}
 {% endfor %}

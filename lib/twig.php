@@ -85,6 +85,15 @@ $twig->addFunction(new TwigFunction('remove_response_prefix', function($subject)
 $twig->addFunction(new TwigFunction('get_label_color_n', function($name) {
   return getRandomIntBySeed($name, 1, 10);
 }));
+/** Returns either a link for a link-like string, or the string itself. */
+$twig->addFunction(new TwigFunction('get_link_or_text', function($url) {
+  if (filter_var($url, FILTER_VALIDATE_URL)) {
+    $parsed = parse_url($url);
+    $display = @$parsed['host'].@$parsed['path'];
+    return '<a href="'.$url.'" rel="nofollow">'.$display.'</a>';
+  }
+  return $url;
+}));
 /** Returns an alert dialog box, either as a string or as an attribute. */
 $twig->addFunction(new TwigFunction('js_alert', function($message, $is_attr = false) {
   return $is_attr ? get_dialog_attr($message, 'alert') : get_dialog($message, 'alert') ;
