@@ -142,7 +142,8 @@
     {% include 'components/generic/component_key_value.twig' with {title: 'Contact information', rows: contact_rows} %}
     {% include 'components/generic/component_key_value.twig' with {title: 'Additional information', rows: additional_rows} %}
     {% if context.member.signature %}
-      {% include 'components/generic/article.twig' with {title: (context.member.name ?? context.member.username) ~ "'s signature", content: context.member.signature} %}
+      {% include 'components/generic/article.twig' with {title: (context.member.name ?? context.member.username) ~ "'s signature", content: context.member.signature, class: 'member_id_' ~ context.member.id, inner_class: 'signature'} %}
+      <script>gw.decoratePostItem(null, '{{ context.member.id }}');</script>
     {% endif %}
     {% if context.can_see_ip and show_admin_rows %}
       {% include 'components/generic/component_key_value.twig' with {title: 'Moderator information', rows: admin_rows} %}
