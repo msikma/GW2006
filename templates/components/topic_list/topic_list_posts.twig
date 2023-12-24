@@ -84,8 +84,13 @@
                 {% if topic.is_poll %}
                   {% set topic_classes = topic_classes|merge(['is_poll']) %}
                 {% endif %}
-                {% if topic.is_locked and not topic._is_redirect_topic and not topic_is_age_locked %}
+                {% if topic.is_locked and not topic._is_redirect_topic %}
                   {% set topic_classes = topic_classes|merge(['is_locked']) %}
+                  {% if topic_is_age_locked %}
+                    {% set topic_classes = topic_classes|merge(['is_locked_inactivity']) %}
+                  {% else %}
+                    {% set topic_classes = topic_classes|merge(['is_locked_manually']) %}
+                  {% endif %}
                 {% endif %}
                 {% if topic._is_redirect_topic %}
                   {% set topic_classes = topic_classes|merge(['is_redirect']) %}
@@ -125,6 +130,7 @@
                     <td colspan="999"></td>
                   </tr>
                 {% endif %}
+
                 {% set last_topic_row_was_sticky = topic.is_sticky %}
 
                 <tr class="object_row topic_row light {{ topic_classes|join(' ') }}">
@@ -141,6 +147,23 @@
                   {% endif %}
                   <td class="subject {{ not has_post_info ? 'no_post_info' }}" {{ not has_post_info ? 'colspan="5"' }}>
                     <div id="topic_{{ topic.first_post.id }}" class="topic_container">
+                      <span class="labels">
+                        {% if 'is_locked' in topic_classes %}
+                          <span class="label img lock"></span>
+                        {% endif %}
+                        {% if 'is_locked_manually' in topic_classes %}
+                          <span class="label text lock_text"></span>
+                        {% endif %}
+                        {% if 'is_redirect' in topic_classes %}
+                          <span class="label text redirect_text"></span>
+                        {% endif %}
+                        {% if 'is_sticky' in topic_classes %}
+                          <span class="label text sticky_text"></span>
+                        {% endif %}
+                        {% if 'is_poll' in topic_classes %}
+                          <span class="label text poll_text"></span>
+                        {% endif %}
+                      </span>
                       <span class="link">
                         {% if topic.new %}
                           <a href="{{ topic.last_post.href|raw }}" class="new_post_link_indicator">

@@ -6,6 +6,14 @@
   image-rendering: crisp-edges;
 }
 
+@mixin retina {
+  @media only screen and (min-device-pixel-ratio: 2),
+  only screen and (min-resolution: 192dpi),
+  only screen and (min-resolution: 2dppx) {
+    @content;
+  }
+}
+
 // Images tagged with the .pixel class appear pixelated on retina displays.
 .pixel {
   @include pixel-image;

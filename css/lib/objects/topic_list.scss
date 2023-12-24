@@ -38,30 +38,63 @@
         display: none !important;
       }
     }
-    &.is_locked {
-      .subject .link::before {
-        content: 'Locked: ';
-      }
-    }
-    &.is_redirect {
-      .subject .link::before {
-        content: 'Moved: ';
-      }
-      &.is_locked {
-        .subject .link::before {
-          content: 'Locked: Moved: ';
-        }
-      }
-    }
-    &.is_poll {
-      .subject .link::before {
-        content: 'Poll: ';
-      }
-    }
-    @if $use-sticky-label {
-      &.is_sticky {
-        .subject .link::before {
-          content: 'Sticky: ';
+    .subject {
+      .topic_container {
+        .labels {
+
+          .label {
+            &::before {
+              content: '';
+            }
+            &.text::before {
+            }
+            &.img {
+              &::before {
+                @include pixel-image;
+  
+                display: inline-block;
+                background-position: 50%;
+                background-repeat: no-repeat;
+                background-size: 19px 21px;
+                position: absolute;
+                top: -2px;
+                width: 19px;
+                height: 21px;
+              }
+              width: 19px;
+              height: 10px;
+              display: inline-block;
+              vertical-align: top;
+              position: relative;
+            }
+            &.lock {
+              width: 13px;
+
+              &::before {
+                width: 13px;
+                background-image: url('../../images/topic_lock.png');
+                background-size: 13px 21px;
+
+                @include retina {
+                  background-image: url('../../images/topic_lock@2x.png');
+                }
+              }
+            }
+            &.lock_text::before {
+              content: 'Locked:';
+            }
+            &.redirect_text::before {
+              content: 'Moved:';
+            }
+            @if $use-sticky-label {
+              &.sticky_text::before {
+                content: 'Sticky:';
+              }
+            }
+            &.poll_text::before {
+              content: 'Poll:';
+            }
+          }
         }
       }
     }
