@@ -176,6 +176,22 @@ function get_search_cache() {
 }
 
 /**
+ * Returns the linktree with custom changes applied.
+ */
+function get_linktree() {
+  global $context;
+
+  $linktree = $context['linktree'];
+
+  // Replace the "help" page with "changelog".
+  if (is_changelog_page()) {
+    $linktree[1] = ['name' => 'Changelog', 'url' => $scripturl.'?action=help;area=changelog'];
+  }
+  
+  return $linktree;
+}
+
+/**
  * Returns metadata for the current page.
  * 
  * This is used to display Open Graph information.

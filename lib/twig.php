@@ -122,6 +122,7 @@ function get_render_context($template_context = []) {
   }
   
   // Assemble our custom data.
+  $context['linktree'] = get_linktree();
   $context['page_metadata'] = get_page_metadata($template_context);
   $context['topics'] = get_decorated_topics();
   $context['emoticons_base_url'] = get_emoticons_base_url();
