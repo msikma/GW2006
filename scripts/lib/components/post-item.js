@@ -1,7 +1,7 @@
 // Gaming World 2006 <https://gamingw.net/>
 // © MIT License
 
-import {getYoutubeId, createYoutubeEmbed} from '../util/embeds.js'
+import {getYoutubeAttributes, createYoutubeEmbed} from '../util/embeds.js'
 
 /**
  * Interactivity for a single post item, e.g. a post thread, or a reply, or a post history item.
@@ -46,11 +46,14 @@ export function decoratePostItem(id, memberId) {
       // The link is a plain [url]https://www.youtube.com/watch?v=oMBye719ayA[/url] link,
       // or a plaintext link that got converted into one automatically.
       // In this case we'll convert it into an embed.
-      const youtubeId = getYoutubeId(href)
+      const youtubeAttributes = getYoutubeAttributes(href)
+      if (!youtubeAttributes.meta.isYoutubeUrl) {
+        return
+      }
       const embedNode = document.createElement('div')
       embedNode.classList.add('gwbbc', 'gwbbc_youtube')
-      embedNode.setAttribute('data-content', youtubeId)
-      embedNode.innerHTML = createYoutubeEmbed(youtubeId)
+      embedNode.setAttribute('data-content', youtubeAttributes.id)
+      embedNode.innerHTML = createYoutubeEmbed(youtubeAttributes.id, youtubeAttributes.attributes, youtubeAttributes.meta)
       ytLink.parentNode.replaceChild(embedNode, ytLink)
     })
 
