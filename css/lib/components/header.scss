@@ -64,12 +64,11 @@
           line-height: 1.5rem;
           height: calc(1.5rem - 4px);
           padding: 0;
-
-          &[type="submit"] {
-            all: revert;
-            height: 1.5rem;
-            padding: 0 0.5ch;
-          }
+        }
+        button[type="submit"] {
+          all: revert;
+          height: 1.5rem;
+          padding: 0 0.5ch;
         }
       }
     }
