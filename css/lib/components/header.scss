@@ -22,6 +22,10 @@
         .info.bottom {
           margin-top: 4px;
         }
+        input[name="user"],
+        input[name="passwrd"] {
+          width: 105px;
+        }
       }
     }
     .user_welcome p {
