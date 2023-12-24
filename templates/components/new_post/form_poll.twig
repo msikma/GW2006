@@ -2,7 +2,7 @@
 <tr id="edit_poll" class="object_row {% if context.poll_error.no_question %}error{% endif %}">
   <th class="minimal">{{ txt.poll_question }}:</th>
   <td>
-    <input type="text" name="question" value="{{ (context.poll.question ?? context.question ?? '')|raw }}" tabindex="{{ context.tabindex + 1 }}" size="80" />
+    <input type="text" name="question" value="{{ (context.poll.question ?? context.question ?? '')|raw }}" tabindex="{{ context.tabindex + 1 }}" size="80" autocomplete="off" />
   </td>
 </tr>
 <tr id="edit_poll" class="object_row">
@@ -12,7 +12,7 @@
       {% for choice in context.choices %}
         <li>
           <label for="options-{{ choice.id }}">{{ txt.option }} {{ choice.number }}</label>:
-          <input type="text" name="options[{{ choice.id }}]" id="options-{{ choice.id }}" value="{{ choice.label|raw }}" tabindex="{{ context.tabindex + 1 }}" size="80" maxlength="255" />
+          <input type="text" name="options[{{ choice.id }}]" id="options-{{ choice.id }}" value="{{ choice.label|raw }}" tabindex="{{ context.tabindex + 1 }}" size="80" maxlength="255" autocomplete="off" />
         </li>
       {% endfor %}
       <li id="pollMoreOptions"></li>
@@ -26,10 +26,10 @@
   <td>
     <ul class="object_row_list">
       <li>
-        <label for="poll_max_votes">{{ txt.poll_max_votes }}: <input type="text" name="poll_max_votes" id="poll_max_votes" size="2" value="{{ context.poll_options.max_votes }}" /></label>
+        <label for="poll_max_votes">{{ txt.poll_max_votes }}: <input type="text" name="poll_max_votes" id="poll_max_votes" size="2" value="{{ context.poll_options.max_votes }}" autocomplete="off" /></label>
       </li>
       <li>
-        <label for="poll_expire">{{ txt.poll_run }}: <input type="text" name="poll_expire" id="poll_expire" size="2" value="{{ context.poll_options.expire }}" onchange="pollOptions();" maxlength="4" /> {{ txt.days_word }}</label>
+        <label for="poll_expire">{{ txt.poll_run }}: <input type="text" name="poll_expire" id="poll_expire" size="2" value="{{ context.poll_options.expire }}" onchange="pollOptions();" maxlength="4" autocomplete="off" /> {{ txt.days_word }}</label>
         <em class="smalltext">{{ txt.poll_run_limit }}</em>
       </li>
       <li>
@@ -78,6 +78,6 @@
     }
     pollOptionNum++
 
-    setOuterHTML(document.getElementById("pollMoreOptions"), '<li><label for="options-' + pollOptionNum + '" {% if context.poll_error.no_question is defined %}class="error"{% endif %}>{{ txt['option'] }} ' + pollOptionNum + '</label>: <input type="text" name="options[' + (pollOptionNum - 1) + ']" id="options-' + (pollOptionNum - 1) + '" value="" size="80" maxlength="255" /></li><li id="pollMoreOptions"></li>');
+    setOuterHTML(document.getElementById("pollMoreOptions"), '<li><label for="options-' + pollOptionNum + '" {% if context.poll_error.no_question is defined %}class="error"{% endif %}>{{ txt['option'] }} ' + pollOptionNum + '</label>: <input type="text" name="options[' + (pollOptionNum - 1) + ']" id="options-' + (pollOptionNum - 1) + '" value="" size="80" maxlength="255" autocomplete="off" /></li><li id="pollMoreOptions"></li>');
   }
 </script>

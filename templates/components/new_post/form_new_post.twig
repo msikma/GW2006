@@ -95,7 +95,7 @@
                       {% include 'atoms/posticon.twig' with {'icon': context.posticon_context} %}
                     </div>
                     <div class="input_item_main subject_input">
-                      <input type="text" name="subject"{% if context.subject != "" %} value="{{ context.subject|raw }}"{% endif %} tabindex="{{ context.tabindex }}" size="80" maxlength="80" />
+                      <input type="text" name="subject"{% if context.subject != "" %} value="{{ context.subject|raw }}"{% endif %} tabindex="{{ context.tabindex }}" size="80" maxlength="80" autocomplete="off" />
                     </div>
                   </div>
                 </td>
