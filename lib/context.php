@@ -179,7 +179,7 @@ function get_search_cache() {
  * Returns the linktree with custom changes applied.
  */
 function get_linktree() {
-  global $context;
+  global $context, $scripturl;
 
   $linktree = $context['linktree'];
 
