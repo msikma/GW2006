@@ -47,6 +47,9 @@
               <td class="minimal light">{{ commit.timestamp|format_datetime(pattern='y-MM-dd') }}</td>
             </tr>
           {% endfor %}
+          <tr class="object_row">
+            <td class="kv_key medium text_center" colspan="5"><a href="{{ context.git_info.repo_url }}" target="_blank">View all {{ context.git_info.count }} commits</a></td>
+          </tr>
         </tbody>
       </table>
     </div>
