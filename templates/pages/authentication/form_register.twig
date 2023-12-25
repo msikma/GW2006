@@ -127,6 +127,17 @@
                 </tr>
               {% endfor %}
             {% endif %}
+          
+            {% if context.theme_hooks.all_hooks_installed %}
+              <tr class="object_row" id="foget_recaptcha">
+                <th class="minimal">
+                  <label for="gw_captcha">Captcha</label>
+                </th>
+                <td>
+                  {% include 'components/captcha/foget_captcha.twig' %}
+                </td>
+              </tr>
+            {% endif %}
 
             {% if context.visual_verification %}
               <tr class="object_row" id="verification">

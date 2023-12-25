@@ -18,6 +18,8 @@ require_once('lib/git.php');
 require_once('lib/custom_fields.php');
 require_once('lib/stats.php');
 require_once('lib/prng.php');
+require_once('lib/hooks.php');
+require_once('lib/tasks.php');
 
 /**
  * Renders a given Twig template using all our standard passed in variables.

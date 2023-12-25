@@ -12,8 +12,13 @@
   {key: 'Commits', value: context.git_info.count},
 ] %}
 
+{# Whether our theme hooks and tasks are properly installed. #}
+{% set hooks_are_installed = context.theme_hooks.all_hooks_installed %}
+{% set tasks_are_installed = context.theme_tasks.all_tasks_installed %}
+
+{# Special administrative actions for admins only. #}
 {% if context.user.is_admin %}
-  {# Allow admin users to request a hard refresh. #}
+  {# Refreshes the Git cache. This is fairly expensive and done every 10 mins by default. #}
   {% set package_buttons = {
     notify: {
       text: 'Force refresh',
@@ -21,6 +26,24 @@
       url: scripturl ~ '?action=help;area=changelog;forcerefresh'
     },
   } %}
+  {# Installs or removes theme hooks. #}
+  {% set package_buttons = package_buttons|merge({
+    hooks: {
+      text: hooks_are_installed ? 'Remove hooks' : 'Install hooks',
+      lang: false,
+      custom: hooks_are_installed ? 'onclick="return confirm(\'Really uninstall hooks?\')"' : '',
+      url: scripturl ~ '?action=help;area=changelog;' ~ (hooks_are_installed ? 'removehooks' : 'installhooks')
+    },
+  }) %}
+  {# Installs or removes theme scheduled tasks. #}
+  {% set package_buttons = package_buttons|merge({
+    tasks: {
+      text: tasks_are_installed ? 'Remove tasks' : 'Install tasks',
+      lang: false,
+      custom: tasks_are_installed ? 'onclick="return confirm(\'Really uninstall tasks?\')"' : '',
+      url: scripturl ~ '?action=help;area=changelog;' ~ (tasks_are_installed ? 'removetasks' : 'installtasks')
+    },
+  }) %}
 {% endif %}
 
 {% if context.git_info.package %}

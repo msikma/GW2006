@@ -7,6 +7,8 @@ require_once('lib/db.php');
 require_once('lib/data.php');
 require_once('lib/html.php');
 require_once('lib/util.php');
+require_once('lib/tasks.php');
+require_once('lib/hooks.php');
 
 // Load .env data if available.
 $dotenv = Dotenv\Dotenv::createImmutable(realpath(__DIR__.'/..'));
@@ -609,6 +611,13 @@ function get_settings_fields() {
  */
 function get_visual_verification() {
   global $context;
+
+  // This works around a problem that arises only in our weird hacked in captcha.
+  $verify_id = $context['visual_verification_id'];
+  if (!isset($context['controls']['verification'][$verify_id]['questions'])) {
+    $context['controls']['verification'][$verify_id]['questions'] = [];
+  }
+
   ob_start();
   template_control_verification($context['visual_verification_id'], 'all');
   $content = ob_get_clean();
@@ -857,6 +866,64 @@ function req_is_admin() {
 function is_changelog_page() {
   $query_string = $_SERVER['QUERY_STRING'];
   return strpos($query_string, 'area=changelog') !== false;
+}
+
+/**
+ * Returns true if we're currently requesting to install the theme scheduled tasks.
+ */
+function is_tasks_installation_request() {
+  if (!req_is_admin()) {
+    return false;
+  }
+  $query_string = $_SERVER['QUERY_STRING'];
+  $is_remove = strpos($query_string, 'area=changelog;removetasks') !== false;
+  $is_install = strpos($query_string, 'area=changelog;installtasks') !== false;
+  return [
+    'value' => $is_remove || $is_install,
+    'type' => $is_remove ? 'remove' : 'install',
+  ];
+}
+
+/**
+ * Returns true if we're currently requesting to install the theme hooks.
+ */
+function is_hooks_installation_request() {
+  if (!req_is_admin()) {
+    return false;
+  }
+  $query_string = $_SERVER['QUERY_STRING'];
+  $is_remove = strpos($query_string, 'area=changelog;removehooks') !== false;
+  $is_install = strpos($query_string, 'area=changelog;installhooks') !== false;
+  return [
+    'value' => $is_remove || $is_install,
+    'type' => $is_remove ? 'remove' : 'install',
+  ];
+}
+
+/**
+ * Performs any theme hooks and tasks installation that needs doing.
+ */
+function perform_theme_hooks_tasks() {
+  $tasks = is_tasks_installation_request();
+  $hooks = is_hooks_installation_request();
+
+  if ($tasks['value']) {
+    if ($tasks['type'] === 'remove') {
+      remove_theme_tasks();
+    }
+    if ($tasks['type'] === 'install') {
+      install_theme_tasks();
+    }
+  }
+
+  if ($hooks['value']) {
+    if ($hooks['type'] === 'remove') {
+      remove_theme_hooks();
+    }
+    if ($hooks['type'] === 'install') {
+      install_theme_hooks();
+    }
+  }
 }
 
 /**
