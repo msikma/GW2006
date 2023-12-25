@@ -1,0 +1,15 @@
+diff --git a/Sources/Subs-Graphics.php b/Sources/Subs-Graphics.php
+index 4ce1b69..5bcda14 100644
+--- a/Sources/Subs-Graphics.php
++++ b/Sources/Subs-Graphics.php
+@@ -812,8 +812,8 @@ function showCodeImage($code)
+ 	$max_height = 0;
+ 	foreach ($characters as $char_index => $character)
+ 	{
+-		$characters[$char_index]['width'] = imagefontwidth($loaded_fonts[$character['font']]);
+-		$characters[$char_index]['height'] = imagefontheight($loaded_fonts[$character['font']]);
++		$characters[$char_index]['width'] = imagefontwidth((int)$loaded_fonts[$character['font']]);
++		$characters[$char_index]['height'] = imagefontheight((int)$loaded_fonts[$character['font']]);
+ 
+ 		$max_height = max($characters[$char_index]['height'] + 5, $max_height);
+ 		$total_width += $characters[$char_index]['width'];

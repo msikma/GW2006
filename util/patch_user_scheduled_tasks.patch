@@ -1,0 +1,13 @@
+diff --git a/index.php b/index.php
+index f87f8aa..86b9560 100644
+--- a/index.php
++++ b/index.php
+@@ -84,6 +84,8 @@ if (empty($modSettings['rand_seed']) || mt_rand(1, 250) == 69)
+ // Before we get carried away, are we doing a scheduled task? If so save CPU cycles by jumping out!
+ if (isset($_GET['scheduled']))
+ {
++	if (file_exists($boarddir . '/UserScheduledTasks.php'))
++		require_once($boarddir . '/UserScheduledTasks.php');
+ 	require_once($sourcedir . '/ScheduledTasks.php');
+ 	AutoTask();
+ }
