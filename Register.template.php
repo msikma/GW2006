@@ -17,7 +17,8 @@ function template_registration_agreement() {
 function template_registration_form() {
   return render_template('pages/authentication/form_register.twig', [
     'profile_fields' => get_expanded_profile_fields(false),
-    'visual_verification' => get_visual_verification()
+    'visual_verification' => get_visual_verification(),
+    'gw_captcha' => create_captcha_challenge(),
   ]);
 }
 

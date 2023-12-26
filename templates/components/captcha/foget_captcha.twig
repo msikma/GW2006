@@ -1,3 +1,24 @@
-<input type="hidden" name="gw_captcha_id" value="1234" />
-<input type="text" name="gw_captcha" id="gw_captcha" size="30" tabindex="{{ context['tabindex'] }}" maxlength="30" />
-<p>asdf</p>
+<div class="gw_captcha" border="0" cellpadding="0" cellspacing="0">
+  <input type="hidden" name="gw_captcha_id" value="{{ context.gw_captcha.challenge_data.id }}" />
+  <input type="hidden" name="gw_captcha_value" value="" />
+  <div class="solution">
+    <table class="captcha_input" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        {% for tag in context.gw_captcha.solution %}
+          <td>{{ tag|raw }}</td>
+        {% endfor %}
+      </tr>
+      <tr class="selection">
+        {% for tag in context.gw_captcha.solution %}
+          <td></td>
+        {% endfor %}
+      </tr>
+    </table>
+  </div>
+  <p>Match Foget emoticons using these regular emoticons:</p>
+  <div class="options">
+    {{ context.gw_captcha.challenge|join(' ')|raw }}
+  </div>
+  <p>Click an emoticon to add or remove.</p>
+  <script>gw.decorateGwCaptcha();</script>
+</div>

@@ -1,0 +1,105 @@
+@charset "utf-8";
+
+// Our custom captcha on the register page.
+.gw_captcha {
+  // The items we want the user to match.
+  .solution {
+    .captcha_input {
+      margin-bottom: 8px;
+      border-collapse: separate;
+      --border-color: var(--gw-inner-dark);
+
+      tr {
+        td {
+          border: 0;
+          border-right: 1px solid cssvar(--border-color);
+          min-width: 55px;
+          height: 40px;
+          background: var(--gw-inner-light);
+          text-align: center;
+          position: relative;
+
+          &.selected {
+            &::before {
+              @include pixel-image;
+              content: '';
+              display: inline-block;
+              width: 10px;
+              height: 8px;
+              background: url('../../images/captcha_indicator.png');
+              position: absolute;
+              left: calc(50% - 5px);
+              top: -2px;
+            }
+          }
+        }
+        &:first-child {
+          td {
+            border-top: 1px solid cssvar(--border-color);
+            border-bottom: 1px solid cssvar(--border-color);
+          }
+          td:first-child {
+            border-top-left-radius: 4px;
+          }
+          td:last-child {
+            border-top-right-radius: 4px;
+          }
+        }
+        &:last-child {
+          td {
+            border-bottom: 1px solid var(--border-color);
+            background: white;
+
+            img {
+              cursor: pointer;
+            }
+          }
+          td:first-child {
+            border-bottom-left-radius: 4px;
+          }
+          td:last-child {
+            border-bottom-right-radius: 4px;
+          }
+        }
+        td:first-child {
+          border-left: 1px solid cssvar(--border-color);
+        }
+        td:last-child {
+        }
+      }
+    }
+    img {
+      vertical-align: bottom;
+    }
+  }
+
+  // The options the user can choose from.
+  .options {
+    display: flex;
+    margin: 8px 0;
+    align-items: end;
+    
+    a {
+      cursor: pointer;
+      display: inline-block;
+      padding: 4px;
+
+      &:hover {
+        background-color: cssvar(--gw-inner-dark);
+        cursor: pointer;
+      }
+
+      img {
+        vertical-align: bottom;
+
+        &.selected {
+          opacity: 0.2;
+        }
+      }
+    }
+  }
+
+  img {
+    @include pixel-image;
+  }
+}

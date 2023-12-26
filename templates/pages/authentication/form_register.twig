@@ -19,7 +19,7 @@
                 <label for="smf_autov_username">{{ txt.username }}</label>
               </th>
               <td>
-                <input type="text" name="user" id="smf_autov_username" size="30" tabindex="{{ context['tabindex'] }}" maxlength="30" value="{{ context['username'] }}" />
+                <input type="text" name="user" id="smf_autov_username" size="30" tabindex="{{ context['tabindex'] }}" maxlength="30" value="{{ context['username'] }}" autocomplete="off" />
                 <span id="smf_autov_username_div" style="display: none;">
                   <a id="smf_autov_username_link" href="#">
                     <img id="smf_autov_username_img" src="{{ images_url }}/ui_icons/field_check.gif" alt="*" />
@@ -33,7 +33,7 @@
                 <label for="smf_autov_reserve1">{{ txt.email }}</label>
               </th>
               <td>
-                <input type="text" name="email" id="smf_autov_reserve1" size="30" tabindex="{{ context['tabindex'] }}" maxlength="30" value="{{ context['email'] }}" />
+                <input type="text" name="email" id="smf_autov_reserve1" size="30" tabindex="{{ context['tabindex'] }}" maxlength="30" value="{{ context['email'] }}" autocomplete="off" />
               </td>
             </tr>
 
@@ -131,7 +131,10 @@
             {% if context.theme_hooks.all_hooks_installed %}
               <tr class="object_row" id="foget_recaptcha">
                 <th class="minimal">
-                  <label for="gw_captcha">Captcha</label>
+                  <label for="gw_captcha">
+                    Captcha
+                    <small>Recreate the top line of emoticons in the bottom row.</small>
+                  </label>
                 </th>
                 <td>
                   {% include 'components/captcha/foget_captcha.twig' %}

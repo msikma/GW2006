@@ -87,9 +87,18 @@
       &.minimal {
         white-space: nowrap;
         width: 0.01%;
-      }
-      &.minimal img img {
-        max-width: none;
+
+        label {
+          small {
+            // Small text is used for additional explanation;
+            // it's permitted to wrap.
+            white-space: normal;
+          }
+        }
+
+        img img {
+          max-width: none;
+        }
       }
       &.no_wrap {
         white-space: nowrap;
@@ -127,6 +136,14 @@
       ul {
         margin: 0;
         padding: 0;
+      }
+      label {
+        small {
+          font-weight: normal;
+          display: block;
+          margin-top: 4px;
+          line-height: 1.44;
+        }
       }
     }
     .checkbox_wrapper {
