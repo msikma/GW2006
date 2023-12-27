@@ -19,7 +19,7 @@
                 <label for="smf_autov_username">{{ txt.username }}</label>
               </th>
               <td>
-                <input type="text" name="user" id="smf_autov_username" size="30" tabindex="{{ context['tabindex'] }}" maxlength="30" value="{{ context['username'] }}" autocomplete="off" />
+                <input type="text" name="user" id="smf_autov_username" size="30" tabindex="{{ tabindex() }}" maxlength="30" value="{{ context['username'] }}" autocomplete="off" />
                 <span id="smf_autov_username_div" style="display: none;">
                   <a id="smf_autov_username_link" href="#">
                     <img id="smf_autov_username_img" src="{{ images_url }}/ui_icons/field_check.gif" alt="*" />
@@ -33,7 +33,7 @@
                 <label for="smf_autov_reserve1">{{ txt.email }}</label>
               </th>
               <td>
-                <input type="text" name="email" id="smf_autov_reserve1" size="30" tabindex="{{ context['tabindex'] }}" maxlength="30" value="{{ context['email'] }}" autocomplete="off" />
+                <input type="text" name="email" id="smf_autov_reserve1" size="30" tabindex="{{ tabindex() }}" maxlength="30" value="{{ context['email'] }}" autocomplete="off" />
               </td>
             </tr>
 
@@ -71,13 +71,13 @@
                   <ul class="object_row_list">
                     <li>
                       <label for="auth_pass" id="option_auth_pass">
-                        <input type="radio" name="authenticate" value="passwd" id="auth_pass" tabindex="{{ context['tabindex'] }}" {{ context.openid ? 'checked="checked"' }} onclick="updateAuthMethod();" />
+                        <input type="radio" name="authenticate" value="passwd" id="auth_pass" tabindex="{{ tabindex() }}" {{ context.openid ? 'checked="checked"' }} onclick="updateAuthMethod();" />
                         {{ txt['authenticate_password'] }}
                       </label>
                     </li>
                     <li>
                       <label for="auth_openid" id="option_auth_openid">
-                        <input type="radio" name="authenticate" value="openid" id="auth_openid" tabindex="{{ context['tabindex'] }}" {{ context.openid ? 'checked="checked"' }} onclick="updateAuthMethod();" />
+                        <input type="radio" name="authenticate" value="openid" id="auth_openid" tabindex="{{ tabindex() }}" {{ context.openid ? 'checked="checked"' }} onclick="updateAuthMethod();" />
                         {{ txt['authenticate_openid'] }}
                       </label>
                     </li>
@@ -91,7 +91,7 @@
                 <label for="smf_autov_pwmain">{{ txt.choose_pass }}</label>
               </th>
               <td>
-                <input type="password" name="passwrd1" id="smf_autov_pwmain" size="30" tabindex="{{ context['tabindex'] }}" maxlength="30" value="{{ context['email'] }}" />
+                <input type="password" name="passwrd1" id="smf_autov_pwmain" size="30" tabindex="{{ tabindex() }}" maxlength="30" value="{{ context['email'] }}" />
                 <span id="smf_autov_pwmain_div" style="display: none;">
                   <img id="smf_autov_pwmain_img" src="{{ images_url }}/ui_icons/field_invalid.gif" alt="*" />
                 </span>
@@ -103,7 +103,7 @@
                 <label for="smf_autov_pwverify">{{ txt.verify_pass }}</label>
               </th>
               <td>
-                <input type="password" name="passwrd2" id="smf_autov_pwverify" size="30" tabindex="{{ context['tabindex'] }}" maxlength="30" value="{{ context['email'] }}" />
+                <input type="password" name="passwrd2" id="smf_autov_pwverify" size="30" tabindex="{{ tabindex() }}" maxlength="30" value="{{ context['email'] }}" />
                 <span id="smf_autov_pwverify_div" style="display: none;">
                   <img id="smf_autov_pwverify_img" src="{{ images_url }}/ui_icons/field_valid.gif" alt="*" />
                 </span>

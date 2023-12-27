@@ -19,7 +19,7 @@
   <div class="righttext">
     {% if not context.force_gdpr %}
       <label for="minor_edit">
-        <input type="checkbox" value="" id="minor_edit" name="minor_edit" tabindex="{{ context.tabindex }}" />
+        <input type="checkbox" value="" id="minor_edit" name="minor_edit" tabindex="{{ tabindex() }}" />
         {{ txt['admin_agreement_minor_edit'] }}
       </label>
     {% endif %}
@@ -27,7 +27,7 @@
 {% endset %}
 
 {% set form_footer %}
-  <input type="submit" value="{{ txt['save'] }}" tabindex="{{ context.tabindex }}" onclick="return resetAgreementConfirm()" />
+  <input type="submit" value="{{ txt['save'] }}" tabindex="{{ tabindex() }}" onclick="return resetAgreementConfirm()" />
   <input type="hidden" name="agree_lang" value="{{ context.current_agreement }}" />
   <input type="hidden" name="sa" value="agreement" />
   <input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />

@@ -28,6 +28,14 @@ $twig->addFunction(new TwigFunction('find_posticon', function($icon_name, $is_sy
 $twig->addFunction(new TwigFunction('get_filetype_icon', function($filename) {
   return get_filetype_icon($filename);
 }));
+/** Returns a tabindex that increments by one each time. */
+$twig->addFunction(new TwigFunction('tabindex', function() {
+  if (!isset($GLOBALS['gw_tabindex'])) {
+    $GLOBALS['gw_tabindex'] = 0;
+  }
+  $GLOBALS['gw_tabindex'] += 1;
+  return $GLOBALS['gw_tabindex'];
+}));
 /** Formats an integer number value to use commas for easier reading. */
 $twig->addFunction(new TwigFunction('comma_format', function($number, $override_decimal_count = false) {
   return comma_format($number, $override_decimal_count);

@@ -38,13 +38,13 @@
                 <tr class="object_row">
                   <th class="minimal">{{ txt.name }}:</th>
                   <td>
-                    <input type="text" name="guestname" value="{{ context.name }}" size="25" tabindex="{{ context.tabindex }}" />
+                    <input type="text" name="guestname" value="{{ context.name }}" size="25" tabindex="{{ tabindex() }}" />
                   </td>
                 </tr>
                 <tr class="object_row">
                   <th class="minimal">{{ txt.email }}:</th>
                   <td>
-                    <input type="text" name="email" value="{{ context.email }}" size="25" tabindex="{{ context.tabindex }}" />
+                    <input type="text" name="email" value="{{ context.email }}" size="25" tabindex="{{ tabindex() }}" />
                   </td>
                 </tr>
               {% endif %}
@@ -57,17 +57,17 @@
                   {% if not context.can_reply_approved %}
                     {% include 'atoms/notification.twig' with {'type': 'info', 'content': txt.wait_for_approval} %}
                   {% endif %}
-                  <textarea class="editor" name="message" id="message" rows="12" cols="600" tabindex="{{ context.tabindex }}" {{ is_locked_due_to_age ? 'disabled="disabled"' }}></textarea>
+                  <textarea class="editor" name="message" id="message" rows="12" cols="600" tabindex="{{ tabindex() }}" {{ is_locked_due_to_age ? 'disabled="disabled"' }}></textarea>
                   <script>decorateComponent('messageField');</script>
                 </td>
               </tr>
               <tr class="object_row dark">
                 <th class="minimal"></th>
                 <td>
-                  <button type="submit" name="post" onclick="return submitThisOnce(this);" tabindex="{{ context.tabindex }}" {{ is_locked_due_to_age ? 'disabled="disabled"' }}><strong>Post quick reply</strong></button>
-                  <button type="submit" name="preview" onclick="return submitThisOnce(this);" accesskey="p" tabindex="{{ context.tabindex }}" {{ is_locked_due_to_age ? 'disabled="disabled"' }}>{{ txt.preview }}</button>
+                  <button type="submit" name="post" onclick="return submitThisOnce(this);" tabindex="{{ tabindex() }}" {{ is_locked_due_to_age ? 'disabled="disabled"' }}><strong>Post quick reply</strong></button>
+                  <button type="submit" name="preview" onclick="return submitThisOnce(this);" accesskey="p" tabindex="{{ tabindex() }}" {{ is_locked_due_to_age ? 'disabled="disabled"' }}>{{ txt.preview }}</button>
                   {% if context.show_spellchecking %}
-                    <button type="button" name="preview" onclick="spellCheck('postmodify', 'messageField');" tabindex="{{ context.tabindex }}" {{ is_locked_due_to_age ? 'disabled="disabled"' }}>{{ txt.spell_check }}</button>
+                    <button type="button" name="preview" onclick="spellCheck('postmodify', 'messageField');" tabindex="{{ tabindex() }}" {{ is_locked_due_to_age ? 'disabled="disabled"' }}>{{ txt.spell_check }}</button>
                   {% endif %}
                 </td>
               </tr>

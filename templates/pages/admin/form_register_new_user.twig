@@ -28,21 +28,21 @@
         <span class="smalltext">{{ txt.admin_register_username_desc }}</span>
       </dt>
       <dd>
-        <input type="text" name="user" id="user_input" tabindex="{{ context.tabindex }}" size="30" maxlength="25" />
+        <input type="text" name="user" id="user_input" tabindex="{{ tabindex() }}" size="30" maxlength="25" />
       </dd>
       <dt>
         <strong><label for="email_input">{{ txt.admin_register_email }}:</label></strong>
         <span class="smalltext">{{ txt.admin_register_email_desc }}</span>
       </dt>
       <dd>
-        <input type="text" name="email" id="email_input" tabindex="{{ context.tabindex }}" size="30" />
+        <input type="text" name="email" id="email_input" tabindex="{{ tabindex() }}" size="30" />
       </dd>
       <dt>
         <strong><label for="password_input">{{ txt.admin_register_password }}:</label></strong>
         <span class="smalltext">{{ txt.admin_register_password_desc }}</span>
       </dt>
       <dd>
-        <input type="password" name="password" id="password_input" tabindex="{{ context.tabindex }}" size="30" class="input_password" onchange="onCheckChange();" />
+        <input type="password" name="password" id="password_input" tabindex="{{ tabindex() }}" size="30" class="input_password" onchange="onCheckChange();" />
       </dd>
 
       {% if context.member_groups %}
@@ -51,7 +51,7 @@
           <span class="smalltext">{{ txt.admin_register_group_desc }}</span>
         </dt>
         <dd>
-          <select name="group" id="group_select" tabindex="{{ context.tabindex }}">
+          <select name="group" id="group_select" tabindex="{{ tabindex() }}">
             {% for id, name in context.member_groups %}
               <option value="{{ id }}">{{ name }}</option>
             {% endfor %}
@@ -64,26 +64,26 @@
         <span class="smalltext">{{ txt.admin_register_email_detail_desc }}</span>
       </dt>
       <dd>
-        <input type="checkbox" name="emailPassword" id="emailPassword_check" tabindex="{{ context.tabindex }}" checked="checked" disabled="disabled" />
+        <input type="checkbox" name="emailPassword" id="emailPassword_check" tabindex="{{ tabindex() }}" checked="checked" disabled="disabled" />
       </dd>
       <dt>
         <strong><label for="emailActivate_check">{{ txt.admin_register_email_activate }}:</label></strong>
       </dt>
       <dd>
-        <input type="checkbox" name="emailActivate" id="emailActivate_check" tabindex="{{ context.tabindex }}" {{ modSettings.registration_method == 1 ? 'checked="checked"' }} onclick="onCheckChange();" />
+        <input type="checkbox" name="emailActivate" id="emailActivate_check" tabindex="{{ tabindex() }}" {{ modSettings.registration_method == 1 ? 'checked="checked"' }} onclick="onCheckChange();" />
       </dd>
       <dt>
         <strong><label for="requireAgreement">{{ txt.admin_register_require_agreement }}:</label></strong>
       </dt>
       <dd>
-        <input type="checkbox" name="requireAgreement" id="requireAgreement_check" tabindex="{{ context.tabindex }}" {{ modSettings.requireAgreement or modSettings.force_gdpr ? 'checked="checked"' }} {{ modSettings.force_gdpr ? 'disabled="disabled"' }} />
+        <input type="checkbox" name="requireAgreement" id="requireAgreement_check" tabindex="{{ tabindex() }}" {{ modSettings.requireAgreement or modSettings.force_gdpr ? 'checked="checked"' }} {{ modSettings.force_gdpr ? 'disabled="disabled"' }} />
         {{ modSettings.force_gdpr ? '<input type="hidden" name="requireAgreement" value="1">' }}
       </dd>
       <dt>
         <strong><label for="requirePolicyAgreement">{{ txt.admin_register_require_policy }}:</label></strong>
       </dt>
       <dd>
-        <input type="checkbox" name="requirePolicyAgreement" id="requirePolicyAgreement_check" tabindex="{{ context.tabindex }}" {{ modSettings.requirePolicyAgreement or modSettings.force_gdpr ? 'checked="checked"' }} {{ modSettings.force_gdpr ? 'disabled="disabled"' }} />
+        <input type="checkbox" name="requirePolicyAgreement" id="requirePolicyAgreement_check" tabindex="{{ tabindex() }}" {{ modSettings.requirePolicyAgreement or modSettings.force_gdpr ? 'checked="checked"' }} {{ modSettings.force_gdpr ? 'disabled="disabled"' }} />
         {{ modSettings.force_gdpr ? '<input type="hidden" name="requirePolicyAgreement" value="1">' }}
       </dd>
     </dl>

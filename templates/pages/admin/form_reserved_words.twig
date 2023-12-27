@@ -17,7 +17,7 @@
       } %}
       {% for name, option in options %}
         <li>
-          <label for="{{ option.name }}"><input type="checkbox" name="{{ option.name }}" id="{{ option.name }}" tabindex="{{ context.tabindex }}" {% if context.reserved_word_options[name] %}checked="checked"{% endif %} /> {{ option.label }}</label>
+          <label for="{{ option.name }}"><input type="checkbox" name="{{ option.name }}" id="{{ option.name }}" tabindex="{{ tabindex() }}" {% if context.reserved_word_options[name] %}checked="checked"{% endif %} /> {{ option.label }}</label>
         </li>
       {% endfor %}
     </ul>
@@ -27,7 +27,7 @@
 {% endset %}
 
 {% set form_footer %}
-  <input type="submit" value="{{ txt.save }}" name="save_reserved_names" tabindex="{{ context.tabindex }}" />
+  <input type="submit" value="{{ txt.save }}" name="save_reserved_names" tabindex="{{ tabindex() }}" />
 {% endset %}
 
 {% include 'components/generic/list_form.twig' with {

@@ -50,7 +50,7 @@
             <tr class="object_row {{ context.post_error.no_to or context.post_error.bad_to ? 'error' }}">
               <th>{{ txt.pm_to }}:</th>
               <td>
-                <input type="text" name="to" id="to_control" value="{{ context.to_value|raw }}" tabindex="{{ context.tabindex }}" size="40" />
+                <input type="text" name="to" id="to_control" value="{{ context.to_value|raw }}" tabindex="{{ tabindex() }}" size="40" />
                 <span class="smalltext" id="bcc_link_container" style="display: none;"></span>
                 <div id="to_item_list_container" class="user_suggestion_container"></div>
               </td>
@@ -58,14 +58,14 @@
             <tr class="object_row {{ context.post_error.no_to or context.post_error.bad_bcc ? 'error' }}">
               <th id="bcc_div">{{ txt.pm_bcc }}:</th>
               <td id="bcc_div2">
-                <input type="text" name="bcc" id="bcc_control" value="{{ context.bcc_value }}" tabindex="{{ context.tabindex }}" size="40" />
+                <input type="text" name="bcc" id="bcc_control" value="{{ context.bcc_value }}" tabindex="{{ tabindex() }}" size="40" />
                 <div id="bcc_item_list_container" class="user_suggestion_container"></div>
               </td>
             </tr>
             <tr class="object_row {{ context.post_error.no_subject ? 'error' }}">
               <th>{{ txt.subject }}:</th>
               <td>
-                <input type="text" name="subject" value="{{ context.subject }}" tabindex="{{ context.tabindex }}" size="60" maxlength="60" autocomplete="off" />
+                <input type="text" name="subject" value="{{ context.subject }}" tabindex="{{ tabindex() }}" size="60" maxlength="60" autocomplete="off" />
               </td>
             </tr>
             <tr class="object_row">

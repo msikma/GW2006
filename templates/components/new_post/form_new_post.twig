@@ -73,14 +73,14 @@
               <tr class="object_row {{ context.post_error.long_name or context.post_error.no_name or context.post_error.bad_name ? 'error' }}">
                 <th>{{ txt.name }}:</th>
                 <td>
-                  <input type="text" name="guestname" size="25" value="{{ context.name }}" tabindex="{{ context.tabindex + 1 }}" />
+                  <input type="text" name="guestname" size="25" value="{{ context.name }}" tabindex="{{ tabindex() }}" />
                 </td>
               </tr>
               {% if not modSettings.guest_post_no_email %}
                 <tr class="object_row {{ context.post_error.no_email or context.post_error.bad_email ? 'error' }}">
                   <th>{{ txt.email }}:</th>
                   <td>
-                    <input type="email" name="email" size="25" value="{{ context.email }}" tabindex="{{ context.tabindex + 1 }}" />
+                    <input type="email" name="email" size="25" value="{{ context.email }}" tabindex="{{ tabindex() }}" />
                   </td>
                 </tr>
               {% endif %}
@@ -95,7 +95,7 @@
                       {% include 'atoms/posticon.twig' with {'icon': context.posticon_context} %}
                     </div>
                     <div class="input_item_main subject_input">
-                      <input type="text" name="subject"{% if context.subject != "" %} value="{{ context.subject|raw }}"{% endif %} tabindex="{{ context.tabindex }}" size="80" maxlength="80" autocomplete="off" />
+                      <input type="text" name="subject"{% if context.subject != "" %} value="{{ context.subject|raw }}"{% endif %} tabindex="{{ tabindex() }}" size="80" maxlength="80" autocomplete="off" />
                     </div>
                   </div>
                 </td>

@@ -20,7 +20,7 @@
               <em>{{ txt.authenticate_openid_url }}:</em>
             </dt>
             <dd>
-              <input type="text" name="openid_identifier" id="openid_url" size="30" tabindex="{{ context.tabindex }}" value="{{ context.member.openid_uri }}" class="openid_login" />
+              <input type="text" name="openid_identifier" id="openid_url" size="30" tabindex="{{ tabindex() }}" value="{{ context.member.openid_uri }}" class="openid_login" />
             </dd>
           </dl>
           <dl id="auth_pass_div">
@@ -28,14 +28,14 @@
               <em>{{ txt.choose_pass }}:</em>
             </dt>
             <dd>
-              <input type="password" name="passwrd1" id="smf_autov_pwmain" size="30" tabindex="{{ context.tabindex }}" class="input_password" />
+              <input type="password" name="passwrd1" id="smf_autov_pwmain" size="30" tabindex="{{ tabindex() }}" class="input_password" />
               <span id="smf_autov_pwmain_div" style="display: none;"><img id="smf_autov_pwmain_img" src="{{ images_url }}/ui_icons/field_invalid.gif" alt="*" /></span>
             </dd>
             <dt>
               <em>{{ txt.verify_pass }}:</em>
             </dt>
             <dd>
-              <input type="password" name="passwrd2" id="smf_autov_pwverify" size="30" tabindex="{{ context.tabindex }}" class="input_password" />
+              <input type="password" name="passwrd2" id="smf_autov_pwverify" size="30" tabindex="{{ tabindex() }}" class="input_password" />
               <span id="smf_autov_pwverify_div" style="display: none;"><img id="smf_autov_pwverify_img" src="{{ images_url }}/ui_icons/field_valid.gif" alt="*" /></span>
             </dd>
           </dl>
