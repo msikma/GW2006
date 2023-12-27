@@ -17,6 +17,12 @@
           "legacy": false
         },
         {
+          "fn": "adventure.png",
+          "name": "Adventure",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
           "fn": "anime.gif",
           "name": "Anime",
           "size": [54, 15],
@@ -31,6 +37,12 @@
         {
           "fn": "attention.gif",
           "name": "Attention",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "boring.png",
+          "name": "Boring",
           "size": [54, 15],
           "legacy": false
         },
@@ -83,6 +95,12 @@
           "legacy": false
         },
         {
+          "fn": "debate.gif",
+          "name": "Debate",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
           "fn": "design.gif",
           "name": "Design",
           "size": [54, 15],
@@ -91,6 +109,12 @@
         {
           "fn": "download.gif",
           "name": "Download",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "drugs.png",
+          "name": "Drugs",
           "size": [54, 15],
           "legacy": false
         },
@@ -107,14 +131,32 @@
           "legacy": false
         },
         {
+          "fn": "event.png",
+          "name": "Event",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
           "fn": "fight.gif",
           "name": "Fight",
           "size": [54, 15],
           "legacy": false
         },
         {
+          "fn": "flash.png",
+          "name": "Flash",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
           "fn": "food.gif",
           "name": "Food",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "foreign.png",
+          "name": "Foreign",
           "size": [54, 15],
           "legacy": false
         },
@@ -179,6 +221,12 @@
           "legacy": false
         },
         {
+          "fn": "history.png",
+          "name": "History",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
           "fn": "hmmm.gif",
           "name": "Hmmm",
           "size": [54, 15],
@@ -203,14 +251,32 @@
           "legacy": false
         },
         {
+          "fn": "hype.png",
+          "name": "Hype",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
           "fn": "idea.gif",
           "name": "Idea",
           "size": [54, 15],
           "legacy": false
         },
         {
+          "fn": "indie.png",
+          "name": "Indie",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
           "fn": "irc.gif",
           "name": "IRC",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "irony.png",
+          "name": "Irony",
           "size": [54, 15],
           "legacy": false
         },
@@ -243,12 +309,6 @@
           "name": "Microsoft",
           "size": [54, 15],
           "legacy": false
-        },
-        {
-          "fn": "locked_ipbv1.png",
-          "name": "Moved (IPB v1.x)",
-          "size": [54, 15],
-          "legacy": true
         },
         {
           "fn": "movies.gif",
@@ -313,6 +373,12 @@
         {
           "fn": "photoshop.gif",
           "name": "Photoshop",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "poetry.png",
+          "name": "Poetry",
           "size": [54, 15],
           "legacy": false
         },
@@ -401,6 +467,12 @@
           "legacy": false
         },
         {
+          "fn": "serious.png",
+          "name": "Serious",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
           "fn": "school.gif",
           "name": "School",
           "size": [54, 15],
@@ -421,6 +493,18 @@
         {
           "fn": "sex.gif",
           "name": "Sex",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "serious.png",
+          "name": "Serious",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "sim.png",
+          "name": "Sim",
           "size": [54, 15],
           "legacy": false
         },
@@ -467,6 +551,12 @@
           "legacy": false
         },
         {
+          "fn": "travel.png",
+          "name": "Travel",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
           "fn": "tutorial.gif",
           "name": "Tutorial",
           "size": [54, 15],
@@ -497,11 +587,47 @@
           "legacy": false
         },
         {
+          "fn": "words.gif",
+          "name": "Words",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "writing.png",
+          "name": "Writing",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
           "fn": "xx.gif",
           "name": "GW",
           "size": [54, 15],
           "legacy": false,
           "default": true
+        }
+      ]
+    },
+    {
+      "name": "techhelp",
+      "initial": true,
+      "items": [
+        {
+          "fn": "windows.png",
+          "name": "Windows",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "mac.png",
+          "name": "Mac",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "linux.png",
+          "name": "Linux",
+          "size": [54, 15],
+          "legacy": false
         }
       ]
     },
@@ -610,6 +736,78 @@
           "name": "Dev - Sphere",
           "size": [54, 15],
           "legacy": false
+        },
+        {
+          "fn": "dev_agm.png",
+          "name": "Dev - AGM",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "dev_ags.png",
+          "name": "Dev - AGS",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "dev_klik.png",
+          "name": "Dev - Klik",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "dev_rmvx.png",
+          "name": "Dev - RMVX",
+          "size": [54, 15],
+          "legacy": false
+        },
+        {
+          "fn": "demo.png",
+          "name": "Demo",
+          "size": [54, 15],
+          "legacy": false
+        }
+      ]
+    },
+    {
+      "name": "gw",
+      "initial": true,
+      "items": [
+        {
+          "fn": "site_announce.png",
+          "name": "Site announcement",
+          "size": [54, 15],
+          "legacy": true
+        },
+        {
+          "fn": "site_community.png",
+          "name": "Site community post",
+          "size": [54, 15],
+          "legacy": true
+        },
+        {
+          "fn": "site_creation.png",
+          "name": "Site creation",
+          "size": [54, 15],
+          "legacy": true
+        },
+        {
+          "fn": "site_discussion.png",
+          "name": "Site discussion",
+          "size": [54, 15],
+          "legacy": true
+        },
+        {
+          "fn": "site_events.png",
+          "name": "Site events",
+          "size": [54, 15],
+          "legacy": true
+        },
+        {
+          "fn": "site_games.png",
+          "name": "Site games",
+          "size": [54, 15],
+          "legacy": true
         }
       ]
     },
