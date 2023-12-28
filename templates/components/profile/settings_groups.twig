@@ -60,13 +60,17 @@
 
             {# Dropdown fields. #}
             {% if field.type == 'select' %}
-              <select name="{{ field_name }}" id="{{ key }}">
-                {% if field.options %}
-                  {% for value, name in field.options %}
-                    <option value="{{ value }}" {{ value == field['value'] ? 'selected="selected"' }}>{{ name }}</option>
-                  {% endfor %}
-                {% endif %}
-              </select>
+              {% if field.input_html %}
+                {{ field.input_html|raw }}
+              {% else %}
+                <select name="{{ field_name }}" id="{{ key }}">
+                  {% if field.options %}
+                    {% for value, name in field.options %}
+                      <option value="{{ value }}" {{ value == field['value'] ? 'selected="selected"' }}>{{ name }}</option>
+                    {% endfor %}
+                  {% endif %}
+                </select>
+              {% endif %}
             {% endif %}
 
             {% if field.subtext %}
