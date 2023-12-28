@@ -159,6 +159,7 @@ function get_render_context($template_context = []) {
   $context['theme_hooks'] = get_hooks_installation_status();
   $context['theme_tasks'] = get_tasks_installation_status();
   $context['env'] = get_env_context();
+  $context['url_segments'] = get_smf_url_segments();
 
   // Use our custom pip count algorithm.
   $context['use_gw_pip_count'] = true;

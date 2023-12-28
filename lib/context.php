@@ -861,6 +861,24 @@ function req_is_admin() {
 }
 
 /**
+ * Parses and returns all URL segments of the current request.
+ */
+function get_smf_url_segments() {
+  $query_string = $_SERVER['QUERY_STRING'].';';
+  preg_match_all('/([^=;]+)(=([^=;]+))?(;|$)/m', $query_string, $matches);
+  $segments = [];
+  for ($n = 0; $n < count($matches); ++$n) {
+    $key = $matches[1][$n];
+    $value = $matches[3][$n];
+    if (empty($key)) {
+      continue;
+    }
+    $segments[$key] = $value === '' ? null : $value;
+  }
+  return $segments;
+}
+
+/**
  * Returns true if the currently requested page is the changelog page.
  */
 function is_changelog_page() {
