@@ -27,7 +27,7 @@ $gw_custom_fields = [
       ],
       [
         'field' => 'cust_twitte',
-        'name' => 'Twitter',
+        'name' => 'Twitter URL',
         'icon' => 'socmed_twitter.png',
         'show_on_posts' => true,
         'desc' => 'Link to your Twitter account',
@@ -36,7 +36,7 @@ $gw_custom_fields = [
       ],
       [
         'field' => 'cust_instag',
-        'name' => 'Instagram',
+        'name' => 'Instagram URL',
         'icon' => 'socmed_instagram.png',
         'show_on_posts' => true,
         'desc' => 'Link to your Instagram account',
@@ -45,7 +45,7 @@ $gw_custom_fields = [
       ],
       [
         'field' => 'cust_mastod',
-        'name' => 'Mastodon',
+        'name' => 'Mastodon URL',
         'icon' => 'socmed_mastodon.png',
         'show_on_posts' => true,
         'desc' => 'Link to your Mastodon account',
@@ -54,7 +54,7 @@ $gw_custom_fields = [
       ],
       [
         'field' => 'cust_facebo',
-        'name' => 'Facebook',
+        'name' => 'Facebook URL',
         'icon' => 'socmed_facebook.png',
         'show_on_posts' => true,
         'desc' => 'Link to your Facebook account',
@@ -63,7 +63,7 @@ $gw_custom_fields = [
       ],
       [
         'field' => 'cust_twitch',
-        'name' => 'Twitch',
+        'name' => 'Twitch URL',
         'icon' => 'socmed_twitch.png',
         'show_on_posts' => true,
         'desc' => 'Link to your Twitch account',
@@ -72,7 +72,7 @@ $gw_custom_fields = [
       ],
       [
         'field' => 'cust_youtub',
-        'name' => 'Youtube',
+        'name' => 'Youtube URL',
         'icon' => 'socmed_youtube.png',
         'show_on_posts' => true,
         'desc' => 'Link to your Youtube account',
@@ -81,7 +81,7 @@ $gw_custom_fields = [
       ],
       [
         'field' => 'cust_tiktok',
-        'name' => 'TikTok',
+        'name' => 'TikTok URL',
         'icon' => 'socmed_tiktok.png',
         'show_on_posts' => true,
         'desc' => 'Link to your TikTok account',
@@ -90,7 +90,7 @@ $gw_custom_fields = [
       ],
       [
         'field' => 'cust_bandca',
-        'name' => 'Bandcamp',
+        'name' => 'Bandcamp URL',
         'icon' => 'socmed_bandcamp.png',
         'show_on_posts' => true,
         'desc' => 'Link to your Bandcamp account',
@@ -99,7 +99,7 @@ $gw_custom_fields = [
       ],
       [
         'field' => 'cust_soundc',
-        'name' => 'SoundCloud',
+        'name' => 'SoundCloud URL',
         'icon' => 'socmed_soundcloud.png',
         'show_on_posts' => true,
         'desc' => 'Link to your Soundcloud account',
@@ -108,7 +108,7 @@ $gw_custom_fields = [
       ],
       [
         'field' => 'cust_itch',
-        'name' => 'Itch.io',
+        'name' => 'Itch.io URL',
         'icon' => 'socmed_itchio.png',
         'show_on_posts' => true,
         'desc' => 'Link to your Itch.io profile',
@@ -117,7 +117,7 @@ $gw_custom_fields = [
       ],
       [
         'field' => 'cust_steam',
-        'name' => 'Steam profile',
+        'name' => 'Steam profile URL',
         'icon' => 'socmed_steam.png',
         'show_on_posts' => true,
         'desc' => 'Link to your Steam profile',
