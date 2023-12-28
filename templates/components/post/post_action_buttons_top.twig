@@ -7,8 +7,17 @@
 {% set overview_mode = context.display_mode == 0 %}
 {% set single_mode = context.display_mode == 1 %}
 {% set conversation_mode = context.display_mode == 2 %}
+{% set is_moderator = context.user.can_mod %}
 
 <ul class="action_buttons">
+  {% if is_moderator %}
+    <li class="spam_button">
+      <a href="{{ scripturl }}?action=admin;area=ban;sa=add;u={{ message.member.id }}">
+        {% include 'atoms/post_button.twig' with {'type': 'mod_spam.png', 'label': 'Ban user'} %}
+      </a>
+    </li>
+  {% endif %}
+
   {% if message.is_replied_to %}
     <li class="is_replied_to_button">
       <a href="#" {{ js_alert(txt.pm_is_replied_to, true)|raw }}>
@@ -28,14 +37,14 @@
   {% if context.can_restore_msg %}
     <li class="restore_button">
       <a class="post_action_text" href="{{ scripturl }}?action=restoretopic;msgs={{ message.id }};{{ context.session_var }}={{ context.session_id }}">
-        {{ txt['restore_message'] }}
+        {{ txt.restore_message }}
       </a>
     </li>
   {% endif %}
 
-  {% if message['can_modify'] %}
+  {% if message.can_modify %}
     <li class="modify_button">
-      <a href="{{ scripturl }}?action=post;msg={{ message['id'] }};topic={{ message_topic_id }}{{ message_start ? '.' ~ message_start }}">
+      <a href="{{ scripturl }}?action=post;msg={{ message.id }};topic={{ message_topic_id }}{{ message_start ? '.' ~ message_start }}">
         {% include 'atoms/post_button.twig' with {'type': 'action_edit.gif', 'label': txt.modify} %}
       </a>
     </li>
@@ -43,27 +52,27 @@
 
   {% if message_can_remove %}
     <li class="remove_button">
-      <a href="{{ scripturl }}?action=deletemsg;topic={{ message_topic_id }};msg={{ message['id'] }};{{ context['session_var'] }}={{ context['session_id'] }}" onclick="return confirm('{{ txt['remove_message'] }}?');">
+      <a href="{{ scripturl }}?action=deletemsg;topic={{ message_topic_id }};msg={{ message.id }};{{ context.session_var }}={{ context.session_id }}" onclick="return confirm('{{ txt.remove_message }}?');">
         {% include 'atoms/post_button.twig' with {'type': 'action_delete.gif', 'label': txt.remove} %}
       </a>
     </li>
   {% endif %}
 
-  {% if message_can_quote and options['display_quick_reply'] is not empty %}
+  {% if message_can_quote and options.display_quick_reply is not empty %}
     <li class="quote_button">
-      <a href="{{ scripturl }}?action=post;quote={{ message['id'] }};topic={{ message_topic_id }}{{ message_start ? '.' ~ message_start }};last_msg={{ context['topic_last_message'] }}" onclick="return oQuickReply.quote({{ message['id'] }});">
+      <a href="{{ scripturl }}?action=post;quote={{ message.id }};topic={{ message_topic_id }}{{ message_start ? '.' ~ message_start }};last_msg={{ context.topic_last_message }}" onclick="return oQuickReply.quote({{ message.id }});">
         {% include 'atoms/post_button.twig' with {'type': 'action_quote.gif', 'label': txt.quote} %}
       </a>
     </li>
   {% elseif message_can_quote %}
     <li class="quote_button">
-      <a href="{{ scripturl }}?action=post;quote={{ message['id'] }};topic={{ message_topic_id }}{{ message_start ? '.' ~ message_start }};last_msg={{ context['topic_last_message'] }}">
+      <a href="{{ scripturl }}?action=post;quote={{ message.id }};topic={{ message_topic_id }}{{ message_start ? '.' ~ message_start }};last_msg={{ context.topic_last_message }}">
         {% include 'atoms/post_button.twig' with {'type': 'action_quote.gif', 'label': txt.quote} %}
       </a>
     </li>
   {% endif %}
 
-  {% if message['can_reply'] %}
+  {% if message.can_reply %}
     <li class="reply_button">
       <a href="{{ scripturl }}?action=post;topic={{ message_topic_id }}{{ message_start ? '.' ~ message_start }}">
         {% include 'atoms/post_button.twig' with {'type': 'action_reply.gif', 'label': txt.reply} %}
@@ -71,16 +80,16 @@
     </li>
   {% endif %}
 
-  {% if context['can_split'] and context['real_num_replies'] is not empty %}
+  {% if context.can_split and context.real_num_replies is not empty %}
     <li class="split_button">
-      <a href="{{ scripturl }}?action=splittopics;topic={{ message_topic_id }}.0;at={{ message['id'] }}">
+      <a href="{{ scripturl }}?action=splittopics;topic={{ message_topic_id }}.0;at={{ message.id }}">
         {% include 'atoms/post_button.twig' with {'type': 'action_split.gif', 'label': txt.split} %}
       </a>
     </li>
   {% endif %}
 
-  {% if options['display_quick_mod'] > 0 and message_can_remove %}
-    <li class="inline_mod_check" style="display: none;" id="in_topic_mod_check_{{ message['id'] }}">
+  {% if options.display_quick_mod > 0 and message_can_remove %}
+    <li class="inline_mod_check" style="display: none;" id="in_topic_mod_check_{{ message.id }}">
     </li>
   {% endif %}
 
