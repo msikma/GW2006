@@ -174,7 +174,7 @@ function custom_to_profile($field_data, $slug, $n, $metadata = []) {
   $field_data = array_merge($field_data, $metadata);
   return array_merge($field_data, [
     'label' => $field_data['name'],
-    'subtext' => $field_data['desc'],
+    'subtext' => $field_data['show_description'] ? $field_data['desc'] : '',
     '_slug' => $slug,
     '_custom_field_order' => $n,
     '_is_custom_field' => true
