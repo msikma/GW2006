@@ -15,7 +15,8 @@ $emoticon_basepath = '/images/emoticons';
  */
 function get_emoticons_base_url() {
   global $modSettings, $context;
-  return implode('/', [$modSettings['smileys_url'], $context['smiley_set']]);
+  $set = isset($context['user']['smiley_set']) ? $context['user']['smiley_set'] : 'default';
+  return implode('/', [$modSettings['smileys_url'], $set]);
 }
 
 /**
@@ -66,7 +67,6 @@ function get_emoticons_metadata() {
         $smiley = $row['smileys'][$n];
         if (!isset($emoticon_metadata[$smiley['filename']])) {
           $emoticon_metadata[$smiley['filename']] = $smiley;
-          $emoticon_metadata[$smiley['filename']]['_primary_code'] = $emoticon_metadata[$smiley['filename']]['code'];
           $emoticon_metadata[$smiley['filename']]['code'] = [];
           $emoticon_metadata[$smiley['filename']]['_n'] = $n;
           $emoticon_metadata[$smiley['filename']]['_location'] = $type;
@@ -85,13 +85,12 @@ function get_emoticons_metadata() {
       $emoticon_metadata[$filename] = $data;
     }
     $emoticon_metadata[$filename]['size'] = $data['size'];
-    $emoticon_metadata[$filename]['_primary_code'] = $data['code'][0];
     $emoticon_metadata[$filename]['_location'] = $data['location'];
     $emoticon_metadata[$filename]['_hidden'] = $data['hidden'];
   }
 
   foreach ($emoticon_metadata as $filename => $data) {
-    $emoticon_metadata[$filename]['_url'] = implode('/', [$modSettings['smileys_url'], $context['user']['smiley_set'], $filename]);
+    $emoticon_metadata[$filename]['_url'] = $filename;
   }
   
   return ['sets' => $gw_sets, 'emoticons' => $emoticon_metadata];

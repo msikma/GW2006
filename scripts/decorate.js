@@ -153,7 +153,7 @@ function decoratePermissionsFilter() {
 function insertEmoticonToMessage(emoticonName) {
   const emoticon = state.emoticons_metadata.emoticons[emoticonName]
   
-  insertAtCursorPosition(state.messageNode, `${emoticon._primary_code || emoticon.code[0]}`, true)
+  insertAtCursorPosition(state.messageNode, `${emoticon.code[0]}`, true)
 }
 
 /**
@@ -210,8 +210,8 @@ function generateEmoticonsPopup() {
     }
     const name = emoticon.description || emoticon.filename;
     const size = emoticon.size ? `width="${emoticon.size[0]}" height="${emoticon.size[1]}"` : ''
-    buffer.push(`<a href="#${encodeURI(emoticon._primary_code)}" data-emoticon="${encodeURI(emoticon.filename)}">`)
-    buffer.push(`<img src="${emoticon._url}" name="post_icon" class="emoticon pixel" alt="${encodeURI(name)}" title="${encodeURI(name)}" ${size}>`)
+    buffer.push(`<a href="#${encodeURI(emoticon.code[0])}" data-emoticon="${encodeURI(emoticon.filename)}">`)
+    buffer.push(`<img src="${[state.emoticons_base_url, emoticon._url].join('/')}" name="post_icon" class="emoticon pixel" alt="${encodeURI(name)}" title="${encodeURI(name)}" ${size}>`)
     buffer.push(`</a>`)
   }
   buffer.push('</div>')
