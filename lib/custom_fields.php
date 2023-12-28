@@ -11,12 +11,16 @@ $gw_custom_fields = [
       [
         'field' => 'cust_discor',
         'name' => 'Discord name',
+        'icon' => 'socmed_discord.png',
+        'show_on_posts' => false,
         'desc' => 'Your Discord username and optionally discriminator (e.g. Dada#1234)',
         'show_description' => true,
       ],
       [
         'field' => 'cust_discor0',
         'name' => 'Discord server',
+        'icon' => 'socmed_discord.png',
+        'show_on_posts' => true,
         'desc' => 'Invite link to your Discord server',
         'is_link' => true,
         'show_description' => true,
@@ -24,6 +28,8 @@ $gw_custom_fields = [
       [
         'field' => 'cust_twitte',
         'name' => 'Twitter',
+        'icon' => 'socmed_twitter.png',
+        'show_on_posts' => true,
         'desc' => 'Link to your Twitter account',
         'is_link' => true,
         'show_description' => false,
@@ -31,6 +37,8 @@ $gw_custom_fields = [
       [
         'field' => 'cust_instag',
         'name' => 'Instagram',
+        'icon' => 'socmed_instagram.png',
+        'show_on_posts' => true,
         'desc' => 'Link to your Instagram account',
         'is_link' => true,
         'show_description' => false,
@@ -38,6 +46,8 @@ $gw_custom_fields = [
       [
         'field' => 'cust_mastod',
         'name' => 'Mastodon',
+        'icon' => 'socmed_mastodon.png',
+        'show_on_posts' => true,
         'desc' => 'Link to your Mastodon account',
         'is_link' => true,
         'show_description' => false,
@@ -45,6 +55,8 @@ $gw_custom_fields = [
       [
         'field' => 'cust_facebo',
         'name' => 'Facebook',
+        'icon' => 'socmed_facebook.png',
+        'show_on_posts' => true,
         'desc' => 'Link to your Facebook account',
         'is_link' => true,
         'show_description' => false,
@@ -52,6 +64,8 @@ $gw_custom_fields = [
       [
         'field' => 'cust_twitch',
         'name' => 'Twitch',
+        'icon' => 'socmed_twitch.png',
+        'show_on_posts' => true,
         'desc' => 'Link to your Twitch account',
         'is_link' => true,
         'show_description' => false,
@@ -59,6 +73,8 @@ $gw_custom_fields = [
       [
         'field' => 'cust_youtub',
         'name' => 'Youtube',
+        'icon' => 'socmed_youtube.png',
+        'show_on_posts' => true,
         'desc' => 'Link to your Youtube account',
         'is_link' => true,
         'show_description' => false,
@@ -66,6 +82,8 @@ $gw_custom_fields = [
       [
         'field' => 'cust_tiktok',
         'name' => 'TikTok',
+        'icon' => 'socmed_tiktok.png',
+        'show_on_posts' => true,
         'desc' => 'Link to your TikTok account',
         'is_link' => true,
         'show_description' => false,
@@ -73,6 +91,8 @@ $gw_custom_fields = [
       [
         'field' => 'cust_bandca',
         'name' => 'Bandcamp',
+        'icon' => 'socmed_bandcamp.png',
+        'show_on_posts' => true,
         'desc' => 'Link to your Bandcamp account',
         'is_link' => true,
         'show_description' => false,
@@ -80,6 +100,8 @@ $gw_custom_fields = [
       [
         'field' => 'cust_soundc',
         'name' => 'SoundCloud',
+        'icon' => 'socmed_soundcloud.png',
+        'show_on_posts' => true,
         'desc' => 'Link to your Soundcloud account',
         'is_link' => true,
         'show_description' => false,
@@ -87,6 +109,8 @@ $gw_custom_fields = [
       [
         'field' => 'cust_itch',
         'name' => 'Itch.io',
+        'icon' => 'socmed_itchio.png',
+        'show_on_posts' => true,
         'desc' => 'Link to your Itch.io profile',
         'is_link' => true,
         'show_description' => false,
@@ -94,6 +118,8 @@ $gw_custom_fields = [
       [
         'field' => 'cust_steam',
         'name' => 'Steam profile',
+        'icon' => 'socmed_steam.png',
+        'show_on_posts' => true,
         'desc' => 'Link to your Steam profile',
         'is_link' => true,
         'show_description' => false,
@@ -101,6 +127,8 @@ $gw_custom_fields = [
       [
         'field' => 'cust_irc',
         'name' => 'IRC',
+        'icon' => 'socmed_irc.gif',
+        'show_on_posts' => true,
         'desc' => 'Link to where you hang out on IRC (e.g. irc://irc.whahay.net/gamingw for channel #gamingw on network irc.whahay.net)',
         'show_description' => false,
       ],

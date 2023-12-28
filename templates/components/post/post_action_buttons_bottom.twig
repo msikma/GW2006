@@ -1,10 +1,3 @@
-{# Services implemented as custom fields. #}
-{% set custom_services = {
-  irc: {
-    button: 'contact_irc'
-  }
-} %}
-
 <ul class="action_buttons align_left">
   {% if context.can_send_pm and message.member.id %}
     <li class="pm_button">
@@ -37,15 +30,17 @@
     {% endfor %}
   {% endif %}
 
-  {# Show IRC messaging icon. Unlike the others, this is implemented as a custom field. #}
-  {% for service, service_data in custom_services %}
-    {% if message.member.options['cust_' ~ service] %}
-      {% set value = message.member.options['cust_' ~ service] %}
-      <li class="im_button custom_field type_{{ service }}">
-        <a href="{{ value }}" title="{{ value }}">
-          {% include 'atoms/post_button.twig' with {'type': service_data.button ~ '.gif', 'label': value} %}
-        </a>
-      </li>
+  {# Show social media custom fields. #}
+  {% for service, service_data in context.gw_custom_fields %}
+    {% if message.member.options[service] %}
+      {% if service_data.show_on_posts %}
+        {% set value = message.member.options[service] %}
+        <li class="im_button custom_field type_{{ service }}">
+          <a href="{{ value }}" title="{{ value }}">
+            {% include 'atoms/post_button.twig' with {'type': service_data.icon, 'label': value} %}
+          </a>
+        </li>
+      {% endif %}
     {% endif %}
   {% endfor %}
 
