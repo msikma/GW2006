@@ -120,6 +120,10 @@ $twig->addFunction(new TwigFunction('js_alert', function($message, $is_attr = fa
 $twig->addFunction(new TwigFunction('js_confirm', function($message, $is_attr = false) {
   return $is_attr ? get_dialog_attr($message, 'confirm') : get_dialog($message, 'confirm') ;
 }));
+/** Runs the PHP unserialize function on a variable. */
+$twig->addFilter(new TwigFilter('unserialize', function($var) {
+  return unserialize($var);
+}));
 /** Merges arrays while preserving numeric indices. */
 $twig->addFilter(new TwigFilter('pmerge', function($base, $extension) {
   foreach ($extension as $key => $value) {

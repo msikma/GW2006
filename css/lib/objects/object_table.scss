@@ -132,6 +132,23 @@
       &.quick_mod {
         vertical-align: middle;
       }
+      &.checkbox_text_rows {
+        dt {
+        }
+        dd {
+          margin-left: 21px;
+          margin-top: 2px;
+          margin-bottom: 6px;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+        .header {
+          margin-top: 8px;
+          margin-left: 0;
+        }
+      }
 
       ul {
         margin: 0;
