@@ -25,10 +25,11 @@
     {% set avatar_source = 'none' %}
   {% endif %}
   {% if show_user_images is not empty and options.show_no_avatars is empty and avatar_url is not empty %}
+    {% set avatar_options = get_avatar_options(member) %}
     <li class="avatar source_{{ avatar_source }}">
-      <a href="{{ scripturl }}?action=profile;u={{ member.id }}" class="gw_avatar" data-avatar-source="{{ avatar_source }}" data-avatar-retina="{{ member.options.cust_useret ? 'retina' : '' }}">
+      <a href="{{ scripturl }}?action=profile;u={{ member.id }}" class="gw_avatar" data-avatar-source="{{ avatar_source }}" data-is-retina="{{ avatar_options.is_retina ? 'yes' : 'no' }}" data-is-pixelart="{{ avatar_options.is_pixelart ? 'yes' : 'no' }}">
         <span class="avatar_wrapper">
-          <img src="{{ avatar_url }}" alt="Avatar of {{ member.name ?? member.username }}" class="{{ member.options.cust_useret ? 'retina' }}" />
+          <img src="{{ avatar_url }}" alt="Avatar of {{ member.name ?? member.username }}" class="{{ avatar_options.is_retina ? 'retina' }}{{ avatar_options.is_pixelart ? 'pixel' }}" />
         </span>
       </a>
       <script>gw.decorateAvatar();</script>

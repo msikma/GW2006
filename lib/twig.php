@@ -44,6 +44,15 @@ $twig->addFunction(new TwigFunction('comma_format', function($number, $override_
 $twig->addFunction(new TwigFunction('get_username_pip_class', function($member_group, $member_id, $is_inline = false) {
   return get_username_pip_class($member_group, $member_id, $is_inline);
 }));
+/** Returns some data about the member's avatar. */
+$twig->addFunction(new TwigFunction('get_avatar_options', function($member) {
+  $custom = $member['options']['cust_avatar'];
+  $options = [
+    'is_retina' => $custom === 'Retina (high dpi)',
+    'is_pixelart' => $custom === 'Pixel art (no smoothing)',
+  ];
+  return $options;
+}));
 /** Returns a set of pip image tags using the original SMF generated star icons. */
 $twig->addFunction(new TwigFunction('get_user_pip_images_from_stars', function($stars_html, $member_group, $member_id) {
   return get_user_pip_images_from_stars($stars_html, $member_group, $member_id);
