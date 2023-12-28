@@ -6,6 +6,10 @@
     font-size: cssvar(--gw-font-small);
     display: inline-block;
 
+    &:empty {
+      display: none;
+    }
+
     > span {
       // This is the ... ellipsis. Override the inline style.
       font-weight: normal !important;
