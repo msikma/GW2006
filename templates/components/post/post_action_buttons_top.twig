@@ -10,7 +10,7 @@
 {% set is_moderator = context.user.can_mod %}
 
 <ul class="action_buttons">
-  {% if is_moderator and message.member.id %}
+  {% if is_moderator and message.member.id and not message.member.is_banned %}
     <li class="spam_button">
       <a href="{{ scripturl }}?action=admin;area=ban;sa=add;u={{ message.member.id }}">
         {% include 'atoms/post_button.twig' with {'type': 'mod_spam.png', 'label': 'Ban user'} %}
