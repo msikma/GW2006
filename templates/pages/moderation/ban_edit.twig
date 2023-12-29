@@ -94,7 +94,7 @@
                 </label>
               </th>
               <td>
-                <textarea id="reason" name="reason" cols="50" rows="4">{{ context.ban.reason }}</textarea>
+                <textarea id="reason" name="reason" cols="50" rows="4">{{ context.ban.reason|raw }}</textarea>
               </td>
             </tr>
             {% if show_quick_ban %}
@@ -110,7 +110,7 @@
                 </td>
               </tr>
             {% else %}
-              <input type="hidden" id="easy_ban_group" name="easy_ban_group" value="0" />
+              <input type="hidden" id="easy_ban_group" name="easy_ban_group" value="1" />
             {% endif %}
             <tr class="object_row">
               <th class="minimal">
@@ -120,7 +120,7 @@
                 </label>
               </th>
               <td>
-                <textarea id="notes" name="notes" cols="50" rows="4">{{ context.ban.notes }}</textarea>
+                <textarea id="notes" name="notes" cols="50" rows="4">{{ context.ban.notes|raw }}</textarea>
               </td>
             </tr>
             <tr class="object_row" id="ban_expire">
@@ -149,6 +149,8 @@
                 <input type="checkbox" name="cannot_login" id="cannot_login" value="1"{% if context.ban.cannot.login %} checked="checked"{% endif %} class="ban_restriction input_radio" /> <label for="cannot_login">{{ txt.ban_cannot_login }}</label><br />
               </td>
             </tr>
+          </tbody>
+          <tbody id="ban_triggers">
             {% if context.ban_suggestions %}
               <tr class="object_row" id="ban_restrict">
                 <th class="minimal">
@@ -216,7 +218,7 @@
             <tr class="object_row dark">
               <th class="minimal"></th>
               <td>
-                <button type="submit" name="{{ context.ban.is_new ? 'add_ban' : 'modify_ban' }}">
+                <button type="submit" name="{{ context.ban.is_new ? 'add_ban' : 'modify_ban' }}" value="{{ context.ban.is_new ? txt.ban_add : txt.ban_modify }}">
                   <strong>{{ context.ban.is_new ? 'Ban member' : txt.ban_modify }}</strong>
                 </button>
                 <input type="hidden" name="old_expire" value="{{ context.ban.expiration.days }}" />
