@@ -54,6 +54,12 @@
     }
   }
 
+  th, td {
+    &.minimal {
+      min-width: 160px;
+    }
+  }
+
   // Description for a form item.
   .input_description {
     font-size: cssvar(--gw-font-small);

@@ -78,6 +78,60 @@ function get_post_data($post_id) {
 }
 
 /**
+ * Retrieves all ban groups from the database.
+ */
+function get_ban_groups() {
+  global $db_prefix, $smcFunc;
+
+  $request = $smcFunc['db_query']('', '
+    select * from {db_prefix}ban_groups
+    limit 500
+  ');
+
+  $ban_groups = [];
+
+  while ($row = $smcFunc['db_fetch_assoc']($request)) {
+    $ban_groups[$row['id_ban_group']] = $row;
+  }
+
+  return $ban_groups;
+}
+
+/**
+ * Returns all data about a specific member by ID.
+ */
+function get_member_data($member_id) {
+  global $db_prefix, $smcFunc;
+
+  if (empty($member_id)) {
+    return null;
+  }
+
+  // Get the topic data.
+  $request = $smcFunc['db_query']('', '
+    select m.*, g.group_name as `group`, g.online_color as group_color, g.id_group as group_id from {db_prefix}members m
+    left join {db_prefix}membergroups g
+    on m.id_group = g.id_group
+    where id_member = {int:member_id}
+  ',
+    [
+      'member_id' => $member_id
+    ]
+  );
+
+  if ($smcFunc['db_num_rows']($request) === 0) {
+    return null;
+  }
+  
+  $data = $smcFunc['db_fetch_assoc']($request);
+  if (empty($data)) {
+    return null;
+  }
+  
+  return $data;
+}
+
+/**
  * Retrieves basic data about a topic by its ID.
  */
 function get_topic_data($topic_id) {

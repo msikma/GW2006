@@ -52,6 +52,10 @@
     </li>
   {% endif %}
 
+  {% if show_id %}
+    <li class="member_id">User ID: {{ member.id|default('Unknown') }}</li>
+  {% endif %}
+
   {# Show the member's primary group (like "Administrator"). #}
   <li class="member_group">Group: {{ member.is_banned ? 'BANNED!' : member.group|default('Member') }}</li>
 

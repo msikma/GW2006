@@ -831,6 +831,60 @@ function get_menu_context() {
 }
 
 /**
+ * Returns all ban groups with metadata.
+ */
+function get_ban_groups_metadata() {
+  $ban_groups = get_ban_groups();
+
+  foreach ($ban_groups as $id => $ban_group) {
+    $special_group = null;
+    if ($ban_group['name'] === 'Spam') {
+      $special_group = 'spam';
+    }
+    $ban_groups[$id]['_special_group'] = $special_group;
+  }
+
+  return $ban_groups;
+}
+
+/**
+ * Returns information about a member we're hoping to ban.
+ */
+function get_ban_suggestion_member_info($member_id = null) {
+  $url_segments = get_smf_url_segments();
+  $member_id = $member_id === null ? $url_segments['u'] : $member_id;
+  if ($member_id == null) {
+    return null;
+  }
+  $member_data = process_raw_member_data(get_member_data($member_id));
+  return $member_data;
+}
+
+/**
+ * Changes the raw member data from the database to be more like what SMF generates.
+ * 
+ * This allows us to do things such as display their profile preview.
+ */
+function process_raw_member_data($member_data) {
+  global $scripturl;
+  
+  $member = [
+    'id' => $member_data['id_member'],
+    'name' => $member_data['real_name'],
+    'email' => $member_data['email_address'],
+    'show_email' => showEmailAddress(!empty($member_data['hide_email']), $member_data['id_member']),
+    'ip' => $member_data['member_ip'],
+    'registered_timestamp' => empty($member_data['date_registered']) ? 0 : forum_time(true, $member_data['date_registered']),
+    'registered' => timeformat($member_data['date_registered']),
+    'last_online' => $last_online,
+    'posts' => comma_format($member_data['posts']),
+    'is_activated' => $member_data['is_activated'] % 10 === 1,
+  ];
+  
+  return array_merge($member_data, $member);
+}
+
+/**
  * Returns context for list pages.
  */
 function get_list_context($list_id = null) {

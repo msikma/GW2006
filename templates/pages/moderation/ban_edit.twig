@@ -8,7 +8,7 @@
 {% set default_group = 'Spam' %}
 {% set has_default_group = default_group in context.ban_group_suggestions %}
 
-<form id="manage_bans" class="{{ context.ban.is_new and context.ban_group_suggestions is not empty ? 'has_group_ban_suggestions' }}" action="{{ scripturl }}?action=admin;area=ban;sa=edit" method="post" accept-charset="{{ context.character_set }}" onsubmit="if (this.ban_name.value == '') {alert('{{ txt.ban_name_empty }}'); return false;} if (this.partial_ban.checked && !(this.cannot_post.checked || this.cannot_register.checked || this.cannot_login.checked)) {alert('{{ txt.ban_restriction_empty }}'); return false;}">  
+<form id="manage_bans" class="ban_form {{ context.ban.is_new and context.ban_group_suggestions is not empty ? 'has_group_ban_suggestions' }}" action="{{ scripturl }}?action=admin;area=ban;sa=edit" method="post" accept-charset="{{ context.character_set }}" onsubmit="if (this.ban_name.value == '') {alert('{{ txt.ban_name_empty }}'); return false;} if (this.partial_ban.checked && !(this.cannot_post.checked || this.cannot_register.checked || this.cannot_login.checked)) {alert('{{ txt.ban_restriction_empty }}'); return false;}">  
   <div class="object_list object_form">
     <div class="blue_component">
       <div class="blue_component_header">
@@ -38,6 +38,21 @@
           {% endif %}
           {% for id_ban_group, ban_name in context.ban_group_suggestions %}
             <tbody class="existing_ban_group" name="{{ id_ban_group }}" style="{{ ban_name == default_group ? '' : 'display: none;' }}">
+              {% if context.ban_suggestion.id %}
+                <tr class="object_row profile_info">
+                  <th class="minimal">
+                    <label>
+                      User to ban
+                      <small>User will be banned by IP, email address and username.</small>
+                    </label>
+                  </th>
+                  <td>
+                    <div class="profile_preview">
+                      {% include 'components/profile/profile_preview.twig' with {member: context.ban_suggestion, show_id: true} %}
+                    </div>
+                  </td>
+                </tr>
+              {% endif %}
               <tr class="object_row">
                 <th class="minimal">
                   <label>
@@ -46,7 +61,7 @@
                   </label>
                 </th>
                 <td>
-                  asdf
+                  {{ context.ban_groups_meta[id_ban_group].reason|raw }}
                 </td>
               </tr>
               <tr class="object_row">
@@ -57,7 +72,7 @@
                   </label>
                 </th>
                 <td>
-                  ban notes
+                  {{ context.ban_groups_meta[id_ban_group].notes|raw }}
                 </td>
               </tr>
             </tbody>
@@ -201,7 +216,9 @@
             <tr class="object_row dark">
               <th class="minimal"></th>
               <td>
-                <input type="submit" name="{{ context.ban.is_new ? 'add_ban' : 'modify_ban' }}" value="{{ context.ban.is_new ? txt.ban_add : txt.ban_modify }}" class="button_submit" />
+                <button type="submit" name="{{ context.ban.is_new ? 'add_ban' : 'modify_ban' }}">
+                  <strong>{{ context.ban.is_new ? 'Ban member' : txt.ban_modify }}</strong>
+                </button>
                 <input type="hidden" name="old_expire" value="{{ context.ban.expiration.days }}" />
                 <input type="hidden" name="bg" value="{{ context.ban.id }}" />
                 <input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />
