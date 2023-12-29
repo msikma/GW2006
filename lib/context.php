@@ -433,13 +433,13 @@ function group_profile_settings($fields) {
   }
   foreach ($fields as $field) {
     $group_name = '_rest';
-    if (in_array($field['_slug'], ['personalized_picture', 'personal_text', 'birthdate', 'location', 'gender'])) {
+    if (in_array($field['_slug'], ['avatar_choice', 'personal_text', 'bday1', 'location', 'gender'])) {
       $group_name = 'user_core';
     }
     if (in_array($field['_slug'], ['icq', 'aim', 'msn', 'yim', 'website_title', 'website_url']) || $field['_custom_field_type'] === 'social_media') {
       $group_name = 'social_media';
     }
-    if (in_array($field['_slug'], ['custom_title', 'signature'])) {
+    if (in_array($field['_slug'], ['usertitle', 'signature'])) {
       $group_name = 'personal_text';
     }
     $groups[$group_name]['items'][] = $field;
@@ -472,10 +472,10 @@ function group_account_settings($fields) {
   }
   foreach ($fields as $field) {
     $group_name = '_rest';
-    if (in_array($field['_slug'], ['username', 'name', 'date_registered', 'posts', 'primary_membergroup', 'additional_membergroups', 'email', 'allow_users_to_email_me', 'show_others_my_online_status'])) {
+    if (in_array($field['_slug'], ['member_name', 'real_name', 'date_registered', 'posts', 'id_group', 'id_group_2', 'email_address', 'hide_email', 'show_online'])) {
       $group_name = 'user_settings';
     }
-    if (in_array($field['_slug'], ['choose_password', 'verify_password', 'secret_question', 'answer'])) {
+    if (in_array($field['_slug'], ['passwrd1', 'passwrd2', 'secret_question', 'secret_answer'])) {
       $group_name = 'security';
     }
     $groups[$group_name]['items'][] = $field;
@@ -498,7 +498,7 @@ function group_theme_settings($fields) {
   }
   foreach ($fields as $field) {
     $group_name = '_rest';
-    if (in_array($field['_slug'], ['current_theme', 'theme_settings'])) {
+    if (in_array($field['_slug'], ['id_theme', 'theme_settings'])) {
       $group_name = 'theme';
     }
     if (in_array($field['_slug'], ['time_format', 'time_offset'])) {
@@ -514,7 +514,7 @@ function group_theme_settings($fields) {
  */
 function group_pmprefs_settings($fields) {
   $groups = [
-    'pm_settings' => [],
+    'pm_settings' => ['name' => 'Private message settings'],
     '_rest' => [],
   ];
   foreach ($groups as $key => $group) {
@@ -523,7 +523,7 @@ function group_pmprefs_settings($fields) {
   }
   foreach ($fields as $field) {
     $group_name = '_rest';
-    if (in_array($field['_slug'], ['pm_settings'])) {
+    if (in_array($field['_slug'], ['pm_prefs', 'pm_prefs_2', 'pm_prefs_3', 'pm_prefs_4', 'pm_prefs_5', 'pm_prefs_6', 'pm_prefs_7'])) {
       $group_name = 'pm_settings';
     }
     $groups[$group_name]['items'][] = $field;
@@ -684,7 +684,7 @@ function get_expanded_profile_fields($extract_profile_field_data = true) {
     $label_field = $field['label'];
     if (empty($label_field)) $label_field = $field['label'];
     if (empty($label_field)) $label_field = $field['callback_func'];
-    $profile_fields[$key] = array_merge($field, ['_slug' => slug($label_field)]);
+    $profile_fields[$key] = array_merge($field, ['_slug' => $key]);
   }
 
   return $profile_fields;
