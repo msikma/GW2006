@@ -26,10 +26,10 @@
     </li>
   {% endif %}
 
-  {% if message.can_approve %}
+  {% if message.can_approve and not message.member.is_banned %}
     <li class="approve_button">
-      <a class="post_action_text" href="{{ scripturl }}?action=moderate;area=postmod;sa=approve;topic={{ message_topic_id }}{{ message_start ? '.' ~ message_start }};msg={{ message.id }};{{ context.session_var }}={{ context.session_id }}">
-        {{ txt.approve }}
+      <a href="{{ scripturl }}?action=moderate;area=postmod;sa=approve;topic={{ message_topic_id }}{{ message_start ? '.' ~ message_start }};msg={{ message.id }};{{ context.session_var }}={{ context.session_id }}">
+        {% include 'atoms/post_button.twig' with {'type': 'action_approve.png', 'label': txt.approve} %}
       </a>
     </li>
   {% endif %}
