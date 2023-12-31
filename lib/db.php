@@ -225,3 +225,267 @@ function table_exists($table_name) {
 
   return boolval($result['count']);
 }
+
+/**
+ * Returns all deletable posts for a given member.
+ * 
+ * This will return topics and posts, and will separate these in items we can fully delete,
+ * and items we need to "wipe" (removing the post content).
+ * 
+ * We separate the items into these two categories because sometimes we don't want replies
+ * by *other* members to vanish as a result of someone being banned.
+ * 
+ * This is typically only used when banning spambots, not when banning humans.
+ * 
+ * TODO: at the moment this does not look for posts by email; only by member id and IP.
+ */
+function get_banned_member_deletable_posts($ban_suggestions, $allow_search = ['id']) {
+  global $db_prefix, $smcFunc, $modSettings;
+
+  // Temporarily disable query checking; normally, subqueries are disabled.
+  $oldQueryCheck = $modSettings['disableQueryCheck'];
+  $modSettings['disableQueryCheck'] = 1;
+
+  $delete_topics = [];
+  $delete_posts = [];
+  $wipe_posts = [];
+
+  // Search for posts by id.
+  if ($ban_suggestions['id'] && in_array('id', $allow_search)) {
+    // Selects all topics that were started by the given member that have either
+    // only replies by themselves, or by at most one other person.
+    // These are topics we can fully delete without any regard for other replies going missing.
+    $request = $smcFunc['db_query']('', '
+      select m.id_topic as id from {db_prefix}messages m
+      join {db_prefix}topics t on m.id_topic = t.id_topic
+      where t.id_member_started = {int:member_id}
+      group by m.id_topic
+      having sum(m.id_member != {int:member_id}) <= 1
+    ',
+      [
+        'member_id' => $ban_suggestions['id']
+      ]
+    );
+    while ($row = $smcFunc['db_fetch_assoc']($request)) {
+      $delete_topics[] = $row['id'];
+    }
+
+    // Now get all their dangling messages; these are messages that are the last post in a topic.
+    // These are posts that can also be deleted cleanly without any issues.
+    $request = $smcFunc['db_query']('', '
+      select m.id_msg as id from {db_prefix}messages m
+      inner join (
+        select id_topic, max(id_msg) as last_msg_id
+        from {db_prefix}messages
+        group by id_topic
+      ) as last_msgs on m.id_msg = last_msgs.last_msg_id
+      where m.id_member = {int:member_id}
+    ',
+      [
+        'member_id' => $ban_suggestions['id']
+      ]
+    );
+    while ($row = $smcFunc['db_fetch_assoc']($request)) {
+      $delete_posts[] = $row['id'];
+    }
+
+    // Finally, get all other messages they posted. These will all be wiped.
+    $request = $smcFunc['db_query']('', '
+      select m.id_msg as id from {db_prefix}messages m
+      where m.id_member = {int:member_id}
+      and m.approved != {int:approved_wiped}
+      and m.id_msg not in ({array_int:message_ids})
+    ',
+      [
+        'member_id' => $ban_suggestions['id'],
+        'approved_wiped' => 2,
+        'message_ids' => empty($delete_posts) ? [0] : $delete_posts,
+      ]
+    );
+    while ($row = $smcFunc['db_fetch_assoc']($request)) {
+      $wipe_posts[] = $row['id'];
+    }
+  }
+
+  // Find posts by IP address. See above; this just repeats the same queries, but matching by IP address.
+  // Note that these queries are significantly slower.
+  if ($ban_suggestions['ip'] && in_array('ip', $allow_search)) {
+    $request = $smcFunc['db_query']('', '
+      select m.id_topic as id from {db_prefix}messages m
+      join {db_prefix}topics t on m.id_topic = t.id_topic
+      where t.id_first_msg in (
+        select id_msg from {db_prefix}messages
+        where poster_ip = {string:member_ip}
+      )
+      group by m.id_topic
+      having sum(m.poster_ip != {string:member_ip}) <= 1
+    ',
+      [
+        'member_ip' => $ban_suggestions['ip']
+      ]
+    );
+    while ($row = $smcFunc['db_fetch_assoc']($request)) {
+      $delete_topics[] = $row['id'];
+    }
+
+    // TODO: at the moment we don't look for dangling posts by IP.
+
+    $request = $smcFunc['db_query']('', '
+      select m.id_msg as id from {db_prefix}messages m
+      where m.poster_ip = {string:member_ip}
+      and m.id_msg not in ({array_int:message_ids})
+    ',
+      [
+        'member_ip' => $ban_suggestions['ip'],
+        'message_ids' => [0], // add dangling posts here later.
+      ]
+    );
+    while ($row = $smcFunc['db_fetch_assoc']($request)) {
+      $wipe_posts[] = $row['id'];
+    }
+  }
+
+  // Re-enable query checking.
+  $modSettings['disableQueryCheck'] = $modSettings['disableQueryCheck'];
+
+  return [
+    'delete_topics' => array_values(array_unique($delete_topics, SORT_NUMERIC)),
+    'delete_posts' => array_values(array_unique($delete_posts, SORT_NUMERIC)),
+    'wipe_posts' => array_values(array_unique($wipe_posts, SORT_NUMERIC)),
+  ];
+}
+
+/**
+ * Deletes a number of topics, also deleting any messages posted to the topic.
+ * 
+ * Used when banning spambots.
+ */
+function delete_spam_topics($topic_ids) {
+  global $db_prefix, $smcFunc;
+
+  if (empty($topic_ids)) {
+    return;
+  }
+
+  // First, delete all messages from the topic.
+  $request = $smcFunc['db_query']('', '
+    delete from {db_prefix}messages
+    where id_topic in ({array_int:topic_ids})
+  ',
+    [
+      'topic_ids' => $topic_ids,
+    ]
+  );
+  
+  // Then delete the topics themselves.
+  $request = $smcFunc['db_query']('', '
+    delete from {db_prefix}topics
+    where id_topic in ({array_int:topic_ids})
+  ',
+    [
+      'topic_ids' => $topic_ids,
+    ]
+  );
+}
+
+/**
+ * Deletes a number of messages by id.
+ * 
+ * Used when banning spambots.
+ */
+function delete_spam_posts($post_ids) {
+  global $db_prefix, $smcFunc;
+
+  if (empty($post_ids)) {
+    return;
+  }
+
+  $request = $smcFunc['db_query']('', '
+    delete from {db_prefix}messages
+    where id_msg in ({array_int:post_ids})
+  ',
+    [
+      'post_ids' => $post_ids,
+    ]
+  );
+}
+
+/**
+ * Wipes a number of posts by id.
+ * 
+ * Used when banning spambots.
+ * 
+ * Wiping a post means removing the post content and setting "approved" to the special value 2.
+ */
+function wipe_spam_posts($post_ids) {
+  global $db_prefix, $smcFunc;
+
+  if (empty($post_ids)) {
+    return;
+  }
+
+  $request = $smcFunc['db_query']('', '
+    update {db_prefix}messages
+    set body = {string:new_body}, approved = {int:new_approved}
+    where id_msg in ({array_int:post_ids})
+  ',
+    [
+      'new_body' => '[removed]',
+      'new_approved' => 2,
+      'post_ids' => $post_ids,
+    ]
+  );
+}
+
+/**
+ * Wipes a number of members by id.
+ * 
+ * Used when banning spambots.
+ * 
+ * Wiping a member means removing all their identifying characteristics.
+ */
+function wipe_spam_members($member_ids) {
+  global $db_prefix, $smcFunc;
+
+  if (empty($member_ids)) {
+    return;
+  }
+
+  $request = $smcFunc['db_query']('', '
+    update {db_prefix}members
+    set website_title = {string:website_title},
+    website_url = {string:website_url},
+    location = {string:location},
+    icq = {string:icq},
+    aim = {string:aim},
+    yim = {string:yim},
+    msn = {string:msn},
+    signature = {string:signature},
+    avatar = {string:avatar},
+    usertitle = {string:usertitle}
+    where id_member in ({array_int:member_ids})
+  ',
+    [
+      'website_title' => '',
+      'website_url' => '',
+      'location' => '',
+      'icq' => '',
+      'aim' => '',
+      'yim' => '',
+      'msn' => '',
+      'signature' => '',
+      'avatar' => '',
+      'usertitle' => '',
+      'member_ids' => $member_ids,
+    ]
+  );
+
+  $request = $smcFunc['db_query']('', '
+    delete from {db_prefix}attachments
+    where id_member in ({array_int:member_ids})
+  ',
+    [
+      'member_ids' => $member_ids,
+    ]
+  );
+}

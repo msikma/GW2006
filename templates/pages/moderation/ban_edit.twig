@@ -8,6 +8,9 @@
 {% set default_group = 'Spam' %}
 {% set has_default_group = default_group in context.ban_group_suggestions %}
 
+{# Whether to delete the user's posts and topics after banning. #}
+{% set delete_posts_after_ban = true %}
+
 <form id="manage_bans" class="ban_form {{ context.ban.is_new and context.ban_group_suggestions is not empty ? 'has_group_ban_suggestions' }}" action="{{ scripturl }}?action=admin;area=ban;sa=edit" method="post" accept-charset="{{ context.character_set }}" onsubmit="if (this.ban_name.value == '') {alert('{{ txt.ban_name_empty }}'); return false;} if (this.partial_ban.checked && !(this.cannot_post.checked || this.cannot_register.checked || this.cannot_login.checked)) {alert('{{ txt.ban_restriction_empty }}'); return false;}">  
   <div class="object_list object_form">
     <div class="blue_component">
@@ -32,6 +35,11 @@
                       <option value="{{ id_ban_group }}" {{ has_default_group and ban_name == default_group ? ' selected="selected"' }}>{{ ban_name }}</option>
                     {% endfor %}
                   </select>
+                  {% for id_ban_group, ban_name in context.ban_group_suggestions %}
+                    {% if ban_name == default_group %}
+                      <input type="hidden" name="default_ban_group_id" value="{{ id_ban_group }}" />
+                    {% endif %}
+                  {% endfor %}
                 </td>
               </tr>
             </tbody>
@@ -210,6 +218,20 @@
                       </dt>
                     {% endfor %}
                   {% endif %}
+                </td>
+              </tr>
+            {% endif %}
+          </tbody>
+          <tbody id="ban_post_actions">
+            {% if context.ban_suggestions %}
+              <tr class="object_row" id="ban_restrict">
+                <th class="minimal">
+                  <label>
+                    Actions
+                  </label>
+                </th>
+                <td class="checkbox_text_rows">
+                  <input type="checkbox" name="ban_post_delete_posts" id="ban_post_delete_posts" value="1"{% if delete_posts_after_ban %} checked="checked"{% endif %} /> <label for="ban_post_delete_posts">Delete all posts and topics after ban</label><br />
                 </td>
               </tr>
             {% endif %}
