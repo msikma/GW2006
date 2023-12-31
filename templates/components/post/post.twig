@@ -145,6 +145,11 @@
   {% set can_report_moderator = true %}
 {% endif %}
 
+{# If the member had their post removed by the anti-spam script, it will be set to "[removed]" and "approved" will be set to "2". #}
+{% if message_body == '[removed]' and message.member.is_banned and message.approved == 2 %}
+  {% set message_body = '<div class="spam_removed"><table cellspacing="0" cellpadding="0" border="0"><tr><td><img src="' ~ theme_url ~ '/images/other/mr_malibus.png" width="110" height="150" /></td><td class="spam_message"><br><br>╲───────────────────────────────────┐<br>│ This message was removed as spam. │<br>└───────────────────────────────────┘<br></td></tr></table></div>' %}
+{% endif %}
+
 {# Set the member variable to the one in the post, unless it's explicitly set. #}
 {% if not member %}
   {% set member = message.member %}

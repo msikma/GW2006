@@ -210,6 +210,18 @@
         margin-bottom: 6px;
       }
     }
+
+    // Special class used for posts that once held spam and have now been removed.
+    .spam_removed {
+      font-style: italic;
+      font-size: cssvar(--gw-font-small);
+      margin-top: 8px;
+
+      .spam_message {
+        font-family: cssvar(--gw-font-monospace);
+        padding-left: 1.5ch;
+      }
+    }
   }
 
   // All post items except those from the post preview history list.
