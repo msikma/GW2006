@@ -6,6 +6,7 @@ use Twig\TwigFunction;
 use Twig\TwigFilter;
 
 require_once('lib/tasks.php');
+require_once('lib/history.php');
 require_once('vendor/autoload.php');
 
 // Global Twig singleton.
@@ -119,6 +120,14 @@ $twig->addFunction(new TwigFunction('js_alert', function($message, $is_attr = fa
 /** Returns a confirm dialog box, either as a string or as an attribute. */
 $twig->addFunction(new TwigFunction('js_confirm', function($message, $is_attr = false) {
   return $is_attr ? get_dialog_attr($message, 'confirm') : get_dialog($message, 'confirm') ;
+}));
+/** Returns an indicator for what era a post came from by its post date. */
+$twig->addFunction(new TwigFunction('get_gw_era', function($post_unixtime) {
+  $era = get_gw_era_from_timestamp($post_unixtime);
+  if (empty($era)) {
+    return 'unknown';
+  }
+  return $era['slug'];
 }));
 /** Runs the PHP unserialize function on a variable. */
 $twig->addFilter(new TwigFilter('unserialize', function($var) {

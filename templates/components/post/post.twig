@@ -162,7 +162,7 @@
 {% set signature_enabled = context.signature_enabled or modSettings.signature_settings|slice(0, 1) %}
 
 {# Post body. #}
-<div class="post_item object_list {{ message.id ? 'post_id_' ~ message.id }} {{ is_ignored ? 'is_ignored' }} {{ not message_approved ? 'not_approved' }} member_group_{{ member.group|lower|default('member') }} {{ member.id ? 'member_id_' ~ member.id }} {{ is_reply_history_post ? 'is_reply_history_post' }} {{ is_thread_post ? 'is_thread_post' }} {{ is_profile_post ? 'is_profile_post' }}">
+<div class="post_item object_list {{ message.id ? 'post_id_' ~ message.id }} {{ is_ignored ? 'is_ignored' }} {{ not message_approved ? 'not_approved' }} member_group_{{ member.group|lower|default('member') }} {{ member.id ? 'member_id_' ~ member.id }} {{ is_reply_history_post ? 'is_reply_history_post' }} {{ is_thread_post ? 'is_thread_post' }} {{ is_profile_post ? 'is_profile_post' }}" data-timestamp="{{ message.timestamp }}" data-gw-era="{{ get_gw_era(message.timestamp) }}">
   <div class="blue_component">
     <div class="post_item_inner">
       {% if show_header %}
