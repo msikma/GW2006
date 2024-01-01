@@ -28,6 +28,10 @@
         }
       }
     }
+    .moderation_reports {
+      font-size: cssvar(--gw-font-small);
+      float: right;
+    }
     .user_welcome p {
       margin: 0;
       display: inline-block;

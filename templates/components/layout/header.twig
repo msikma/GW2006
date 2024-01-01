@@ -4,6 +4,18 @@
       {% include 'components/layout/header_title.twig' with {'use_linktree': true} %}
     </div>
     <div id="upper_section" class="blue_component_medium blue_component_section">
+      {# We add a line showing the number of open moderation reports, for anyone who can mod. #}
+      {% if context.user.can_mod and context.open_mod_reports > 0 %}
+        <div class="moderation_reports">
+          <a href="{{ scripturl }}?action=moderate;area=reports">
+            {% if context.open_mod_reports == 1 %}
+              There is {{ context.open_mod_reports }} moderator report open.
+            {% else %}
+              There are {{ context.open_mod_reports }} moderator reports open.
+            {% endif %}
+          </a>
+        </div>
+      {% endif %}
       <div class="current_user">
         {% if context.user.is_logged %}
           {# If the user is logged in, display their information. #}
