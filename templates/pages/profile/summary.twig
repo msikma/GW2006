@@ -74,7 +74,7 @@
     {% set service_info = context.member.options[service.field] %}
     {% set contact_rows = contact_rows|merge([{
       display: service_info,
-      key: service.name,
+      key: service.name_summary ? service.name_summary : service.name,
       value: service.is_link ? get_link_or_text(service_info) : service_info,
     }]) %}
   {% endif %}
@@ -93,9 +93,20 @@
   value: '<a href="' ~ context.member.website.url ~ '" rel="nofollow">' ~ context.member.website.title ~ '</a>',
 }]) %}
 
-{% set additional_rows = [
+{% set additional_rows = [] %}
+{% for item in context.gw_custom_fields %}
+  {% if item._custom_field_type == 'profile_additional' %}
+    {% set item_info = context.member.options[item.field] %}
+    {% set additional_rows = additional_rows|merge([{
+      display: item_info,
+      key: item.name_summary ? item.name_summary : item.name,
+      value: service.is_link ? get_link_or_text(item_info) : item_info,
+    }]) %}
+  {% endif %}
+{% endfor %}
+{% set additional_rows = additional_rows|merge([
   {
-    test: not context.disabled_fields.gender and context.member.gender.name,
+    display: (not context.disabled_fields.gender is defined),
     key: txt.gender,
     value: context.member.gender.name,
   },
@@ -105,7 +116,7 @@
     value: context.member.age ~ (context.member.today_is_birthday ? ' <img src="' ~ images_url ~ '/ui_icons/profile_birthday.gif" class="pixel" width="81" height="26" />' : '')
   },
   {
-    test: not context.disabled_fields.location and context.member.location,
+    display: (not context.disabled_fields.location is defined),
     key: txt.location,
     value: context.member.location,
   },
@@ -115,7 +126,7 @@
   {
     value: '<a href="' ~ scripturl ~ '?action=profile;area=statistics;u=' ~ context.id_member ~ '" class="text_icon_row"><img src="' ~ images_url ~'/ui_icons/view_user_statistics.png" width="20" height="20" class="pixel" />Show general statistics for this member.</a>',
   },
-] %}
+]) %}
 
 {% set admin_rows = [
   {

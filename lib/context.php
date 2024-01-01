@@ -479,7 +479,7 @@ function group_profile_settings($fields) {
     $fields_custom_type[$field['_custom_field_type']][] = $field;
   }
   
-  add_to_profile_group($fields_slug, $fields_custom_type, $groups['user_core'], $consumed, ['avatar_choice', 'cust_avatar', 'personal_text', 'bday1', 'location', 'gender']);
+  add_to_profile_group($fields_slug, $fields_custom_type, $groups['user_core'], $consumed, ['avatar_choice', 'cust_avatar', 'cust_gender', 'personal_text', 'bday1', 'location', 'gender'], 'profile_additional');
   add_to_profile_group($fields_slug, $fields_custom_type, $groups['social_media'], $consumed, ['icq', 'aim', 'msn', 'yim', 'website_title', 'website_url'], 'social_media');
   add_to_profile_group($fields_slug, $fields_custom_type, $groups['personal_text'], $consumed, ['usertitle', 'signature']);
   add_to_profile_group($fields_slug, $fields_custom_type, $groups['_rest'], $consumed, [], null, true);
