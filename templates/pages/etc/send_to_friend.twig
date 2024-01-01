@@ -1,0 +1,60 @@
+{% if context.is_deprecated %}
+  {% set content %}
+    <p>Sorry, this functionality has been deprecated to prevent abuse. Just open your email client and paste in the link yourself... you can do it, I believe in you.</p>
+    <p><a href="{{ scripturl ~ '?topic=' ~ context.url_segments.topic }}">Return to topic.</a></p>
+  {% endset %}
+  {% include 'components/generic/article.twig' with {'title': context.page_title, 'content': content} %}
+{% else %}
+  <form action="{{ scripturl ~ '?action=emailuser;sa=sendtopic;topic=' ~ context.current_topic ~ '.' ~ context.start }}" method="post" accept-charset="{{ context.character_set }}">
+    <input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />
+    <div class="object_form new_post_form object_list">
+      <div class="blue_component">
+        <div class="blue_component_header">
+          <h3 class="blue_component_title">{{ context.page_title|raw }}</h3>
+        </div>
+        <div class="blue_component_medium object_list_frame">
+          <table class="object_table">
+            <tbody>
+              <tr class="object_row">
+                <th class="minimal"><label for="y_name">{{ txt.sendtopic_sender_name }}</label></th>
+                <td>
+                  <input type="text" id="y_name" name="y_name" size="30" maxlength="40" value="{{ context.user.name }}" class="input_text" />
+                </td>
+              </tr>
+              <tr class="object_row">
+                <th class="minimal"><label for="y_name">{{ txt.sendtopic_sender_email }}</label></th>
+                <td>
+                  <input type="text" id="y_email" name="y_email" size="30" maxlength="50" value="{{ context.user.email }}" class="input_text" />
+                </td>
+              </tr>
+              <tr class="object_row">
+                <th class="minimal"><label for="y_name">{{ txt.sendtopic_comment }}</label></th>
+                <td>
+                  <input type="text" id="comment" name="comment" size="30" maxlength="100" class="input_text" />
+                </td>
+              </tr>
+              <tr class="object_row">
+                <th class="minimal"><label for="y_name">{{ txt.sendtopic_receiver_name }}</label></th>
+                <td>
+                  <input type="text" id="r_name" name="r_name" size="30" maxlength="40" class="input_text" />
+                </td>
+              </tr>
+              <tr class="object_row">
+                <th class="minimal"><label for="y_name">{{ txt.sendtopic_receiver_email }}</label></th>
+                <td>
+                  <input type="text" id="r_email" name="r_email" size="30" maxlength="50" class="input_text" />
+                </td>
+              </tr>
+              <tr class="object_row dark">
+                <th class="minimal"></th>
+                <td>
+                  <button type="submit" name="send"><strong>{{ txt.sendtopic_send }}</strong></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </form>
+{% endif %}

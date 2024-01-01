@@ -1,0 +1,86 @@
+{% if context.is_deprecated %}
+  {% set content %}
+    <p>Sorry, this functionality has been deprecated to prevent abuse. <a href="{{ scripturl ~ '?action=pm;sa=send;u=' ~ context.recipient.id }}">You can send the user a PM instead.</a></p>
+    <p><a href="{{ scripturl ~ '?msg=' ~ context.url_segments.msg }}">Return to topic.</a></p>
+  {% endset %}
+  {% include 'components/generic/article.twig' with {'title': context.page_title, 'content': content} %}
+{% else %}
+  <form action="{{ scripturl ~ '?action=emailuser;sa=sendtopic;email' }}" method="post" accept-charset="{{ context.character_set }}">
+    <input type="hidden" name="{{ context.session_var }}" value="{{ context.session_id }}" />
+    {% for key, value in context.form_hidden_vars %}
+      <input type="hidden" name="{{ key }}" value="{{ value }}" />
+    {% endfor %}
+    <div class="object_form new_post_form object_list">
+      <div class="blue_component">
+        <div class="blue_component_header">
+          <h3 class="blue_component_title">{{ context.page_title|raw }}</h3>
+        </div>
+        <div class="blue_component_medium object_list_frame">
+          <table class="object_table">
+            <tbody>
+              <tr class="object_row">
+                <th class="minimal"><label for="y_name">{{ txt.sendtopic_receiver_name }}</label></th>
+                <td>
+                  {{ context.recipient.link|raw }}
+                </td>
+              </tr>
+              {% if context.can_view_receipient_email %}
+                <tr class="object_row">
+                  <th class="minimal"><label for="y_name">{{ txt.sendtopic_receiver_email }}</label></th>
+                  <td>
+                    {{ context.recipient.email_link|raw }}
+                  </td>
+                </tr>
+              {% endif %}
+              {% if context.user.is_guest %}
+                <tr class="object_row">
+                  <th class="minimal"><label for="y_name">{{ txt.sendtopic_sender_name }}</label></th>
+                  <td>
+                    <input type="text" id="y_name" name="y_name" size="24" maxlength="40" value="{{ context.user.name }}" class="input_text" />
+                  </td>
+                </tr>
+                <tr class="object_row">
+                  <th class="minimal"><label for="y_email">{{ txt.sendtopic_sender_email }}<small>{{ txt.send_email_disclosed }}</small></label></th>
+                  <td>
+                    <input type="text" id="y_mail" name="y_email" size="24" maxlength="50" value="{{ context.user.email }}" class="input_text" />
+                  </td>
+                </tr>
+              {% else %}
+                <tr class="object_row">
+                  <th class="minimal"><label for="y_email">{{ txt.sendtopic_sender_email }}<small>{{ txt.send_email_disclosed }}</small></label></th>
+                  <td>
+                    <em>{{ context.user.email }}</em>
+                  </td>
+                </tr>
+              {% endif %}
+              <tr class="object_row">
+                <th class="minimal"><label for="email_subject">{{ txt.send_email_subject }}</label></th>
+                <td>
+                  <input type="text" id="email_subject" name="email_subject" size="50" maxlength="100" class="input_text" />
+                </td>
+              </tr>
+              <tr class="object_row">
+                <th class="minimal"><label for="email_body">{{ txt.message }}</label></th>
+                <td>
+                  <textarea id="email_body" name="email_body" rows="10" cols="80"></textarea>
+                </td>
+              </tr>
+              <tr class="object_row">
+                <th class="minimal"><label for="y_name">{{ txt.sendtopic_receiver_email }}</label></th>
+                <td>
+                  <input type="text" id="r_email" name="r_email" size="30" maxlength="50" class="input_text" />
+                </td>
+              </tr>
+              <tr class="object_row dark">
+                <th class="minimal"></th>
+                <td>
+                  <button type="submit" name="send"><strong>{{ txt.sendtopic_send }}</strong></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </form>
+{% endif %}
