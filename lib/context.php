@@ -418,9 +418,50 @@ function get_settings_groups($type) {
 }
 
 /**
+ * Adds fields to a profile group.
+ * 
+ * This function is a bit complicated, but basically it's a selecting function.
+ * It adds items by slug or by custom field type, and can add all unconsumed items to the _rest group.
+ * 
+ * Currently only used by group_profile_settings().
+ */
+function add_to_profile_group($fields_slug, $fields_custom_type, &$group, &$consumed, $items = [], $custom_match = null, $add_unused = false) {
+  foreach ($items as $slug) {
+    $field = @$fields_slug[$slug];
+    if (isset($field) && !in_array($field['_slug'], $consumed)) {
+      $group['items'][] = $field;
+      $consumed[] = $slug;
+    }
+  }
+  if (!empty($custom_match)) {
+    $fields = @$fields_custom_type[$custom_match];
+    if (!empty($fields)) {
+      foreach ($fields as $field) {
+        if (in_array($field['_slug'], $consumed)) {
+          continue;
+        }
+        $group['items'][] = $field;
+        $consumed[] = $field['_slug'];
+      }
+    }
+  }
+  if ($add_unused) {
+    foreach ($fields_slug as $field) {
+      if (!in_array($field['_slug'], $consumed)) {
+        $group['items'][] = $field;
+        if ($field['_slug']) {
+          $consumed[] = $field['_slug'];
+        }
+      }
+    }
+  }
+}
+
+/**
  * Groups settings fields together for the profile page.
  */
 function group_profile_settings($fields) {
+  $consumed = [];
   $groups = [
     'user_core' => ['name' => 'Personal settings'],
     'social_media' => ['name' => 'Social media'],
@@ -431,19 +472,18 @@ function group_profile_settings($fields) {
     $groups[$key]['slug'] = $key;
     $groups[$key]['items'] = [];
   }
+  $fields_slug = [];
+  $fields_custom_type = [];
   foreach ($fields as $field) {
-    $group_name = '_rest';
-    if (in_array($field['_slug'], ['avatar_choice', 'personal_text', 'bday1', 'location', 'gender'])) {
-      $group_name = 'user_core';
-    }
-    if (in_array($field['_slug'], ['icq', 'aim', 'msn', 'yim', 'website_title', 'website_url']) || $field['_custom_field_type'] === 'social_media') {
-      $group_name = 'social_media';
-    }
-    if (in_array($field['_slug'], ['usertitle', 'signature'])) {
-      $group_name = 'personal_text';
-    }
-    $groups[$group_name]['items'][] = $field;
+    $fields_slug[$field['_slug']] = $field;
+    $fields_custom_type[$field['_custom_field_type']][] = $field;
   }
+  
+  add_to_profile_group($fields_slug, $fields_custom_type, $groups['user_core'], $consumed, ['avatar_choice', 'cust_avatar', 'personal_text', 'bday1', 'location', 'gender']);
+  add_to_profile_group($fields_slug, $fields_custom_type, $groups['social_media'], $consumed, ['icq', 'aim', 'msn', 'yim', 'website_title', 'website_url'], 'social_media');
+  add_to_profile_group($fields_slug, $fields_custom_type, $groups['personal_text'], $consumed, ['usertitle', 'signature']);
+  add_to_profile_group($fields_slug, $fields_custom_type, $groups['_rest'], $consumed, [], null, true);
+  
   // Sort the social media items so the custom fields go first.
   uasort($groups['social_media']['items'], function ($a, $b) {
     if ($a['_is_custom_field'] && !$b['_is_custom_field']) {
