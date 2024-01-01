@@ -612,6 +612,10 @@ function get_settings_fields() {
 function get_visual_verification() {
   global $context;
 
+  if (!function_exists('template_control_verification')) {
+    return '';
+  }
+
   // This works around a problem that arises only in our weird hacked in captcha.
   $verify_id = $context['visual_verification_id'];
   if (!isset($context['controls']['verification'][$verify_id]['questions'])) {
