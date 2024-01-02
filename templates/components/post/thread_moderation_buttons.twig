@@ -1,7 +1,7 @@
 {# Node: can_mod covers admins, global mods and board mods. #}
 {% set is_moderator = context.user.can_mod %}
 
-{% if is_moderator %}
+{% if is_moderator and context.current_action != 'pm' %}
   <div class="blue_component object_list moderation">
     <div class="blue_component_section blue_component_primary blue_component_light">
       <div class="section small button_row">
