@@ -36,7 +36,7 @@
       {% if service_data.show_on_posts %}
         {% set value = message.member.options[service] %}
         <li class="im_button custom_field type_{{ service }}">
-          <a href="{{ value }}" title="{{ value }}">
+          <a href="{{ value }}" title="{{ value }}" target="_blank">
             {% include 'atoms/post_button.twig' with {'type': service_data.icon, 'label': value} %}
           </a>
         </li>
