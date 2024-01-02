@@ -7,6 +7,7 @@ use Twig\TwigFilter;
 
 require_once('lib/tasks.php');
 require_once('lib/history.php');
+require_once('lib/prerequisites.php');
 require_once('vendor/autoload.php');
 
 // Global Twig singleton.
@@ -153,7 +154,7 @@ function get_render_context($template_context = []) {
   }
 
   // If an admin just requested the scheduled tasks and hooks to be installed, do so now.
-  perform_theme_hooks_tasks();
+  perform_theme_prerequisites_tasks();
   
   // Assemble our custom data.
   $context['linktree'] = get_linktree();
@@ -169,8 +170,7 @@ function get_render_context($template_context = []) {
   $context['gw_custom_fields'] = get_gw_metadata();
   $context['search_cache'] = get_search_cache();
   $context['menu_buttons'] = get_menu_buttons();
-  $context['theme_hooks'] = get_hooks_installation_status();
-  $context['theme_tasks'] = get_tasks_installation_status();
+  $context['theme_prerequisites'] = get_theme_prerequisites_status();
   $context['env'] = get_env_context();
   $context['url_segments'] = get_smf_url_segments();
 

@@ -985,31 +985,15 @@ function is_changelog_page() {
 }
 
 /**
- * Returns true if we're currently requesting to install the theme scheduled tasks.
+ * Returns true if we're currently requesting to install the theme prerequisites (tasks and hooks).
  */
-function is_tasks_installation_request() {
+function is_prerequisites_installation_request() {
   if (!req_is_admin()) {
     return false;
   }
   $query_string = $_SERVER['QUERY_STRING'];
-  $is_remove = strpos($query_string, 'area=changelog;removetasks') !== false;
-  $is_install = strpos($query_string, 'area=changelog;installtasks') !== false;
-  return [
-    'value' => $is_remove || $is_install,
-    'type' => $is_remove ? 'remove' : 'install',
-  ];
-}
-
-/**
- * Returns true if we're currently requesting to install the theme hooks.
- */
-function is_hooks_installation_request() {
-  if (!req_is_admin()) {
-    return false;
-  }
-  $query_string = $_SERVER['QUERY_STRING'];
-  $is_remove = strpos($query_string, 'area=changelog;removehooks') !== false;
-  $is_install = strpos($query_string, 'area=changelog;installhooks') !== false;
+  $is_remove = strpos($query_string, 'area=changelog;removeprerequisites') !== false;
+  $is_install = strpos($query_string, 'area=changelog;installprerequisites') !== false;
   return [
     'value' => $is_remove || $is_install,
     'type' => $is_remove ? 'remove' : 'install',
@@ -1019,25 +1003,15 @@ function is_hooks_installation_request() {
 /**
  * Performs any theme hooks and tasks installation that needs doing.
  */
-function perform_theme_hooks_tasks() {
-  $tasks = is_tasks_installation_request();
-  $hooks = is_hooks_installation_request();
+function perform_theme_prerequisites_tasks() {
+  $prerequisites = is_prerequisites_installation_request();
 
-  if ($tasks['value']) {
-    if ($tasks['type'] === 'remove') {
-      remove_theme_tasks();
+  if ($prerequisites['value']) {
+    if ($prerequisites['type'] === 'remove') {
+      remove_theme_prerequisites();
     }
-    if ($tasks['type'] === 'install') {
-      install_theme_tasks();
-    }
-  }
-
-  if ($hooks['value']) {
-    if ($hooks['type'] === 'remove') {
-      remove_theme_hooks();
-    }
-    if ($hooks['type'] === 'install') {
-      install_theme_hooks();
+    if ($prerequisites['type'] === 'install') {
+      install_theme_prerequisites();
     }
   }
 }

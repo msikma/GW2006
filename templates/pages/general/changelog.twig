@@ -13,8 +13,7 @@
 ] %}
 
 {# Whether our theme hooks and tasks are properly installed. #}
-{% set hooks_are_installed = context.theme_hooks.all_hooks_installed %}
-{% set tasks_are_installed = context.theme_tasks.all_tasks_installed %}
+{% set prerequisites_are_installed = context.theme_prerequisites.all_prerequisites_installed %}
 
 {# Special administrative actions for admins only. #}
 {% if context.user.is_admin %}
@@ -26,22 +25,13 @@
       url: scripturl ~ '?action=help;area=changelog;forcerefresh'
     },
   } %}
-  {# Installs or removes theme hooks. #}
+  {# Installs or removes GW theme custom prerequisites. #}
   {% set package_buttons = package_buttons|merge({
-    hooks: {
-      text: hooks_are_installed ? 'Remove hooks' : 'Install hooks',
+    prerequisites: {
+      text: prerequisites_are_installed ? 'Remove theme prerequisites' : 'Install theme prerequisites',
       lang: false,
-      custom: hooks_are_installed ? 'onclick="return confirm(\'Really uninstall hooks?\')"' : '',
-      url: scripturl ~ '?action=help;area=changelog;' ~ (hooks_are_installed ? 'removehooks' : 'installhooks')
-    },
-  }) %}
-  {# Installs or removes theme scheduled tasks. #}
-  {% set package_buttons = package_buttons|merge({
-    tasks: {
-      text: tasks_are_installed ? 'Remove tasks' : 'Install tasks',
-      lang: false,
-      custom: tasks_are_installed ? 'onclick="return confirm(\'Really uninstall tasks?\')"' : '',
-      url: scripturl ~ '?action=help;area=changelog;' ~ (tasks_are_installed ? 'removetasks' : 'installtasks')
+      custom: prerequisites_are_installed ? 'onclick="return confirm(\'Really uninstall theme prerequisites?\')"' : '',
+      url: scripturl ~ '?action=help;area=changelog;' ~ (prerequisites_are_installed ? 'removeprerequisites' : 'installprerequisites')
     },
   }) %}
 {% endif %}
