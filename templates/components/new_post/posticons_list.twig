@@ -3,10 +3,12 @@
     <div class="iconset">
       {% if name != 'system' %}
         {% for icon in iconset %}
-          <label class="posticon">
-            <input type="radio" data-basename="{{ icon.basename }}" name="icon" value="{{ icon.value }}" {% if icon.value == context.icon %} checked="checked"{% endif %} />
-            {% include 'atoms/posticon.twig' with {'icon': icon, 'no_link': true} %}
-          </label>
+          {% if not icon.legacy %}
+            <label class="posticon">
+              <input type="radio" data-basename="{{ icon.basename }}" name="icon" value="{{ icon.value }}" {% if icon.value == context.icon %} checked="checked"{% endif %} />
+              {% include 'atoms/posticon.twig' with {'icon': icon, 'no_link': true} %}
+            </label>
+          {% endif %}
         {% endfor %}
       {% endif %}
     </div>

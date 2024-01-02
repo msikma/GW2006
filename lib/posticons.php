@@ -50,6 +50,7 @@ function get_posticons() {
         'path' => $posticon_path.$path,
         'url' => $posticon_url.$path,
         'basename' => $posticon['fn'],
+        'legacy' => $posticon['legacy'],
       ];
     }
   }
