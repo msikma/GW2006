@@ -375,10 +375,11 @@ function get_menu_buttons() {
 function get_current_settings_group() {
   global $context;
 
-  // Check what area we're in.
+  // Check what settings section we're viewing.
+  $action = $context['menu_data_1']['current_action'];
   $area = $context['menu_data_1']['current_area'];
 
-  return get_settings_groups($area);
+  return get_settings_groups($action, $area);
 }
 
 /**
@@ -386,23 +387,28 @@ function get_current_settings_group() {
  * 
  * This is pretty hacky.
  */
-function get_settings_groups($type) {
+function get_settings_groups($action, $area) {
   // Retrieve all settings fields and custom fields.
   $settings = get_settings_fields();
+
+  if ($action === 'profile') {
+    if ($area === 'forumprofile') {
+      $groups = group_profile_settings($settings);
+    }
+    else if ($area === 'account') {
+      $groups = group_profile_account_settings($settings);
+    }
+    else if ($area === 'theme') {
+      $groups = group_profile_theme_settings($settings);
+    }
+  }
+  if ($action === 'pm') {
+    if ($area === 'settings') {
+      $groups = group_pm_settings($settings);
+    }
+  }
   
-  if ($type === 'forumprofile') {
-    $groups = group_profile_settings($settings);
-  }
-  else if ($type === 'account') {
-    $groups = group_account_settings($settings);
-  }
-  else if ($type === 'theme') {
-    $groups = group_theme_settings($settings);
-  }
-  else if ($type === 'pmprefs') {
-    $groups = group_pmprefs_settings($settings);
-  }
-  else {
+  if (empty($groups)) {
     // If our type isn't one of the above ones, we don't know what page this is.
     // Group the fields by "hr" fields as a fallback.
     $groups = group_by_hr($profile_fields);
@@ -412,7 +418,8 @@ function get_settings_groups($type) {
   $groups = filter_settings_groups($groups, true);
 
   return [
-    'settings_type' => $type,
+    'settings_action' => $action,
+    'settings_area' => $area,
     'groups' => $groups
   ];
 }
@@ -500,7 +507,7 @@ function group_profile_settings($fields) {
 /**
  * Groups settings fields together for the profile page.
  */
-function group_account_settings($fields) {
+function group_profile_account_settings($fields) {
   $groups = [
     'user_settings' => ['name' => 'User settings'],
     '_rest' => [],
@@ -526,7 +533,7 @@ function group_account_settings($fields) {
 /**
  * Groups settings fields together for the theme (look and feel) page.
  */
-function group_theme_settings($fields) {
+function group_profile_theme_settings($fields) {
   $groups = [
     'theme' => ['name' => 'Theme settings'],
     'time' => ['name' => 'Time settings'],
@@ -552,7 +559,7 @@ function group_theme_settings($fields) {
 /**
  * Groups settings fields together for the PM preferences page.
  */
-function group_pmprefs_settings($fields) {
+function group_pm_settings($fields) {
   $groups = [
     'pm_settings' => ['name' => 'Private message settings'],
     '_rest' => [],
