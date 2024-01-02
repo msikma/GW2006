@@ -11,7 +11,16 @@ global $theme_hooks;
 $theme_hooks = [
   'integrate_register_errors' => ['gw_verify_theme_captcha'],
   'integrate_load_theme' => ['gw_delete_spambot_posts_after_ban'],
+  'integrate_register' => ['gw_alter_member_during_register'],
 ];
+
+/**
+* Modifies the user object right before registering.
+*/
+function gw_alter_member_during_register(&$regOptions, $theme_vars) {
+  // Default new users to the thread-based PM option.
+  $regOptions['register_vars']['pm_prefs'] = 2;
+}
 
 /**
  * Checks a theme captcha and rejects the user's registration attempt if invalid.
@@ -94,6 +103,9 @@ function install_theme_hooks() {
 
   // Allows us to delete a user's posts when banning them as a spambot.
   add_integration_function('integrate_load_theme', 'gw_delete_spambot_posts_after_ban', true);
+
+  // Sets a number of member preferences to our defaults.
+  add_integration_function('integrate_register', 'gw_alter_member_during_register', true);
 
   // In order to generate captchas we need to ensure that the captcha database table exists.
   if (!_has_captcha_table()) {
