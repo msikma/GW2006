@@ -185,7 +185,6 @@ function get_topic_locked_status($topic_ids) {
     return [];
   }
   
-  // Retrieve all member groups for members whose birthday is today or upcoming.
   $request = $smcFunc['db_query']('', '
     select id_topic, locked from {db_prefix}topics
     where id_topic in ({array_int:topics})
@@ -218,6 +217,31 @@ function table_exists($table_name) {
     [
       'db_name' => $db_name,
       'table_name' => $db_prefix.$table_name
+    ]
+  );
+
+  $result = $smcFunc['db_fetch_assoc']($request);
+
+  return boolval($result['count']);
+}
+
+/**
+ * Returns whether a given column exists.
+ */
+function column_exists($table_name, $column_name) {
+  global $db_name, $db_prefix, $smcFunc;
+
+  $request = $smcFunc['db_query']('', '
+    select count(*) as count
+    from information_schema.columns
+    where table_schema = {string:db_name}
+    and table_name = {string:table_name}
+    and column_name = {string:column_name}
+  ',
+    [
+      'db_name' => $db_name,
+      'table_name' => $db_prefix.$table_name,
+      'column_name' => $column_name
     ]
   );
 
