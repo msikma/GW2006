@@ -11,29 +11,50 @@ export function decorateUserOption(slug) {
   // either making it retina (high dpi) or pixel art (turn off smoothing).
   // This code only covers the preview on the user options page.
   if (slug === 'cust_avatar') {
+    // All avatar choices; upload locally, use a remote image, etc.
+    const avatarChoices = document.querySelectorAll('input[type="radio"][name="avatar_choice"]')
+
+    // The select field for the avatar customization option.
+    const select = node.querySelector(':scope > select')
+
     // Determine the avatar image's dimensions for the retina preview.
     const avatarImg = document.querySelector('#avatar_upload img')
-    const avatarState = {isRetina: false, width: null, height: null}
+    const avatarState = {isRetina: false, width: null, height: null, hasAvatar: false}
+
     const updateAvatar = () => {
+      // The currently selected avatar option.
+      const avatarChoice = document.querySelector('input[type="radio"][name="avatar_choice"]:checked')
+      const hasAvatar = avatarChoice.value !== 'none'
+      avatarState.hasAvatar = hasAvatar
+      select.disabled = !hasAvatar
+
+      if (!hasAvatar) {
+        return
+      }
+
       const {width, height, isRetina} = avatarState
       if (width) {
         avatarImg.width = (width / (isRetina ? 2 : 1))
         avatarImg.height = (height / (isRetina ? 2 : 1))
       }
     }
-    avatarImg.addEventListener('load', ev => {
-      avatarState.width = avatarImg.width
-      avatarState.height = avatarImg.height
-      updateAvatar()
-    })
+    if (avatarImg) {
+      avatarImg.addEventListener('load', ev => {
+        avatarState.width = avatarImg.width
+        avatarState.height = avatarImg.height
+        updateAvatar()
+      })
+    }
+    avatarChoices.forEach(avatarChoice => avatarChoice.addEventListener('change', updateAvatar))
 
     // Listen for changes to the setting <select> field itself.
-    const select = node.querySelector(':scope > select')
     const options = {'default': 0, 'retina': 1, 'pixelart': 2}
     const changeOption = () => {
       const value = Number(select.value)
       avatarState.isRetina = value === options.retina
-      avatarImg.classList.toggle('pixel', value === options.pixelart)
+      if (avatarImg) {
+        avatarImg.classList.toggle('pixel', value === options.pixelart)
+      }
       updateAvatar()
     }
 
