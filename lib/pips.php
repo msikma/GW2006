@@ -87,40 +87,62 @@ $pip_mappings = [
   // Maps specific member groups to a pip style.
   'member_group_map' => [
     'Guest' => [
-      'type' => 'pip',
-      'color' => 'light_gray',
-      // For simple inline lists, we don't apply styles to this group.
-      'ignored_inline' => true,
+      'default' => [
+        'type' => 'pip',
+        'color' => 'light_gray',
+        // For simple inline lists, we don't apply styles to this group.
+        'ignored_inline' => true,
+      ],
     ],
     'Member' => [
-      'type' => 'pip',
-      'color' => 'gray',
-      // For simple inline lists, we don't apply styles to this group.
-      'ignored_inline' => true,
+      'default' => [
+        'type' => 'pip',
+        'color' => 'gray',
+        // For simple inline lists, we don't apply styles to this group.
+        'ignored_inline' => true,
+      ],
     ],
     'Premium Member' => [
-      'type' => 'lego',
-      'color' => 'gold',
+      'default' => [
+        'type' => 'lego',
+        'color' => 'gold',
+      ],
+      'pink' => [
+        'type' => 'lego',
+        'color' => 'pink',
+      ],
+      'mint' => [
+        'type' => 'lego',
+        'color' => 'mint',
+      ],
     ],
     'Global Moderator' => [
-      'type' => 'lego',
-      'color' => 'blue',
+      'default' => [
+        'type' => 'lego',
+        'color' => 'blue',
+      ],
     ],
     'Moderator' => [
-      'type' => 'lego',
-      'color' => 'green',
+      'default' => [
+        'type' => 'lego',
+        'color' => 'green',
+      ],
     ],
     'Administrator' => [
-      'type' => 'lego',
-      'color' => 'red',
+      'default' => [
+        'type' => 'lego',
+        'color' => 'red',
+      ],
     ],
   ],
   // Maps specific member IDs to a pip style.
   'member_id_map' => [
     1 => [
-      'type' => 'lego',
-      'color' => 'red',
-      'special' => 'rainbow',
+      'default' => [
+        'type' => 'lego',
+        'color' => 'red',
+        'special' => 'rainbow',
+      ]
     ],
   ]
 ];
@@ -135,19 +157,27 @@ function resolve_member_group($group_name, $default = 'Member') {
 /**
  * Ignores some member groups (actually, only regular members and guests) for some operations.
  */
-function is_ignored_member_group($member_group) {
+function is_ignored_member_group($member_group, $sub_selector = 'default') {
   global $pip_mappings;
-  return $pip_mappings['member_group_map'][resolve_member_group($member_group)]['ignored_inline'] ?: false;
+  return $pip_mappings['member_group_map'][resolve_member_group($member_group)][$sub_selector]['ignored_inline'] ?: false;
 }
 
 /**
  * Returns the pip styles to use for a given member.
  */
-function get_pip_style_data($member_group, $member_id) {
+function get_pip_style_data($member_group, $member_id, $premium_color = null) {
   global $pip_styles, $pip_mappings;
 
-  $group_map = $pip_mappings['member_group_map'][$member_group];
-  $id_map = $pip_mappings['member_id_map'][$member_id];
+  // Pick the pip styles for this particular member ID/group.
+  // The Premium Color (subselector) is chosen by the member in their profile options.
+  // If a given subselector is unavailable, fall back to the default style.
+  $sub_selector = $premium_color ? slug($premium_color) : 'default';
+  $group_map = $pip_mappings['member_group_map'][$member_group][$sub_selector];
+  $id_map = $pip_mappings['member_id_map'][$member_id][$sub_selector];
+  if (!isset($group_map)) {
+    $group_map = $pip_mappings['member_group_map'][$member_group]['default'];
+    $id_map = $pip_mappings['member_id_map'][$member_id]['default'];
+  }
 
   // Go with the ID styles if they exist, or group styles otherwise.
   $style_data = !empty($id_map) ? $id_map : $group_map;
@@ -163,10 +193,10 @@ function get_pip_style_data($member_group, $member_id) {
 /**
  * Returns a class value to use for a username.
  */
-function get_username_pip_class($member_group, $member_id, $is_inline = false) {
+function get_username_pip_class($member_group, $member_id, $premium_color = null, $is_inline = false) {
   $member_group = resolve_member_group($member_group);
   $member_id = intval($member_id);
-  $style_data = get_pip_style_data($member_group, $member_id);
+  $style_data = get_pip_style_data($member_group, $member_id, $premium_color);
 
   // If we're ignoring this member group for 
   if ($is_inline && is_ignored_member_group($member_group)) {
@@ -208,15 +238,15 @@ function _make_pip_images_class($style_data, $amount = 1) {
 /**
  * Returns a series of pip images for a given user by their post count.
  */
-function get_user_pip_images_from_posts($posts, $member_group, $member_id) {
-  return _get_user_pip_images(_calculate_pip_amount(intval($posts)), $member_group, $member_id);
+function get_user_pip_images_from_posts($posts, $member_group, $member_id, $premium_color = null) {
+  return _get_user_pip_images(_calculate_pip_amount(intval($posts)), $member_group, $member_id, $premium_color);
 }
 
 /**
  * Returns a series of pip images for a given user by their group stars.
  */
-function get_user_pip_images_from_stars($stars_html, $member_group, $member_id) {
-  return _get_user_pip_images(_extract_pip_amount($stars_html), $member_group, $member_id);
+function get_user_pip_images_from_stars($stars_html, $member_group, $member_id, $premium_color = null) {
+  return _get_user_pip_images(_extract_pip_amount($stars_html), $member_group, $member_id, $premium_color);
 }
 
 /**
@@ -232,10 +262,10 @@ function get_pip_base_url() {
  * 
  * Use get_user_pip_images_from_posts() or get_user_pip_images_from_stars().
  */
-function _get_user_pip_images($amount, $member_group, $member_id) {
+function _get_user_pip_images($amount, $member_group, $member_id, $premium_color = null) {
   $member_group = resolve_member_group($member_group);
   $member_id = intval($member_id);
-  $style_data = get_pip_style_data($member_group, $member_id);
+  $style_data = get_pip_style_data($member_group, $member_id, $premium_color);
   
   return _create_pips($amount, $style_data);
 }

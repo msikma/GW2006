@@ -44,4 +44,35 @@ export function decorateUserOption(slug) {
 
     changeOption(select.value)
   }
+
+  // Allows the user to customize the color of their member name and pips.
+  if (slug === 'cust_member') {
+    // Add a preview next to the <select> box.
+    const select = node.querySelector(':scope > select')
+    const pipPreview = document.createElement('div')
+    pipPreview.classList.add('preview')
+    pipPreview.innerHTML = `<span class="name">Name</span><span class="pips pip_type_lego"></span>`
+    const nameContainer = pipPreview.querySelector(':scope > .name')
+    const pipContainer = pipPreview.querySelector(':scope > .pips')
+    select.parentNode.insertBefore(pipPreview, select.nextSibling)
+
+    const type = 'lego'
+    const colors = {0: 'gold', 1: 'pink', 2: 'mint'}
+
+    const setPipPreview = () => {
+      const value = select.value
+      const color = colors[value]
+      const pips = Array(5).fill().map(_ => `<img src="${window.gwContext.images_url}/pips/${type}_${color}.png" class="pixel">`)
+      pipContainer.innerHTML = pips.join('')
+      nameContainer.setAttribute('class', '')
+      nameContainer.classList.add('name', `pip_color_${color}`)
+    }
+
+    node.addEventListener('change', ev => {
+      ev.preventDefault()
+      setPipPreview()
+    })
+
+    setPipPreview()
+  }
 }

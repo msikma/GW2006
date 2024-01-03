@@ -3,7 +3,7 @@
 
 <div class="member_strip">
   <span class="username">
-    <a href="{{ href }}" class="{{ get_username_pip_class(member.group, member.id) }}">{{ (member.name ?? member.username)|raw }}</a>
+    <a href="{{ href }}" class="{{ get_username_pip_class(member.group, member.id, member.options.cust_member) }}">{{ (member.name ?? member.username)|raw }}</a>
   </span>
 
   {% if not member.is_guest and display_pips %}

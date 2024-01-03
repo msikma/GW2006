@@ -43,8 +43,8 @@ $twig->addFunction(new TwigFunction('comma_format', function($number, $override_
   return comma_format($number, $override_decimal_count);
 }));
 /** Returns a CSS class to color a username with their group color. */
-$twig->addFunction(new TwigFunction('get_username_pip_class', function($member_group, $member_id, $is_inline = false) {
-  return get_username_pip_class($member_group, $member_id, $is_inline);
+$twig->addFunction(new TwigFunction('get_username_pip_class', function($member_group, $member_id, $premium_color = null, $is_inline = false) {
+  return get_username_pip_class($member_group, $member_id, $premium_color, $is_inline);
 }));
 /** Returns some data about the member's avatar. */
 $twig->addFunction(new TwigFunction('get_avatar_options', function($member) {
@@ -56,12 +56,12 @@ $twig->addFunction(new TwigFunction('get_avatar_options', function($member) {
   return $options;
 }));
 /** Returns a set of pip image tags using the original SMF generated star icons. */
-$twig->addFunction(new TwigFunction('get_user_pip_images_from_stars', function($stars_html, $member_group, $member_id) {
-  return get_user_pip_images_from_stars($stars_html, $member_group, $member_id);
+$twig->addFunction(new TwigFunction('get_user_pip_images_from_stars', function($stars_html, $member_group, $member_id, $premium_color = null) {
+  return get_user_pip_images_from_stars($stars_html, $member_group, $member_id, $premium_color);
 }));
 /** Returns a set of pip image tags calculated from the user's post count. */
-$twig->addFunction(new TwigFunction('get_user_pip_images_from_posts', function($posts, $member_group, $member_id) {
-  return get_user_pip_images_from_posts($posts, $member_group, $member_id);
+$twig->addFunction(new TwigFunction('get_user_pip_images_from_posts', function($posts, $member_group, $member_id, $premium_color = null) {
+  return get_user_pip_images_from_posts($posts, $member_group, $member_id, $premium_color);
 }));
 /** Returns a letter from a number; used for the member list. */
 $twig->addFunction(new TwigFunction('get_legacy_ipb_tags', function($post_body_unparsed) {
@@ -97,9 +97,22 @@ $twig->addFunction(new TwigFunction('get_clock_emoji', function($hour) {
 $twig->addFunction(new TwigFunction('parse_bbc', function($str) {
   return parse_bbc($str);
 }));
-/** Removes the response prefix of a subject if it's there'. */
+/** Removes the response prefix of a subject if it's there. */
 $twig->addFunction(new TwigFunction('remove_response_prefix', function($subject) {
   return remove_response_prefix($subject);
+}));
+/** Passes a string through the slug() function. */
+$twig->addFunction(new TwigFunction('slug', function($str) {
+  return slug($str);
+}));
+/** Returns true if a member is a premium member. */
+$twig->addFunction(new TwigFunction('is_premium_member', function($member = []) {
+  global $context;
+  if (empty($member)) {
+    $member = $context['member'];
+  }
+  $group_id = $member['group_id'];
+  return is_premium_member_group_id($group_id);
 }));
 /** Returns a pseudorandomly generated number for a given message label name. */
 $twig->addFunction(new TwigFunction('get_label_color_n', function($name) {

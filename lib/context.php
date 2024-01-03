@@ -486,7 +486,7 @@ function group_profile_settings($fields) {
     $fields_custom_type[$field['_custom_field_type']][] = $field;
   }
   
-  add_to_profile_group($fields_slug, $fields_custom_type, $groups['user_core'], $consumed, ['avatar_choice', 'cust_avatar', 'cust_gender', 'personal_text', 'bday1', 'location', 'gender'], 'profile_additional');
+  add_to_profile_group($fields_slug, $fields_custom_type, $groups['user_core'], $consumed, ['avatar_choice', 'cust_avatar', 'cust_member', 'cust_gender', 'personal_text', 'bday1', 'location', 'gender'], 'profile_additional');
   add_to_profile_group($fields_slug, $fields_custom_type, $groups['social_media'], $consumed, ['icq', 'aim', 'msn', 'yim', 'website_title', 'website_url'], 'social_media');
   add_to_profile_group($fields_slug, $fields_custom_type, $groups['personal_text'], $consumed, ['usertitle', 'signature']);
   add_to_profile_group($fields_slug, $fields_custom_type, $groups['_rest'], $consumed, [], null, true);
@@ -502,6 +502,20 @@ function group_profile_settings($fields) {
     return 0;
   });
   return $groups;
+}
+
+/**
+ * Returns whether a given group ID is a premium member group.
+ */
+function is_premium_member_group_id($group_id, $include_mods = false) {
+  $group_id = intval($group_id);
+  if ($group_id === 0) return false; // Regular user
+  if ($group_id === 1 && $include_mods) return true; // Administrator
+  if ($group_id === 2 && $include_mods) return true; // Global Moderator
+  if ($group_id === 3 && $include_mods) return true; // Moderator
+  if ($group_id === 9) return true; // Premium Member
+  // Not sure, but probably not premium.
+  return false;
 }
 
 /**

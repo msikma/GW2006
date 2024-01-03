@@ -23,6 +23,14 @@ $gw_custom_fields = [
         'show_description' => true,
         'decorate' => true,
       ],
+      [
+        'field' => 'cust_member',
+        'name' => 'Member Color',
+        'show_on_posts' => false,
+        'desc' => 'Changes the color of your member name and pips.',
+        'show_description' => true,
+        'decorate' => true,
+      ],
     ],
   ],
   [

@@ -45,9 +45,9 @@
   {% if not member.is_guest %}
     <li class="pips">
       {% if context.use_gw_pip_count %}
-        {{ get_user_pip_images_from_posts(member.posts, member.group, member.id)|raw }}
+        {{ get_user_pip_images_from_posts(member.posts, member.group, member.id, member.options.cust_member)|raw }}
       {% else %}
-        {{ get_user_pip_images_from_stars(member.group_stars|raw, member.group, member.id)|raw }}
+        {{ get_user_pip_images_from_stars(member.group_stars|raw, member.group, member.id, member.options.cust_member)|raw }}
       {% endif %}
     </li>
   {% endif %}

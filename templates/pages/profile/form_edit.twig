@@ -1,5 +1,5 @@
 <form action="{{ context['profile_custom_submit_url'] ? context['profile_custom_submit_url'] : scripturl }}?action=profile;area={{ context['menu_item_selected'] }};u={{ context['id_member'] }};save" method="post" accept-charset="{{ context.character_set }}" name="creator" id="creator" enctype="multipart/form-data" onsubmit="return checkProfileSubmit();">
-  <div class="object_list object_form profile">
+  <div class="object_list object_form profile {{ is_premium_member() ? 'premium' }}">
     <div class="blue_component">
       <div class="blue_component_header">
         <h3 class="blue_component_title">{{ context['profile_header_text'] ? context['profile_header_text'] : txt['profile'] }}</h3>

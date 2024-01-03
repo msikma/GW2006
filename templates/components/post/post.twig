@@ -223,9 +223,9 @@
         <div class="author_column">
           <h4 class="author_name">
             {% if member_href %}
-              <a href="{{ member_href }}" class="{{ get_username_pip_class(member.group, member.id) }}">{{ member_username }}</a>
+              <a href="{{ member_href }}" class="{{ get_username_pip_class(member.group, member.id, member.options.cust_member) }}">{{ member_username }}</a>
             {% else %}
-              <span class="{{ get_username_pip_class(member.group, member.id) }}">{{ member_username }}</span>
+              <span class="{{ get_username_pip_class(member.group, member.id, member.options.cust_member) }}">{{ member_username }}</span>
             {% endif %}
           </h4>
         </div>

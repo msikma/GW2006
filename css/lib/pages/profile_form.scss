@@ -1,0 +1,38 @@
+@charset "utf-8";
+
+// Styles for user profile customization form, i.e. where you can set your avatar and signature.
+.object_form.profile {
+  // By default, don't display the custom member color row, unless you're premium.
+  .object_row.slug_cust_member {
+    display: none;
+  }
+  &.premium {
+    .object_row.slug_cust_member {
+      display: table-row;
+    }
+  }
+
+  // Area where you can customize your member and pip color.
+  #slug_cust_member {
+    display: flex;
+
+    .preview {
+      margin-left: 8px;
+      line-height: 22px;
+
+      .name {
+        font-weight: bold;
+      }
+
+      .pips {
+        margin-left: 4px;
+        position: relative;
+        top: -1px;
+
+        img {
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+}
