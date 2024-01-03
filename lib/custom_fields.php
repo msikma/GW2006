@@ -14,7 +14,15 @@ $gw_custom_fields = [
         'show_on_posts' => false,
         'desc' => 'Gender you identify as.',
         'show_description' => false,
-      ]
+      ],
+      [
+        'field' => 'cust_avatar',
+        'name' => 'Avatar Settings',
+        'show_on_posts' => false,
+        'desc' => 'Changes the way your avatar is displayed: high resolution or pixel art.',
+        'show_description' => true,
+        'decorate' => true,
+      ],
     ],
   ],
   [

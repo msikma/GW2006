@@ -61,7 +61,7 @@
             {# Dropdown fields. #}
             {% if field.type == 'select' %}
               {% if field.input_html %}
-                {{ field.input_html|raw }}
+                <div id="slug_{{ field._slug }}">{{ field.input_html|raw }}</div>
               {% else %}
                 <select name="{{ field_name }}" id="{{ key }}">
                   {% if field.options %}
@@ -70,6 +70,9 @@
                     {% endfor %}
                   {% endif %}
                 </select>
+              {% endif %}
+              {% if field.decorate %}
+                <script>gw.decorateUserOption('{{ field._slug }}');</script>
               {% endif %}
             {% endif %}
 

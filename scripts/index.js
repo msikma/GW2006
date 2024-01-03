@@ -7,6 +7,7 @@ import * as componentBanForm from './lib/components/ban-form.js'
 import * as componentGwCaptcha from './lib/components/gw-captcha.js'
 import * as componentPostItem from './lib/components/post-item.js'
 import * as componentTimestamp from './lib/components/timestamp.js'
+import * as componentUserOption from './lib/components/user-option.js'
 
 const gw = {
   ...quickMod,
@@ -15,6 +16,7 @@ const gw = {
   ...componentGwCaptcha,
   ...componentPostItem,
   ...componentTimestamp,
+  ...componentUserOption
 }
 
 window.gw = gw
