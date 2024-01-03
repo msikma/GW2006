@@ -20,6 +20,9 @@ $pip_styles = [
     'green' => [
       'colors' => ['#3c9509', '#4fcd05'],
     ],
+    'mint' => [
+      'colors' => ['#118d38', '#10c148'],
+    ],
     'cyan' => [
       'colors' => ['#278cd2', '#37adff'],
     ],
