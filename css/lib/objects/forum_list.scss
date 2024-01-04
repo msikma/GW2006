@@ -23,6 +23,25 @@
 
     .board_name {
       font-weight: bold;
+
+      // Indicators displaying whether a board is off-limits for certain member groups.
+      .hidden_to_groups {
+        display: inline;
+
+        .hidden {
+          background: cssvar(--gw-header-color-a);
+          display: inline;
+          padding: 2px 4px;
+          border-radius: 3px;
+          color: white;
+          font-weight: normal;
+          font-size: cssvar(--gw-font-small);
+
+          &.admin_only {
+            background-color: cssvar(--gw-admin-only);
+          }
+        }
+      }
     }
     .board_information {
       font-size: cssvar(--gw-font-small);

@@ -20,6 +20,20 @@
   <td class="info light sections">
     <div class="section board_name">
       <a class="subject" href="{{ board.href }}" name="b{{ board.id }}">{{ board.name }}</a>
+      {% if board._group_permissions.hidden_to_some and context.user.is_admin %}
+        <div class="subsection hidden_to_groups">
+          {% if board._group_permissions.only_admin %}
+            <span class="hidden admin_only">Administrator only</span>
+          {% else %}
+            {% if board._group_permissions.hidden_to_guest %}
+              <span class="hidden">Hidden to Guests</span>
+            {% endif %}
+            {% if board._group_permissions.hidden_to_members %}
+              <span class="hidden">Hidden to Members</span>
+            {% endif %}
+          {% endif %}
+        </div>
+      {% endif %}
     </div>
     <div class="section board_information">
       {% if has_posts_to_approve %}

@@ -33,7 +33,7 @@ require_once('lib/tasks.php');
  */
 function render_template($file, $template_context = []) {
   global $twig, $settings, $context, $options, $scripturl, $txt, $modSettings, $forum_copyright, $forum_version;
-
+  
   // Generate the context used to render this template.
   // This does a bunch of preprocessing for everything we need to be able to render templates.
   $render_context = get_render_context($template_context);

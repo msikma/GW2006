@@ -43,6 +43,57 @@ function add_birthday_member_groups($birthdays_list) {
 }
 
 /**
+ * Returns the member groups that are able to access a given list of forum IDs.
+ * 
+ * Member groups are returned by ID and slug.
+ */
+function get_board_member_groups($board_ids = []) {
+  global $db_prefix, $smcFunc;
+
+  if (empty($board_ids)) {
+    return [];
+  }
+  
+  // Fetch all member groups to get their names.
+  $groups = [];
+  $request = $smcFunc['db_query']('', 'select id_group, group_name from {db_prefix}membergroups', []);
+
+  while ($row = $smcFunc['db_fetch_assoc']($request)) {
+    $groups[$row['id_group']] = $row;
+  }
+
+  // Manually add in the guest and regular member groups, which are special groups with IDs -1 and 0 respectively.
+  $groups[-1] = ['id_group' => -1, 'group_name' => 'Guest'];
+  $groups[0] = ['id_group' => 0, 'group_name' => 'Regular Member'];
+
+  // Fetch all boards by ID and find which groups are able to access it.
+  $boards = [];
+  $request = $smcFunc['db_query']('', '
+    select id_board, member_groups, id_profile from {db_prefix}boards
+    where id_board in ({array_int:board_ids})
+  ',
+    [
+      'board_ids' => $board_ids,
+    ]
+  );
+
+  while ($row = $smcFunc['db_fetch_assoc']($request)) {
+    $board_group_ids = explode(',', $row['member_groups']);
+    $board_groups = [];
+    foreach ($board_group_ids as $board_group_id) {
+      $board_groups[$board_group_id] = slug($groups[$board_group_id]['group_name']);
+    }
+    $boards[$row['id_board']] = [
+      'id' => $row['id_board'],
+      'id_profile' => $row['id_profile'],
+      'member_groups' => $board_groups,
+    ];
+  }
+  
+  return $boards;
+}
+
+/**
  * Retrieves basic data about a post by its ID.
  */
 function get_post_data($post_id) {

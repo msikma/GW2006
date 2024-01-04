@@ -43,6 +43,86 @@ function collect_pms() {
 }
 
 /**
+ * Iterates through forum boards and returns the data with some adjustments.
+ * 
+ * As collect_forum_categories(), but for when viewing individual subforums.
+ */
+function collect_forum_boards($collect_permissions = true) {
+  global $context;
+
+  if (!$collect_permissions) {
+    return $context['boards'];
+  }
+  
+  $board_ids = [];
+
+  foreach ($context['boards'] as $id => $board) {
+    $board_ids[] = $id;
+  }
+
+  $board_data = get_board_member_groups($board_ids);
+
+  foreach ($context['boards'] as $id => $board) {
+    add_board_permissions_data($id, $board_data, $context['boards'][$id]);
+  }
+
+  return $context['boards'];
+}
+
+/**
+ * Iterates through forum categories and returns the data with some adjustments.
+ */
+function collect_forum_categories($collect_permissions = true) {
+  global $context;
+
+  if (!$collect_permissions) {
+    return $context['categories'];
+  }
+  
+  $board_ids = [];
+
+  foreach ($context['categories'] as $cat_id => $cat_data) {
+    foreach ($cat_data['boards'] as $id => $board) {
+      $board_ids[] = $id;
+    }
+  }
+
+  $board_data = get_board_member_groups($board_ids);
+  
+  foreach ($context['categories'] as $cat_id => $cat_data) {
+    foreach ($cat_data['boards'] as $id => $board) {
+      add_board_permissions_data($id, $board_data, $context['categories'][$cat_id]['boards'][$id]);
+    }
+  }
+  
+  return $context['categories'];
+}
+
+/**
+ * Adds additional member group permissions data to a board.
+ * 
+ * Used only by collect_forum_categories() and collect_forum_boards().
+ */
+function add_board_permissions_data($board_id, &$board_member_groups, &$board) {
+  $data = $board_member_groups[$board_id];
+  $hidden_to_guest = !in_array('guest', $data['member_groups']);
+  $hidden_to_members = !in_array('regular_member', $data['member_groups']);
+  $hidden_to_gmods = !in_array('global_moderator', $data['member_groups']);
+  $hidden_to_all_but_admins = $hidden_to_guest && $hidden_to_members && $hidden_to_gmods;
+  $hidden_to_some = $hidden_to_guest || $hidden_to_members || $hidden_to_gmods;
+
+  $board['_permissions_profile'] = $data['id_profile'];
+  $board['_member_groups'] = $data['member_groups'];
+  $board['_group_permissions'] = [
+    'only_admin' => $hidden_to_all_but_admins,
+    'hidden_to_guest' => $hidden_to_guest,
+    'hidden_to_members' => $hidden_to_members,
+    'hidden_to_gmods' => $hidden_to_gmods,
+    'hidden_to_some' => $hidden_to_some,
+  ];
+}
+
+/**
  * Returns true if any private message in the array has one or more labels set.
  * 
  * By default all private messages have the "inbox" label, so we check for 2 or more.

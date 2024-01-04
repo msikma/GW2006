@@ -1,6 +1,7 @@
 {# Find the correct data based on whether we're displaying child forums or index forums. #}
 {% set parent_board_id = child ? context_board_id : parent.id %}
 {% set parent_boards = child ? context_boards : parent.boards %}
+
 <div class="forum_list object_list {{ child ? 'is_child_forums' : ''}}">
   <div class="blue_component">
     <div class="forum_list_inner {{ child ? 'childboards' : '' }}" id="board_{{ parent_board_id }}{{ child ? '_childboards' : '' }}">
