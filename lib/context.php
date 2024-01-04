@@ -227,7 +227,8 @@ function get_page_metadata($template_context) {
   list($thread_id, $first_message_id, $message_id) = get_current_post_ids();
 
   if ($forum_description) {
-    $description = $forum_description;
+    // Clear out BB Code from the description.
+    $description = strip_tags(parse_bbc($forum_description));
   }
   else if ($context['current_topic']) {
     // If we have a topic ID, use that to generate a description for this specific topic.
