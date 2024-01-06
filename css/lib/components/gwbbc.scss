@@ -41,6 +41,8 @@
       background: black;
       color: black;
       border-radius: cssvar(--gw-rounding-small);
+      display: inline-block;
+      line-height: 1.25;
 
       &.is_shown {
         background: rgba(0, 0, 0, 0.1);
