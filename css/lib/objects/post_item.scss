@@ -96,6 +96,7 @@
       }
     }
     .author_column {
+      padding-right: cssvar(--gw-cell-medium);
       flex: 0 0 cssvar(--gw-post-column-a);
     }
   }
