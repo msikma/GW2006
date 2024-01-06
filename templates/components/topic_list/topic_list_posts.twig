@@ -8,8 +8,9 @@
 {% set icon_cols_amount = (display_status_icon ? 1 : 0) + (display_message_icon ? 1 : 0) %}
 
 {% set index_title = index_title|default('Threads in Forum: ' ~ context.name) %}
- 
-{% set show_quick_mod = context.can_quick_mod and options.display_quick_mod %}
+
+{% set has_quick_mod_actions = context.can_approve or context.can_remove or context.can_lock or context.can_sticky or context.can_move or context.can_merge or context.can_restore %}
+{% set show_quick_mod = context.can_quick_mod and options.display_quick_mod and has_quick_mod_actions %}
 {% set show_unapproved_messages_notification = context.unapproved_posts_message is not empty %}
 
 <div class="topic_list object_list">
