@@ -12,7 +12,7 @@
 
 {% set is_locked_due_to_age = context.oldTopicError or is_age_locked %}
 
-{% if context.is_locked != 1 %}
+{% if context.is_locked != 1 and not context.user.is_guest %}
   <a id="quickreply"></a>
 
   <div class="object_form new_post_form quick_reply object_list spaced_top">
@@ -38,13 +38,13 @@
                 <tr class="object_row">
                   <th class="minimal">{{ txt.name }}:</th>
                   <td>
-                    <input type="text" name="guestname" value="{{ context.name }}" size="25" tabindex="{{ tabindex() }}" />
+                    <input type="text" name="guestname" value="{{ context.name }}" size="25" tabindex="{{ tabindex() }}" {{ is_locked_due_to_age ? 'disabled="disabled"' }} />
                   </td>
                 </tr>
                 <tr class="object_row">
                   <th class="minimal">{{ txt.email }}:</th>
                   <td>
-                    <input type="text" name="email" value="{{ context.email }}" size="25" tabindex="{{ tabindex() }}" />
+                    <input type="text" name="email" value="{{ context.email }}" size="25" tabindex="{{ tabindex() }}" {{ is_locked_due_to_age ? 'disabled="disabled"' }} />
                   </td>
                 </tr>
               {% endif %}
