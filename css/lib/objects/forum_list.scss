@@ -19,6 +19,12 @@
     }
     .last_post {
       width: 260px;
+
+      a {
+        // Ensure very long usernames don't break the layout.
+        white-space: normal;
+        word-break: break-word;
+      }
     }
 
     .board_name {

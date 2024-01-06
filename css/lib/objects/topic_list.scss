@@ -137,6 +137,12 @@
         font-weight: normal;
       }
     }
+
+    a {
+      // Ensure very long usernames don't break the layout.
+      white-space: normal;
+      word-break: break-word;
+    }
   }
 }
 
