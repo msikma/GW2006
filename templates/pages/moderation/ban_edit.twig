@@ -206,7 +206,7 @@
                     <div class="header">{{ txt.ips_in_messages }}:</div>
                     {% for ip in context.ban_suggestions.message_ips %}
                       <dt>
-                        <input type="checkbox" name="ban_suggestion[ips][]" value="{{ ip }}" class="input_check" /> {{ ip }}
+                        <input type="checkbox" name="ban_suggestion[ips][]" value="{{ ip }}" class="input_check" checked="checked" /> {{ ip }}
                       </dt>
                     {% endfor %}
                   {% endif %}
@@ -214,7 +214,7 @@
                     <div class="header">{{ txt.ips_in_errors }}:</div>
                     {% for ip in context.ban_suggestions.error_ips %}
                       <dt>
-                        <input type="checkbox" name="ban_suggestion[ips][]" value="{{ ip }}" class="input_check" /> {{ ip }}
+                        <input type="checkbox" name="ban_suggestion[ips][]" value="{{ ip }}" class="input_check" checked="checked" /> {{ ip }}
                       </dt>
                     {% endfor %}
                   {% endif %}
