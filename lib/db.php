@@ -54,12 +54,16 @@ function get_board_member_groups($board_ids = []) {
     return [];
   }
   
-  // Fetch all member groups to get their names.
+  // Fetch all member groups and permission profiles to get their names.
   $groups = [];
   $request = $smcFunc['db_query']('', 'select id_group, group_name from {db_prefix}membergroups', []);
-
   while ($row = $smcFunc['db_fetch_assoc']($request)) {
     $groups[$row['id_group']] = $row;
+  }
+  $profiles = [];
+  $request = $smcFunc['db_query']('', 'select id_profile, profile_name from {db_prefix}permission_profiles', []);
+  while ($row = $smcFunc['db_fetch_assoc']($request)) {
+    $profiles[$row['id_profile']] = $row;
   }
 
   // Manually add in the guest and regular member groups, which are special groups with IDs -1 and 0 respectively.
@@ -85,7 +89,7 @@ function get_board_member_groups($board_ids = []) {
     }
     $boards[$row['id_board']] = [
       'id' => $row['id_board'],
-      'id_profile' => $row['id_profile'],
+      'profile' => $profiles[$row['id_profile']]['profile_name'],
       'member_groups' => $board_groups,
     ];
   }

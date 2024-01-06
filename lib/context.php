@@ -111,9 +111,10 @@ function add_board_permissions_data($board_id, &$board_member_groups, &$board) {
   $hidden_to_all_but_admins = $hidden_to_guest && $hidden_to_members && $hidden_to_gmods;
   $hidden_to_some = $hidden_to_guest || $hidden_to_members || $hidden_to_gmods;
 
-  $board['_permissions_profile'] = $data['id_profile'];
+  $board['_permissions_profile'] = $data['profile'];
   $board['_member_groups'] = $data['member_groups'];
-  $board['_group_permissions'] = [
+  $board['_permissions'] = [
+    'non_default_profile' => $data['profile'] !== 'default',
     'only_admin' => $hidden_to_all_but_admins,
     'hidden_to_guest' => $hidden_to_guest,
     'hidden_to_members' => $hidden_to_members,
