@@ -505,13 +505,15 @@ function wipe_spam_posts($post_ids) {
 
   $request = $smcFunc['db_query']('', '
     update {db_prefix}messages
-    set body = {string:new_body}, approved = {int:new_approved}
+    set body = {string:new_body}, approved = {int:new_approved}, modified_name = {string:modified_name}, modified_time = {int:modified_time}
     where id_msg in ({array_int:post_ids})
   ',
     [
       'new_body' => '[removed]',
       'new_approved' => 2,
       'post_ids' => $post_ids,
+      'modified_name' => 'Mr. Malibus',
+      'modified_time' => time(),
     ]
   );
 }
