@@ -173,17 +173,17 @@ function get_pip_style_data($member_group, $member_id, $premium_color = null) {
   // If a given subselector is unavailable, fall back to the default style.
   $sub_selector = $premium_color ? slug($premium_color) : 'default';
   $group_map = $pip_mappings['member_group_map'][$member_group][$sub_selector];
-  $id_map = $pip_mappings['member_id_map'][$member_id][$sub_selector];
+  $id_map = @$pip_mappings['member_id_map'][$member_id][$sub_selector];
   if (!isset($group_map)) {
     $group_map = $pip_mappings['member_group_map'][$member_group]['default'];
-    $id_map = $pip_mappings['member_id_map'][$member_id]['default'];
+    @$id_map = $pip_mappings['member_id_map'][$member_id]['default'];
   }
 
   // Go with the ID styles if they exist, or group styles otherwise.
   $style_data = !empty($id_map) ? $id_map : $group_map;
 
   // Insert the special data if it's set.
-  if ($style_data['special']) {
+  if (@$style_data['special']) {
     $style_data = array_merge($style_data, $pip_styles['specials'][$style_data['special']]);
   }
 
@@ -225,11 +225,11 @@ function _make_username_pip_class($style_data) {
 function _make_pip_images_class($style_data, $amount = 1) {
   $items = [];
   foreach (['color', 'type', 'special'] as $key) {
-    if ($style_data[$key]) {
+    if (@$style_data[$key]) {
       $items[] = 'pip_'.$key.'_'.$style_data[$key];
     }
   }
-  if ($amount && !$style_data['special']) {
+  if ($amount && !@$style_data['special']) {
     $items[] = 'pip_amount_'.$amount;
   }
   return implode(' ', $items);
@@ -286,7 +286,7 @@ function _create_pips($amount, $style_data) {
   $class = _make_pip_images_class($style_data, $amount);
   $pips = [];
 
-  if ($style_data['pip_array']) {
+  if (@$style_data['pip_array']) {
     // If we're displaying a special set of pips (e.g. the rainbow pips), iterate over them.
     foreach ($style_data['pip_array'] as $array_item_color) {
       $pips[] = _create_pip_img($style_data['type'], $array_item_color);

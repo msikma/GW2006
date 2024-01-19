@@ -48,7 +48,7 @@ $twig->addFunction(new TwigFunction('get_username_pip_class', function($member_g
 }));
 /** Returns some data about the member's avatar. */
 $twig->addFunction(new TwigFunction('get_avatar_options', function($member) {
-  $custom = $member['options']['cust_avatar'];
+  $custom = @$member['options']['cust_avatar'];
   $options = [
     'is_retina' => $custom === 'Retina (high dpi)',
     'is_pixelart' => $custom === 'Pixel art (no smoothing)',
@@ -63,8 +63,11 @@ $twig->addFunction(new TwigFunction('get_user_pip_images_from_stars', function($
 $twig->addFunction(new TwigFunction('get_user_pip_images_from_posts', function($posts, $member_group, $member_id, $premium_color = null) {
   return get_user_pip_images_from_posts($posts, $member_group, $member_id, $premium_color);
 }));
-/** Returns a letter from a number; used for the member list. */
+/** Returns post tags migrated over from IPB from the post body. */
 $twig->addFunction(new TwigFunction('get_legacy_ipb_tags', function($post_body_unparsed) {
+  if (empty($post_body_unparsed)) {
+    return [];
+  }
   $tags = [];
   preg_match_all('/\[legacy_ipb_tag\](.+?)\[\/legacy_ipb_tag\]/s', $post_body_unparsed, $matches);
   foreach ($matches[1] as $match) {
