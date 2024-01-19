@@ -57,8 +57,8 @@ $gw_eras = [
   ],
   [
     'slug' => 'smf_2019',
-    'start' => 1704070800,
-    'start_ts' => '2024-01-01T01:00:00.000Z',
+    'start' => 1704920444,
+    'start_ts' => '2024-01-10T22:00:44.000Z',
     'name' => 'Simple Machines Forum v2.0.19',
     'vendor' => 'Simple Machines LLC',
   ],
