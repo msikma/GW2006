@@ -19,7 +19,7 @@
   </td>
   <td class="info light sections">
     <div class="section board_name">
-      <a class="subject" href="{{ board.href }}" name="b{{ board.id }}">{{ board.name }}</a>
+      <a class="subject" href="{{ board.href }}" name="b{{ board.id }}">{{ board.name|raw }}</a>
       {% if (board._permissions.hidden_to_some or board._permissions.non_default_profile) and context.user.is_admin %}
         <div class="subsection hidden_to_groups">
           {% if board._permissions_profile == 'read_only' %}
