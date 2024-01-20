@@ -172,10 +172,10 @@ function get_pip_style_data($member_group, $member_id, $premium_color = null) {
   // The Premium Color (subselector) is chosen by the member in their profile options.
   // If a given subselector is unavailable, fall back to the default style.
   $sub_selector = $premium_color ? slug($premium_color) : 'default';
-  $group_map = $pip_mappings['member_group_map'][$member_group][$sub_selector];
+  $group_map = @$pip_mappings['member_group_map'][$member_group][$sub_selector];
   $id_map = @$pip_mappings['member_id_map'][$member_id][$sub_selector];
   if (!isset($group_map)) {
-    $group_map = $pip_mappings['member_group_map'][$member_group]['default'];
+    @$group_map = $pip_mappings['member_group_map'][$member_group]['default'];
     @$id_map = $pip_mappings['member_id_map'][$member_id]['default'];
   }
 

@@ -207,8 +207,8 @@ function get_render_context($template_context = []) {
     'theme_url' => $settings['theme_url'],
     'images_url' => $settings['images_url'],
     'character_set' => $context['character_set'],
-    'topics_per_page' => $context['topics_per_page'],
-    'messages_per_page' => $context['messages_per_page'],
+    'topics_per_page' => @$context['topics_per_page'],
+    'messages_per_page' => @$context['messages_per_page'],
   ];
 
   $generated_context = $context;

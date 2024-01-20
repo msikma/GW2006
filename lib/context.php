@@ -202,7 +202,7 @@ function get_env_mode() {
   $addr = $_SERVER['SERVER_ADDR'];
   $is_dev_addr = $addr === '127.0.0.1' || str_starts_with($addr, '10.0.1') || str_starts_with($addr, '192.168.0');
   parse_str($_SERVER['QUERY_STRING'], $query);
-  $is_dev_env = $_ENV['MODE'] === 'DEVELOPMENT';
+  $is_dev_env = @$_ENV['MODE'] === 'DEVELOPMENT';
   $is_no_cache = isset($query['nocache']);
   return ($is_dev_env || $is_dev_addr || $is_no_cache) ? 'development' : 'production';
 }
@@ -255,7 +255,7 @@ function ua_has_legacy_elements($ua) {
  * This is stored as session data and can be used to construct the page number links.
  */
 function get_search_cache() {
-  return array_merge($_SESSION['search_cache'] ?? [], ['start' => intval($_GET['start'])]);
+  return array_merge($_SESSION['search_cache'] ?? [], ['start' => intval(@$_GET['start'])]);
 }
 
 /**
@@ -1070,7 +1070,7 @@ function get_smf_url_segments() {
   $segments = [];
   for ($n = 0; $n < count($matches); ++$n) {
     $key = $matches[1][$n];
-    $value = $matches[3][$n];
+    $value = !empty($matches[3][$n]) ? $matches[3][$n] : '';
     if (empty($key)) {
       continue;
     }

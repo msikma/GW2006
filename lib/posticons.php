@@ -41,7 +41,7 @@ function get_posticons() {
     $target = &$sets[$set['name']];
 
     foreach ($set['items'] as $posticon) {
-      $path = '/'.($set['system'] ? 'system/' : '').$posticon['fn'];
+      $path = '/'.(@$set['system'] ? 'system/' : '').$posticon['fn'];
       $target[] = [
         'value' => pathinfo($posticon['fn'], PATHINFO_FILENAME),
         'name' => $posticon['name'],
