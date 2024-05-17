@@ -425,7 +425,7 @@ function get_banned_member_deletable_posts($ban_suggestions, $allow_search = ['i
   }
 
   // Re-enable query checking.
-  $modSettings['disableQueryCheck'] = $modSettings['disableQueryCheck'];
+  $modSettings['disableQueryCheck'] = $oldQueryCheck;
 
   return [
     'delete_topics' => array_values(array_unique($delete_topics, SORT_NUMERIC)),
@@ -479,6 +479,11 @@ function delete_spam_posts($post_ids) {
     return;
   }
 
+  // Before we delete these posts, get their respective topic ids.
+  // We will double check these topics later to see if the id_last_msg needs updating.
+  $topic_ids = get_post_topic_ids($post_ids);
+
+  // Delete the posts from the database.
   $request = $smcFunc['db_query']('', '
     delete from {db_prefix}messages
     where id_msg in ({array_int:post_ids})
@@ -487,6 +492,106 @@ function delete_spam_posts($post_ids) {
       'post_ids' => $post_ids,
     ]
   );
+
+  // Now fix any topics that may have had any of these posts as their id_last_msg.
+  recalculate_last_post_ids($topic_ids);
+}
+
+/**
+ * Ensures that a list of topics by id has the correct id_last_msg set.
+ */
+function recalculate_last_post_ids($topic_ids) {
+  global $db_prefix, $smcFunc, $modSettings;
+
+  if (empty($topic_ids)) {
+    return;
+  }
+
+  // Temporarily disable query checking; normally, subqueries are disabled.
+  $oldQueryCheck = $modSettings['disableQueryCheck'];
+  $modSettings['disableQueryCheck'] = 1;
+
+  $topics_to_fix = [];
+
+  // Find all topics (in the given topic ids) where the id_last_msg is not actually the latest message.
+  $request = $smcFunc['db_query']('', '
+    select
+      t.id_topic,
+      t.id_last_msg,
+      m.latest_msg_id
+    from
+      {db_prefix}topics t
+    left join
+      (
+        select
+          id_topic,
+          max(id_msg) as latest_msg_id
+        from
+          {db_prefix}messages
+        group by
+          id_topic
+      ) m
+    on
+      t.id_topic = m.id_topic
+    where
+      t.id_topic in ({array_int:topic_ids})
+      and (
+        t.id_last_msg is null
+        or t.id_last_msg not in (select id_msg from {db_prefix}messages)
+        or t.id_last_msg <> m.latest_msg_id
+      )
+  ',
+    [
+      'topic_ids' => $topic_ids
+    ]
+  );
+
+  while ($row = $smcFunc['db_fetch_assoc']($request)) {
+    $topics_to_fix[] = [$row['id_topic'], $row['id_last_msg'], $row['latest_msg_id']];
+  }
+
+  // Update each topic with an invalid latest_msg_id to the correct one (max msg_id associated with it in the database).
+  for ($a = 0; $a < count($topics_to_fix); ++$a) {
+    $request = $smcFunc['db_query']('', '
+      update {db_prefix}topics
+      set id_last_msg = {int:id_last_msg}
+      where id_topic = {int:id_topic}
+    ',
+      [
+        'id_topic' => $topics_to_fix[$a][0],
+        'id_last_msg' => $topics_to_fix[$a][2],
+      ]
+    );
+  }
+
+  // Re-enable query checking.
+  $modSettings['disableQueryCheck'] = $oldQueryCheck;
+}
+
+/**
+ * Returns an array of topic ids for a given set of post ids.
+ */
+function get_post_topic_ids($post_ids) {
+  global $db_prefix, $smcFunc;
+
+  $topic_ids = [];
+
+  $request = $smcFunc['db_query']('', '
+    select m.id_topic as id from {db_prefix}messages m
+    join {db_prefix}topics t on m.id_topic = t.id_topic
+    where m.id_msg in ({array_int:post_ids})
+    group by m.id_topic
+  ',
+    [
+      'post_ids' => $post_ids
+    ]
+  );
+
+  while ($row = $smcFunc['db_fetch_assoc']($request)) {
+    $topic_ids[] = $row['id'];
+  }
+
+  return $topic_ids;
 }
 
 /**
