@@ -11,6 +11,9 @@
 {# Whether to delete the user's posts and topics after banning. #}
 {% set delete_posts_after_ban = true %}
 
+{# FIXME: disable ip bans for now, as we are currently improperly passing on the Cloudflare proxy ip. #}
+{% set TEMPORARY_no_ip_ban = true %}
+
 <form id="manage_bans" class="ban_form {{ context.ban.is_new and context.ban_group_suggestions is not empty ? 'has_group_ban_suggestions' }}" action="{{ scripturl }}?action=admin;area=ban;sa=edit" method="post" accept-charset="{{ context.character_set }}" onsubmit="if (this.ban_name.value == '') {alert('{{ txt.ban_name_empty }}'); return false;} if (this.partial_ban.checked && !(this.cannot_post.checked || this.cannot_register.checked || this.cannot_login.checked)) {alert('{{ txt.ban_restriction_empty }}'); return false;}">  
   <div class="object_list object_form">
     <div class="blue_component">
@@ -51,7 +54,9 @@
                   <th class="minimal">
                     <label>
                       User to ban
-                      <small>User will be banned by IP, email address and username.</small>
+                      {% if not TEMPORARY_no_ip_ban %}
+                        <small>User will be banned by IP, email address and username.</small>
+                      {% endif %}
                     </label>
                   </th>
                   <td>
@@ -168,7 +173,7 @@
                 </th>
                 <td class="checkbox_text_rows">
                   <dt>
-                    <input type="checkbox" name="ban_suggestion[]" id="main_ip_check" value="main_ip" class="input_check" checked="checked" />
+                    <input type="checkbox" name="ban_suggestion[]" id="main_ip_check" value="main_ip" class="input_check" {% if not TEMPORARY_no_ip_ban %}checked="checked"{% else %}disabled="disabled"{% endif %} />
                     <label for="main_ip_check">{{ txt.ban_on_ip }}</label>
                   </dt>
                   <dd>
@@ -176,7 +181,7 @@
                   </dd>
                   {% if not modSettings.disableHostnameLookup %}
                     <dt>
-                      <input type="checkbox" name="ban_suggestion[]" id="hostname_check" value="hostname" class="input_check" />
+                      <input type="checkbox" name="ban_suggestion[]" id="hostname_check" value="hostname" class="input_check" {% if not TEMPORARY_no_ip_ban %}{% else %}disabled="disabled"{% endif %} />
                       <label for="hostname_check">{{ txt.ban_on_hostname }}</label>
                     </dt>
                     <dd>
@@ -206,7 +211,7 @@
                     <div class="header">{{ txt.ips_in_messages }}:</div>
                     {% for ip in context.ban_suggestions.message_ips %}
                       <dt>
-                        <input type="checkbox" name="ban_suggestion[ips][]" value="{{ ip }}" class="input_check" checked="checked" /> {{ ip }}
+                        <input type="checkbox" name="ban_suggestion[ips][]" value="{{ ip }}" class="input_check" {% if not TEMPORARY_no_ip_ban %}checked="checked"{% else %}disabled="disabled"{% endif %} /> {{ ip }}
                       </dt>
                     {% endfor %}
                   {% endif %}
@@ -214,7 +219,7 @@
                     <div class="header">{{ txt.ips_in_errors }}:</div>
                     {% for ip in context.ban_suggestions.error_ips %}
                       <dt>
-                        <input type="checkbox" name="ban_suggestion[ips][]" value="{{ ip }}" class="input_check" checked="checked" /> {{ ip }}
+                        <input type="checkbox" name="ban_suggestion[ips][]" value="{{ ip }}" class="input_check" {% if not TEMPORARY_no_ip_ban %}checked="checked"{% else %}disabled="disabled"{% endif %} /> {{ ip }}
                       </dt>
                     {% endfor %}
                   {% endif %}
