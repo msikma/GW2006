@@ -4,6 +4,9 @@
 {% set is_stale = not is_new and not is_redirect %}
 {% set has_posts_to_approve = board.can_approve_posts and (board.unapproved_posts or board.unapproved_topics) %}
 
+{% set board_tags = get_board_special_tags(board.description) %}
+{% set board_description = parse_bbc(remove_board_special_tags(board.description, board_tags)) %}
+
 <tr id="board_{{ board.id }}" class="board_row object_row">
   <td class="icon center">
     <a href="{% if board.is_redirect or context.user.is_guest %}{{ board.href }}{% else %}{{ scripturl }}?action=unread;board={{ board.id }}.0;children{% endif %}">
@@ -48,7 +51,7 @@
         </div>
       {% endif %}
       <div class="subsection item_description post_text">
-        <p>{{ parse_bbc(board.description)|raw }}</p>
+        <p>{{ board_description|raw }}</p>
       </div>
       {% if board.moderators is not empty %}
         <div class="subsection moderators">
@@ -82,12 +85,26 @@
     </div>
   </td>
   <td class="stats small center">
-    <p>
-      {{ board.posts|number_format }} {{ board.is_redirect ? txt.redirects : txt.posts }} <br />
-      {% if not board.is_redirect %}
-        {{ board.topics|number_format }} {{ txt.board_topics }}
+    {% if is_discord_redirect %}
+      {# Get Discord guild presence information from the widget api, and display number of online members. #}
+      {% set presence_info = get_discord_presence_info_from_special_tags(board_tags) %}
+      {% if presence_info.presence_count is defined %}
+        <p>
+          {{presence_info.presence_count}} Online
+        </p>
+      {% else %}
+        <p>
+          {{ board.posts|number_format }} {{ board.is_redirect ? txt.redirects : txt.posts }} <br />
+        </p>
       {% endif %}
-    </p>
+    {% else %}
+      <p>
+        {{ board.posts|number_format }} {{ board.is_redirect ? txt.redirects : txt.posts }} <br />
+        {% if not board.is_redirect %}
+          {{ board.topics|number_format }} {{ txt.board_topics }}
+        {% endif %}
+      </p>
+    {% endif %}
   </td>
   <td class="last_post light small">
     {% if board.last_post.id %}

@@ -15,6 +15,7 @@ require_once('lib/posticons.php');
 require_once('lib/emoticons.php');
 require_once('lib/db.php');
 require_once('lib/git.php');
+require_once('lib/discord.php');
 require_once('lib/custom_fields.php');
 require_once('lib/stats.php');
 require_once('lib/prng.php');

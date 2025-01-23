@@ -8,6 +8,7 @@ use Twig\TwigFilter;
 require_once('lib/tasks.php');
 require_once('lib/history.php');
 require_once('lib/prerequisites.php');
+require_once('lib/discord.php');
 require_once('vendor/autoload.php');
 
 // Global Twig singleton.
@@ -74,6 +75,31 @@ $twig->addFunction(new TwigFunction('get_legacy_ipb_tags', function($post_body_u
     $tags[] = ['value' => $match];
   }
   return $tags;
+}));
+/** Returns special post tags that can be used in the board description. */
+$twig->addFunction(new TwigFunction('get_board_special_tags', function($board_description_unparsed) {
+  if (empty($board_description_unparsed)) {
+    return [];
+  }
+  $valid_tag_names = ['discord_guild_id'];
+  $tags = [];
+  foreach ($valid_tag_names as $tag_name) {
+    preg_match_all('/\['.$tag_name.'\](.+?)\[\/'.$tag_name.'\]/s', $board_description_unparsed, $matches);
+    foreach ($matches[1] as $match) {
+      $tags[] = ['value' => $match, 'name' => $tag_name];
+    }
+  }
+  return $tags;
+}));
+/** Clears special post tags from a board description. */
+$twig->addFunction(new TwigFunction('remove_board_special_tags', function($board_description_unparsed, $special_tags) {
+  if (empty($board_description_unparsed)) {
+    return $board_description_unparsed;
+  }
+  foreach ($special_tags as $special_tag) {
+    $board_description_unparsed = preg_replace('/\['.$special_tag['name'].'\](.+?)\[\/'.$special_tag['name'].'\]/s', '', $board_description_unparsed);
+  }
+  return trim($board_description_unparsed);
 }));
 /** Returns a letter from a number; used for the member list. */
 $twig->addFunction(new TwigFunction('get_letter', function($n) {
@@ -156,6 +182,18 @@ $twig->addFilter(new TwigFilter('pmerge', function($base, $extension) {
     $base[$key] = $value;
   }
   return $base;
+}));
+/** Returns Discord server presence info from extracted board tags. */
+$twig->addFunction(new TwigFunction('get_discord_presence_info_from_special_tags', function($special_tags) {
+  $item = array_filter($special_tags, fn($entry) => $entry['name'] === 'discord_guild_id')[0] ?? null;
+  if (empty($item)) {
+    return null;
+  }
+  return get_discord_presence_info($item['value']);
+}));
+/** Returns Discord server presence info for a given guild ID. */
+$twig->addFunction(new TwigFunction('get_discord_presence_info', function($guild_id) {
+  return get_discord_presence_info($guild_id);
 }));
 
 /**
