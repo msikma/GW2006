@@ -1,12 +1,15 @@
 {% set is_new = board.new or board.children_new %}
 {% set is_redirect = board.is_redirect %}
+{% set is_discord_redirect = board._redirect_url matches '{^https?://discord\\.gg/[a-zA-Z0-9]+$}' %}
 {% set is_stale = not is_new and not is_redirect %}
 {% set has_posts_to_approve = board.can_approve_posts and (board.unapproved_posts or board.unapproved_topics) %}
 
 <tr id="board_{{ board.id }}" class="board_row object_row">
   <td class="icon center">
     <a href="{% if board.is_redirect or context.user.is_guest %}{{ board.href }}{% else %}{{ scripturl }}?action=unread;board={{ board.id }}.0;children{% endif %}">
-      {% if is_redirect %}
+      {% if is_discord_redirect %}
+        <img src="{{ images_url }}/forum_list_board_discord.png" alt="Redirect to Discord" title="Redirects to a Discord server" width="42" height="42" />
+      {% elseif is_redirect %}
         <img src="{{ images_url }}/forum_list_board_redirect.png" alt="Redirect" title="Redirects to an external site" width="42" height="42" />
       {% elseif context.user.is_guest %}
         <img src="{{ images_url }}/forum_list_board_unread.png" alt="{{ txt.new_posts }}" title="{{ txt.new_posts }}" width="42" height="42" />

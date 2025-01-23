@@ -60,10 +60,11 @@ function collect_forum_boards($collect_permissions = true) {
     $board_ids[] = $id;
   }
 
-  $board_data = get_board_member_groups($board_ids);
+  $board_member_groups = get_board_member_groups($board_ids);
+  $board_redirects = get_board_redirects($board_ids);
 
   foreach ($context['boards'] as $id => $board) {
-    add_board_permissions_data($id, $board_data, $context['boards'][$id]);
+    add_board_additional_data($id, $board_member_groups, $board_redirects, $context['boards'][$id]);
   }
 
   return $context['boards'];
@@ -87,11 +88,12 @@ function collect_forum_categories($collect_permissions = true) {
     }
   }
 
-  $board_data = get_board_member_groups($board_ids);
+  $board_member_groups = get_board_member_groups($board_ids);
+  $board_redirects = get_board_redirects($board_ids);
   
   foreach ($context['categories'] as $cat_id => $cat_data) {
     foreach ($cat_data['boards'] as $id => $board) {
-      add_board_permissions_data($id, $board_data, $context['categories'][$cat_id]['boards'][$id]);
+      add_board_additional_data($id, $board_member_groups, $board_redirects, $context['categories'][$cat_id]['boards'][$id]);
     }
   }
   
@@ -99,22 +101,24 @@ function collect_forum_categories($collect_permissions = true) {
 }
 
 /**
- * Adds additional member group permissions data to a board.
+ * Adds additional member group permissions data and redirect data to a board.
  * 
  * Used only by collect_forum_categories() and collect_forum_boards().
  */
-function add_board_permissions_data($board_id, &$board_member_groups, &$board) {
-  $data = $board_member_groups[$board_id];
-  $hidden_to_guest = !in_array('guest', $data['member_groups']);
-  $hidden_to_members = !in_array('regular_member', $data['member_groups']);
-  $hidden_to_gmods = !in_array('global_moderator', $data['member_groups']);
+function add_board_additional_data($board_id, &$board_member_groups, &$board_redirect, &$board) {
+  $mg_data = $board_member_groups[$board_id];
+  $rd_data = $board_redirect[$board_id];
+  $hidden_to_guest = !in_array('guest', $mg_data['member_groups']);
+  $hidden_to_members = !in_array('regular_member', $mg_data['member_groups']);
+  $hidden_to_gmods = !in_array('global_moderator', $mg_data['member_groups']);
   $hidden_to_all_but_admins = $hidden_to_guest && $hidden_to_members && $hidden_to_gmods;
   $hidden_to_some = $hidden_to_guest || $hidden_to_members || $hidden_to_gmods;
 
-  $board['_permissions_profile'] = $data['profile'];
-  $board['_member_groups'] = $data['member_groups'];
+  $board['_redirect_url'] = $rd_data ? $rd_data['redirect'] : null;
+  $board['_permissions_profile'] = $mg_data['profile'];
+  $board['_member_groups'] = $mg_data['member_groups'];
   $board['_permissions'] = [
-    'non_default_profile' => $data['profile'] !== 'default',
+    'non_default_profile' => $mg_data['profile'] !== 'default',
     'only_admin' => $hidden_to_all_but_admins,
     'hidden_to_guest' => $hidden_to_guest,
     'hidden_to_members' => $hidden_to_members,

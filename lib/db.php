@@ -43,6 +43,43 @@ function add_birthday_member_groups($birthdays_list) {
 }
 
 /**
+ * Returns board redirects for a given list of forum IDs.
+ * 
+ * By default, if a redirect is set for a given board, the redirect url is actually
+ * not included in the context object by default (redirects are masked behind a forum URL).
+ * That means we can't do anything special layout wise depending on what the url is.
+ * 
+ * We fetch the redirects here to add them to the context object manually.
+ */
+function get_board_redirects($board_ids = []) {
+  global $db_prefix, $smcFunc;
+
+  if (empty($board_ids)) {
+    return [];
+  }
+
+  // Fetch all boards by ID and find which groups are able to access it.
+  $boards = [];
+  $request = $smcFunc['db_query']('', '
+    select id_board, id_cat, redirect from {db_prefix}boards
+    where redirect != "" and id_board in ({array_int:board_ids})
+  ',
+    [
+      'board_ids' => $board_ids,
+    ]
+  );
+
+  while ($row = $smcFunc['db_fetch_assoc']($request)) {
+    $boards[$row['id_board']] = [
+      'id' => $row['id_board'],
+      'redirect' => $row['redirect'],
+    ];
+  }
+
+  return $boards;
+}
+
+/**
  * Returns the member groups that are able to access a given list of forum IDs.
  * 
  * Member groups are returned by ID and slug.
