@@ -121,8 +121,10 @@ function get_board_member_groups($board_ids = []) {
   while ($row = $smcFunc['db_fetch_assoc']($request)) {
     $board_group_ids = explode(',', $row['member_groups']);
     $board_groups = [];
-    foreach ($board_group_ids as $board_group_id) {
-      $board_groups[$board_group_id] = slug($groups[$board_group_id]['group_name']);
+    if (!empty($row['member_groups'])) {
+      foreach ($board_group_ids as $board_group_id) {
+        $board_groups[$board_group_id] = slug($groups[$board_group_id]['group_name']);
+      }
     }
     $boards[$row['id_board']] = [
       'id' => $row['id_board'],
