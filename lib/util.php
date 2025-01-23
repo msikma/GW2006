@@ -9,6 +9,9 @@ use Cocur\Slugify\Slugify;
  * Generates a slug from a string.
  */
 function slug($str) {
+  if (empty($str)) {
+    return '';
+  }
   $slugify = new Slugify();
   return $slugify->slugify($str, '_');
 }
