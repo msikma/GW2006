@@ -1,7 +1,9 @@
 {% set content %}
-  {{ context.error_message|raw }}
-  <div>
-    <a href="javascript:history.go(-1)">{{ txt.back }}</a>
+  <div class="fatal_error">
+    {{ context.error_message|raw }}
+    <div>
+      <a href="javascript:history.go(-1)">{{ txt.back }}</a>
+    </div>
   </div>
 {% endset %}
 
