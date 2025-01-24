@@ -1,4 +1,5 @@
 @charset "utf-8";
+@use "sass:list";
 
 .bar_container {
   .bar_wrapper {
@@ -16,8 +17,8 @@
   }
 }
 
-@for $n from 1 through length($gw-rainbow) {
-  .bar_item:nth-child(#{length($gw-rainbow)}n + #{$n}) .bar {
+@for $n from 1 through list.length($gw-rainbow) {
+  .bar_item:nth-child(#{list.length($gw-rainbow)}n + #{$n}) .bar {
     background-color: nth($gw-rainbow, $n);
   }
 }

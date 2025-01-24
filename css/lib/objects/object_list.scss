@@ -23,6 +23,9 @@
     select {
       font-size: cssvar(--gw-font-small);
     }
+    p:not(:first-child) {
+      margin-top: 4px;
+    }
   }
   .object_row_list {
     margin: 0;
