@@ -26,16 +26,35 @@
       <div class="description">
         <p>Uploaded avatar images may be up to {{modSettings.avatar_max_width_upload}}×{{modSettings.avatar_max_height_upload}} in size{% if modSettings.avatar_resize_upload %}, and the image will be resized if too large{% endif %}.</p>
       </div>
-      <input type="file" size="44" name="attachment" value="" onfocus="selectRadioByName(document.forms.creator.avatar_choice, 'upload');" class="input_file form_line" />
+      <input type="file" size="44" name="attachment" value="" onfocus="selectRadioByName(document.forms.creator.avatar_choice, 'upload');" class="input_file form_line" id="attachment_avatar_upload" accept="image/gif, image/png, image/jpeg" />
       {% if context.member.avatar.id_attach > 0 %}
         {% set href = context.member.avatar.href %}
         {% set href = href ~ ('?' in href ? '&' : '?') ~ 'time=' ~ ('now'|date('U')) %}
-        <br /><br /><img src="{{ href }}" alt="" /><input type="hidden" name="id_attach" value="{{ context.member.avatar.id_attach }}" />
+        <br /><br /><img src="{{ href }}" alt="" id="attachment_avatar_img" /><input type="hidden" name="id_attach" value="{{ context.member.avatar.id_attach }}" />
       {% endif %}
     </div>
   {% endif %}
 
   <script type="text/javascript">
+      document.getElementById('attachment_avatar_upload').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById('attachment_avatar_img');
+
+        if (file) {
+          const reader = new FileReader();
+
+          reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+          };
+
+          reader.readAsDataURL(file);
+        } else {
+          preview.src = '#';
+          preview.style.display = 'none';
+        }
+    });
+    
     {% if context.member.avatar.allow_external %}
       document.getElementById("avatar_external").style.display = "{{ (context.member.avatar.choice == 'external' ? '' : 'none') }}";
     {% endif %}
@@ -90,7 +109,7 @@
           {% if context.member.avatar.allow_external is not empty %}
             document.getElementById("avatar_external").style.display = "none";
           {% endif %}
-          
+
           {% if context.member.avatar.allow_upload is not empty %}
             document.getElementById("avatar_upload").style.display = "none";
           {% endif %}
