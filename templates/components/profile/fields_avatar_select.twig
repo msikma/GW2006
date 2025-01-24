@@ -12,6 +12,8 @@
   {% endif %}
 </dt>
 <dd>
+  <div id="avatar_none">
+  </div>
   {% if context.member.avatar.allow_server_stored %}
     <div id="avatar_server_stored">
       <div>
@@ -134,14 +136,19 @@
 
   {% if context.member.avatar.allow_external %}
     <div id="avatar_external">
-      <div class="smalltext">{{ txt.avatar_by_url|raw }}</div>
-      <input type="text" name="userpicpersonal" size="45" value="{{ context.member.avatar.external_original }}" onfocus="selectRadioByName(document.forms.creator.avatar_choice, 'external');" onchange="if (typeof(previewExternalAvatar) != 'undefined') previewExternalAvatar(this.value);" />
+      <div class="description">
+        <p>External avatar images may be up to {{modSettings.avatar_max_width_external}}×{{modSettings.avatar_max_height_external}} in size.</p>
+      </div>
+      <input class="form_line" type="text" name="userpicpersonal" size="45" value="{{ context.member.avatar.external_original }}" onfocus="selectRadioByName(document.forms.creator.avatar_choice, 'external');" onchange="if (typeof(previewExternalAvatar) != 'undefined') previewExternalAvatar(this.value);" />
     </div>
   {% endif %}
 
   {% if context.member.avatar.allow_upload %}
     <div id="avatar_upload">
-      <input type="file" size="44" name="attachment" value="" onfocus="selectRadioByName(document.forms.creator.avatar_choice, 'upload');" class="input_file" />
+      <div class="description">
+        <p>Uploaded avatar images may be up to {{modSettings.avatar_max_width_upload}}×{{modSettings.avatar_max_height_upload}} in size{% if modSettings.avatar_resize_upload %}, and the image will be resized if too large{% endif %}.</p>
+      </div>
+      <input type="file" size="44" name="attachment" value="" onfocus="selectRadioByName(document.forms.creator.avatar_choice, 'upload');" class="input_file form_line" />
       {% if context.member.avatar.id_attach > 0 %}
         {% set href = context.member.avatar.href %}
         {% set href = href ~ ('?' in href ? '&' : '?') ~ 'time=' ~ ('now'|date('U')) %}
@@ -168,6 +175,8 @@
       switch(type.id)
       {
         case "avatar_choice_server_stored":
+          document.getElementById("avatar_none").style.display = "none";
+
           {% if context.member.avatar.allow_server_stored is not empty %}
             document.getElementById("avatar_server_stored").style.display = "";
           {% endif %}
@@ -182,6 +191,8 @@
           break;
 
         case "avatar_choice_external":
+          document.getElementById("avatar_none").style.display = "none";
+
           {% if context.member.avatar.allow_server_stored is not empty %}
             document.getElementById("avatar_server_stored").style.display = "none";
           {% endif %}
@@ -196,6 +207,8 @@
           break;
 
         case "avatar_choice_upload":
+          document.getElementById("avatar_none").style.display = "none";
+
           {% if context.member.avatar.allow_server_stored is not empty %}
             document.getElementById("avatar_server_stored").style.display = "none";
           {% endif %}
@@ -210,13 +223,15 @@
           break;
 
         case "avatar_choice_none":
-          {% if member.avatar.allow_server_stored is not empty %}
+          document.getElementById("avatar_none").style.display = "";
+
+          {% if context.member.avatar.allow_server_stored is not empty %}
             document.getElementById("avatar_server_stored").style.display = "none";
           {% endif %}
-          {% if member.avatar.allow_external is not empty %}
+          {% if context.member.avatar.allow_external is not empty %}
             document.getElementById("avatar_external").style.display = "none";
           {% endif %}
-          {% if member.avatar.allow_upload is not empty %}
+          {% if context.member.avatar.allow_upload is not empty %}
             document.getElementById("avatar_upload").style.display = "none";
           {% endif %}
           break;

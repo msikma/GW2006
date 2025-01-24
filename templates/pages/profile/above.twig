@@ -1,11 +1,12 @@
-{% if context.post_errors %}
-  {% set reasons %}
-    <ul class="reasons" id="post_error_list">
-      {{ context.post_errors|map(m => "<li>#{m}</li>")|join('\n')|raw }}
-    </ul>
-  {% endset %}
-  {% include 'atoms/notification.twig' with {'type': 'danger', 'content': txt.profile_errors_occurred, 'content_sub': reasons} %}
-{% endif %}
+{% include 'atoms/notification_errors.twig' with {
+  'content': txt.profile_errors_occurred,
+  'list': context.post_errors,
+  'active': context.post_errors,
+  'reason_txt': {
+    'bad_avatar': 'The avatar image you selected does not conform to the requirements. It could be that it\'s too large or in the wrong format. Please try again.',
+  },
+} %}
+
 {% if context.profile_updated %}
   {% include 'atoms/notification.twig' with {'type': 'success', 'content': context.profile_updated} %}
 {% endif %}

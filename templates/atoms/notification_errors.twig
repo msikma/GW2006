@@ -2,7 +2,13 @@
   {% if list %}
     {% set reasons %}
       <ul class="reasons" id="error_list">
-        {{ list|map(m => "<li>#{m}</li>")|join('\n')|raw }}
+        {% for item in list %}
+          {% if reason_txt[item] %}
+            <li>{{ reason_txt[item] }}</li>
+          {% else %}
+            <li>{{ item }}</li>
+          {% endif %}
+        {% endfor %}
       </ul>
     {% endset %}
   {% endif %}

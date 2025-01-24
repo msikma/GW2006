@@ -1,6 +1,6 @@
 <form action="{{ scripturl }}?action=register2" method="post" accept-charset="{{ context.character_set }}" name="registration" id="registration" onsubmit="return verifyAgree();">
   <input type="hidden" name="step" value="2" />
-  {% include 'components/authentication/notification_errors.twig' with {
+  {% include 'atoms/notification_errors.twig' with {
     'active': context.registration_errors,
     'content': txt.registration_errors_occurred,
     'list': context.registration_errors
