@@ -82,16 +82,16 @@
         },
         {
             "name": "goat1000/svggraph",
-            "version": "3.20.1",
+            "version": "3.20.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/goat1000/SVGGraph.git",
-                "reference": "e8f79e16fc8a39391299eaa1417255aa4a167db0"
+                "reference": "8c5e750542143dbd11790b3b565ff87b37f76ee2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/goat1000/SVGGraph/zipball/e8f79e16fc8a39391299eaa1417255aa4a167db0",
-                "reference": "e8f79e16fc8a39391299eaa1417255aa4a167db0",
+                "url": "https://api.github.com/repos/goat1000/SVGGraph/zipball/8c5e750542143dbd11790b3b565ff87b37f76ee2",
+                "reference": "8c5e750542143dbd11790b3b565ff87b37f76ee2",
                 "shasum": ""
             },
             "require": {
@@ -116,9 +116,9 @@
             "homepage": "http://www.goat1000.com/svggraph.php",
             "support": {
                 "issues": "https://github.com/goat1000/SVGGraph/issues",
-                "source": "https://github.com/goat1000/SVGGraph/tree/3.20.1"
+                "source": "https://github.com/goat1000/SVGGraph/tree/3.20.3"
             },
-            "time": "2023-10-19T09:59:25+00:00"
+            "time": "2026-01-06T13:42:48+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -957,10 +957,10 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
-    "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "platform": {},
+    "platform-dev": {},
+    "plugin-api-version": "2.9.0"
 }
