@@ -569,7 +569,7 @@ function group_profile_settings($fields) {
   $fields_custom_type = [];
   foreach ($fields as $field) {
     $fields_slug[$field['_slug']] = $field;
-    $fields_custom_type[$field['_custom_field_type']][] = $field;
+    $fields_custom_type[$field['_custom_field_type'] ?? ''][] = $field;
   }
   
   add_to_profile_group($fields_slug, $fields_custom_type, $groups['user_core'], $consumed, ['avatar_choice', 'cust_avatar', 'cust_member', 'cust_gender', 'personal_text', 'bday1', 'location', 'gender'], 'profile_additional');
